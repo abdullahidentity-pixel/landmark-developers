@@ -1,0 +1,480 @@
+{{ 'brand-pages.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%} ── Hero ── {%- endcomment -%}
+<section class="sc-hero">
+  <div class="sc-hero__content">
+    {%- if section.settings.hero_eyebrow != blank -%}
+      <span class="brand-eyebrow sc-hero__label">{{ section.settings.hero_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.hero_heading != blank -%}
+      <h1 class="brand-heading sc-hero__heading">{{ section.settings.hero_heading }}</h1>
+    {%- endif -%}
+    {%- if section.settings.hero_intro != blank -%}
+      <p class="brand-body sc-hero__intro">{{ section.settings.hero_intro }}</p>
+    {%- endif -%}
+    {%- if section.settings.hero_cta_label != blank -%}
+      <a href="{{ section.settings.hero_cta_url | default: '#sc-library' }}" class="brand-btn">
+        {{ section.settings.hero_cta_label }}
+      </a>
+    {%- endif -%}
+  </div>
+  <div class="sc-hero__img-col">
+    {%- if section.settings.hero_image != blank -%}
+      <img
+        class="sc-hero__img"
+        src="{{ section.settings.hero_image | image_url: width: 1400 }}"
+        alt="{{ section.settings.hero_image.alt | default: 'Ingredient science' }}"
+        loading="eager"
+      >
+    {%- else -%}
+      <div class="sc-hero__img" style="background: linear-gradient(160deg, #cde8c9 0%, #2c4f31 100%);"></div>
+    {%- endif -%}
+  </div>
+</section>
+
+{%- comment -%} ── Ingredient Library ── {%- endcomment -%}
+{%- assign ing_blocks = section.blocks | where: 'type', 'ingredient' -%}
+{%- if ing_blocks.size > 0 -%}
+<section class="sc-library" id="sc-library">
+  <div class="sc-library__header">
+    {%- if section.settings.library_eyebrow != blank -%}
+      <span class="brand-eyebrow">{{ section.settings.library_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.library_heading != blank -%}
+      <h2 class="brand-heading sc-library__heading">{{ section.settings.library_heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.library_intro != blank -%}
+      <p class="sc-library__intro">{{ section.settings.library_intro }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} Build unique category list {%- endcomment -%}
+  {%- assign all_cats = '' -%}
+  {%- for block in ing_blocks -%}
+    {%- assign cat = block.settings.category | strip -%}
+    {%- unless all_cats contains cat -%}
+      {%- assign all_cats = all_cats | append: cat | append: '|' -%}
+    {%- endunless -%}
+  {%- endfor -%}
+  {%- assign cat_list = all_cats | split: '|' -%}
+
+  <div class="sc-filters" role="group" aria-label="Filter by category">
+    <button class="sc-filter-pill is-active" data-filter="all">All</button>
+    {%- for cat in cat_list -%}
+      {%- if cat != blank -%}
+        <button class="sc-filter-pill" data-filter="{{ cat | handleize }}">{{ cat }}</button>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  <div class="sc-ingredient-grid" id="sc-grid">
+    {%- for block in ing_blocks -%}
+      <div
+        class="sc-ingredient-card"
+        data-category="{{ block.settings.category | handleize }}"
+        {{ block.shopify_attributes }}
+      >
+        {%- if block.settings.category != blank -%}
+          <div class="sc-ingredient-card__cat">{{ block.settings.category }}</div>
+        {%- endif -%}
+        {%- if block.settings.name != blank -%}
+          <h3 class="sc-ingredient-card__name">{{ block.settings.name }}</h3>
+        {%- endif -%}
+        {%- if block.settings.inci != blank -%}
+          <p class="sc-ingredient-card__inci">{{ block.settings.inci }}</p>
+        {%- endif -%}
+        {%- if block.settings.benefit != blank -%}
+          <p class="sc-ingredient-card__benefit">{{ block.settings.benefit }}</p>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ── What We Avoid ── {%- endcomment -%}
+{%- assign avoid_blocks = section.blocks | where: 'type', 'avoid_item' -%}
+{%- if avoid_blocks.size > 0 -%}
+<section class="sc-avoid">
+  <div class="sc-avoid__inner">
+    <div class="sc-avoid__left">
+      {%- if section.settings.avoid_eyebrow != blank -%}
+        <span class="brand-eyebrow brand-eyebrow--light">{{ section.settings.avoid_eyebrow }}</span>
+      {%- endif -%}
+      {%- if section.settings.avoid_heading != blank -%}
+        <h2 class="brand-heading brand-heading--light sc-avoid__heading">{{ section.settings.avoid_heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.avoid_body != blank -%}
+        <p class="brand-body brand-body--light sc-avoid__body">{{ section.settings.avoid_body }}</p>
+      {%- endif -%}
+    </div>
+    <ul class="sc-avoid__list">
+      {%- for block in avoid_blocks -%}
+        <li class="sc-avoid__item" {{ block.shopify_attributes }}>
+          <span class="sc-avoid__item-cross" aria-hidden="true">&#215;</span>
+          <div>
+            {%- if block.settings.name != blank -%}
+              <p class="sc-avoid__item-name">{{ block.settings.name }}</p>
+            {%- endif -%}
+            {%- if block.settings.reason != blank -%}
+              <p class="sc-avoid__item-reason">{{ block.settings.reason }}</p>
+            {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ── Formulation Process ── {%- endcomment -%}
+{%- assign step_blocks = section.blocks | where: 'type', 'formulation_step' -%}
+{%- if step_blocks.size > 0 -%}
+<section class="sc-formulation">
+  <div class="sc-formulation__inner">
+    <div class="sc-formulation__sticky">
+      {%- if section.settings.formulation_eyebrow != blank -%}
+        <span class="brand-eyebrow sc-formulation__label">{{ section.settings.formulation_eyebrow }}</span>
+      {%- endif -%}
+      {%- if section.settings.formulation_heading != blank -%}
+        <h2 class="brand-heading sc-formulation__heading">{{ section.settings.formulation_heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.formulation_intro != blank -%}
+        <p class="sc-formulation__intro">{{ section.settings.formulation_intro }}</p>
+      {%- endif -%}
+    </div>
+    <div class="sc-formulation__steps">
+      {%- for block in step_blocks -%}
+        <div class="sc-step" {{ block.shopify_attributes }}>
+          <span class="sc-step__num">{{ forloop.index }}</span>
+          <div>
+            {%- if block.settings.title != blank -%}
+              <h3 class="sc-step__title">{{ block.settings.title }}</h3>
+            {%- endif -%}
+            {%- if block.settings.description != blank -%}
+              <p class="sc-step__desc">{{ block.settings.description }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ── Skin Barrier Section ── {%- endcomment -%}
+<section class="sc-barrier">
+  <div class="sc-barrier__inner">
+    <div class="sc-barrier__content">
+      {%- if section.settings.barrier_eyebrow != blank -%}
+        <span class="brand-eyebrow sc-barrier__label">{{ section.settings.barrier_eyebrow }}</span>
+      {%- endif -%}
+      {%- if section.settings.barrier_heading != blank -%}
+        <h2 class="brand-heading sc-barrier__heading">{{ section.settings.barrier_heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.barrier_body_1 != blank -%}
+        <p class="sc-barrier__body">{{ section.settings.barrier_body_1 }}</p>
+      {%- endif -%}
+      {%- if section.settings.barrier_body_2 != blank -%}
+        <p class="sc-barrier__body">{{ section.settings.barrier_body_2 }}</p>
+      {%- endif -%}
+      <div class="sc-barrier__pillars">
+        {%- assign pillar_blocks = section.blocks | where: 'type', 'barrier_pillar' -%}
+        {%- for block in pillar_blocks -%}
+          <div class="sc-barrier__pillar" {{ block.shopify_attributes }}>
+            <div class="sc-barrier__pillar-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="sc-barrier__pillar-text">
+              <strong>{{ block.settings.title }}</strong>
+              <span>{{ block.settings.description }}</span>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+    <div class="sc-barrier__img-col">
+      {%- if section.settings.barrier_image != blank -%}
+        <img
+          class="sc-barrier__img"
+          src="{{ section.settings.barrier_image | image_url: width: 900 }}"
+          alt="{{ section.settings.barrier_image.alt | default: 'Skin barrier' }}"
+          loading="lazy"
+        >
+      {%- else -%}
+        <div style="background:linear-gradient(160deg,#add9a8 0%,#49724a 100%);width:100%;height:100%;border-radius:2px;"></div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ── Active Ingredient Table ── {%- endcomment -%}
+{%- assign actives_blocks = section.blocks | where: 'type', 'active_row' -%}
+{%- if actives_blocks.size > 0 -%}
+<section class="sc-actives">
+  <div class="sc-actives__header">
+    {%- if section.settings.actives_eyebrow != blank -%}
+      <span class="brand-eyebrow">{{ section.settings.actives_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.actives_heading != blank -%}
+      <h2 class="brand-heading sc-actives__heading">{{ section.settings.actives_heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.actives_intro != blank -%}
+      <p class="sc-actives__intro">{{ section.settings.actives_intro }}</p>
+    {%- endif -%}
+  </div>
+  <div style="overflow-x:auto;">
+    <table class="sc-actives-table">
+      <thead>
+        <tr>
+          <th>Active</th>
+          <th>Function</th>
+          <th>Timing</th>
+          <th>Pairs well with</th>
+          <th>Avoid layering with</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for block in actives_blocks -%}
+          <tr {{ block.shopify_attributes }}>
+            <td>{{ block.settings.name }}</td>
+            <td>{{ block.settings.function }}</td>
+            <td>
+              {%- case block.settings.timing -%}
+                {%- when 'AM' -%}
+                  <span class="sc-timing-pill sc-timing-pill--am">AM</span>
+                {%- when 'PM' -%}
+                  <span class="sc-timing-pill sc-timing-pill--pm">PM</span>
+                {%- when 'AM + PM' -%}
+                  <span class="sc-timing-pill sc-timing-pill--both">AM + PM</span>
+              {%- endcase -%}
+            </td>
+            <td style="font-size:0.875rem;color:#5a6456;">{{ block.settings.pairs_with }}</td>
+            <td style="font-size:0.875rem;color:#8a6060;">{{ block.settings.avoid_with }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ── FAQ ── {%- endcomment -%}
+{%- assign faq_blocks = section.blocks | where: 'type', 'faq' -%}
+{%- if faq_blocks.size > 0 -%}
+<section class="sc-faq">
+  <div class="sc-faq__inner">
+    <div class="sc-faq__left">
+      {%- if section.settings.faq_eyebrow != blank -%}
+        <span class="brand-eyebrow sc-faq__label">{{ section.settings.faq_eyebrow }}</span>
+      {%- endif -%}
+      <h2 class="brand-heading sc-faq__heading">{{ section.settings.faq_title | default: 'FAQ' }}</h2>
+    </div>
+    <ul class="brand-faq-list">
+      {%- for block in faq_blocks -%}
+        <li class="brand-faq-item" {{ block.shopify_attributes }}>
+          <details>
+            <summary>
+              {{ block.settings.question }}
+              <span class="brand-faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="brand-faq-body">
+              <p>{{ block.settings.answer }}</p>
+            </div>
+          </details>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ── CTA ── {%- endcomment -%}
+<section class="sc-cta">
+  <div class="sc-cta__inner">
+    {%- if section.settings.cta_eyebrow != blank -%}
+      <span class="brand-eyebrow brand-eyebrow--light">{{ section.settings.cta_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.cta_heading != blank -%}
+      <h2 class="brand-heading brand-heading--light sc-cta__heading">{{ section.settings.cta_heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.cta_body != blank -%}
+      <p class="brand-body brand-body--light sc-cta__body">{{ section.settings.cta_body }}</p>
+    {%- endif -%}
+    <div class="sc-cta__btns">
+      {%- if section.settings.cta_primary_label != blank -%}
+        <a href="{{ section.settings.cta_primary_url | default: '/pages/serum-finder' }}" class="brand-btn brand-btn--light">
+          {{ section.settings.cta_primary_label }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.cta_secondary_label != blank -%}
+        <a href="{{ section.settings.cta_secondary_url | default: '/collections/serums' }}" class="brand-btn brand-btn--outline-light">
+          {{ section.settings.cta_secondary_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  var pills = document.querySelectorAll('.sc-filter-pill');
+  var cards = document.querySelectorAll('.sc-ingredient-card');
+
+  pills.forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      pills.forEach(function (p) { p.classList.remove('is-active'); });
+      pill.classList.add('is-active');
+      var filter = pill.dataset.filter;
+      cards.forEach(function (card) {
+        if (filter === 'all' || card.dataset.category === filter) {
+          delete card.dataset.hidden;
+        } else {
+          card.dataset.hidden = '';
+        }
+      });
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Ingredients Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    { "type": "image_picker", "id": "hero_image",     "label": "Hero image" },
+    { "type": "text",         "id": "hero_eyebrow",   "label": "Eyebrow",   "default": "The Science" },
+    { "type": "textarea",     "id": "hero_heading",   "label": "Heading",   "default": "Formulas with purpose." },
+    { "type": "textarea",     "id": "hero_intro",     "label": "Intro text","default": "We don't add ingredients to look good on a label. Every active has a peer-reviewed reason for being there, at a concentration that actually works." },
+    { "type": "text",         "id": "hero_cta_label", "label": "CTA label", "default": "Explore ingredients" },
+    { "type": "url",          "id": "hero_cta_url",   "label": "CTA URL" },
+    {
+      "type": "header",
+      "content": "Ingredient Library"
+    },
+    { "type": "text",     "id": "library_eyebrow", "label": "Eyebrow",    "default": "Active ingredient library" },
+    { "type": "text",     "id": "library_heading", "label": "Heading",    "default": "Every active we use — and why." },
+    { "type": "textarea", "id": "library_intro",   "label": "Intro text", "default": "Every ingredient listed below is present at or above the minimum effective dose established in peer-reviewed literature." },
+    {
+      "type": "header",
+      "content": "What We Avoid"
+    },
+    { "type": "text",     "id": "avoid_eyebrow", "label": "Eyebrow",    "default": "What we leave out" },
+    { "type": "textarea", "id": "avoid_heading", "label": "Heading",    "default": "Ingredients you will never find in our formulas." },
+    { "type": "textarea", "id": "avoid_body",    "label": "Body text",  "default": "Our formulation brief starts with a 'never list'. If an ingredient has a poor safety profile, limited evidence, or serves only a marketing function — it doesn't make the cut." },
+    {
+      "type": "header",
+      "content": "Formulation Process"
+    },
+    { "type": "text",     "id": "formulation_eyebrow", "label": "Eyebrow",    "default": "How we formulate" },
+    { "type": "textarea", "id": "formulation_heading", "label": "Heading",    "default": "A rigorous process before anything reaches your skin." },
+    { "type": "textarea", "id": "formulation_intro",   "label": "Intro text", "default": "Our formulation process is built around a single question: does this actually work, and is it safe? Every step exists to answer that." },
+    {
+      "type": "header",
+      "content": "Skin Barrier"
+    },
+    { "type": "image_picker", "id": "barrier_image",   "label": "Image" },
+    { "type": "text",         "id": "barrier_eyebrow", "label": "Eyebrow",     "default": "Barrier health" },
+    { "type": "textarea",     "id": "barrier_heading", "label": "Heading",     "default": "Why your skin barrier is the foundation of everything." },
+    { "type": "textarea",     "id": "barrier_body_1",  "label": "Paragraph 1", "default": "The skin barrier is a thin but critical layer that regulates moisture, protects against environmental stressors, and prevents irritants from penetrating." },
+    { "type": "textarea",     "id": "barrier_body_2",  "label": "Paragraph 2", "default": "When it's compromised, your skin reacts. Redness, breakouts, sensitivity, and dehydration are often symptoms of a barrier issue — not separate problems." },
+    {
+      "type": "header",
+      "content": "Active Ingredient Guide"
+    },
+    { "type": "text",     "id": "actives_eyebrow", "label": "Eyebrow",    "default": "Your guide" },
+    { "type": "text",     "id": "actives_heading", "label": "Heading",    "default": "AM, PM, and layering rules." },
+    { "type": "textarea", "id": "actives_intro",   "label": "Intro text", "default": "Not all actives can be used at the same time. This guide explains when to apply each ingredient and what to avoid layering together." },
+    {
+      "type": "header",
+      "content": "FAQ"
+    },
+    { "type": "text", "id": "faq_eyebrow", "label": "Eyebrow", "default": "Questions" },
+    { "type": "text", "id": "faq_title",   "label": "Heading", "default": "Ingredient FAQ" },
+    {
+      "type": "header",
+      "content": "End CTA"
+    },
+    { "type": "text",     "id": "cta_eyebrow",        "label": "Eyebrow",            "default": "Ready to apply the science?" },
+    { "type": "textarea", "id": "cta_heading",        "label": "Heading",             "default": "Find the formula your skin needs." },
+    { "type": "textarea", "id": "cta_body",           "label": "Body text",           "default": "Take our 60-second quiz and we'll match you to the right serum based on your skin goals and type." },
+    { "type": "text",     "id": "cta_primary_label",  "label": "Primary CTA label",   "default": "Take the Quiz" },
+    { "type": "url",      "id": "cta_primary_url",    "label": "Primary CTA URL" },
+    { "type": "text",     "id": "cta_secondary_label","label": "Secondary CTA label", "default": "Shop Serums" },
+    { "type": "url",      "id": "cta_secondary_url",  "label": "Secondary CTA URL" }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient Card",
+      "settings": [
+        { "type": "text",     "id": "name",     "label": "Name",     "default": "Hyaluronic Acid" },
+        { "type": "text",     "id": "inci",     "label": "INCI name","default": "Sodium Hyaluronate" },
+        { "type": "text",     "id": "category", "label": "Category", "default": "Hydration" },
+        { "type": "textarea", "id": "benefit",  "label": "Benefit",  "default": "Triple-weight humectant delivering 72-hour hydration across all skin layers." }
+      ]
+    },
+    {
+      "type": "avoid_item",
+      "name": "Avoid Item",
+      "settings": [
+        { "type": "text",     "id": "name",   "label": "Ingredient name", "default": "Synthetic Fragrance" },
+        { "type": "textarea", "id": "reason", "label": "Reason",          "default": "A documented sensitiser linked to contact dermatitis. Provides no functional benefit to the skin." }
+      ]
+    },
+    {
+      "type": "formulation_step",
+      "name": "Formulation Step",
+      "settings": [
+        { "type": "text",     "id": "title",       "label": "Step title",   "default": "Evidence review" },
+        { "type": "textarea", "id": "description", "label": "Description",  "default": "Every candidate ingredient is reviewed against published clinical literature for evidence of efficacy and safety." }
+      ]
+    },
+    {
+      "type": "barrier_pillar",
+      "name": "Barrier Pillar",
+      "settings": [
+        { "type": "text", "id": "title",       "label": "Title",       "default": "Moisture retention" },
+        { "type": "text", "id": "description", "label": "Description", "default": "A healthy barrier prevents transepidermal water loss, keeping skin plump and resilient." }
+      ]
+    },
+    {
+      "type": "active_row",
+      "name": "Active Ingredient Row",
+      "settings": [
+        { "type": "text",   "id": "name",       "label": "Active name",         "default": "Retinol" },
+        { "type": "text",   "id": "function",   "label": "Function",             "default": "Cell turnover, collagen stimulation" },
+        { "type": "select", "id": "timing",     "label": "Timing",
+          "options": [
+            { "value": "AM",     "label": "AM only" },
+            { "value": "PM",     "label": "PM only" },
+            { "value": "AM + PM","label": "AM and PM" }
+          ],
+          "default": "PM"
+        },
+        { "type": "text", "id": "pairs_with", "label": "Pairs well with",      "default": "Peptides, Ceramides, Bakuchiol" },
+        { "type": "text", "id": "avoid_with", "label": "Avoid layering with",  "default": "AHAs/BHAs, Vitamin C" }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        { "type": "text",     "id": "question", "label": "Question", "default": "Can I use multiple actives at once?" },
+        { "type": "textarea", "id": "answer",   "label": "Answer",   "default": "It depends on the combination. As a rule, layer from lightest to heaviest texture and allow each product to absorb before applying the next." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ingredients Page"
+    }
+  ]
+}
+{% endschema %}

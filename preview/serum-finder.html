@@ -1,0 +1,2117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serum Finder — Sebble Skin</title>
+<style>
+
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root {
+  /* Core palette */
+  --c-black:       #030706;
+  --c-white:       #ffffff;
+  --c-bg:          #f8f7f5;
+  --c-grey:        #dddcdc;
+
+  /* Green scale */
+  --c-green-dark:  #142b1b;
+  --c-green-rich:  #2c4f31;
+  --c-green-mid:   #49724a;
+  --c-green-sage:  #819d7c;
+  --c-green-mint:  #cde8c9;
+
+  /* Typography */
+  --font-heading:  'Playfair Display', Georgia, serif;
+  --font-body:     'DM Sans', -apple-system, sans-serif;
+
+  /* Layout */
+  --header-h:      72px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--c-bg);
+  color: var(--c-black);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ─── HEADER ──────────────────────────────────────────────────── */
+
+
+
+
+
+.header-cart {
+  height: 38px; padding: 0 1.125rem;
+  background: var(--c-black); color: var(--c-white);
+  border: none; border-radius: 100px;
+  font-size: 0.75rem; letter-spacing: 0.06em;
+  font-family: var(--font-body); cursor: pointer;
+}
+
+
+/* ═══════════════════════════════════════════
+   SERUM FINDER CSS (from serum-finder.css)
+═══════════════════════════════════════════ */
+
+/* ─── Page wrapper ─────────────────────────────────────────────── */
+.sf-page { background: var(--c-bg); }
+
+/* ─── HERO ─────────────────────────────────────────────────────── */
+.sf-hero {
+  background: var(--c-green-mint);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem;
+  text-align: center;
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sf-hero.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-12px);
+  display: none;
+}
+
+.sf-hero__inner { max-width: 600px; }
+
+.sf-hero__eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-green-mid);
+  margin-bottom: 1.5rem;
+}
+
+.sf-hero__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--c-black);
+  margin-bottom: 1.25rem;
+}
+
+.sf-hero__body {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--c-green-mid);
+  max-width: 44ch;
+  margin: 0 auto 2.5rem;
+}
+
+.sf-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  height: 56px;
+  padding: 0 2.25rem;
+  background: var(--c-black);
+  color: var(--c-white);
+  border: none;
+  border-radius: 100px;
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.sf-hero__cta:hover { background: var(--c-green-dark); transform: translateY(-1px); }
+.sf-hero__cta:active { transform: scale(0.98); }
+.sf-hero__cta svg { transition: transform 0.2s ease; }
+.sf-hero__cta:hover svg { transform: translateX(3px); }
+
+.sf-hero__trust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.sf-hero__trust-item {
+  font-size: 0.8125rem;
+  color: var(--c-black);
+  opacity: 0.45;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+/* ─── QUIZ SECTION ─────────────────────────────────────────────── */
+.sf-quiz-section {
+  display: none;
+  background: var(--c-bg);
+  padding: 4rem 2rem 6rem;
+  min-height: 100dvh;
+}
+
+.sf-quiz-section.is-active { display: block; }
+
+.sf-quiz-inner {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* ─── Progress bar ─────────────────────────────────────────────── */
+.sf-progress { margin-bottom: 3rem; }
+
+.sf-progress__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.625rem;
+}
+
+.sf-progress__label {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-black);
+  opacity: 0.4;
+}
+
+.sf-progress__step {
+  font-size: 0.6875rem;
+  color: var(--c-black);
+  opacity: 0.4;
+  letter-spacing: 0.06em;
+}
+
+.sf-progress__track {
+  height: 3px;
+  background: rgba(3, 7, 6, 0.1);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.sf-progress__fill {
+  height: 100%;
+  background: var(--c-green-dark);
+  border-radius: 100px;
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 0%;
+}
+
+/* ─── Step cards ───────────────────────────────────────────────── */
+.sf-step { display: none; }
+.sf-step.is-active { display: block; }
+
+@keyframes sf-enter-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes sf-enter-down {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.sf-step.is-entering      { animation: sf-enter-up   0.42s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.sf-step.is-entering-back { animation: sf-enter-down 0.42s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* ─── Question card ────────────────────────────────────────────── */
+.sf-question-card {
+  background: var(--c-white);
+  border-radius: 24px;
+  padding: 2.5rem;
+  border: 1px solid rgba(129, 157, 124, 0.2);
+  box-shadow: 0 4px 24px rgba(3, 7, 6, 0.04);
+}
+
+.sf-question__number {
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-green-mid);
+  margin-bottom: 0.75rem;
+}
+
+.sf-question__text {
+  font-family: var(--font-heading);
+  font-size: clamp(1.375rem, 2.5vw, 1.75rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  color: var(--c-black);
+  line-height: 1.2;
+  margin-bottom: 2rem;
+}
+
+/* ─── Options ──────────────────────────────────────────────────── */
+.sf-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.sf-options--grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.625rem;
+}
+
+.sf-options--row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.625rem;
+}
+
+.sf-option {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.9375rem 1.25rem;
+  background: var(--c-bg);
+  border: 1px solid var(--c-grey);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: left;
+  width: 100%;
+  font-family: var(--font-body);
+  position: relative;
+}
+
+.sf-option:hover {
+  border-color: var(--c-green-mid);
+  background: rgba(205, 232, 201, 0.3);
+}
+
+.sf-option.is-selected {
+  background: var(--c-black);
+  border-color: var(--c-black);
+  color: var(--c-white);
+}
+
+.sf-option.is-selected .sf-option__check {
+  border-color: var(--c-white);
+  background: var(--c-white);
+}
+
+.sf-option.is-selected .sf-option__check::after { opacity: 1; }
+.sf-option.is-selected .sf-option__desc { color: rgba(255,255,255,0.55); }
+
+.sf-option__check {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--c-grey);
+  background: var(--c-white);
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.18s ease;
+}
+
+.sf-option__check::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-black);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.sf-option__label {
+  font-size: 0.9375rem;
+  color: inherit;
+  font-weight: 400;
+  display: block;
+  margin-bottom: 0.125rem;
+  line-height: 1.3;
+}
+
+.sf-option__desc {
+  font-size: 0.75rem;
+  color: rgba(3, 7, 6, 0.45);
+  display: block;
+  line-height: 1.35;
+  transition: color 0.18s ease;
+}
+
+/* Row (3-col) options */
+.sf-options--row .sf-option {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.25rem 0.875rem;
+  gap: 0.5rem;
+}
+.sf-options--row .sf-option__check { display: none; }
+.sf-options--row .sf-option__label { font-size: 0.9375rem; }
+
+/* ─── Quiz navigation ──────────────────────────────────────────── */
+.sf-quiz-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  gap: 1rem;
+}
+
+.sf-nav-back {
+  height: 48px;
+  padding: 0 1.375rem;
+  background: transparent;
+  border: 1px solid var(--c-grey);
+  border-radius: 100px;
+  font-size: 0.875rem;
+  color: var(--c-black);
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: border-color 0.18s ease, background 0.18s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.6;
+}
+
+.sf-nav-back:hover { border-color: var(--c-black); opacity: 1; background: var(--c-bg); }
+.sf-nav-back[hidden] { display: none; }
+
+.sf-nav-continue {
+  flex: 1;
+  height: 52px;
+  padding: 0 2rem;
+  background: var(--c-black);
+  color: var(--c-white);
+  border: none;
+  border-radius: 100px;
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.18s ease, transform 0.12s ease, opacity 0.18s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.sf-nav-continue:disabled { opacity: 0.28; cursor: default; }
+.sf-nav-continue:not(:disabled):hover { background: var(--c-green-rich); }
+.sf-nav-continue:not(:disabled):active { transform: scale(0.98); }
+.sf-nav-continue svg { transition: transform 0.2s ease; }
+.sf-nav-continue:not(:disabled):hover svg { transform: translateX(3px); }
+
+
+/* ─── RESULTS ──────────────────────────────────────────────────── */
+.sf-results__header { margin-bottom: 2.5rem; }
+
+.sf-results__eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-green-mid);
+  margin-bottom: 0.75rem;
+}
+
+.sf-results__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.625rem, 3vw, 2.25rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: var(--c-black);
+  line-height: 1.1;
+}
+
+/* Primary card */
+.sf-result-primary {
+  background: var(--c-white);
+  border-radius: 20px;
+  border: 1px solid rgba(129, 157, 124, 0.22);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.sf-result-primary__image {
+  height: 220px;
+  background: var(--c-green-mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.sf-result-primary__image img { width: 100%; height: 100%; object-fit: cover; }
+
+.sf-result-primary__image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.sf-result-primary__tag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  height: 26px;
+  padding: 0 0.75rem;
+  background: var(--c-green-dark);
+  color: var(--c-white);
+  border-radius: 100px;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+}
+
+.sf-result-primary__body { padding: 1.75rem 2rem; }
+
+.sf-result-primary__name {
+  font-family: var(--font-heading);
+  font-size: 1.375rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--c-black);
+  margin-bottom: 0.375rem;
+}
+
+.sf-result-primary__benefit {
+  font-size: 0.9375rem;
+  color: var(--c-green-mid);
+  margin-bottom: 1.25rem;
+  line-height: 1.45;
+}
+
+.sf-result-primary__why {
+  background: var(--c-bg);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.sf-result-primary__why-label {
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-green-mid);
+  margin-bottom: 0.5rem;
+}
+
+.sf-result-primary__why-text {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--c-black);
+  opacity: 0.7;
+}
+
+.sf-result-primary__specs {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.sf-result-primary__spec { font-size: 0.75rem; color: var(--c-black); }
+
+.sf-result-primary__spec strong {
+  display: block;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-green-mid);
+  font-weight: 400;
+  margin-bottom: 0.2rem;
+}
+
+.sf-result-primary__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--c-grey);
+}
+
+.sf-result-primary__price {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--c-black);
+  letter-spacing: -0.01em;
+}
+
+.sf-result-primary__atc {
+  height: 44px;
+  padding: 0 1.5rem;
+  background: var(--c-black);
+  color: var(--c-white);
+  border: none;
+  border-radius: 100px;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.18s ease, transform 0.12s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sf-result-primary__atc:hover { background: var(--c-green-rich); }
+.sf-result-primary__atc:active { transform: scale(0.97); }
+.sf-result-primary__atc.is-added { background: var(--c-green-rich); }
+
+/* Secondary row */
+.sf-results__secondary-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.sf-result-secondary {
+  background: var(--c-white);
+  border-radius: 16px;
+  border: 1px solid rgba(129, 157, 124, 0.22);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sf-result-secondary__image {
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: var(--c-green-mint);
+}
+
+.sf-result-secondary__image img { width: 100%; height: 100%; object-fit: cover; }
+
+.sf-result-secondary__tag {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  height: 22px;
+  padding: 0 0.625rem;
+  background: rgba(255,255,255,0.92);
+  color: var(--c-green-mid);
+  border-radius: 100px;
+  font-size: 0.5625rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(129,157,124,0.3);
+}
+
+.sf-result-secondary__body {
+  padding: 1.125rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sf-result-secondary__name {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  color: var(--c-black);
+  margin-bottom: 0.3rem;
+  line-height: 1.2;
+}
+
+.sf-result-secondary__benefit {
+  font-size: 0.8rem;
+  color: var(--c-green-mid);
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+.sf-result-secondary__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--c-grey);
+}
+
+.sf-result-secondary__price { font-size: 0.9375rem; font-weight: 500; color: var(--c-black); }
+
+.sf-result-secondary__link {
+  font-size: 0.75rem;
+  color: var(--c-black);
+  text-decoration: none;
+  opacity: 0.5;
+  transition: opacity 0.18s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.sf-result-secondary__link:hover { opacity: 1; }
+
+/* Support products */
+.sf-results__support { margin-bottom: 1rem; }
+
+.sf-results__support-label {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-black);
+  opacity: 0.4;
+  margin-bottom: 0.75rem;
+}
+
+.sf-results__support-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.sf-support-card {
+  background: var(--c-white);
+  border: 1px solid rgba(129,157,124,0.22);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+}
+
+.sf-support-card__image {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  background: var(--c-green-mint);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.sf-support-card__image img { width: 100%; height: 100%; object-fit: cover; }
+
+.sf-support-card__label {
+  font-size: 0.5625rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--c-green-mid);
+  margin-bottom: 0.2rem;
+}
+
+.sf-support-card__name {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--c-black);
+  letter-spacing: -0.01em;
+  margin-bottom: 0.15rem;
+}
+
+.sf-support-card__price { font-size: 0.8rem; color: var(--c-black); opacity: 0.5; }
+
+/* Results actions */
+.sf-results__actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.sf-add-all {
+  flex: 1;
+  height: 56px;
+  background: var(--c-black);
+  color: var(--c-white);
+  border: none;
+  border-radius: 100px;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.18s ease, transform 0.12s ease;
+  letter-spacing: 0.02em;
+}
+.sf-add-all:hover { background: var(--c-green-rich); }
+.sf-add-all:active { transform: scale(0.98); }
+.sf-add-all.is-loading { opacity: 0.6; pointer-events: none; }
+.sf-add-all.is-done { background: var(--c-green-rich); }
+
+.sf-retake {
+  height: 56px;
+  padding: 0 1.75rem;
+  background: transparent;
+  border: 1px solid var(--c-grey);
+  border-radius: 100px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  font-family: var(--font-body);
+  color: var(--c-black);
+  transition: border-color 0.18s ease, background 0.18s ease;
+  white-space: nowrap;
+}
+.sf-retake:hover { border-color: var(--c-black); background: var(--c-bg); }
+
+.sf-results__routine-link {
+  display: block;
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.875rem;
+  color: var(--c-black);
+  opacity: 0.5;
+  text-decoration: none;
+  transition: opacity 0.18s ease;
+}
+.sf-results__routine-link:hover { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
+
+
+/* ─── INGREDIENT GUIDE ─────────────────────────────────────────── */
+.sf-ingredients {
+  background: var(--c-white);
+  padding: 6rem 0;
+}
+
+.sf-ingredients__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.sf-ingredients__header { max-width: 40ch; margin-bottom: 3rem; }
+
+.sf-ingredients__eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-green-mid);
+  margin-bottom: 0.875rem;
+}
+
+.sf-ingredients__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: var(--c-black);
+  line-height: 1.1;
+}
+
+.sf-ingredients__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--c-grey);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.sf-ingredient-card { background: var(--c-white); padding: 2rem; }
+
+.sf-ingredient-card__pct {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  color: var(--c-green-mid);
+  opacity: 0.5;
+  margin-bottom: 0.875rem;
+  line-height: 1;
+}
+
+.sf-ingredient-card__name {
+  font-family: var(--font-heading);
+  font-size: 1.0625rem;
+  font-weight: 400;
+  color: var(--c-black);
+  margin-bottom: 0.375rem;
+  letter-spacing: -0.01em;
+}
+
+.sf-ingredient-card__benefit {
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-green-mid);
+  margin-bottom: 0.75rem;
+}
+
+.sf-ingredient-card__desc {
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  color: var(--c-black);
+  opacity: 0.55;
+}
+
+.sf-ingredient-card__serums {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.sf-ingredient-card__serum-tag {
+  height: 22px;
+  padding: 0 0.625rem;
+  background: var(--c-green-mint);
+  color: var(--c-green-rich);
+  border-radius: 4px;
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+}
+
+
+/* ─── CONTACT CTA ──────────────────────────────────────────────── */
+.sf-contact {
+  background: var(--c-green-dark);
+  padding: 4.5rem 0;
+}
+
+.sf-contact__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 3rem;
+}
+
+.sf-contact__eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-green-sage);
+  margin-bottom: 0.875rem;
+}
+
+.sf-contact__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: var(--c-white);
+  line-height: 1.1;
+}
+
+.sf-contact__cta {
+  flex-shrink: 0;
+  height: 52px;
+  padding: 0 2rem;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.22);
+  background: transparent;
+  color: var(--c-white);
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  transition: background 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+}
+.sf-contact__cta:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.45); }
+
+
+/* ─── FAQ ──────────────────────────────────────────────────────── */
+.sf-faq {
+  background: var(--c-bg);
+  padding: 6rem 0;
+}
+
+.sf-faq__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 8rem;
+  align-items: start;
+}
+
+.sf-faq__eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-green-mid);
+  margin-bottom: 0.875rem;
+}
+
+.sf-faq__title {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: var(--c-black);
+  line-height: 1.1;
+}
+
+.sf-faq-list { border-top: 1px solid var(--c-grey); }
+.sf-faq-item { border-bottom: 1px solid var(--c-grey); }
+
+.sf-faq-item summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.375rem 0;
+  cursor: pointer;
+  user-select: none;
+}
+.sf-faq-item summary::-webkit-details-marker { display: none; }
+
+.sf-faq-item__question {
+  font-size: 0.9375rem;
+  color: var(--c-black);
+  line-height: 1.4;
+}
+
+.sf-faq-item__icon {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--c-grey);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  position: relative;
+  color: var(--c-black);
+}
+
+.sf-faq-icon { position: absolute; transition: opacity 0.2s ease; }
+.sf-faq-icon--minus { opacity: 0; }
+.sf-faq-item[open] .sf-faq-item__icon { background: var(--c-black); border-color: var(--c-black); color: var(--c-white); }
+.sf-faq-item[open] .sf-faq-icon--plus { opacity: 0; }
+.sf-faq-item[open] .sf-faq-icon--minus { opacity: 1; }
+.sf-faq-item.is-closing .sf-faq-icon--plus { opacity: 1; }
+.sf-faq-item.is-closing .sf-faq-icon--minus { opacity: 0; }
+.sf-faq-item.is-closing .sf-faq-item__icon { background: transparent; border-color: var(--c-grey); color: var(--c-black); }
+
+.sf-faq-item__body-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sf-faq-item[open] .sf-faq-item__body-wrap { grid-template-rows: 1fr; }
+.sf-faq-item.is-closing .sf-faq-item__body-wrap { grid-template-rows: 0fr; }
+.sf-faq-item__body-inner { overflow: hidden; min-height: 0; }
+.sf-faq-item__answer {
+  font-size: 0.875rem; line-height: 1.7;
+  color: rgba(3,7,6,0.6);
+  padding-bottom: 1.375rem;
+  max-width: 65ch;
+}
+
+
+/* ─── RESPONSIVE ───────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .sf-contact__inner { grid-template-columns: 1fr; gap: 2rem; }
+  .sf-faq__inner { grid-template-columns: 1fr; gap: 3rem; }
+  .sf-ingredients__grid { grid-template-columns: repeat(2, 1fr); }
+  .sf-results__secondary-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .sf-options--grid { grid-template-columns: 1fr; }
+  .sf-options--row  { grid-template-columns: 1fr; }
+  .sf-quiz-section  { padding: 2.5rem 1.25rem 5rem; }
+  .sf-question-card { padding: 1.75rem 1.5rem; border-radius: 16px; }
+  .sf-results__actions { flex-direction: column; }
+  .sf-retake { width: 100%; justify-content: center; }
+  .sf-results__support-grid { grid-template-columns: 1fr; }
+  .sf-ingredients__grid { grid-template-columns: 1fr; }
+  
+}
+
+@media (max-width: 480px) {
+  .sf-hero__heading { font-size: 2.25rem; }
+}
+
+
+/* ── HEADER (landing page style) ── */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  height: 72px;
+  background: rgba(250,249,246,0.88);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--c-grey, #dddcdc);
+  display: flex; align-items: center;
+}
+.site-header .container, .site-header__inner {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; max-width: 1320px; margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+.header-logo { display: inline-flex; text-decoration: none; flex-shrink: 0; overflow: hidden; height: 40px; }
+.header-logo__img { height: 148px; width: auto; margin-top: -46px; display: block; mix-blend-mode: multiply; }
+.header-nav { display: flex; gap: 2.25rem; }
+.header-nav a {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 0.8125rem; color: #2c4f31;
+  letter-spacing: 0.04em; transition: color 0.2s; text-decoration: none;
+}
+.header-nav a:hover { color: #030706; }
+.header-actions { display: flex; align-items: center; gap: 1.25rem; }
+.header-actions a {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 0.8125rem; color: #2c4f31; text-decoration: none;
+}
+.header-cart-btn {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1.125rem;
+  background: #030706; color: #ffffff;
+  border-radius: 100px; font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.08em; border: none; cursor: pointer;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+}
+@media (max-width: 768px) { .header-nav { display: none; } }
+
+
+/* ── BAG DRAWER ── */
+.bag-overlay { position: fixed; inset: 0; background: rgba(3,7,6,0.45); z-index: 900; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.bag-overlay.is-open { opacity: 1; pointer-events: all; }
+.bag-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100vw); background: #faf9f6; z-index: 901; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); display: flex; flex-direction: column; }
+.bag-drawer.is-open { transform: translateX(0); }
+.bag-drawer__header { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 1.75rem; border-bottom: 1px solid #dddcdc; }
+.bag-drawer__title { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #030706; }
+.bag-drawer__count { font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #819d7c; margin-top: 0.125rem; }
+.bag-drawer__close { background: none; border: none; cursor: pointer; padding: 0.5rem; color: #030706; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s; }
+.bag-drawer__close:hover { background: #dddcdc; }
+.bag-drawer__body { flex: 1; overflow-y: auto; display: flex; align-items: center; justify-content: center; }
+.bag-drawer__empty { text-align: center; padding: 3rem 2rem; }
+.bag-drawer__empty-icon { width: 56px; height: 56px; margin: 0 auto 1.5rem; opacity: 0.25; }
+.bag-drawer__empty-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.375rem; font-weight: 400; color: #030706; margin-bottom: 0.625rem; }
+.bag-drawer__empty-sub { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: #819d7c; line-height: 1.6; margin-bottom: 1.75rem; }
+.bag-drawer__cta { display: inline-flex; align-items: center; padding: 0.875rem 2rem; background: #030706; color: #ffffff; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.05em; text-decoration: none; transition: background 0.2s; }
+.bag-drawer__cta:hover { background: #142b1b; }
+.bag-drawer__footer { padding: 1.5rem 1.75rem; border-top: 1px solid #dddcdc; }
+.bag-drawer__subtotal { display: flex; justify-content: space-between; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: #030706; margin-bottom: 1rem; }
+.bag-drawer__checkout { display: block; width: 100%; padding: 1rem; background: #142b1b; color: #ffffff; border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.06em; cursor: pointer; text-align: center; transition: background 0.2s; }
+.bag-drawer__checkout:hover { background: #2c4f31; }
+
+/* ── ACCOUNT DROPDOWN ── */
+.acct-wrap { position: relative; }
+.acct-dropdown { position: absolute; top: calc(100% + 0.75rem); right: 0; width: 200px; background: #faf9f6; border: 1px solid #dddcdc; border-radius: 12px; box-shadow: 0 8px 32px rgba(3,7,6,0.10); overflow: hidden; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.2s, transform 0.2s; z-index: 200; }
+.acct-wrap.is-open .acct-dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
+.acct-dropdown a { display: block; padding: 0.75rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; color: #030706; text-decoration: none; transition: background 0.15s; border-bottom: 1px solid #dddcdc; }
+.acct-dropdown a:last-child { border-bottom: none; }
+.acct-dropdown a:hover { background: #cde8c9; }
+
+/* ── GLOBAL FOOTER ── */
+.site-footer-global { background: var(--c-black, #030706); padding: 6rem clamp(1.5rem,4vw,3rem) 2.75rem; }
+.sfg-inner { max-width: 1320px; margin-inline: auto; display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-bottom: 4rem; }
+.sfg-logo { display: inline-flex; overflow: hidden; height: 42px; margin-bottom: 1.5rem; }
+.sfg-logo__img { height: 172px; width: auto; margin-top: -66px; display: block; filter: brightness(0) invert(1); opacity: 0.9; }
+.sfg-tagline { font-family: 'DM Sans', sans-serif; font-size: 0.9688rem; line-height: 1.75; color: rgba(173,217,168,0.55); }
+.sfg-nav { display: grid; grid-template-columns: repeat(3,1fr); gap: 2.5rem; }
+.sfg-col { display: flex; flex-direction: column; gap: 1rem; }
+.sfg-col-head { font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 0.25rem; }
+.sfg-col a { font-family: 'DM Sans', sans-serif; font-size: 0.9688rem; color: rgba(173,217,168,0.65); text-decoration: none; transition: color 0.2s; }
+.sfg-col a:hover { color: #add9a8; }
+.sfg-bottom { max-width: 1320px; margin-inline: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.08); }
+.sfg-bottom p { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: rgba(173,217,168,0.3); letter-spacing: 0.06em; }
+.sfg-bottom-links { display: flex; gap: 1.75rem; }
+.sfg-bottom-links a { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: rgba(173,217,168,0.6); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+.sfg-bottom-links a:hover { color: #add9a8; }
+@media (max-width: 768px) {
+  .sfg-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .sfg-nav { grid-template-columns: 1fr 1fr; }
+  .sfg-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────────── -->
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="header-logo"><img src="sebble-logo.png" alt="Sebble" class="header-logo__img"></a>
+    <nav class="header-nav">
+      <a href="collection.html">Shop</a>
+      <a href="routine.html">Routine</a>
+      <a href="ingredients.html">Ingredients</a>
+      <a href="about.html">About</a>
+      <a href="sit.html" class="header-nav__sit" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;"><span style="width:6px;height:6px;border-radius:50%;background:#49724a;display:inline-block;"></span>Skin Consultant</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#">Account</a>
+      <button class="header-cart-btn">Bag (0)</button>
+    </div>
+  </div>
+</header>
+
+<!-- ── Serialised serum data (mirrors Liquid output) ───────────── -->
+<script type="application/json" id="sf-serum-json">
+[
+  { "id": "serum-01", "name": "Glow + Marks Serum",        "handle": "serum-01", "price": "£58.00", "variantId": 124, "image": null,
+    "benefit": "Brightens and softens the look of marks and dark spots",
+    "why": "Your skin goal is a more even, luminous-looking tone. Stable Vitamin C, tranexamic acid, and alpha arbutin work together to soften the look of marks and discolouration. Use AM and PM, and always finish the morning with SPF.",
+    "texture": "Lightweight fluid", "timing": "AM + PM" },
+  { "id": "serum-02", "name": "Peptide Repair Barrier Serum", "handle": "serum-02", "price": "£64.00", "variantId": 125, "image": null,
+    "benefit": "Supports the barrier with hydration, peptides, and ceramides",
+    "why": "Your skin is calling for support and moisture. Peptides, ceramides, and multi-weight hyaluronic acid reinforce a stronger-feeling barrier and a plumper look. Gentle enough for daily AM and PM use.",
+    "texture": "Milky emulsion", "timing": "AM + PM" },
+  { "id": "serum-03", "name": "Caviar Lift Serum",         "handle": "serum-03", "price": "£88.00", "variantId": 126, "image": null,
+    "benefit": "Supports a firmer, lifted look — retinol-free",
+    "why": "For a tired-looking, less-firm complexion. Caviar extract, CoQ10, and peptides support a bouncier, lifted look with an instant smoothing finish. Retinol-free, so it suits morning and night — and pregnancy too.",
+    "texture": "Rich fluid", "timing": "AM + PM" },
+  { "id": "serum-04", "name": "Exosome PDRN Repair Serum", "handle": "serum-04", "price": "£78.00", "variantId": 127, "image": null,
+    "benefit": "Calms and comforts stressed, sensitive-looking skin",
+    "why": "For redness, sensitivity, and stressed-looking skin. Exosomes, PDRN, and Centella comfort the complexion and support a healthy-looking recovery. Fragrance-free and gentle enough for twice-daily use.",
+    "texture": "Soothing gel", "timing": "AM + PM" },
+  { "id": "serum-05", "name": "Retinal Bio-Lift Night Serum", "handle": "serum-05", "price": "£72.00", "variantId": 128, "image": null,
+    "benefit": "Smooths the look of texture and fine lines overnight",
+    "why": "For rough texture and fine lines. Encapsulated Retinaldehyde with bakuchiol supports smoother, more refined-looking skin while you sleep. PM-only — start 2–3 nights a week. Avoid during pregnancy.",
+    "texture": "Silky night fluid", "timing": "PM only" },
+  { "id": "serum-06", "name": "Neuro Peptide Eye & Smile Line Serum", "handle": "serum-06", "price": "£54.00", "variantId": 129, "image": null,
+    "benefit": "Softens the look of lines around the eyes and smile",
+    "why": "For fine lines around the eyes and smile, plus the look of puffiness. Caffeine and neuro-peptides target expression lines for a smoother, more awake-looking finish. Gentle for the delicate eye area, AM and PM.",
+    "texture": "Lightweight eye fluid", "timing": "AM + PM" }
+]
+</script>
+
+<script type="application/json" id="sf-support-json">
+[
+  { "id": "support-cream", "name": "Sebble Barrier Cream", "handle": "support-cream", "price": "£48.00", "variantId": 0, "image": null, "label": "Complete your routine",    "showFor": "always" },
+  { "id": "support-spray", "name": "Sebble Facial Spray",  "handle": "support-spray", "price": "£32.00", "variantId": 0, "image": null, "label": "Boost absorption and refresh", "showFor": "brightening,overall-glow,oily" }
+]
+</script>
+
+<!-- ── SERUM FINDER PAGE ────────────────────────────────────────── -->
+<div class="sf-page">
+
+  <!-- HERO -->
+  <section class="sf-hero" id="sf-hero">
+    <div class="sf-hero__inner">
+      <p class="sf-hero__eyebrow">Sebble Skin</p>
+      <h1 class="sf-hero__heading">Find your serum in under 60 seconds</h1>
+      <p class="sf-hero__body">Answer a few simple questions and we'll suggest a routine tailored to your skin goals.</p>
+      <button class="sf-hero__cta" id="sf-start" type="button" aria-label="Start the serum finder quiz">
+        Start Quiz
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <div class="sf-hero__trust">
+        <span class="sf-hero__trust-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Under 60 seconds
+        </span>
+        <span class="sf-hero__trust-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          No account needed
+        </span>
+        <span class="sf-hero__trust-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Personalised to your skin
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ SECTION -->
+  <div class="sf-quiz-section" id="sf-quiz-section" aria-live="polite">
+    <div class="sf-quiz-inner">
+
+      <!-- Progress bar -->
+      <div class="sf-progress" id="sf-progress">
+        <div class="sf-progress__meta">
+          <span class="sf-progress__label">Serum Finder</span>
+          <span class="sf-progress__step" id="sf-step-meta">Step 1 of 5</span>
+        </div>
+        <div class="sf-progress__track">
+          <div class="sf-progress__fill" id="sf-progress-fill" style="width:20%;"></div>
+        </div>
+      </div>
+
+      <!-- Q1: Skin goal -->
+      <div class="sf-step" data-step="1" id="sf-step-1">
+        <div class="sf-question-card">
+          <p class="sf-question__number">01 / 05</p>
+          <h2 class="sf-question__text">What is your main skin goal?</h2>
+          <div class="sf-options sf-options--grid" role="radiogroup" aria-label="Skin goal">
+            <button class="sf-option" data-question="goal" data-value="hydration" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Hydration</span>
+                <span class="sf-option__desc">Plump, well-moisturised skin</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="goal" data-value="brightening" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Brightening</span>
+                <span class="sf-option__desc">Even tone and faded dark spots</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="goal" data-value="barrier-repair" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Barrier repair</span>
+                <span class="sf-option__desc">Strengthen and rebuild skin</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="goal" data-value="clearer-skin" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Clearer skin</span>
+                <span class="sf-option__desc">Reduce breakouts and congestion</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="goal" data-value="smooth-texture" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Smooth texture</span>
+                <span class="sf-option__desc">Refine pores and resurface skin</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="goal" data-value="calm-redness" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Calm redness</span>
+                <span class="sf-option__desc">Soothe irritation and reactivity</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="goal" data-value="firming" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Firming</span>
+                <span class="sf-option__desc">Support elasticity and reduce lines</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="goal" data-value="overall-glow" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Overall glow</span>
+                <span class="sf-option__desc">General radiance and luminosity</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2: Skin type -->
+      <div class="sf-step" data-step="2" id="sf-step-2">
+        <div class="sf-question-card">
+          <p class="sf-question__number">02 / 05</p>
+          <h2 class="sf-question__text">What is your skin type?</h2>
+          <div class="sf-options" role="radiogroup" aria-label="Skin type">
+            <button class="sf-option" data-question="skinType" data-value="dry" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Dry</span>
+                <span class="sf-option__desc">Often feels tight, flaky, or thirsty</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="skinType" data-value="oily" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Oily</span>
+                <span class="sf-option__desc">Prone to shine, congestion and enlarged pores</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="skinType" data-value="combination" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Combination</span>
+                <span class="sf-option__desc">Oily T-zone with drier cheeks and jaw</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="skinType" data-value="sensitive" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Sensitive</span>
+                <span class="sf-option__desc">Reacts easily to new products or ingredients</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="skinType" data-value="normal" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Normal</span>
+                <span class="sf-option__desc">Generally balanced and comfortable</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3: Texture -->
+      <div class="sf-step" data-step="3" id="sf-step-3">
+        <div class="sf-question-card">
+          <p class="sf-question__number">03 / 05</p>
+          <h2 class="sf-question__text">What texture do you prefer?</h2>
+          <div class="sf-options" role="radiogroup" aria-label="Texture preference">
+            <button class="sf-option" data-question="texture" data-value="lightweight" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Lightweight</span>
+                <span class="sf-option__desc">Water-thin and fast-absorbing — no residue</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="texture" data-value="milky" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Milky</span>
+                <span class="sf-option__desc">Creamy and soothing — good for barrier repair</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="texture" data-value="gel" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Gel</span>
+                <span class="sf-option__desc">Cooling and mattifying — ideal for oily or reactive skin</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="texture" data-value="rich" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Richer finish</span>
+                <span class="sf-option__desc">Nourishing and cushioning — great for dry or mature skin</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q4: Timing -->
+      <div class="sf-step" data-step="4" id="sf-step-4">
+        <div class="sf-question-card">
+          <p class="sf-question__number">04 / 05</p>
+          <h2 class="sf-question__text">When do you want to use it?</h2>
+          <div class="sf-options sf-options--row" role="radiogroup" aria-label="Timing preference">
+            <button class="sf-option" data-question="timing" data-value="morning" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__label">Morning</span>
+              <span class="sf-option__desc">AM routine only</span>
+            </button>
+            <button class="sf-option" data-question="timing" data-value="evening" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__label">Evening</span>
+              <span class="sf-option__desc">PM routine only</span>
+            </button>
+            <button class="sf-option" data-question="timing" data-value="both" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__label">Both</span>
+              <span class="sf-option__desc">AM and PM use</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q5: Experience -->
+      <div class="sf-step" data-step="5" id="sf-step-5">
+        <div class="sf-question-card">
+          <p class="sf-question__number">05 / 05</p>
+          <h2 class="sf-question__text">How experienced are you with active ingredients?</h2>
+          <div class="sf-options" role="radiogroup" aria-label="Experience level">
+            <button class="sf-option" data-question="experience" data-value="beginner" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Beginner</span>
+                <span class="sf-option__desc">New to serums or active skincare — I want a gentle starting point</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="experience" data-value="intermediate" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Intermediate</span>
+                <span class="sf-option__desc">I use serums regularly and have a basic routine in place</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="experience" data-value="advanced" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Advanced</span>
+                <span class="sf-option__desc">I'm confident with AHAs, retinoids, and layering multiple actives</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results (JS-rendered) -->
+      <div class="sf-step" data-step="results" id="sf-step-results"></div>
+
+      <!-- Navigation -->
+      <div class="sf-quiz-nav" id="sf-quiz-nav">
+        <button class="sf-nav-back" id="sf-back" type="button" hidden aria-label="Go to previous question">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Back
+        </button>
+        <button class="sf-nav-continue" id="sf-continue" type="button" disabled aria-label="Continue to next question">
+          Continue
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </div><!-- /sf-quiz-section -->
+
+
+  <!-- INGREDIENT GUIDE -->
+  <section class="sf-ingredients">
+    <div class="sf-ingredients__inner">
+      <div class="sf-ingredients__header">
+        <p class="sf-ingredients__eyebrow">The science</p>
+        <h2 class="sf-ingredients__title">Key ingredients, explained</h2>
+      </div>
+      <div class="sf-ingredients__grid">
+
+        <div class="sf-ingredient-card">
+          <p class="sf-ingredient-card__pct">HA</p>
+          <h3 class="sf-ingredient-card__name">Hyaluronic Acid</h3>
+          <p class="sf-ingredient-card__benefit">Hydration</p>
+          <p class="sf-ingredient-card__desc">A naturally occurring polysaccharide that holds many times its weight in water. Multiple molecular weights hydrate at different depths for a plumper, more comfortable look. Found across the range.</p>
+          <div class="sf-ingredient-card__serums">
+            <span class="sf-ingredient-card__serum-tag">Peptide Repair Barrier Serum</span>
+            <span class="sf-ingredient-card__serum-tag">Exosome PDRN Repair Serum</span>
+          </div>
+        </div>
+
+        <div class="sf-ingredient-card">
+          <p class="sf-ingredient-card__pct">VitC</p>
+          <h3 class="sf-ingredient-card__name">Vitamin C + Tranexamic Acid</h3>
+          <p class="sf-ingredient-card__benefit">Brightening</p>
+          <p class="sf-ingredient-card__desc">A stable form of Vitamin C pairs with tranexamic acid and alpha arbutin to support a brighter, more even-looking tone and soften the look of marks. Ideal in the morning, always followed by SPF.</p>
+          <div class="sf-ingredient-card__serums">
+            <span class="sf-ingredient-card__serum-tag">Glow + Marks Serum</span>
+          </div>
+        </div>
+
+        <div class="sf-ingredient-card">
+          <p class="sf-ingredient-card__pct">Pep</p>
+          <h3 class="sf-ingredient-card__name">Peptide Complex + Ceramides</h3>
+          <p class="sf-ingredient-card__benefit">Barrier &amp; Firming</p>
+          <p class="sf-ingredient-card__desc">Signal peptides support a firmer, smoother-looking surface, while ceramides match the skin's natural lipids to reinforce the barrier — easing the feeling of tightness and sensitivity.</p>
+          <div class="sf-ingredient-card__serums">
+            <span class="sf-ingredient-card__serum-tag">Peptide Repair Barrier Serum</span>
+            <span class="sf-ingredient-card__serum-tag">Caviar Lift Serum</span>
+          </div>
+        </div>
+
+        <div class="sf-ingredient-card">
+          <p class="sf-ingredient-card__pct">PDRN</p>
+          <h3 class="sf-ingredient-card__name">Exosomes + PDRN</h3>
+          <p class="sf-ingredient-card__benefit">Repair &amp; Calm</p>
+          <p class="sf-ingredient-card__desc">Advanced conditioning factors paired with PDRN and Centella comfort stressed-looking skin and support a refreshed, healthy-looking complexion. Soothing, fragrance-free, and gentle.</p>
+          <div class="sf-ingredient-card__serums">
+            <span class="sf-ingredient-card__serum-tag">Exosome PDRN Repair Serum</span>
+          </div>
+        </div>
+
+        <div class="sf-ingredient-card">
+          <p class="sf-ingredient-card__pct">Ral</p>
+          <h3 class="sf-ingredient-card__name">Encapsulated Retinaldehyde</h3>
+          <p class="sf-ingredient-card__benefit">Renewal</p>
+          <p class="sf-ingredient-card__desc">A gentle, time-release retinoid supported by bakuchiol that helps refine the look of texture and fine lines overnight. PM-only; introduce slowly and avoid during pregnancy.</p>
+          <div class="sf-ingredient-card__serums">
+            <span class="sf-ingredient-card__serum-tag">Retinal Bio-Lift Night Serum</span>
+          </div>
+        </div>
+
+        <div class="sf-ingredient-card">
+          <p class="sf-ingredient-card__pct">Caf</p>
+          <h3 class="sf-ingredient-card__name">Caffeine + Neuro-Peptides</h3>
+          <p class="sf-ingredient-card__benefit">Eyes &amp; Smile Lines</p>
+          <p class="sf-ingredient-card__desc">Caffeine helps reduce the look of puffiness while neuro-peptides support the look of softer expression lines around the eyes and smile. Gentle enough for the delicate eye area.</p>
+          <div class="sf-ingredient-card__serums">
+            <span class="sf-ingredient-card__serum-tag">Neuro Peptide Eye &amp; Smile Line Serum</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CONTACT CTA -->
+  <section class="sf-contact">
+    <div class="sf-contact__inner">
+      <div>
+        <p class="sf-contact__eyebrow">Still unsure?</p>
+        <h2 class="sf-contact__heading">Not sure which serum is right for you? Our skin specialists are here to help.</h2>
+      </div>
+      <a class="sf-contact__cta" href="contact.html">
+        Get in touch
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- FAQ -->
+  <section class="sf-faq">
+    <div class="sf-faq__inner">
+      <div>
+        <p class="sf-faq__eyebrow">Questions</p>
+        <h2 class="sf-faq__title">FAQ</h2>
+      </div>
+      <div class="sf-faq__content-col">
+        <div class="sf-faq-list">
+
+          <details class="sf-faq-item">
+            <summary class="sf-faq-item__summary">
+              <span class="sf-faq-item__question">How accurate is the serum recommendation?</span>
+              <span class="sf-faq-item__icon" aria-hidden="true">
+                <svg class="sf-faq-icon sf-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <svg class="sf-faq-icon sf-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </summary>
+            <div class="sf-faq-item__body-wrap">
+              <div class="sf-faq-item__body-inner">
+                <p class="sf-faq-item__answer">The quiz matches your answers against our formulation matrix — mapping skin goal, type, texture preference, timing, and experience level to the serum most likely to deliver results. We also apply safety overrides: beginners are guided away from harsh actives, and morning users are matched to photostable formulas. While no quiz replaces a skin consultation, the recommendation will get you started on the right formula for your primary concern.</p>
+              </div>
+            </div>
+          </details>
+
+          <details class="sf-faq-item">
+            <summary class="sf-faq-item__summary">
+              <span class="sf-faq-item__question">Can I use the primary and secondary serum together?</span>
+              <span class="sf-faq-item__icon" aria-hidden="true">
+                <svg class="sf-faq-icon sf-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <svg class="sf-faq-icon sf-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </summary>
+            <div class="sf-faq-item__body-wrap">
+              <div class="sf-faq-item__body-inner">
+                <p class="sf-faq-item__answer">In most cases, yes. Check the AM/PM timing labels — if both are marked 'AM + PM', you can layer them morning and evening (lightest texture first). The main exception is mixing exfoliating acids (AHAs/BHAs) with retinol — these should be used on alternate evenings to avoid sensitivity. Our routine guides provide specific layering instructions for each combination.</p>
+              </div>
+            </div>
+          </details>
+
+          <details class="sf-faq-item">
+            <summary class="sf-faq-item__summary">
+              <span class="sf-faq-item__question">What if I have multiple skin concerns?</span>
+              <span class="sf-faq-item__icon" aria-hidden="true">
+                <svg class="sf-faq-icon sf-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <svg class="sf-faq-icon sf-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </summary>
+            <div class="sf-faq-item__body-wrap">
+              <div class="sf-faq-item__body-inner">
+                <p class="sf-faq-item__answer">Choose your single highest-priority concern — the one that bothers you most day-to-day. The quiz is designed to find your best starting formula, and the secondary recommendation adds complementary coverage. Once your skin has adjusted (usually 4–6 weeks), you can introduce additional serums to address secondary concerns.</p>
+              </div>
+            </div>
+          </details>
+
+          <details class="sf-faq-item">
+            <summary class="sf-faq-item__summary">
+              <span class="sf-faq-item__question">Are all serums fragrance-free?</span>
+              <span class="sf-faq-item__icon" aria-hidden="true">
+                <svg class="sf-faq-icon sf-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <svg class="sf-faq-icon sf-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </summary>
+            <div class="sf-faq-item__body-wrap">
+              <div class="sf-faq-item__body-inner">
+                <p class="sf-faq-item__answer">Yes. Every Sebble Skin serum is 100% fragrance-free, including essential oils and parfum derivatives. All formulas are tested under dermatologist supervision and are suitable for fragrance-sensitive skin. If you have a diagnosed contact allergy to a specific ingredient, always check the full INCI list on the product page before use.</p>
+              </div>
+            </div>
+          </details>
+
+          <details class="sf-faq-item">
+            <summary class="sf-faq-item__summary">
+              <span class="sf-faq-item__question">What does the Barrier Cream do in the routine?</span>
+              <span class="sf-faq-item__icon" aria-hidden="true">
+                <svg class="sf-faq-icon sf-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <svg class="sf-faq-icon sf-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </summary>
+            <div class="sf-faq-item__body-wrap">
+              <div class="sf-faq-item__body-inner">
+                <p class="sf-faq-item__answer">The Sebble Barrier Cream is your routine's finishing step — it seals in the active ingredients your serum has delivered and prevents trans-epidermal water loss. Formulated with Ceramides and Shea Butter, it strengthens the outer skin barrier overnight. Apply a pea-sized amount after your serum has fully absorbed, morning or evening.</p>
+              </div>
+            </div>
+          </details>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /sf-page -->
+
+
+<!-- ═══════════════════════════════════════════
+     QUIZ JAVASCRIPT
+═══════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Data ───────────────────────────────────────────────────── */
+  var SERUMS   = JSON.parse(document.getElementById('sf-serum-json').textContent || '[]');
+  var SUPPORTS = JSON.parse(document.getElementById('sf-support-json').textContent || '[]');
+
+  /* Index by id */
+  var serumMap   = {};
+  var supportMap = {};
+  SERUMS.forEach(function (s) { serumMap[s.id] = s; });
+  SUPPORTS.forEach(function (s) { supportMap[s.id] = s; });
+
+  /* ── State ──────────────────────────────────────────────────── */
+  var TOTAL_STEPS  = 5;
+  var currentStep  = 1;
+  var answers      = {};
+
+  var hero         = document.getElementById('sf-hero');
+  var quizSection  = document.getElementById('sf-quiz-section');
+  var progressFill = document.getElementById('sf-progress-fill');
+  var stepMeta     = document.getElementById('sf-step-meta');
+  var btnBack      = document.getElementById('sf-back');
+  var btnContinue  = document.getElementById('sf-continue');
+  var quizNav      = document.getElementById('sf-quiz-nav');
+
+  /* ── Start quiz ─────────────────────────────────────────────── */
+  document.getElementById('sf-start').addEventListener('click', function () {
+    hero.classList.add('is-hidden');
+    quizSection.classList.add('is-active');
+    showStep(1, false);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  });
+
+  /* ── Navigate steps ─────────────────────────────────────────── */
+  function showStep(step, goingBack) {
+    var prevEl = document.querySelector('.sf-step.is-active');
+    var nextEl = document.getElementById('sf-step-' + step);
+    if (!nextEl) return;
+
+    if (prevEl) prevEl.classList.remove('is-active');
+
+    nextEl.classList.add('is-active');
+    nextEl.classList.add(goingBack ? 'is-entering-back' : 'is-entering');
+    nextEl.addEventListener('animationend', function () {
+      nextEl.classList.remove('is-entering', 'is-entering-back');
+    }, { once: true });
+
+    currentStep = step;
+
+    if (step !== 'results') {
+      var pct = (step / TOTAL_STEPS) * 100;
+      progressFill.style.width = pct + '%';
+      stepMeta.textContent = 'Step ' + step + ' of ' + TOTAL_STEPS;
+      document.getElementById('sf-progress').style.display = '';
+      quizNav.style.display = '';
+
+      btnBack[step > 1 ? 'removeAttribute' : 'setAttribute']('hidden', '');
+
+      var questionEl = nextEl.querySelector('[data-question]');
+      var qKey = questionEl ? questionEl.dataset.question : null;
+      btnContinue.disabled = !(qKey && answers[qKey]);
+      btnContinue.innerHTML = (step === TOTAL_STEPS ? 'See my results' : 'Continue') +
+        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+    } else {
+      document.getElementById('sf-progress').style.display = 'none';
+      quizNav.style.display = 'none';
+      renderResults();
+    }
+
+    window.scrollTo({ top: quizSection.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'instant' });
+  }
+
+  /* ── Option selection ───────────────────────────────────────── */
+  document.querySelectorAll('.sf-option').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var qKey = btn.dataset.question;
+      var val  = btn.dataset.value;
+
+      btn.closest('.sf-options').querySelectorAll('.sf-option').forEach(function (b) {
+        b.classList.remove('is-selected');
+        b.setAttribute('aria-checked', 'false');
+      });
+
+      btn.classList.add('is-selected');
+      btn.setAttribute('aria-checked', 'true');
+      answers[qKey] = val;
+      btnContinue.disabled = false;
+
+      if (currentStep === TOTAL_STEPS) {
+        setTimeout(function () { goForward(); }, 320);
+      }
+    });
+  });
+
+  /* ── Continue / Back ────────────────────────────────────────── */
+  btnContinue.addEventListener('click', goForward);
+  btnBack.addEventListener('click', goBack);
+
+  function goForward() {
+    if (btnContinue.disabled) return;
+    if (currentStep < TOTAL_STEPS) {
+      showStep(currentStep + 1, false);
+    } else {
+      showStep('results', false);
+    }
+  }
+
+  function goBack() {
+    if (currentStep === 1) return;
+    showStep(currentStep - 1, true);
+  }
+
+  /* ── Recommendation engine ──────────────────────────────────── */
+  function recommend(ans) {
+    var goalMap = {
+      'hydration':      'serum-02',
+      'brightening':    'serum-01',
+      'barrier-repair': 'serum-02',
+      'clearer-skin':   'serum-01',
+      'smooth-texture': 'serum-05',
+      'calm-redness':   'serum-04',
+      'firming':        'serum-03',
+      'overall-glow':   'serum-03'
+    };
+
+    var primary  = goalMap[ans.goal] || 'serum-02';
+    var override = null;
+
+    /* Beginner safety: swap the only retinoid for a gentle barrier formula */
+    if (ans.experience === 'beginner') {
+      if (primary === 'serum-05') { primary = 'serum-02'; override = 'beginner-05'; }
+    }
+
+    /* Morning-use: the night serum is PM-only, so swap for an AM-safe firming option */
+    if (ans.timing === 'morning') {
+      if (primary === 'serum-05') { primary = 'serum-03'; override = 'timing-05'; }
+    }
+
+    /* Secondary: complement by skin type */
+    var skinSecondary = {
+      dry: 'serum-02', oily: 'serum-04',
+      combination: 'serum-01', sensitive: 'serum-04', normal: 'serum-03'
+    };
+    var secondary = skinSecondary[ans.skinType] || 'serum-02';
+    if (secondary === primary) {
+      secondary = (primary === 'serum-02') ? 'serum-01' : 'serum-02';
+    }
+
+    /* Support products */
+    var supports = ['support-cream'];
+    if (['brightening', 'overall-glow'].indexOf(ans.goal) !== -1 || ans.skinType === 'oily') {
+      supports.push('support-spray');
+    }
+
+    return { primary: primary, secondary: secondary, supports: supports, override: override };
+  }
+
+  /* ── Override explanations ──────────────────────────────────── */
+  var OVERRIDE_TEXT = {
+    'beginner-05': 'You selected texture refinement as your goal. Because you\'re new to active ingredients, we\'ve started you on our gentle Peptide Repair Barrier Serum instead of a retinoid — you\'ll build a resilient base first, then introduce the night serum slowly.',
+    'timing-05':   'The Retinal Bio-Lift Night Serum is for evening use only, as retinoids work best overnight and away from daylight. Since you prefer mornings, we\'ve matched you with the retinol-free Caviar Lift Serum, which supports smoother, firmer-looking skin AM and PM.'
+  };
+
+  /* ── SVG placeholders ───────────────────────────────────────── */
+  function serumSVG() {
+    return '<svg width="60" height="60" viewBox="0 0 60 60" fill="none" aria-hidden="true"><rect x="22" y="8" width="16" height="6" rx="3" fill="rgba(73,114,74,0.3)"/><rect x="18" y="12" width="24" height="38" rx="8" fill="rgba(73,114,74,0.2)"/><rect x="20" y="26" width="20" height="2" rx="1" fill="rgba(73,114,74,0.4)"/><rect x="20" y="31" width="14" height="1.5" rx="0.75" fill="rgba(73,114,74,0.25)"/></svg>';
+  }
+  function serumSVGSmall() {
+    return '<svg width="36" height="36" viewBox="0 0 60 60" fill="none" aria-hidden="true"><rect x="22" y="8" width="16" height="6" rx="3" fill="rgba(73,114,74,0.3)"/><rect x="18" y="12" width="24" height="38" rx="8" fill="rgba(73,114,74,0.2)"/></svg>';
+  }
+
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* ── Render results ─────────────────────────────────────────── */
+  function renderResults() {
+    var rec       = recommend(answers);
+    var primary   = serumMap[rec.primary];
+    var secondary = serumMap[rec.secondary];
+    var el        = document.getElementById('sf-step-results');
+
+    if (!primary || !secondary) {
+      el.innerHTML = '<p style="padding:2rem;color:rgba(3,7,6,0.5)">Something went wrong — <a href="" style="text-decoration:underline">retake the quiz</a>.</p>';
+      return;
+    }
+
+    var overrideHTML = rec.override && OVERRIDE_TEXT[rec.override]
+      ? '<div class="sf-result-primary__why"><p class="sf-result-primary__why-label">Why we adjusted your recommendation</p><p class="sf-result-primary__why-text">' + escHtml(OVERRIDE_TEXT[rec.override]) + '</p></div>'
+      : '<div class="sf-result-primary__why"><p class="sf-result-primary__why-label">Why this serum</p><p class="sf-result-primary__why-text">' + escHtml(primary.why) + '</p></div>';
+
+    var imgHtml = primary.image
+      ? '<img src="' + primary.image + '" alt="' + escHtml(primary.name) + '" width="600" height="220" loading="lazy">'
+      : '<div class="sf-result-primary__image-placeholder">' + serumSVG() + '</div>';
+
+    var secImgHtml = secondary.image
+      ? '<img src="' + secondary.image + '" alt="' + escHtml(secondary.name) + '" width="400" height="140" loading="lazy">'
+      : '<div style="width:100%;height:100%;background:var(--c-green-mint);display:flex;align-items:center;justify-content:center;">' + serumSVGSmall() + '</div>';
+
+    /* Support cards */
+    var supportHTML = '';
+    rec.supports.forEach(function (sid) {
+      var s = supportMap[sid];
+      if (!s) return;
+      var sImg = s.image
+        ? '<img src="' + s.image + '" alt="' + escHtml(s.name) + '" width="56" height="56" loading="lazy">'
+        : '<svg width="28" height="28" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="14" y="10" width="20" height="30" rx="6" fill="rgba(73,114,74,0.2)"/></svg>';
+      supportHTML +=
+        '<div class="sf-support-card">' +
+          '<div class="sf-support-card__image">' + sImg + '</div>' +
+          '<div>' +
+            '<p class="sf-support-card__label">' + escHtml(s.label) + '</p>' +
+            '<p class="sf-support-card__name">' + escHtml(s.name) + '</p>' +
+            '<p class="sf-support-card__price">' + escHtml(s.price) + '</p>' +
+          '</div>' +
+        '</div>';
+    });
+
+    /* Variant IDs for add-all (preview: all 0, button just alerts) */
+    var variantIds = [primary.variantId, secondary.variantId];
+    rec.supports.forEach(function (sid) { if (supportMap[sid]) variantIds.push(supportMap[sid].variantId); });
+
+    el.innerHTML =
+      '<div class="sf-results">' +
+        '<div class="sf-results__header">' +
+          '<p class="sf-results__eyebrow">Your result</p>' +
+          '<h2 class="sf-results__heading">Your recommended routine</h2>' +
+        '</div>' +
+
+        /* Primary */
+        '<div class="sf-result-primary">' +
+          '<div class="sf-result-primary__image">' +
+            imgHtml +
+            '<span class="sf-result-primary__tag">Primary pick</span>' +
+          '</div>' +
+          '<div class="sf-result-primary__body">' +
+            '<h3 class="sf-result-primary__name">' + escHtml(primary.name) + '</h3>' +
+            '<p class="sf-result-primary__benefit">' + escHtml(primary.benefit) + '</p>' +
+            overrideHTML +
+            '<div class="sf-result-primary__specs">' +
+              '<div class="sf-result-primary__spec"><strong>Texture</strong>' + escHtml(primary.texture) + '</div>' +
+              '<div class="sf-result-primary__spec"><strong>Best for</strong>' + escHtml(primary.timing) + '</div>' +
+            '</div>' +
+            '<div class="sf-result-primary__footer">' +
+              '<span class="sf-result-primary__price">' + escHtml(primary.price) + '</span>' +
+              '<button class="sf-result-primary__atc" data-variant="' + primary.variantId + '" type="button">' +
+                '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' +
+                'Add to bag' +
+              '</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+
+        /* Secondary + supports row */
+        '<div class="sf-results__secondary-row">' +
+          '<div class="sf-result-secondary">' +
+            '<div class="sf-result-secondary__image">' +
+              secImgHtml +
+              '<span class="sf-result-secondary__tag">Also consider</span>' +
+            '</div>' +
+            '<div class="sf-result-secondary__body">' +
+              '<p class="sf-result-secondary__name">' + escHtml(secondary.name) + '</p>' +
+              '<p class="sf-result-secondary__benefit">' + escHtml(secondary.benefit) + '</p>' +
+              '<div class="sf-result-secondary__footer">' +
+                '<span class="sf-result-secondary__price">' + escHtml(secondary.price) + '</span>' +
+                '<a class="sf-result-secondary__link" href="product.html">' +
+                  'View' +
+                  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
+                '</a>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+
+          /* Support products */
+          (supportHTML
+            ? '<div class="sf-results__support">' +
+                '<p class="sf-results__support-label">Complete the routine</p>' +
+                '<div class="sf-results__support-grid">' + supportHTML + '</div>' +
+              '</div>'
+            : '') +
+        '</div>' +
+
+        /* Actions */
+        '<div class="sf-results__actions">' +
+          '<button class="sf-add-all" id="sf-add-all" type="button" data-variants="' + escHtml(JSON.stringify(variantIds)) + '">' +
+            'Add full routine to bag' +
+          '</button>' +
+          '<button class="sf-retake" id="sf-retake" type="button">Retake quiz</button>' +
+        '</div>' +
+        '<a class="sf-results__routine-link" href="routine.html">View full routine guide</a>' +
+      '</div>';
+
+    /* Bind add-all */
+    document.getElementById('sf-add-all').addEventListener('click', function (e) {
+      var btn = e.currentTarget;
+      btn.textContent = 'Added to bag';
+      btn.classList.add('is-done');
+      /* In a real store: fetch('/cart/add.js', ...) */
+    });
+
+    /* Bind individual ATC */
+    var atcBtn = el.querySelector('.sf-result-primary__atc');
+    if (atcBtn) {
+      atcBtn.addEventListener('click', function () {
+        atcBtn.textContent = 'Added';
+        atcBtn.classList.add('is-added');
+      });
+    }
+
+    /* Bind retake */
+    document.getElementById('sf-retake').addEventListener('click', function () {
+      answers = {};
+      currentStep = 1;
+
+      /* Reset selections */
+      document.querySelectorAll('.sf-option').forEach(function (b) {
+        b.classList.remove('is-selected');
+        b.setAttribute('aria-checked', 'false');
+      });
+
+      document.getElementById('sf-step-results').classList.remove('is-active');
+      document.getElementById('sf-progress').style.display = '';
+      quizNav.style.display = '';
+      showStep(1, true);
+    });
+  }
+
+  /* ── FAQ accordion ──────────────────────────────────────────── */
+  document.querySelectorAll('.sf-faq-item').forEach(function (item) {
+    item.addEventListener('click', function (e) {
+      if (!e.target.closest('summary')) return;
+      e.preventDefault();
+      if (item.open) {
+        item.classList.add('is-closing');
+        item.addEventListener('transitionend', function h() {
+          item.open = false;
+          item.classList.remove('is-closing');
+          item.removeEventListener('transitionend', h);
+        }, { once: true });
+      } else {
+        item.open = true;
+        item.getBoundingClientRect(); /* force reflow */
+      }
+    });
+  });
+
+})();
+</script>
+
+
+<!-- BAG OVERLAY + DRAWER -->
+<div class="bag-overlay" id="bag-overlay"></div>
+<div class="bag-drawer" id="bag-drawer" role="dialog" aria-label="Shopping bag" aria-hidden="true">
+  <div class="bag-drawer__header">
+    <div>
+      <p class="bag-drawer__title">Your Ritual</p>
+      <p class="bag-drawer__count">0 items</p>
+    </div>
+    <button class="bag-drawer__close" id="bag-close" aria-label="Close bag">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 1l14 14M15 1L1 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="bag-drawer__body">
+    <div class="bag-drawer__empty">
+      <svg class="bag-drawer__empty-icon" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 20h28l-3.5 21H17.5L14 20z" stroke="#030706" stroke-width="1.5" stroke-linejoin="round"/><path d="M21 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#030706" stroke-width="1.5"/></svg>
+      <h3 class="bag-drawer__empty-title">Your ritual awaits.</h3>
+      <p class="bag-drawer__empty-sub">Add a serum to get started.<br>Free delivery on orders over £60.</p>
+      <a href="collection.html" class="bag-drawer__cta" id="bag-explore">Explore Serums</a>
+    </div>
+  </div>
+  <div class="bag-drawer__footer" style="display:none">
+    <div class="bag-drawer__subtotal"><span>Subtotal</span><span>£0.00</span></div>
+    <button class="bag-drawer__checkout">Proceed to Checkout</button>
+  </div>
+</div>
+<script>
+// ── BAG + ACCOUNT ─────────────────────────
+(function() {
+  var overlay  = document.getElementById('bag-overlay');
+  var drawer   = document.getElementById('bag-drawer');
+  var closeBtn = document.getElementById('bag-close');
+  var cartBtns = document.querySelectorAll('.header-cart-btn');
+  var acctWrap = document.querySelector('.acct-wrap');
+
+  function openBag() {
+    drawer.classList.add('is-open');
+    overlay.classList.add('is-open');
+    drawer.setAttribute('aria-hidden','false');
+  }
+  function closeBag() {
+    drawer.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden','true');
+  }
+
+  cartBtns.forEach(function(b){ b.addEventListener('click', openBag); });
+  if (closeBtn) closeBtn.addEventListener('click', closeBag);
+  if (overlay)  overlay.addEventListener('click', closeBag);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeBag(); });
+
+  // Wrap "Account" link in .acct-wrap if not already
+  var acctLinks = document.querySelectorAll('.header-actions a');
+  acctLinks.forEach(function(a) {
+    if (a.textContent.trim() === 'Account') {
+      var wrap = document.createElement('div');
+      wrap.className = 'acct-wrap';
+      var dd = document.createElement('div');
+      dd.className = 'acct-dropdown';
+      dd.innerHTML = '<a href="#">Sign In</a><a href="#">Create Account</a><a href="#">Order History</a>';
+      a.parentNode.insertBefore(wrap, a);
+      wrap.appendChild(a);
+      wrap.appendChild(dd);
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        wrap.classList.toggle('is-open');
+      });
+      document.addEventListener('click', function(e) {
+        if (!wrap.contains(e.target)) wrap.classList.remove('is-open');
+      });
+    }
+  });
+})();
+</script>
+
+<!-- SITE FOOTER -->
+<footer class="site-footer-global">
+  <div class="sfg-inner">
+    <div class="sfg-brand">
+      <a href="index.html" class="sfg-logo"><img src="sebble-logo.png" alt="Sebble" class="sfg-logo__img"></a>
+      <p class="sfg-tagline">Formulated with clinical-grade actives,<br>designed for your daily ritual.</p>
+    </div>
+    <nav class="sfg-nav">
+      <div class="sfg-col">
+        <span class="sfg-col-head">Shop</span>
+        <a href="collection.html">All Serums</a>
+        <a href="serum-finder.html">Find My Serum</a>
+        <a href="routine.html">Build a Routine</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Learn</span>
+        <a href="ingredients.html">Ingredients</a>
+        <a href="about.html">Our Story</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Policies</span>
+        <a href="#">Shipping & Delivery</a>
+        <a href="#">Returns & Refunds</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </nav>
+  </div>
+  <div class="sfg-bottom">
+    <p>© 2026 Sebble Skin. All rights reserved.</p>
+    <nav class="sfg-bottom-links"><a href="ingredients.html">Ingredients</a><a href="contact.html">Contact</a></nav>
+    <p>Cruelty-free · Fragrance-free · EU compliant</p>
+  </div>
+</footer>
+<script src="sit-knowledge.js"></script>
+<script src="sit-widget.js"></script>
+</body>
+</html>

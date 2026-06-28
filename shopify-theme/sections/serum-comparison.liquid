@@ -1,0 +1,277 @@
+{{- 'theme.css' | asset_url | stylesheet_tag -}}
+
+<section class="serum-compare section">
+  <div class="container">
+
+    <header class="serum-compare__header reveal">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="t-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="serum-compare__heading">{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="serum-compare__sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </header>
+
+    <div class="serum-compare__table-wrap reveal reveal-delay-1">
+      <table class="serum-compare__table" role="table">
+        <thead>
+          <tr>
+            <th scope="col" aria-label="Property"></th>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'product_column' -%}
+                <th scope="col" {{ block.shopify_attributes }}>
+                  <div class="compare-th-product">
+                    <span class="compare-th-product__type">{{ block.settings.category }}</span>
+                    <span class="compare-th-product__name">{{ block.settings.name }}</span>
+                  </div>
+                </th>
+              {%- endif -%}
+            {%- endfor -%}
+          </tr>
+        </thead>
+        <tbody>
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'row' -%}
+              <tr {{ block.shopify_attributes }}>
+                <td>{{ block.settings.label }}</td>
+                {%- assign values = block.settings.values | split: '|' -%}
+                {%- for value in values -%}
+                  <td>
+                    {%- if value == 'yes' -%}
+                      <span class="compare-check" aria-label="Yes"></span>
+                    {%- elsif value == 'no' or value == '-' -%}
+                      <span class="compare-dash" aria-label="No"></span>
+                    {%- else -%}
+                      {{ value }}
+                    {%- endif -%}
+                  </td>
+                {%- endfor -%}
+              </tr>
+            {%- endif -%}
+          {%- endfor -%}
+
+          <!-- Price row -->
+          <tr>
+            <td>Price</td>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'product_column' -%}
+                <td>
+                  {%- if block.settings.product != blank -%}
+                    {{ block.settings.product.price | money }}
+                  {%- else -%}
+                    {{ block.settings.price }}
+                  {%- endif -%}
+                </td>
+              {%- endif -%}
+            {%- endfor -%}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    {%- if section.settings.cta_1_label != blank or section.settings.cta_2_label != blank -%}
+      <div class="serum-compare__cta reveal reveal-delay-2">
+        {%- if section.settings.cta_1_label != blank -%}
+          <a href="{{ section.settings.cta_1_url }}" class="btn btn--primary">
+            {{ section.settings.cta_1_label }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.cta_2_label != blank -%}
+          <a href="{{ section.settings.cta_2_url }}" class="btn btn--outline">
+            {{ section.settings.cta_2_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Serum Comparison",
+  "tag": "section",
+  "class": "section-serum-comparison",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Find your match"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Compare our serums."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Each formula is built around a single clinical-grade active, layered with supporting ingredients for targeted results."
+    },
+    {
+      "type": "text",
+      "id": "cta_1_label",
+      "label": "Primary CTA label",
+      "default": "Shop All Serums"
+    },
+    {
+      "type": "url",
+      "id": "cta_1_url",
+      "label": "Primary CTA URL"
+    },
+    {
+      "type": "text",
+      "id": "cta_2_label",
+      "label": "Secondary CTA label",
+      "default": "Take the Skin Quiz"
+    },
+    {
+      "type": "url",
+      "id": "cta_2_url",
+      "label": "Secondary CTA URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_column",
+      "name": "Product Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "category",
+          "label": "Category / skin concern",
+          "default": "Hydration"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Product name",
+          "default": "Hydra-Boost Serum"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product (for price)"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price (fallback if no product selected)",
+          "default": "£38.00"
+        }
+      ]
+    },
+    {
+      "type": "row",
+      "name": "Comparison Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Row label",
+          "default": "Key active"
+        },
+        {
+          "type": "text",
+          "id": "values",
+          "label": "Values (pipe-separated, one per product column)",
+          "info": "Use 'yes' for a tick, 'no' or '-' for a dash, or any text",
+          "default": "Hyaluronic Acid|Vitamin C|Retinol"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Serum Comparison",
+      "blocks": [
+        {
+          "type": "product_column",
+          "settings": {
+            "category": "Hydration",
+            "name": "Hydra-Boost Serum",
+            "price": "£38.00"
+          }
+        },
+        {
+          "type": "product_column",
+          "settings": {
+            "category": "Brightening",
+            "name": "Bright-C Serum",
+            "price": "£42.00"
+          }
+        },
+        {
+          "type": "product_column",
+          "settings": {
+            "category": "Anti-ageing",
+            "name": "Age-Defy Serum",
+            "price": "£46.00"
+          }
+        },
+        {
+          "type": "product_column",
+          "settings": {
+            "category": "Barrier repair",
+            "name": "Calm Serum",
+            "price": "£38.00"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Key active",
+            "values": "Hyaluronic Acid|Vitamin C 15%|Retinol 0.3%|Ceramide Complex"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Best for",
+            "values": "All skin types|Dull & uneven|Fine lines|Sensitive & reactive"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "AM use",
+            "values": "yes|yes|no|yes"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "PM use",
+            "values": "yes|yes|yes|yes"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Fragrance-free",
+            "values": "yes|yes|yes|yes"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Safe in pregnancy",
+            "values": "yes|yes|no|yes"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Pairs with SPF",
+            "values": "yes|yes|no|yes"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

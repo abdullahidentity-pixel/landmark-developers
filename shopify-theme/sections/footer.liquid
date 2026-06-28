@@ -1,0 +1,143 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="site-footer__grid">
+
+      <!-- Brand col -->
+      <div class="site-footer__brand">
+        <a href="/" class="footer-logo">{{ shop.name }}</a>
+        <p>{{ section.settings.tagline | default: 'Plant-powered serums with clinical precision. Formulated for skin that thrives.' }}</p>
+
+        {%- if section.settings.show_newsletter -%}
+        <div class="footer-newsletter">
+          <p class="t-label--light">Stay in the ritual</p>
+          {%- form 'customer', id: 'footer-newsletter' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="footer-newsletter">
+              <form action="/contact#footer-newsletter" method="post" accept-charset="UTF-8" id="footer-newsletter">
+                <input type="hidden" name="form_type" value="customer">
+                <input type="hidden" name="utf8" value="✓">
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <input type="email" name="contact[email]" placeholder="Your email" autocomplete="email" required>
+                <button type="submit">Subscribe</button>
+              </form>
+            </div>
+          {%- endform -%}
+        </div>
+        {%- endif -%}
+
+        <!-- Social -->
+        <div class="site-footer__social" style="margin-top: 1.5rem;">
+          {%- if section.settings.social_instagram != blank -%}
+            <a href="{{ section.settings.social_instagram }}" class="site-footer__social-link" aria-label="Instagram" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+              </svg>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.social_tiktok != blank -%}
+            <a href="{{ section.settings.social_tiktok }}" class="site-footer__social-link" aria-label="TikTok" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34v-7.1a8.22 8.22 0 0 0 4.82 1.55V6.32a4.85 4.85 0 0 1-1.05-.37z"/>
+              </svg>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.social_pinterest != blank -%}
+            <a href="{{ section.settings.social_pinterest }}" class="site-footer__social-link" aria-label="Pinterest" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.22-5.15 1.22-5.15s-.31-.62-.31-1.55c0-1.45.84-2.53 1.88-2.53.89 0 1.32.67 1.32 1.47 0 .9-.57 2.24-.87 3.48-.25 1.04.52 1.88 1.54 1.88 1.85 0 3.09-2.37 3.09-5.17 0-2.13-1.44-3.63-3.49-3.63-2.38 0-3.78 1.79-3.78 3.63 0 .72.27 1.49.62 1.91a.25.25 0 0 1 .06.24l-.23.94c-.04.15-.13.18-.3.11-1.12-.52-1.82-2.16-1.82-3.48 0-2.83 2.06-5.43 5.93-5.43 3.11 0 5.53 2.22 5.53 5.19 0 3.09-1.95 5.58-4.65 5.58-1.29 0-2.14-.67-2.5-1.46l-.44 1.63c-.16.62-.59 1.4-.88 1.87.66.2 1.36.31 2.09.31 5.52 0 10-4.48 10-10S17.52 2 12 2z" fill="currentColor"/>
+              </svg>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- Shop col -->
+      <div class="site-footer__col">
+        <h3>Shop</h3>
+        <ul class="site-footer__links">
+          <li><a href="/collections/serums">All Serums</a></li>
+          <li><a href="/collections/bestsellers">Bestsellers</a></li>
+          <li><a href="/collections/new">New Arrivals</a></li>
+          <li><a href="/collections/sets">Bundles &amp; Sets</a></li>
+          <li><a href="/pages/quiz">Find Your Serum</a></li>
+          <li><a href="/pages/routine">Build a Routine</a></li>
+        </ul>
+      </div>
+
+      <!-- Learn col -->
+      <div class="site-footer__col">
+        <h3>Learn</h3>
+        <ul class="site-footer__links">
+          <li><a href="/pages/ingredients">Ingredients</a></li>
+          <li><a href="/pages/science">Our Science</a></li>
+          <li><a href="/pages/about">Our Story</a></li>
+          <li><a href="/blogs/skin-journal">Skin Journal</a></li>
+          <li><a href="/pages/sustainability">Sustainability</a></li>
+        </ul>
+      </div>
+
+      <!-- Help col -->
+      <div class="site-footer__col">
+        <h3>Help</h3>
+        <ul class="site-footer__links">
+          <li><a href="/pages/contact">Contact Us</a></li>
+          <li><a href="/pages/faq">FAQ</a></li>
+          <li><a href="/pages/shipping">Shipping &amp; Returns</a></li>
+          <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/pages/terms">Terms of Service</a></li>
+        </ul>
+      </div>
+
+    </div><!-- /.site-footer__grid -->
+
+    <div class="site-footer__bottom">
+      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+      <p>Formulated with intent &middot; Made with care</p>
+    </div>
+
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Brand tagline",
+      "default": "Plant-powered serums with clinical precision. Formulated for skin that thrives."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter signup",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Social Links"
+    },
+    {
+      "type": "url",
+      "id": "social_instagram",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "social_tiktok",
+      "label": "TikTok URL"
+    },
+    {
+      "type": "url",
+      "id": "social_pinterest",
+      "label": "Pinterest URL"
+    }
+  ],
+  "presets": [
+    { "name": "Footer" }
+  ]
+}
+{% endschema %}

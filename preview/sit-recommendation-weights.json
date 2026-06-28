@@ -1,0 +1,175 @@
+{
+  "_meta": {
+    "description": "SIT recommendation scoring weights. Maps each answer value to per-product score deltas (s01..s08 -> serum-01..serum-08). Higher = stronger match. Negative = penalise.",
+    "note": "Used by the consultation engine to rank serums. Tune these numbers to change matching behaviour without touching code.",
+    "updated": "2026-06-27"
+  },
+  "scoring": {
+    "main_goal": {
+      "hydration": {
+        "s02": 12,
+        "s04": 6,
+        "s01": 3
+      },
+      "brightening": {
+        "s01": 12,
+        "s04": 4,
+        "s03": 3
+      },
+      "barrier_support": {
+        "s02": 12,
+        "s04": 8
+      },
+      "texture": {
+        "s05": 12,
+        "s03": 5,
+        "s01": 2
+      },
+      "calm": {
+        "s04": 12,
+        "s02": 8
+      },
+      "oil_balance": {
+        "s05": 10,
+        "s04": 4
+      },
+      "glow": {
+        "s01": 12,
+        "s04": 6,
+        "s03": 4
+      },
+      "age_support": {
+        "s03": 12,
+        "s05": 8,
+        "s06": 6
+      }
+    },
+    "skin_type": {
+      "dry": {
+        "s02": 4,
+        "s04": 2,
+        "s03": 1
+      },
+      "oily": {
+        "s05": 3,
+        "s04": 2,
+        "s01": 1
+      },
+      "combination": {
+        "s01": 2,
+        "s04": 2,
+        "s05": 1
+      },
+      "sensitive": {
+        "s04": 5,
+        "s02": 4
+      },
+      "normal": {
+        "s01": 2,
+        "s03": 2
+      },
+      "unsure": {}
+    },
+    "post_cleanse": {
+      "tight": {
+        "s02": 5,
+        "s04": 3
+      },
+      "oily_quickly": {
+        "s05": 4,
+        "s01": 2
+      },
+      "reactive": {
+        "s04": 6,
+        "s02": 4
+      },
+      "dry_patches": {
+        "s02": 3,
+        "s04": 2
+      },
+      "comfortable": {},
+      "unsure": {}
+    },
+    "sensitivity": {
+      "high": {
+        "s04": 5,
+        "s02": 4
+      },
+      "medium": {
+        "s04": 2,
+        "s02": 1
+      },
+      "low": {}
+    },
+    "visible_redness": {
+      "often": {
+        "s04": 6,
+        "s02": 3
+      },
+      "sometimes": {
+        "s04": 3,
+        "s02": 1
+      },
+      "rarely": {},
+      "never": {}
+    },
+    "oiliness": {
+      "yes_all": {
+        "s05": 4,
+        "s01": 1
+      },
+      "t_zone": {
+        "s05": 2,
+        "s01": 1
+      },
+      "rarely": {},
+      "no": {}
+    },
+    "mirror_concern": {
+      "dullness": {
+        "s01": 5,
+        "s04": 3
+      },
+      "redness": {
+        "s04": 5,
+        "s02": 3
+      },
+      "texture": {
+        "s05": 5,
+        "s03": 2
+      },
+      "shine": {
+        "s05": 4,
+        "s01": 1
+      },
+      "dryness": {
+        "s02": 5,
+        "s04": 3
+      },
+      "uneven_tone": {
+        "s01": 5,
+        "s04": 2
+      },
+      "fine_lines": {
+        "s03": 5,
+        "s05": 4,
+        "s06": 4
+      },
+      "congestion": {
+        "s05": 5,
+        "s04": 2
+      }
+    },
+    "experience": {
+      "beginner": {
+        "s05": -4,
+        "s03": -1
+      },
+      "intermediate": {},
+      "advanced": {
+        "s05": 2,
+        "s03": 1
+      }
+    }
+  }
+}

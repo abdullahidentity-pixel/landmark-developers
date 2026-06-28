@@ -1,0 +1,347 @@
+{{ 'brand-pages.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%} ── Hero ── {%- endcomment -%}
+<section class="ab-hero">
+  <div class="ab-hero__img-col">
+    {%- if section.settings.hero_image != blank -%}
+      <img
+        class="ab-hero__img"
+        src="{{ section.settings.hero_image | image_url: width: 1400 }}"
+        alt="{{ section.settings.hero_image.alt | default: 'Velour Skin' }}"
+        width="{{ section.settings.hero_image.width }}"
+        height="{{ section.settings.hero_image.height }}"
+        loading="eager"
+      >
+    {%- else -%}
+      <div class="ab-hero__img" style="background: linear-gradient(160deg, #cde8c9 0%, #819d7c 100%);"></div>
+    {%- endif -%}
+  </div>
+  <div class="ab-hero__content-col">
+    {%- if section.settings.hero_eyebrow != blank -%}
+      <span class="brand-eyebrow ab-hero__label">{{ section.settings.hero_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.hero_heading != blank -%}
+      <h1 class="brand-heading ab-hero__heading">{{ section.settings.hero_heading }}</h1>
+    {%- endif -%}
+    {%- if section.settings.hero_body != blank -%}
+      <p class="brand-body ab-hero__para">{{ section.settings.hero_body }}</p>
+    {%- endif -%}
+    <div class="ab-hero__btns">
+      {%- if section.settings.hero_cta_label != blank -%}
+        <a href="{{ section.settings.hero_cta_url | default: '#' }}" class="brand-btn">
+          {{ section.settings.hero_cta_label }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.hero_secondary_label != blank -%}
+        <a href="{{ section.settings.hero_secondary_url | default: '#' }}" class="brand-btn brand-btn--ghost">
+          {{ section.settings.hero_secondary_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ── Mission ── {%- endcomment -%}
+{%- if section.settings.mission_statement != blank -%}
+<section class="ab-mission">
+  <div class="ab-mission__inner">
+    {%- if section.settings.mission_eyebrow != blank -%}
+      <span class="brand-eyebrow">{{ section.settings.mission_eyebrow }}</span>
+    {%- endif -%}
+    <p class="ab-mission__statement">{{ section.settings.mission_statement }}</p>
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ── Founder ── {%- endcomment -%}
+<section class="ab-founder">
+  <div class="ab-founder__img-col">
+    {%- if section.settings.founder_image != blank -%}
+      <img
+        class="ab-founder__img"
+        src="{{ section.settings.founder_image | image_url: width: 900 }}"
+        alt="{{ section.settings.founder_image.alt | default: 'Founder' }}"
+        loading="lazy"
+      >
+    {%- else -%}
+      <div class="ab-founder__img" style="background: linear-gradient(160deg, #add9a8 0%, #49724a 100%);"></div>
+    {%- endif -%}
+  </div>
+  <div class="ab-founder__content">
+    {%- if section.settings.founder_eyebrow != blank -%}
+      <span class="brand-eyebrow ab-founder__label">{{ section.settings.founder_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.founder_heading != blank -%}
+      <h2 class="brand-heading ab-founder__heading">{{ section.settings.founder_heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.founder_note_1 != blank -%}
+      <p class="ab-founder__note">{{ section.settings.founder_note_1 }}</p>
+    {%- endif -%}
+    {%- if section.settings.founder_note_2 != blank -%}
+      <p class="ab-founder__note">{{ section.settings.founder_note_2 }}</p>
+    {%- endif -%}
+    {%- if section.settings.founder_sig != blank -%}
+      <p class="ab-founder__sig">{{ section.settings.founder_sig }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{%- comment -%} ── Values ── {%- endcomment -%}
+{%- assign value_blocks = section.blocks | where: 'type', 'value' -%}
+{%- if value_blocks.size > 0 -%}
+<section class="ab-values">
+  <div class="ab-values__header">
+    {%- if section.settings.values_eyebrow != blank -%}
+      <span class="brand-eyebrow">{{ section.settings.values_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.values_heading != blank -%}
+      <h2 class="brand-heading ab-values__heading">{{ section.settings.values_heading }}</h2>
+    {%- endif -%}
+  </div>
+  <div class="ab-values__grid">
+    {%- for block in value_blocks -%}
+      <div class="ab-value-card" {{ block.shopify_attributes }}>
+        <div class="ab-value-card__num">0{{ forloop.index }}</div>
+        {%- if block.settings.title != blank -%}
+          <h3 class="ab-value-card__title">{{ block.settings.title }}</h3>
+        {%- endif -%}
+        {%- if block.settings.description != blank -%}
+          <p class="ab-value-card__desc">{{ block.settings.description }}</p>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ── Footprint ── {%- endcomment -%}
+<section class="ab-footprint">
+  <div class="ab-footprint__inner">
+    <div class="ab-footprint__left">
+      {%- if section.settings.footprint_eyebrow != blank -%}
+        <span class="brand-eyebrow brand-eyebrow--light ab-footprint__label">{{ section.settings.footprint_eyebrow }}</span>
+      {%- endif -%}
+      {%- if section.settings.footprint_heading != blank -%}
+        <h2 class="brand-heading brand-heading--light ab-footprint__heading">{{ section.settings.footprint_heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.footprint_body != blank -%}
+        <p class="brand-body brand-body--light ab-footprint__body">{{ section.settings.footprint_body }}</p>
+      {%- endif -%}
+      {%- if section.settings.footprint_cta_label != blank -%}
+        <a href="{{ section.settings.footprint_cta_url | default: '#' }}" class="brand-btn brand-btn--outline-light">
+          {{ section.settings.footprint_cta_label }}
+        </a>
+      {%- endif -%}
+    </div>
+    <div class="ab-footprint__stats">
+      {%- assign stat_blocks = section.blocks | where: 'type', 'stat' -%}
+      {%- for block in stat_blocks -%}
+        <div class="ab-stat" {{ block.shopify_attributes }}>
+          {%- if block.settings.number != blank -%}
+            <div class="ab-stat__num">{{ block.settings.number }}</div>
+          {%- endif -%}
+          {%- if block.settings.label != blank -%}
+            <div class="ab-stat__label">{{ block.settings.label }}</div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ── Philosophy rows ── {%- endcomment -%}
+{%- assign phil_blocks = section.blocks | where: 'type', 'philosophy_row' -%}
+{%- if phil_blocks.size > 0 -%}
+<section class="ab-philosophy">
+  <div class="ab-philosophy__header">
+    {%- if section.settings.philosophy_eyebrow != blank -%}
+      <span class="brand-eyebrow">{{ section.settings.philosophy_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.philosophy_heading != blank -%}
+      <h2 class="brand-heading ab-philosophy__heading">{{ section.settings.philosophy_heading }}</h2>
+    {%- endif -%}
+  </div>
+  {%- for block in phil_blocks -%}
+    {%- assign flipped = forloop.index | modulo: 2 -%}
+    <div class="ab-philosophy__row{% if flipped == 0 %} ab-philosophy__row--flipped{% endif %}" {{ block.shopify_attributes }}>
+      <div class="ab-philosophy__img-wrap">
+        {%- if block.settings.image != blank -%}
+          <img
+            src="{{ block.settings.image | image_url: width: 900 }}"
+            alt="{{ block.settings.image.alt | default: block.settings.title }}"
+            loading="lazy"
+          >
+        {%- else -%}
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,#cde8c9 0%,#49724a 100%);"></div>
+        {%- endif -%}
+      </div>
+      <div class="ab-philosophy__text">
+        {%- if block.settings.step_label != blank -%}
+          <p class="ab-philosophy__step">{{ block.settings.step_label }}</p>
+        {%- endif -%}
+        {%- if block.settings.title != blank -%}
+          <h3 class="ab-philosophy__title">{{ block.settings.title }}</h3>
+        {%- endif -%}
+        {%- if block.settings.description != blank -%}
+          <p class="ab-philosophy__desc">{{ block.settings.description }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+</section>
+{%- endif -%}
+
+{%- comment -%} ── Quote ── {%- endcomment -%}
+{%- if section.settings.quote_text != blank -%}
+<section class="ab-quote">
+  {%- if section.settings.quote_bg_image != blank -%}
+    <img
+      class="ab-quote__bg"
+      src="{{ section.settings.quote_bg_image | image_url: width: 2000 }}"
+      alt=""
+      loading="lazy"
+    >
+  {%- endif -%}
+  <div class="ab-quote__inner">
+    <blockquote class="ab-quote__text">"{{ section.settings.quote_text }}"</blockquote>
+    {%- if section.settings.quote_attribution != blank -%}
+      <p class="ab-quote__attr">{{ section.settings.quote_attribution }}</p>
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ── CTA ── {%- endcomment -%}
+<section class="ab-cta">
+  <div class="ab-cta__inner">
+    {%- if section.settings.cta_eyebrow != blank -%}
+      <span class="brand-eyebrow">{{ section.settings.cta_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.cta_heading != blank -%}
+      <h2 class="brand-heading ab-cta__heading">{{ section.settings.cta_heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.cta_body != blank -%}
+      <p class="brand-body ab-cta__body">{{ section.settings.cta_body }}</p>
+    {%- endif -%}
+    <div class="ab-cta__btns">
+      {%- if section.settings.cta_primary_label != blank -%}
+        <a href="{{ section.settings.cta_primary_url | default: '/collections/serums' }}" class="brand-btn">
+          {{ section.settings.cta_primary_label }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.cta_secondary_label != blank -%}
+        <a href="{{ section.settings.cta_secondary_url | default: '/pages/serum-finder' }}" class="brand-btn brand-btn--ghost">
+          {{ section.settings.cta_secondary_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    { "type": "image_picker", "id": "hero_image",           "label": "Hero image" },
+    { "type": "text",         "id": "hero_eyebrow",         "label": "Eyebrow label",         "default": "Our Story" },
+    { "type": "textarea",     "id": "hero_heading",         "label": "Heading",                "default": "Born from a belief that skin deserves better." },
+    { "type": "textarea",     "id": "hero_body",            "label": "Body text",              "default": "We spent two years formulating before releasing a single product. Every ingredient has a reason." },
+    { "type": "text",         "id": "hero_cta_label",       "label": "Primary CTA label",      "default": "Our Ingredients" },
+    { "type": "url",          "id": "hero_cta_url",         "label": "Primary CTA URL" },
+    { "type": "text",         "id": "hero_secondary_label", "label": "Secondary CTA label",    "default": "Shop Serums" },
+    { "type": "url",          "id": "hero_secondary_url",   "label": "Secondary CTA URL" },
+    {
+      "type": "header",
+      "content": "Mission"
+    },
+    { "type": "text",     "id": "mission_eyebrow",   "label": "Eyebrow",            "default": "What we believe" },
+    { "type": "textarea", "id": "mission_statement", "label": "Mission statement",   "default": "Effective skincare shouldn't require a chemistry degree to understand — or a compromise on what goes on your skin." },
+    {
+      "type": "header",
+      "content": "Founder Note"
+    },
+    { "type": "image_picker", "id": "founder_image",   "label": "Founder image" },
+    { "type": "text",         "id": "founder_eyebrow", "label": "Eyebrow",           "default": "A note from our founder" },
+    { "type": "textarea",     "id": "founder_heading", "label": "Heading",            "default": "We started asking why not better?" },
+    { "type": "textarea",     "id": "founder_note_1",  "label": "Paragraph 1",       "default": "Velour Skin was founded in 2021 after years of frustration with skincare that promised everything and delivered very little. Most products were either clinically effective but harsh, or gentle but useless." },
+    { "type": "textarea",     "id": "founder_note_2",  "label": "Paragraph 2",       "default": "We spent two years with cosmetic chemists, dermatologists, and botanists before formulating our first serum. No filler. No fragrance. No compromise on what goes on your skin." },
+    { "type": "text",         "id": "founder_sig",     "label": "Signature",         "default": "— Mia Calloway, Founder" },
+    {
+      "type": "header",
+      "content": "Values"
+    },
+    { "type": "text", "id": "values_eyebrow", "label": "Eyebrow",  "default": "What we stand for" },
+    { "type": "text", "id": "values_heading", "label": "Heading",  "default": "The principles behind every formula." },
+    {
+      "type": "header",
+      "content": "Footprint"
+    },
+    { "type": "text",         "id": "footprint_eyebrow",   "label": "Eyebrow",         "default": "Our commitment" },
+    { "type": "textarea",     "id": "footprint_heading",   "label": "Heading",          "default": "Minimal footprint. Conscious formulation." },
+    { "type": "textarea",     "id": "footprint_body",      "label": "Body text",        "default": "We hold ourselves to a higher standard — recycled glass packaging, carbon-neutral shipping, and certified sustainable ingredient sourcing at every stage of production." },
+    { "type": "text",         "id": "footprint_cta_label", "label": "CTA label",        "default": "Learn more" },
+    { "type": "url",          "id": "footprint_cta_url",   "label": "CTA URL" },
+    {
+      "type": "header",
+      "content": "Philosophy"
+    },
+    { "type": "text", "id": "philosophy_eyebrow", "label": "Eyebrow", "default": "How we think" },
+    { "type": "text", "id": "philosophy_heading", "label": "Heading",  "default": "The thinking behind our formulas." },
+    {
+      "type": "header",
+      "content": "Quote"
+    },
+    { "type": "image_picker", "id": "quote_bg_image",    "label": "Background image" },
+    { "type": "textarea",     "id": "quote_text",        "label": "Quote text",         "default": "Skin is not a surface to be fixed. It is a living system to be understood." },
+    { "type": "text",         "id": "quote_attribution", "label": "Attribution",        "default": "Velour Skin formulation philosophy" },
+    {
+      "type": "header",
+      "content": "End CTA"
+    },
+    { "type": "text",     "id": "cta_eyebrow",        "label": "Eyebrow",            "default": "Ready to start?" },
+    { "type": "textarea", "id": "cta_heading",        "label": "Heading",             "default": "Find your serum in under 60 seconds." },
+    { "type": "textarea", "id": "cta_body",           "label": "Body text",           "default": "Answer five questions and we'll build a routine tailored to your skin." },
+    { "type": "text",     "id": "cta_primary_label",  "label": "Primary CTA label",   "default": "Take the Quiz" },
+    { "type": "url",      "id": "cta_primary_url",    "label": "Primary CTA URL" },
+    { "type": "text",     "id": "cta_secondary_label","label": "Secondary CTA label", "default": "Shop Serums" },
+    { "type": "url",      "id": "cta_secondary_url",  "label": "Secondary CTA URL" }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Brand Value",
+      "settings": [
+        { "type": "text",     "id": "title",       "label": "Title",       "default": "Transparency" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "We publish full INCI ingredient lists, concentration ranges, and clinical study references for every formula." }
+      ]
+    },
+    {
+      "type": "stat",
+      "name": "Footprint Stat",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number / value", "default": "100%" },
+        { "type": "text", "id": "label",  "label": "Label",          "default": "Recycled glass packaging" }
+      ]
+    },
+    {
+      "type": "philosophy_row",
+      "name": "Philosophy Row",
+      "settings": [
+        { "type": "image_picker", "id": "image",       "label": "Image" },
+        { "type": "text",         "id": "step_label",  "label": "Step label",    "default": "Step one" },
+        { "type": "text",         "id": "title",       "label": "Title",         "default": "Start with the evidence" },
+        { "type": "textarea",     "id": "description", "label": "Description",   "default": "Every active ingredient is selected based on peer-reviewed clinical evidence, not market trends or price point." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Page"
+    }
+  ]
+}
+{% endschema %}

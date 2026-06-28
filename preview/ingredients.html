@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ingredients — Sebble</title>
+<style>
+:root {
+  --c-black:#030706;--c-white:#ffffff;--c-bg:#faf9f6;--c-grey:#dddcdc;--c-grey-mid:#a4b09e;
+  --c-green-dark:#142b1b;--c-green-rich:#2c4f31;--c-green-mid:#49724a;--c-green-sage:#819d7c;--c-green-mint:#cde8c9;
+  --font-heading:'Playfair Display',Georgia,serif;--font-body:'DM Sans',system-ui,sans-serif;--header-h:72px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-family:var(--font-body);background:#faf9f6;color:var(--c-black);}
+img{display:block;max-width:100%;}
+/* Header */
+
+
+
+
+
+
+/* Shared */
+.brand-eyebrow{display:inline-block;font-family:var(--font-body);font-size:0.6875rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--c-green-mid);}
+.brand-eyebrow--light{color:var(--c-green-mint);}
+.brand-heading{font-family:var(--font-heading);font-weight:400;line-height:1.1;letter-spacing:-0.02em;color:var(--c-black);}
+.brand-heading--light{color:var(--c-white);}
+.brand-body{font-family:var(--font-body);font-size:1rem;line-height:1.7;color:#4a5246;}
+.brand-body--light{color:rgba(255,255,255,0.72);}
+.brand-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.875rem 2rem;background:var(--c-green-dark);color:var(--c-white);font-family:var(--font-body);font-size:0.8125rem;font-weight:500;letter-spacing:0.05em;text-decoration:none;border:1.5px solid var(--c-green-dark);border-radius:100px;cursor:pointer;transition:background 0.25s,transform 0.2s;}
+.brand-btn:hover{background:var(--c-green-rich);}
+.brand-btn--light{background:var(--c-white);color:var(--c-green-dark);border-color:var(--c-white);}
+.brand-btn--outline-light{background:transparent;color:var(--c-white);border-color:rgba(255,255,255,0.4);}
+/* Hero */
+.sc-hero{display:grid;grid-template-columns:0.9fr 1.1fr;min-height:100dvh;background:#faf9f6;}
+.sc-hero__content{display:flex;flex-direction:column;justify-content:flex-end;padding:5rem 4.5rem 5rem 4rem;padding-top:calc(var(--header-h)+3rem);}
+.sc-hero__heading{font-size:clamp(2.75rem,4vw,4.5rem);margin:0 0 1.75rem;max-width:14ch;}
+.sc-hero__intro{max-width:44ch;margin:0 0 2.5rem;font-size:1rem;line-height:1.7;color:#4a5246;}
+.sc-hero__label{margin-bottom:1.75rem;}
+.sc-hero__img-col{position:relative;overflow:hidden;}
+.sc-hero__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+/* Library */
+.sc-library{background:var(--c-white);padding:7rem 4rem;}
+.sc-library__header{margin-bottom:3rem;display:flex;flex-direction:column;gap:0.75rem;}
+.sc-library__heading{font-size:clamp(1.875rem,2.5vw,2.625rem);margin:0 0 1rem;}
+.sc-library__intro{font-size:0.9375rem;color:#5a6456;max-width:60ch;line-height:1.75;margin:0;}
+.sc-filters{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:3rem;}
+.sc-filter-pill{padding:0.5rem 1.25rem;background:transparent;border:1.5px solid var(--c-grey);color:#5a6456;font-family:var(--font-body);font-size:0.8125rem;font-weight:500;letter-spacing:0.05em;cursor:pointer;border-radius:999px;transition:background 0.2s,border-color 0.2s,color 0.2s;}
+.sc-filter-pill:hover,.sc-filter-pill.is-active{background:var(--c-green-dark);border-color:var(--c-green-dark);color:var(--c-white);}
+.sc-ingredient-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--c-grey);}
+.sc-ingredient-card{background:var(--c-white);padding:2.5rem;}
+.sc-ingredient-card[data-hidden]{display:none;}
+.sc-ingredient-card:hover{background:#faf9f6;}
+.sc-ingredient-card__cat{font-family:var(--font-body);font-size:0.6875rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-green-mid);margin-bottom:1rem;}
+.sc-ingredient-card__name{font-family:var(--font-heading);font-size:1.375rem;font-weight:400;color:var(--c-black);margin:0 0 0.25rem;}
+.sc-ingredient-card__inci{font-family:var(--font-body);font-size:0.8125rem;font-style:italic;color:var(--c-grey-mid);margin:0 0 1.25rem;}
+.sc-ingredient-card__benefit{font-family:var(--font-body);font-size:0.9rem;line-height:1.7;color:#5a6456;margin:0;}
+/* Avoid */
+.sc-avoid{background:var(--c-green-dark);padding:8rem 4rem;}
+.sc-avoid__inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;max-width:1280px;margin:0 auto;}
+.sc-avoid__heading{font-size:clamp(2rem,3vw,2.875rem);margin:0 0 1.25rem;max-width:18ch;}
+.sc-avoid__body{max-width:44ch;margin:0;font-size:0.9375rem;color:rgba(255,255,255,0.72);line-height:1.7;}
+.sc-avoid__list{list-style:none;border-top:1px solid rgba(255,255,255,0.15);}
+.sc-avoid__item{display:grid;grid-template-columns:1.5rem 1fr;gap:1rem;align-items:start;padding:1.5rem 0;border-bottom:1px solid rgba(255,255,255,0.1);}
+.sc-avoid__item-cross{color:rgba(255,255,255,0.35);font-size:1.125rem;line-height:1.5;}
+.sc-avoid__item-name{font-family:var(--font-body);font-size:0.9375rem;font-weight:600;color:var(--c-white);margin:0 0 0.25rem;}
+.sc-avoid__item-reason{font-family:var(--font-body);font-size:0.875rem;line-height:1.6;color:rgba(255,255,255,0.6);margin:0;}
+/* Formulation */
+.sc-formulation{background:#faf9f6;padding:7rem 4rem;}
+.sc-formulation__inner{display:grid;grid-template-columns:1fr 1.5fr;gap:6rem;align-items:start;max-width:1280px;margin:0 auto;}
+.sc-formulation__sticky{position:sticky;top:calc(var(--header-h,72px)+2rem);}
+.sc-formulation__heading{font-size:clamp(1.875rem,2.5vw,2.5rem);margin:0 0 1.25rem;}
+.sc-formulation__intro{font-size:0.9375rem;color:#5a6456;margin:0;max-width:38ch;line-height:1.75;}
+.sc-formulation__steps{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--c-grey);}
+.sc-step{display:grid;grid-template-columns:3rem 1fr;gap:2rem;align-items:start;padding:2.5rem 0;border-bottom:1px solid var(--c-grey);}
+.sc-step__num{font-family:var(--font-heading);font-size:1.375rem;font-style:italic;color:var(--c-green-mint);padding-top:0.125rem;}
+.sc-step__title{font-family:var(--font-body);font-size:1rem;font-weight:600;color:var(--c-black);margin:0 0 0.625rem;}
+.sc-step__desc{font-family:var(--font-body);font-size:0.9rem;line-height:1.75;color:#5a6456;margin:0;}
+/* Barrier */
+.sc-barrier{background:var(--c-green-mint);padding:8rem 4rem;}
+.sc-barrier__inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+.sc-barrier__heading{font-size:clamp(2rem,3vw,2.875rem);margin:0 0 1.5rem;color:var(--c-green-dark);}
+.sc-barrier__body{color:var(--c-green-rich);font-size:0.9375rem;max-width:46ch;margin:0 0 1.5rem;line-height:1.75;}
+.sc-barrier__pillars{display:flex;flex-direction:column;gap:0;border-top:1px solid rgba(43,79,49,0.2);}
+.sc-barrier__pillar{display:flex;align-items:flex-start;gap:1rem;padding:1.25rem 0;border-bottom:1px solid rgba(43,79,49,0.15);}
+.sc-barrier__pillar-icon{flex-shrink:0;width:2rem;height:2rem;border-radius:50%;background:var(--c-green-rich);display:flex;align-items:center;justify-content:center;}
+.sc-barrier__pillar-icon svg{width:1rem;height:1rem;stroke:var(--c-green-mint);fill:none;stroke-width:2;}
+.sc-barrier__pillar-text strong{display:block;font-family:var(--font-body);font-size:0.9375rem;font-weight:600;color:var(--c-green-dark);margin-bottom:0.25rem;}
+.sc-barrier__pillar-text span{font-family:var(--font-body);font-size:0.875rem;line-height:1.6;color:var(--c-green-rich);}
+.sc-barrier__img-col{position:relative;border-radius:2px;overflow:hidden;aspect-ratio:4/5;}
+.sc-barrier__img{width:100%;height:100%;object-fit:cover;}
+/* Actives table */
+.sc-actives{background:var(--c-white);padding:7rem 4rem;}
+.sc-actives__header{margin-bottom:3rem;display:flex;flex-direction:column;gap:0.75rem;}
+.sc-actives__heading{font-size:clamp(1.875rem,2.5vw,2.625rem);margin:0;}
+.sc-actives__intro{font-size:0.9375rem;color:#5a6456;max-width:60ch;line-height:1.75;margin:0;}
+.sc-actives-table{width:100%;border-collapse:collapse;font-family:var(--font-body);}
+.sc-actives-table thead th{padding:1rem 1.5rem;text-align:left;font-size:0.6875rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-green-mid);background:#faf9f6;border-bottom:1px solid var(--c-grey);}
+.sc-actives-table tbody tr{border-bottom:1px solid var(--c-grey);transition:background 0.15s;}
+.sc-actives-table tbody tr:hover{background:#faf9f6;}
+.sc-actives-table tbody td{padding:1.25rem 1.5rem;vertical-align:top;}
+.sc-actives-table td:first-child{font-weight:600;color:var(--c-black);font-size:0.9375rem;}
+.sc-actives-table td:nth-child(2){font-size:0.875rem;color:#5a6456;line-height:1.6;}
+.sc-timing-pill{display:inline-block;padding:0.25rem 0.75rem;font-size:0.75rem;font-weight:600;letter-spacing:0.06em;border-radius:999px;text-transform:uppercase;}
+.sc-timing-pill--am{background:#cde8c9;color:#2c4f31;}
+.sc-timing-pill--pm{background:#142b1b;color:#cde8c9;}
+.sc-timing-pill--both{background:var(--c-green-mint);color:var(--c-green-dark);}
+/* FAQ */
+.sc-faq{background:#faf9f6;padding:7rem 4rem;}
+.sc-faq__inner{display:grid;grid-template-columns:1fr 1.5fr;gap:6rem;align-items:start;max-width:1280px;margin:0 auto;}
+.sc-faq__heading{font-size:clamp(1.875rem,2.5vw,2.5rem);margin:0;position:sticky;top:calc(var(--header-h,72px)+2rem);}
+.brand-faq-list{list-style:none;border-top:1px solid var(--c-grey);}
+.brand-faq-item summary{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.5rem 0;font-family:var(--font-body);font-size:1rem;font-weight:500;color:var(--c-black);cursor:pointer;list-style:none;border-bottom:1px solid var(--c-grey);}
+.brand-faq-item summary::-webkit-details-marker{display:none;}
+.brand-faq-icon{flex-shrink:0;width:1.25rem;height:1.25rem;position:relative;}
+.brand-faq-icon::before,.brand-faq-icon::after{content:'';position:absolute;top:50%;left:0;width:100%;height:1.5px;background:currentColor;transform:translateY(-50%);transition:transform 0.3s,opacity 0.3s;}
+.brand-faq-icon::after{transform:translateY(-50%) rotate(90deg);}
+.brand-faq-item[open] .brand-faq-icon::after{transform:translateY(-50%) rotate(0deg);opacity:0;}
+.brand-faq-body p{font-family:var(--font-body);font-size:0.9375rem;line-height:1.75;color:#5a6456;padding:1.25rem 0 1.75rem;max-width:72ch;}
+/* CTA */
+.sc-cta{background:var(--c-green-dark);padding:8rem 4rem;text-align:center;}
+.sc-cta__inner{max-width:680px;margin:0 auto;}
+.sc-cta__heading{font-size:clamp(2rem,3.5vw,3.25rem);margin:1.25rem 0 1.5rem;}
+.sc-cta__body{max-width:50ch;margin:0 auto 2.5rem;font-size:1rem;line-height:1.7;color:rgba(255,255,255,0.72);}
+.sc-cta__btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+
+/* ── HEADER (landing page style) ── */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  height: 72px;
+  background: rgba(250,249,246,0.88);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--c-grey);
+  display: flex; align-items: center;
+}
+.site-header .container {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; max-width: 1320px; margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+.header-logo { display: inline-flex; text-decoration: none; flex-shrink: 0; overflow: hidden; height: 40px; }
+.header-logo__img { height: 148px; width: auto; margin-top: -46px; display: block; mix-blend-mode: multiply; }
+.header-nav { display: flex; gap: 2.25rem; }
+.header-nav a {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 0.8125rem; color: var(--c-green-rich);
+  letter-spacing: 0.04em; transition: color 0.2s; text-decoration: none;
+}
+.header-nav a:hover { color: var(--c-black); }
+.header-actions { display: flex; align-items: center; gap: 1.25rem; }
+.header-actions a {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 0.8125rem; color: var(--c-green-rich); text-decoration: none;
+}
+.header-cart-btn {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1.125rem;
+  background: var(--c-black); color: var(--c-white);
+  border-radius: 100px; font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.08em; border: none; cursor: pointer;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+}
+@media (max-width: 768px) { .header-nav { display: none; } }
+
+
+/* ── BAG DRAWER ── */
+.bag-overlay { position: fixed; inset: 0; background: rgba(3,7,6,0.45); z-index: 900; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.bag-overlay.is-open { opacity: 1; pointer-events: all; }
+.bag-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100vw); background: #faf9f6; z-index: 901; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); display: flex; flex-direction: column; }
+.bag-drawer.is-open { transform: translateX(0); }
+.bag-drawer__header { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 1.75rem; border-bottom: 1px solid #dddcdc; }
+.bag-drawer__title { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #030706; }
+.bag-drawer__count { font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #819d7c; margin-top: 0.125rem; }
+.bag-drawer__close { background: none; border: none; cursor: pointer; padding: 0.5rem; color: #030706; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s; }
+.bag-drawer__close:hover { background: #dddcdc; }
+.bag-drawer__body { flex: 1; overflow-y: auto; display: flex; align-items: center; justify-content: center; }
+.bag-drawer__empty { text-align: center; padding: 3rem 2rem; }
+.bag-drawer__empty-icon { width: 56px; height: 56px; margin: 0 auto 1.5rem; opacity: 0.25; }
+.bag-drawer__empty-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.375rem; font-weight: 400; color: #030706; margin-bottom: 0.625rem; }
+.bag-drawer__empty-sub { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: #819d7c; line-height: 1.6; margin-bottom: 1.75rem; }
+.bag-drawer__cta { display: inline-flex; align-items: center; padding: 0.875rem 2rem; background: #030706; color: #ffffff; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.05em; text-decoration: none; transition: background 0.2s; }
+.bag-drawer__cta:hover { background: #142b1b; }
+.bag-drawer__footer { padding: 1.5rem 1.75rem; border-top: 1px solid #dddcdc; }
+.bag-drawer__subtotal { display: flex; justify-content: space-between; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: #030706; margin-bottom: 1rem; }
+.bag-drawer__checkout { display: block; width: 100%; padding: 1rem; background: #142b1b; color: #ffffff; border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.06em; cursor: pointer; text-align: center; transition: background 0.2s; }
+.bag-drawer__checkout:hover { background: #2c4f31; }
+
+/* ── ACCOUNT DROPDOWN ── */
+.acct-wrap { position: relative; }
+.acct-dropdown { position: absolute; top: calc(100% + 0.75rem); right: 0; width: 200px; background: #faf9f6; border: 1px solid #dddcdc; border-radius: 12px; box-shadow: 0 8px 32px rgba(3,7,6,0.10); overflow: hidden; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.2s, transform 0.2s; z-index: 200; }
+.acct-wrap.is-open .acct-dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
+.acct-dropdown a { display: block; padding: 0.75rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; color: #030706; text-decoration: none; transition: background 0.15s; border-bottom: 1px solid #dddcdc; }
+.acct-dropdown a:last-child { border-bottom: none; }
+.acct-dropdown a:hover { background: #cde8c9; }
+
+/* ── GLOBAL FOOTER ── */
+.site-footer-global { background: var(--c-black, #030706); padding: 6rem clamp(1.5rem,4vw,3rem) 2.75rem; }
+.sfg-inner { max-width: 1320px; margin-inline: auto; display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-bottom: 4rem; }
+.sfg-logo { display: inline-flex; overflow: hidden; height: 42px; margin-bottom: 1.5rem; }
+.sfg-logo__img { height: 172px; width: auto; margin-top: -66px; display: block; filter: brightness(0) invert(1); opacity: 0.9; }
+.sfg-tagline { font-family: 'DM Sans', sans-serif; font-size: 0.9688rem; line-height: 1.75; color: rgba(173,217,168,0.55); }
+.sfg-nav { display: grid; grid-template-columns: repeat(3,1fr); gap: 2.5rem; }
+.sfg-col { display: flex; flex-direction: column; gap: 1rem; }
+.sfg-col-head { font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 0.25rem; }
+.sfg-col a { font-family: 'DM Sans', sans-serif; font-size: 0.9688rem; color: rgba(173,217,168,0.65); text-decoration: none; transition: color 0.2s; }
+.sfg-col a:hover { color: #add9a8; }
+.sfg-bottom { max-width: 1320px; margin-inline: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.08); }
+.sfg-bottom p { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: rgba(173,217,168,0.3); letter-spacing: 0.06em; }
+.sfg-bottom-links { display: flex; gap: 1.75rem; }
+.sfg-bottom-links a { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: rgba(173,217,168,0.6); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+.sfg-bottom-links a:hover { color: #add9a8; }
+@media (max-width: 768px) {
+  .sfg-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .sfg-nav { grid-template-columns: 1fr 1fr; }
+  .sfg-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 1s cubic-bezier(0.22,1,0.36,1),transform 1s cubic-bezier(0.22,1,0.36,1),filter 1s cubic-bezier(0.22,1,0.36,1);will-change:opacity,transform;}
+.reveal[data-anim="fade-left"]{transform:translateX(-22px);}
+.reveal[data-anim="fade-right"]{transform:translateX(22px);}
+.reveal[data-anim="blur"]{transform:translateY(12px);filter:blur(5px);}
+.reveal[data-anim="fade-in"]{transform:none;}
+.reveal.is-visible{opacity:1;transform:none;filter:none;}
+.reveal-group .reveal:nth-child(1){transition-delay:calc(var(--stagger,65ms)*0);}
+.reveal-group .reveal:nth-child(2){transition-delay:calc(var(--stagger,65ms)*1);}
+.reveal-group .reveal:nth-child(3){transition-delay:calc(var(--stagger,65ms)*2);}
+.reveal-group .reveal:nth-child(4){transition-delay:calc(var(--stagger,65ms)*3);}
+.reveal-group .reveal:nth-child(5){transition-delay:calc(var(--stagger,65ms)*4);}
+.reveal-group .reveal:nth-child(6){transition-delay:calc(var(--stagger,65ms)*5);}
+.reveal-group .reveal:nth-child(n+7){transition-delay:calc(var(--stagger,65ms)*6);}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="header-logo"><img src="sebble-logo.png" alt="Sebble" class="header-logo__img"></a>
+    <nav class="header-nav">
+      <a href="collection.html">Shop</a>
+      <a href="routine.html">Routine</a>
+      <a href="ingredients.html">Ingredients</a>
+      <a href="about.html">About</a>
+      <a href="sit.html" class="header-nav__sit" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;"><span style="width:6px;height:6px;border-radius:50%;background:#49724a;display:inline-block;"></span>Skin Consultant</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#">Account</a>
+      <button class="header-cart-btn">Bag (0)</button>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="sc-hero">
+  <div class="sc-hero__content">
+    <span class="brand-eyebrow sc-hero__label">The Science</span>
+    <h1 class="brand-heading sc-hero__heading reveal">Formulas with purpose.</h1>
+    <p class="sc-hero__intro reveal">We don't add ingredients to look good on a label. Every active has a peer-reviewed reason for being there, at a concentration that actually works.</p>
+    <a href="#sc-library" class="brand-btn">Explore ingredients</a>
+  </div>
+  <div class="sc-hero__img-col">
+    <img class="sc-hero__img" src="https://picsum.photos/seed/science-hero/900/1100" alt="Ingredient science">
+  </div>
+</section>
+
+<!-- Ingredient Library -->
+<section class="sc-library" id="sc-library">
+  <div class="sc-library__header">
+    <span class="brand-eyebrow">Active ingredient library</span>
+    <h2 class="brand-heading sc-library__heading reveal">Every active we use — and why.</h2>
+    <p class="sc-library__intro reveal">Every ingredient listed below is present at or above the minimum effective dose established in peer-reviewed literature.</p>
+  </div>
+  <div class="sc-filters">
+    <button class="sc-filter-pill is-active" data-filter="all">All</button>
+    <button class="sc-filter-pill" data-filter="brightening">Brightening</button>
+    <button class="sc-filter-pill" data-filter="hydration">Hydration</button>
+    <button class="sc-filter-pill" data-filter="barrier">Barrier</button>
+    <button class="sc-filter-pill" data-filter="anti-aging">Firming</button>
+    <button class="sc-filter-pill" data-filter="renewal">Renewal</button>
+    <button class="sc-filter-pill" data-filter="calming">Calming</button>
+    <button class="sc-filter-pill" data-filter="eyes">Eyes</button>
+    <button class="sc-filter-pill" data-filter="multi-benefit">Multi-benefit</button>
+  </div>
+  <p class="sc-library__intro reveal" style="margin-bottom:1.5rem;">Every active below is drawn from one of our six serums — <strong>Glow + Marks</strong>, <strong>Peptide Repair Barrier</strong>, <strong>Caviar Lift</strong>, <strong>Exosome PDRN Repair</strong>, <strong>Retinal Bio-Lift Night</strong>, and <strong>Neuro Peptide Eye &amp; Smile Line</strong>.</p>
+  <div class="sc-ingredient-grid reveal-group" id="sc-grid" style="--stagger:60ms">
+    <div class="sc-ingredient-card reveal" data-category="brightening"><div class="sc-ingredient-card__cat">Brightening</div><h3 class="sc-ingredient-card__name">3-O-Ethyl Ascorbic Acid</h3><p class="sc-ingredient-card__inci">3-O-Ethyl Ascorbic Acid · 5–10%</p><p class="sc-ingredient-card__benefit">A stable, heat-friendly form of Vitamin C that supports brightness and an even-looking tone without oxidising in warm climates. <em>In: Glow + Marks Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="brightening"><div class="sc-ingredient-card__cat">Brightening</div><h3 class="sc-ingredient-card__name">Tranexamic Acid</h3><p class="sc-ingredient-card__inci">Tranexamic Acid · 2–3%</p><p class="sc-ingredient-card__benefit">Helps soften the look of stubborn discolouration and post-blemish marks for a more uniform complexion. <em>In: Glow + Marks Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="brightening"><div class="sc-ingredient-card__cat">Brightening</div><h3 class="sc-ingredient-card__name">Alpha Arbutin</h3><p class="sc-ingredient-card__inci">Alpha-Arbutin · 1–2%</p><p class="sc-ingredient-card__benefit">A gentle, well-tolerated brightener that softens the look of dark marks gradually, suitable even for sensitive skin. <em>In: Glow + Marks Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="brightening"><div class="sc-ingredient-card__cat">Brightening</div><h3 class="sc-ingredient-card__name">Licorice Root</h3><p class="sc-ingredient-card__inci">Glycyrrhiza Glabra Root Extract</p><p class="sc-ingredient-card__benefit">A soothing botanical that supports a brighter, more even-looking tone and helps calm the look of redness. <em>In: Glow + Marks Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="multi-benefit"><div class="sc-ingredient-card__cat">Multi-benefit</div><h3 class="sc-ingredient-card__name">Niacinamide</h3><p class="sc-ingredient-card__inci">Niacinamide · 2–5%</p><p class="sc-ingredient-card__benefit">Supports a more even-looking tone, refines the look of pores, and reinforces the barrier. The team player across the whole range. <em>In: all serums.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="anti-aging"><div class="sc-ingredient-card__cat">Firming</div><h3 class="sc-ingredient-card__name">Peptide Complex</h3><p class="sc-ingredient-card__inci">Palmitoyl Tripeptide-1 &amp; Tetrapeptide-7</p><p class="sc-ingredient-card__benefit">Signal peptides that support firmer, smoother, more resilient-looking skin and a conditioned feel over time. <em>In: Peptide Repair &amp; Caviar Lift.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="barrier"><div class="sc-ingredient-card__cat">Barrier</div><h3 class="sc-ingredient-card__name">Ceramide Complex</h3><p class="sc-ingredient-card__inci">Ceramide NP &amp; complementary lipids</p><p class="sc-ingredient-card__benefit">Matches the skin's natural lipids to rebuild and maintain the moisture barrier, easing tightness and sensitivity. <em>In: Peptide Repair Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="barrier"><div class="sc-ingredient-card__cat">Barrier</div><h3 class="sc-ingredient-card__name">Squalane</h3><p class="sc-ingredient-card__inci">Squalane · 2–5%</p><p class="sc-ingredient-card__benefit">A lightweight, non-greasy emollient that cushions and softens without heaviness — suitable even for oily skin. <em>In: Peptide Repair &amp; Caviar Lift.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="hydration"><div class="sc-ingredient-card__cat">Hydration</div><h3 class="sc-ingredient-card__name">Multi-weight Hyaluronic Acid</h3><p class="sc-ingredient-card__inci">Sodium Hyaluronate</p><p class="sc-ingredient-card__benefit">Multiple molecular weights hydrate at different depths for a plumper, more comfortable look. <em>In: all serums.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="calming"><div class="sc-ingredient-card__cat">Calming</div><h3 class="sc-ingredient-card__name">Beta-Glucan</h3><p class="sc-ingredient-card__inci">Beta-Glucan</p><p class="sc-ingredient-card__benefit">A soothing, hydrating ingredient that calms the look of stressed skin and supports a plump, comfortable feel. <em>In: Peptide Repair Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="anti-aging"><div class="sc-ingredient-card__cat">Firming</div><h3 class="sc-ingredient-card__name">Pullulan</h3><p class="sc-ingredient-card__inci">Pullulan · instant-tightening polymer</p><p class="sc-ingredient-card__benefit">A polysaccharide film-former that gives an immediate smoothing, lifted finish on the skin surface. <em>In: Caviar Lift Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="anti-aging"><div class="sc-ingredient-card__cat">Firming</div><h3 class="sc-ingredient-card__name">Caviar Extract &amp; Marine DNA</h3><p class="sc-ingredient-card__inci">Caviar Extract · Sodium DNA (PDRN)</p><p class="sc-ingredient-card__benefit">Premium conditioning agents rich in lipids, amino acids, and minerals for a nourished, supple, well-rested look. <em>In: Caviar Lift Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="anti-aging"><div class="sc-ingredient-card__cat">Firming</div><h3 class="sc-ingredient-card__name">Coenzyme Q10</h3><p class="sc-ingredient-card__inci">Ubiquinone</p><p class="sc-ingredient-card__benefit">An antioxidant that supports a vital, bouncy look and helps defend skin against everyday environmental stress. <em>In: Caviar Lift Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="calming"><div class="sc-ingredient-card__cat">Repair</div><h3 class="sc-ingredient-card__name">Exosomes</h3><p class="sc-ingredient-card__inci">Exosome Complex</p><p class="sc-ingredient-card__benefit">Advanced communication factors that support a comforted, refreshed, healthy-looking complexion on stressed-looking skin. <em>In: Exosome PDRN Repair Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="calming"><div class="sc-ingredient-card__cat">Repair</div><h3 class="sc-ingredient-card__name">PDRN (Salmon DNA)</h3><p class="sc-ingredient-card__inci">Sodium DNA · Polydeoxyribonucleotide</p><p class="sc-ingredient-card__benefit">A polynucleotide that conditions skin for a smoother, more rested, supple look and a comfortable feel. <em>In: Exosome PDRN Repair Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="calming"><div class="sc-ingredient-card__cat">Calming</div><h3 class="sc-ingredient-card__name">Centella Asiatica</h3><p class="sc-ingredient-card__inci">Centella Asiatica Extract · Madecassoside</p><p class="sc-ingredient-card__benefit">A renowned soothing botanical that calms the look of redness and supports a comfortable, resilient feel. <em>In: Exosome PDRN Repair Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="calming"><div class="sc-ingredient-card__cat">Calming</div><h3 class="sc-ingredient-card__name">Bisabolol</h3><p class="sc-ingredient-card__inci">Alpha-Bisabolol</p><p class="sc-ingredient-card__benefit">A gentle chamomile-derived soother that helps calm the look of stressed, reactive-looking skin. <em>In: Exosome PDRN Repair Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="renewal"><div class="sc-ingredient-card__cat">Renewal</div><h3 class="sc-ingredient-card__name">Encapsulated Retinaldehyde</h3><p class="sc-ingredient-card__inci">Retinal · time-release encapsulation</p><p class="sc-ingredient-card__benefit">A gentle, encapsulated retinoid that supports the look of smoother texture and refined tone overnight. PM only; avoid in pregnancy. <em>In: Retinal Bio-Lift Night Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="renewal"><div class="sc-ingredient-card__cat">Renewal</div><h3 class="sc-ingredient-card__name">Bakuchiol</h3><p class="sc-ingredient-card__inci">Bakuchiol · plant-derived</p><p class="sc-ingredient-card__benefit">A plant-derived companion to retinal that supports smoother-looking skin while keeping the formula gentle. <em>In: Retinal Bio-Lift Night Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="eyes"><div class="sc-ingredient-card__cat">Eyes</div><h3 class="sc-ingredient-card__name">Caffeine</h3><p class="sc-ingredient-card__inci">Caffeine · 3–5%</p><p class="sc-ingredient-card__benefit">Helps reduce the look of puffiness and supports a brighter, more awake-looking eye area. <em>In: Neuro Peptide Eye &amp; Smile Line Serum.</em></p></div>
+    <div class="sc-ingredient-card reveal" data-category="eyes"><div class="sc-ingredient-card__cat">Eyes</div><h3 class="sc-ingredient-card__name">Acetyl Hexapeptide-8</h3><p class="sc-ingredient-card__inci">Acetyl Hexapeptide-8 (Argireline)</p><p class="sc-ingredient-card__benefit">A neuro-peptide that supports the look of softer expression lines around the eyes and smile. <em>In: Neuro Peptide Eye &amp; Smile Line Serum.</em></p></div>
+  </div>
+</section>
+
+<!-- What We Avoid -->
+<section class="sc-avoid">
+  <div class="sc-avoid__inner">
+    <div>
+      <span class="brand-eyebrow brand-eyebrow--light" style="margin-bottom:1.5rem;display:inline-block;">What we leave out</span>
+      <h2 class="brand-heading brand-heading--light sc-avoid__heading reveal">Ingredients you will never find in our formulas.</h2>
+      <p class="sc-avoid__body reveal">Our formulation brief starts with a 'never list'. If an ingredient has a poor safety profile, limited evidence, or serves only a marketing function — it doesn't make the cut.</p>
+    </div>
+    <ul class="sc-avoid__list reveal-group" style="--stagger:75ms">
+      <li class="sc-avoid__item reveal"><span class="sc-avoid__item-cross">&#215;</span><div><p class="sc-avoid__item-name">Synthetic Fragrance (Parfum)</p><p class="sc-avoid__item-reason">A documented sensitiser linked to contact dermatitis. Serves no functional benefit to the skin. Banned across our entire range.</p></div></li>
+      <li class="sc-avoid__item reveal"><span class="sc-avoid__item-cross">&#215;</span><div><p class="sc-avoid__item-name">Essential Oils</p><p class="sc-avoid__item-reason">Despite a natural origin, many essential oils are potent irritants with high sensitisation potential. We exclude all of them.</p></div></li>
+      <li class="sc-avoid__item reveal"><span class="sc-avoid__item-cross">&#215;</span><div><p class="sc-avoid__item-name">Parabens</p><p class="sc-avoid__item-reason">Replaced with equally effective, better-tolerated preservation systems given growing consumer concern.</p></div></li>
+      <li class="sc-avoid__item reveal"><span class="sc-avoid__item-cross">&#215;</span><div><p class="sc-avoid__item-name">Sulphates (SLS/SLES)</p><p class="sc-avoid__item-reason">High-foaming sulphates disrupt the skin's natural pH and lipid balance, contributing to barrier compromise.</p></div></li>
+      <li class="sc-avoid__item reveal"><span class="sc-avoid__item-cross">&#215;</span><div><p class="sc-avoid__item-name">Silicone Fillers</p><p class="sc-avoid__item-reason">Used in mass-market formulas to create temporary smoothness. They don't treat skin — they mask it.</p></div></li>
+      <li class="sc-avoid__item"><span class="sc-avoid__item-cross">&#215;</span><div><p class="sc-avoid__item-name">Mineral Oil</p><p class="sc-avoid__item-reason">A petroleum-derived occlusive without meaningful benefit. Replaced by Squalane and plant-derived alternatives.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- Formulation Process -->
+<section class="sc-formulation">
+  <div class="sc-formulation__inner">
+    <div class="sc-formulation__sticky">
+      <span class="brand-eyebrow" style="margin-bottom:1.5rem;display:inline-block;">How we formulate</span>
+      <h2 class="brand-heading sc-formulation__heading">A rigorous process before anything reaches your skin.</h2>
+      <p class="sc-formulation__intro">Our formulation process is built around a single question: does this actually work, and is it safe? Every step exists to answer that honestly.</p>
+    </div>
+    <div class="sc-formulation__steps">
+      <div class="sc-step"><span class="sc-step__num">1</span><div><h3 class="sc-step__title">Evidence review</h3><p class="sc-step__desc">Every candidate ingredient is reviewed against published clinical literature. We look at study design, concentration used, and outcome measures — not marketing summaries.</p></div></div>
+      <div class="sc-step"><span class="sc-step__num">2</span><div><h3 class="sc-step__title">Concentration benchmarking</h3><p class="sc-step__desc">We identify the minimum effective dose from the clinical literature and formulate at or above that level. No token amounts included for label value.</p></div></div>
+      <div class="sc-step"><span class="sc-step__num">3</span><div><h3 class="sc-step__title">Compatibility testing</h3><p class="sc-step__desc">Active ingredients are tested in combination to verify stability, pH compatibility, and absence of antagonistic interactions across the full shelf life.</p></div></div>
+      <div class="sc-step"><span class="sc-step__num">4</span><div><h3 class="sc-step__title">Dermatologist review</h3><p class="sc-step__desc">Each formula is reviewed by a board-certified dermatologist before clinical testing. Safety is assessed for sensitive, reactive, and compromised skin types.</p></div></div>
+      <div class="sc-step"><span class="sc-step__num">5</span><div><h3 class="sc-step__title">Clinical efficacy study</h3><p class="sc-step__desc">We conduct 8–12 week clinical studies on diverse skin type cohorts, measuring outcomes against placebo controls using standardised dermatological methods.</p></div></div>
+      <div class="sc-step"><span class="sc-step__num">6</span><div><h3 class="sc-step__title">Stability and shelf-life validation</h3><p class="sc-step__desc">Accelerated stability testing at multiple temperature conditions. No formula is released with a shelf life shorter than 18 months post-opening.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Barrier -->
+<section class="sc-barrier">
+  <div class="sc-barrier__inner">
+    <div>
+      <span class="brand-eyebrow" style="margin-bottom:1.5rem;display:inline-block;">Barrier health</span>
+      <h2 class="sc-barrier__heading" style="font-family:var(--font-heading);font-weight:400;line-height:1.1;letter-spacing:-0.02em;">Why your skin barrier is the foundation of everything.</h2>
+      <p class="sc-barrier__body">The skin barrier is a thin but critical structure that regulates moisture, blocks environmental irritants, and prevents pathogens from entering. When it's functioning well, your skin can tolerate active ingredients and retain hydration.</p>
+      <p class="sc-barrier__body">When it's compromised — through over-exfoliation, harsh cleansers, or environmental stress — redness, breakouts, dehydration, and sensitivity follow. Most skin concerns have a barrier component.</p>
+      <div class="sc-barrier__pillars">
+        <div class="sc-barrier__pillar"><div class="sc-barrier__pillar-icon"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="sc-barrier__pillar-text"><strong>Moisture retention</strong><span>A healthy barrier prevents transepidermal water loss, keeping skin plump and resilient.</span></div></div>
+        <div class="sc-barrier__pillar"><div class="sc-barrier__pillar-icon"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="sc-barrier__pillar-text"><strong>Irritant protection</strong><span>A functioning barrier blocks environmental pollutants, allergens, and bacteria from penetrating the dermis.</span></div></div>
+        <div class="sc-barrier__pillar"><div class="sc-barrier__pillar-icon"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="sc-barrier__pillar-text"><strong>Active tolerance</strong><span>Barrier-compromised skin reacts to ingredients that healthy skin tolerates easily. Repair first — then introduce actives.</span></div></div>
+      </div>
+    </div>
+    <div class="sc-barrier__img-col">
+      <img class="sc-barrier__img" src="https://picsum.photos/seed/barrier/700/900" alt="Skin barrier">
+    </div>
+  </div>
+</section>
+
+<!-- Actives Table -->
+<section class="sc-actives">
+  <div class="sc-actives__header">
+    <span class="brand-eyebrow">Your guide</span>
+    <h2 class="brand-heading sc-actives__heading">AM, PM, and layering rules.</h2>
+    <p class="sc-actives__intro">Not all actives can be used at the same time of day or in the same routine. This guide tells you when to apply each ingredient and what combinations to avoid.</p>
+  </div>
+  <div style="overflow-x:auto;">
+    <table class="sc-actives-table">
+      <thead><tr><th>Active</th><th>Function</th><th>Timing</th><th>Pairs well with</th><th>Avoid layering with</th></tr></thead>
+      <tbody>
+        <tr><td>Encapsulated Retinaldehyde<br><span style="font-size:0.8rem;color:#819d7c;">Retinal Bio-Lift Night Serum</span></td><td>Supports the look of smoother texture & tone</td><td><span class="sc-timing-pill sc-timing-pill--pm">PM</span></td><td style="font-size:0.875rem;color:#5a6456;">Peptides, Ceramides, Bakuchiol</td><td style="font-size:0.875rem;color:#819d7c;">Other exfoliating actives, Vitamin C (same session); avoid in pregnancy</td></tr>
+        <tr><td>Tranexamic Acid<br><span style="font-size:0.8rem;color:#819d7c;">Glow + Marks Serum</span></td><td>Helps even the look of marks & dark spots</td><td><span class="sc-timing-pill sc-timing-pill--both">AM + PM</span></td><td style="font-size:0.875rem;color:#5a6456;">Niacinamide, Vitamin C, SPF</td><td style="font-size:0.875rem;color:#819d7c;">None — well tolerated</td></tr>
+        <tr><td>Vitamin C (stabilised)<br><span style="font-size:0.8rem;color:#819d7c;">Glow + Marks Serum</span></td><td>Brightening, antioxidant support</td><td><span class="sc-timing-pill sc-timing-pill--am">AM</span></td><td style="font-size:0.875rem;color:#5a6456;">Tranexamic Acid, SPF</td><td style="font-size:0.875rem;color:#819d7c;">Retinaldehyde (same session)</td></tr>
+        <tr><td>Peptide Complex<br><span style="font-size:0.8rem;color:#819d7c;">Peptide Repair · Neuro Eye</span></td><td>Supports the look of firmness & smoother lines</td><td><span class="sc-timing-pill sc-timing-pill--both">AM + PM</span></td><td style="font-size:0.875rem;color:#5a6456;">Ceramides, Hyaluronic Acid, Retinaldehyde</td><td style="font-size:0.875rem;color:#819d7c;">None — universally compatible</td></tr>
+        <tr><td>Exosomes + PDRN<br><span style="font-size:0.8rem;color:#819d7c;">Exosome PDRN Repair Serum</span></td><td>Comforts & supports stressed-looking skin</td><td><span class="sc-timing-pill sc-timing-pill--both">AM + PM</span></td><td style="font-size:0.875rem;color:#5a6456;">Centella, Ceramides, Hyaluronic Acid</td><td style="font-size:0.875rem;color:#819d7c;">None — soothing & gentle</td></tr>
+        <tr><td>Centella / Madecassoside<br><span style="font-size:0.8rem;color:#819d7c;">Exosome PDRN Repair Serum</span></td><td>Calms the look of redness & sensitivity</td><td><span class="sc-timing-pill sc-timing-pill--both">AM + PM</span></td><td style="font-size:0.875rem;color:#5a6456;">Niacinamide, Ceramides, Exosomes</td><td style="font-size:0.875rem;color:#819d7c;">None identified</td></tr>
+        <tr><td>Caffeine<br><span style="font-size:0.8rem;color:#819d7c;">Neuro Peptide Eye & Smile Line Serum</span></td><td>Helps reduce the look of puffiness</td><td><span class="sc-timing-pill sc-timing-pill--both">AM + PM</span></td><td style="font-size:0.875rem;color:#5a6456;">Peptides, Hyaluronic Acid</td><td style="font-size:0.875rem;color:#819d7c;">None — gentle for the eye area</td></tr>
+        <tr><td>Caviar Extract + CoQ10<br><span style="font-size:0.8rem;color:#819d7c;">Caviar Lift Serum</span></td><td>Supports a firmer, lifted look (retinol-free)</td><td><span class="sc-timing-pill sc-timing-pill--both">AM + PM</span></td><td style="font-size:0.875rem;color:#5a6456;">Peptides, Hyaluronic Acid, Ceramides</td><td style="font-size:0.875rem;color:#819d7c;">None — pregnancy-friendly</td></tr>
+        <tr><td>Hyaluronic Acid<br><span style="font-size:0.8rem;color:#819d7c;">Across the range</span></td><td>Deep hydration, plumping</td><td><span class="sc-timing-pill sc-timing-pill--both">AM + PM</span></td><td style="font-size:0.875rem;color:#5a6456;">Everything — apply on damp skin</td><td style="font-size:0.875rem;color:#819d7c;">None — universally compatible</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sc-faq">
+  <div class="sc-faq__inner">
+    <div>
+      <span class="brand-eyebrow" style="margin-bottom:1rem;display:inline-block;">Questions</span>
+      <h2 class="brand-heading sc-faq__heading">Ingredient FAQ</h2>
+    </div>
+    <ul class="brand-faq-list">
+      <li class="brand-faq-item"><details><summary>Can I use multiple actives in the same routine?<span class="brand-faq-icon"></span></summary><div class="brand-faq-body"><p>Yes — most of our serums are compatible and work well together. The main rule: keep the Retinal Bio-Lift Night Serum to the PM and don't layer it with the Glow + Marks Serum's Vitamin C in the same session. Apply from lightest to richest texture, and finish with the Barrier Cream.</p></div></details></li>
+      <li class="brand-faq-item"><details><summary>Why does concentration matter?<span class="brand-faq-icon"></span></summary><div class="brand-faq-body"><p>The clinical evidence for an ingredient is always at a specific concentration. Below that threshold, the ingredient may do very little. We formulate at or above the minimum effective dose established in peer-reviewed studies.</p></div></details></li>
+      <li class="brand-faq-item"><details><summary>Are your formulas suitable for sensitive skin?<span class="brand-faq-icon"></span></summary><div class="brand-faq-body"><p>Most are, yes. Every formula is tested on sensitive skin types. Our Peptide Repair Barrier Serum and Exosome PDRN Repair Serum are specifically designed for reactive, stressed-looking skin. Sensitive skin types should introduce the Retinal Bio-Lift Night Serum slowly — a couple of nights a week to start.</p></div></details></li>
+      <li class="brand-faq-item"><details><summary>Are all formulas fragrance-free?<span class="brand-faq-icon"></span></summary><div class="brand-faq-body"><p>Yes — 100% fragrance-free, including essential oils and parfum derivatives. Fragrance is the leading cause of cosmetic sensitisation. It is banned across our entire range.</p></div></details></li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="sc-cta">
+  <div class="sc-cta__inner">
+    <span class="brand-eyebrow brand-eyebrow--light">Ready to apply the science?</span>
+    <h2 class="brand-heading brand-heading--light sc-cta__heading">Find the formula your skin needs.</h2>
+    <p class="sc-cta__body">Take our 60-second quiz and we'll match you to the right serum based on your skin goals, type, and experience with active ingredients.</p>
+    <div class="sc-cta__btns">
+      <a href="serum-finder.html" class="brand-btn brand-btn--light">Take the Quiz</a>
+      <a href="collection.html" class="brand-btn brand-btn--outline-light">Shop Serums</a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var pills=document.querySelectorAll('.sc-filter-pill');
+  var cards=document.querySelectorAll('.sc-ingredient-card');
+  pills.forEach(function(pill){
+    pill.addEventListener('click',function(){
+      pills.forEach(function(p){p.classList.remove('is-active');});
+      pill.classList.add('is-active');
+      var f=pill.dataset.filter;
+      cards.forEach(function(c){
+        if(f==='all'||c.dataset.category===f){delete c.dataset.hidden;}
+        else{c.dataset.hidden='';}
+      });
+    });
+  });
+})();
+</script>
+
+<!-- BAG OVERLAY + DRAWER -->
+<div class="bag-overlay" id="bag-overlay"></div>
+<div class="bag-drawer" id="bag-drawer" role="dialog" aria-label="Shopping bag" aria-hidden="true">
+  <div class="bag-drawer__header">
+    <div>
+      <p class="bag-drawer__title">Your Ritual</p>
+      <p class="bag-drawer__count">0 items</p>
+    </div>
+    <button class="bag-drawer__close" id="bag-close" aria-label="Close bag">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 1l14 14M15 1L1 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="bag-drawer__body">
+    <div class="bag-drawer__empty">
+      <svg class="bag-drawer__empty-icon" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 20h28l-3.5 21H17.5L14 20z" stroke="#030706" stroke-width="1.5" stroke-linejoin="round"/><path d="M21 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#030706" stroke-width="1.5"/></svg>
+      <h3 class="bag-drawer__empty-title">Your ritual awaits.</h3>
+      <p class="bag-drawer__empty-sub">Add a serum to get started.<br>Free delivery on orders over £60.</p>
+      <a href="collection.html" class="bag-drawer__cta" id="bag-explore">Explore Serums</a>
+    </div>
+  </div>
+  <div class="bag-drawer__footer" style="display:none">
+    <div class="bag-drawer__subtotal"><span>Subtotal</span><span>£0.00</span></div>
+    <button class="bag-drawer__checkout">Proceed to Checkout</button>
+  </div>
+</div>
+<script>
+// ── BAG + ACCOUNT ─────────────────────────
+(function() {
+  var overlay  = document.getElementById('bag-overlay');
+  var drawer   = document.getElementById('bag-drawer');
+  var closeBtn = document.getElementById('bag-close');
+  var cartBtns = document.querySelectorAll('.header-cart-btn');
+  var acctWrap = document.querySelector('.acct-wrap');
+
+  function openBag() {
+    drawer.classList.add('is-open');
+    overlay.classList.add('is-open');
+    drawer.setAttribute('aria-hidden','false');
+  }
+  function closeBag() {
+    drawer.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden','true');
+  }
+
+  cartBtns.forEach(function(b){ b.addEventListener('click', openBag); });
+  if (closeBtn) closeBtn.addEventListener('click', closeBag);
+  if (overlay)  overlay.addEventListener('click', closeBag);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeBag(); });
+
+  // Wrap "Account" link in .acct-wrap if not already
+  var acctLinks = document.querySelectorAll('.header-actions a');
+  acctLinks.forEach(function(a) {
+    if (a.textContent.trim() === 'Account') {
+      var wrap = document.createElement('div');
+      wrap.className = 'acct-wrap';
+      var dd = document.createElement('div');
+      dd.className = 'acct-dropdown';
+      dd.innerHTML = '<a href="#">Sign In</a><a href="#">Create Account</a><a href="#">Order History</a>';
+      a.parentNode.insertBefore(wrap, a);
+      wrap.appendChild(a);
+      wrap.appendChild(dd);
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        wrap.classList.toggle('is-open');
+      });
+      document.addEventListener('click', function(e) {
+        if (!wrap.contains(e.target)) wrap.classList.remove('is-open');
+      });
+    }
+  });
+})();
+</script>
+
+<!-- SITE FOOTER -->
+<footer class="site-footer-global">
+  <div class="sfg-inner">
+    <div class="sfg-brand">
+      <a href="index.html" class="sfg-logo"><img src="sebble-logo.png" alt="Sebble" class="sfg-logo__img"></a>
+      <p class="sfg-tagline">Formulated with clinical-grade actives,<br>designed for your daily ritual.</p>
+    </div>
+    <nav class="sfg-nav">
+      <div class="sfg-col">
+        <span class="sfg-col-head">Shop</span>
+        <a href="collection.html">All Serums</a>
+        <a href="serum-finder.html">Find My Serum</a>
+        <a href="routine.html">Build a Routine</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Learn</span>
+        <a href="ingredients.html">Ingredients</a>
+        <a href="about.html">Our Story</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Policies</span>
+        <a href="#">Shipping & Delivery</a>
+        <a href="#">Returns & Refunds</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </nav>
+  </div>
+  <div class="sfg-bottom">
+    <p>© 2026 Sebble. All rights reserved.</p>
+    <nav class="sfg-bottom-links"><a href="ingredients.html">Ingredients</a><a href="contact.html">Contact</a></nav>
+    <p>Cruelty-free · Fragrance-free · EU compliant</p>
+  </div>
+</footer>
+<script>
+(function(){
+  var s={threshold:0.08,rootMargin:'0px 0px -4% 0px'};
+  var g={threshold:0.05,rootMargin:'0px 0px -2% 0px'};
+  var solo=new IntersectionObserver(function(en){en.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add('is-visible');solo.unobserve(e.target);});},s);
+  var grp=new IntersectionObserver(function(en){en.forEach(function(e){if(!e.isIntersecting)return;e.target.querySelectorAll('.reveal').forEach(function(c){c.classList.add('is-visible');solo.unobserve(c);});grp.unobserve(e.target);});},g);
+  document.querySelectorAll('.reveal').forEach(function(el){if(!el.closest('.reveal-group'))solo.observe(el);});
+  document.querySelectorAll('.reveal-group').forEach(function(g){grp.observe(g);});
+})();
+</script>
+<script src="sit-knowledge.js"></script>
+<script src="sit-widget.js"></script>
+</body>
+</html>

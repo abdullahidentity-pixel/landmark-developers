@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "aurora",
+      "runtimeExecutable": "/Users/macbookpro/Documents/Codex/2026-05-12/hello/.tools/pnpm/bin/node",
+      "runtimeArgs": ["node_modules/vite/bin/vite.js", "--port", "5174"],
+      "port": 5174
+    },
+    {
+      "name": "velour-preview",
+      "runtimeExecutable": "/Users/macbookpro/Documents/Codex/2026-05-12/hello/.tools/pnpm/bin/node",
+      "runtimeArgs": ["preview/serve.cjs"],
+      "port": 5200
+    }
+  ]
+}

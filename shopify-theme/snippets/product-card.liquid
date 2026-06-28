@@ -1,0 +1,70 @@
+{%- liquid
+  assign card_product = product
+  assign lazy = true
+  if index == 1
+    assign lazy = false
+  endif
+-%}
+
+<article class="product-card reveal reveal-delay-{{ index | modulo: 4 | plus: 1 }}" aria-label="{{ card_product.title }}">
+  <a href="{{ card_product.url }}" class="product-card__media" tabindex="-1" aria-hidden="true">
+    {%- if card_product.featured_media != blank -%}
+      {{- card_product.featured_media | image_url: width: 600 | image_tag:
+          loading: lazy | ternary: 'lazy', 'eager',
+          widths: '300, 450, 600',
+          sizes: '(max-width: 480px) 50vw, (max-width: 1024px) 33vw, 25vw',
+          alt: card_product.title
+      -}}
+    {%- else -%}
+      <div style="width:100%;height:100%;background:linear-gradient(160deg, #cde8c9, #add9a8);display:flex;align-items:center;justify-content:center;">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="5" y="8" width="30" height="24" rx="3" stroke="#819d7c" stroke-width="1.5"/><circle cx="20" cy="20" r="5" stroke="#819d7c" stroke-width="1.5"/></svg>
+      </div>
+    {%- endif -%}
+
+    {%- if card_product.available == false -%}
+      <span class="product-card__badge">Sold Out</span>
+    {%- elsif card_product.compare_at_price > card_product.price -%}
+      {%- assign discount = card_product.compare_at_price | minus: card_product.price -%}
+      {%- assign pct = discount | times: 100 | divided_by: card_product.compare_at_price -%}
+      <span class="product-card__badge">{{ pct }}% off</span>
+    {%- elsif card_product.created_at > 'now' | date: '%s' | minus: 5184000 | date: '%Y-%m-%dT%H:%M:%SZ' -%}
+      <span class="product-card__badge product-card__badge--new">New</span>
+    {%- endif -%}
+
+    {%- if card_product.available -%}
+      <button class="product-card__quick-add"
+              data-quick-add
+              data-variant-id="{{ card_product.first_available_variant.id }}"
+              aria-label="Quick add {{ card_product.title }} to cart">
+        Add to Bag
+      </button>
+    {%- endif -%}
+  </a>
+
+  <div class="product-card__info">
+    {%- if card_product.type != blank -%}
+      <p class="product-card__category">{{ card_product.type }}</p>
+    {%- endif -%}
+
+    <a href="{{ card_product.url }}" class="product-card__name">{{ card_product.title }}</a>
+
+    {%- assign tagline = card_product.metafields.custom.tagline.value -%}
+    {%- if tagline != blank -%}
+      <p class="product-card__tagline">{{ tagline }}</p>
+    {%- endif -%}
+
+    <div class="product-card__footer">
+      <p class="product-card__price">
+        {{- card_product.price | money -}}
+        {%- if card_product.compare_at_price > card_product.price -%}
+          <s>{{ card_product.compare_at_price | money }}</s>
+        {%- endif -%}
+      </p>
+      <a href="{{ card_product.url }}" class="product-card__arrow" aria-label="View {{ card_product.title }}">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</article>

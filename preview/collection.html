@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sebble — Serums Collection</title>
+<style>
+/* ─── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: #faf9f6;
+  color: #030706;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+img { display: block; max-width: 100%; }
+
+/* ─── CSS Variables ───────────────────────────────────────── */
+:root {
+  --c-black: #030706;
+  --c-green-dark: #142b1b;
+  --c-green-rich: #2c4f31;
+  --c-green-mid: #49724a;
+  --c-green-sage: #819d7c;
+  --c-green-light: #a4b09e;
+  --c-green-pale: #add9a8;
+  --c-green-mint: #cde8c9;
+  --c-grey: #dddcdc;
+  --c-white: #ffffff;
+  --c-bg: #faf9f6;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --header-h: 60px;
+}
+
+
+
+
+
+
+
+/* ─── HERO ──────────────────────────────────────────────────── */
+.cl-hero {
+  background: var(--c-green-mint);
+  padding: 5.5rem 0 4.5rem;
+}
+.cl-hero__inner {
+  max-width: 1320px; margin: 0 auto; padding: 0 2rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end;
+}
+.cl-hero__eyebrow { font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-green-mid); margin-bottom: 1.25rem; }
+.cl-hero__heading { font-family: var(--font-heading); font-size: clamp(2.25rem, 4.5vw, 3.75rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.08; color: var(--c-black); }
+.cl-hero__body { font-size: 1rem; line-height: 1.65; color: var(--c-green-mid); max-width: 42ch; margin-bottom: 2rem; }
+.cl-hero__meta { display: flex; align-items: center; gap: 1.5rem; font-size: 0.8125rem; color: rgba(3,7,6,0.5); }
+.cl-hero__stat-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--c-green-mid); }
+
+/* ─── FILTER ────────────────────────────────────────────────── */
+.cl-filter {
+  background: var(--c-white);
+  border-bottom: 1px solid var(--c-grey);
+  position: sticky; top: 60px; z-index: 30;
+}
+.cl-filter__inner {
+  max-width: 1320px; margin: 0 auto; padding: 0.875rem 2rem;
+  display: flex; align-items: center; gap: 0.5rem; overflow-x: auto; scrollbar-width: none;
+}
+.cl-filter__label { font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(3,7,6,0.35); white-space: nowrap; padding-right: 0.5rem; border-right: 1px solid var(--c-grey); margin-right: 0.25rem; flex-shrink: 0; }
+.cl-filter__pill { flex-shrink: 0; height: 34px; padding: 0 1rem; border-radius: 100px; border: 1px solid var(--c-grey); background: transparent; font-size: 0.8125rem; color: var(--c-black); cursor: pointer; transition: all 0.18s ease; white-space: nowrap; font-family: var(--font-body); }
+.cl-filter__pill:hover { border-color: rgba(73,114,74,0.5); color: var(--c-green-rich); }
+.cl-filter__pill.is-active { background: var(--c-black); border-color: var(--c-black); color: var(--c-white); }
+
+/* ─── GRID ──────────────────────────────────────────────────── */
+.cl-grid { background: var(--c-bg); padding: 3.5rem 0 4rem; }
+.cl-grid__inner { max-width: 1320px; margin: 0 auto; padding: 0 2rem; }
+.cl-grid__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+.cl-grid__count { font-size: 0.8125rem; color: rgba(3,7,6,0.4); }
+.cl-grid__products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+
+.cl-card { background: var(--c-white); border: 1px solid rgba(129,157,124,0.28); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.25s ease, transform 0.25s ease; }
+.cl-card:hover { box-shadow: 0 8px 32px rgba(3,7,6,0.07); transform: translateY(-2px); }
+.cl-card[data-hidden] { display: none; }
+.cl-card__image-wrap { aspect-ratio: 4/5; position: relative; overflow: hidden; display: block; text-decoration: none; }
+.cl-card__image-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+.cl-card__badge { position: absolute; top: 0.875rem; left: 0.875rem; height: 22px; padding: 0 0.625rem; background: var(--c-black); color: var(--c-white); border-radius: 100px; font-size: 0.5625rem; letter-spacing: 0.09em; text-transform: uppercase; display: flex; align-items: center; }
+.cl-card__type-badge { position: absolute; top: 0.875rem; right: 0.875rem; height: 22px; padding: 0 0.625rem; background: rgba(255,255,255,0.92); color: var(--c-green-mid); border-radius: 100px; font-size: 0.5625rem; letter-spacing: 0.09em; text-transform: uppercase; display: flex; align-items: center; border: 1px solid rgba(129,157,124,0.3); }
+.cl-card__body { padding: 1.125rem 1.25rem; flex: 1; display: flex; flex-direction: column; }
+.cl-card__name { font-size: 1rem; font-weight: 400; color: var(--c-black); margin-bottom: 0.3rem; letter-spacing: -0.01em; line-height: 1.25; }
+.cl-card__name a { text-decoration: none; color: inherit; }
+.cl-card__benefit { font-size: 0.8rem; color: var(--c-green-mid); margin-bottom: 0.625rem; line-height: 1.45; }
+.cl-card__ingredient { font-size: 0.7rem; color: rgba(3,7,6,0.38); margin-bottom: 0.875rem; letter-spacing: 0.02em; text-transform: uppercase; }
+.cl-card__footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 0.875rem; border-top: 1px solid var(--c-grey); }
+.cl-card__price { font-size: 0.9375rem; font-weight: 500; color: var(--c-black); letter-spacing: -0.01em; }
+.cl-card__quick-add { height: 34px; padding: 0 1rem; background: var(--c-black); color: var(--c-white); border: none; border-radius: 100px; font-size: 0.7rem; letter-spacing: 0.05em; cursor: pointer; text-transform: uppercase; font-family: var(--font-body); transition: background 0.18s ease; }
+.cl-card__quick-add:hover { background: var(--c-green-rich); }
+.cl-card__quick-add.is-added { background: var(--c-green-rich); }
+
+.cl-grid__empty { display: none; grid-column: 1/-1; text-align: center; padding: 5rem 1rem; color: rgba(3,7,6,0.4); font-size: 0.9375rem; }
+.cl-grid__empty.is-visible { display: block; }
+
+/* ─── EDITORIAL ─────────────────────────────────────────────── */
+.cl-editorial { background: var(--c-green-dark); padding: 5rem 0; }
+.cl-editorial__inner { max-width: 1320px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4rem; }
+.cl-editorial__eyebrow { font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-green-sage); margin-bottom: 1.125rem; }
+.cl-editorial__heading { font-family: var(--font-heading); font-size: clamp(1.875rem, 3.5vw, 3rem); font-weight: 400; letter-spacing: -0.03em; line-height: 1.08; color: var(--c-white); max-width: 24ch; }
+.cl-editorial__cta { flex-shrink: 0; height: 52px; padding: 0 2.25rem; border-radius: 100px; border: 1px solid rgba(255,255,255,0.22); background: transparent; color: var(--c-white); font-size: 0.875rem; letter-spacing: 0.04em; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; transition: background 0.2s ease; font-family: var(--font-body); white-space: nowrap; }
+.cl-editorial__cta:hover { background: rgba(255,255,255,0.08); }
+
+/* ─── COMPARE ───────────────────────────────────────────────── */
+.cl-compare { background: var(--c-white); padding: 6rem 0; }
+.cl-compare__inner { max-width: 1320px; margin: 0 auto; padding: 0 2rem; }
+.cl-compare__eyebrow { font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-green-mid); margin-bottom: 0.875rem; }
+.cl-compare__title { font-family: var(--font-heading); font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 400; letter-spacing: -0.03em; color: var(--c-black); margin-bottom: 3rem; }
+.cl-compare__scroll { overflow-x: auto; border-radius: 16px; border: 1px solid var(--c-grey); }
+.cl-compare__table { width: 100%; min-width: 840px; border-collapse: collapse; }
+.cl-compare__table thead th { padding: 1rem 1.25rem; text-align: left; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(3,7,6,0.4); font-weight: 400; border-bottom: 1px solid var(--c-grey); background: var(--c-bg); white-space: nowrap; }
+.cl-compare__table td { padding: 0.9375rem 1.25rem; font-size: 0.875rem; color: var(--c-black); border-bottom: 1px solid var(--c-grey); vertical-align: middle; line-height: 1.45; }
+.cl-compare__table tbody tr:last-child td { border-bottom: none; }
+.cl-compare__table tbody tr:hover td { background: var(--c-bg); }
+.cl-compare__product-name { font-weight: 500; white-space: nowrap; }
+.cl-compare__product-link { color: inherit; text-decoration: none; }
+.cl-compare__product-link:hover { text-decoration: underline; }
+.cl-compare__tag { display: inline-flex; align-items: center; height: 20px; padding: 0 0.5rem; background: var(--c-green-mint); color: var(--c-green-rich); border-radius: 4px; font-size: 0.6875rem; letter-spacing: 0.04em; white-space: nowrap; margin: 0.125rem; }
+.cl-compare__ampm { display: flex; gap: 0.25rem; flex-wrap: wrap; }
+.cl-compare__time { display: inline-flex; align-items: center; height: 20px; padding: 0 0.5rem; border-radius: 4px; font-size: 0.6875rem; letter-spacing: 0.04em; }
+.cl-compare__time--am { background: #e8f4e4; color: #2c4f31; }
+.cl-compare__time--pm { background: var(--c-green-dark); color: var(--c-green-pale); }
+
+/* ─── BUNDLES ───────────────────────────────────────────────── */
+.cl-bundles { background: var(--c-bg); padding: 6rem 0; }
+.cl-bundles__inner { max-width: 1320px; margin: 0 auto; padding: 0 2rem; }
+.cl-bundles__eyebrow { font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-green-mid); margin-bottom: 0.875rem; }
+.cl-bundles__title { font-family: var(--font-heading); font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 400; letter-spacing: -0.03em; color: var(--c-black); margin-bottom: 0.75rem; }
+.cl-bundles__body { font-size: 0.875rem; color: rgba(3,7,6,0.5); line-height: 1.6; max-width: 40ch; margin-bottom: 3rem; }
+.cl-bundles__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.cl-bundle-card { background: var(--c-white); border: 1px solid rgba(129,157,124,0.28); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.25s ease, transform 0.25s ease; }
+.cl-bundle-card:hover { box-shadow: 0 8px 32px rgba(3,7,6,0.07); transform: translateY(-2px); }
+.cl-bundle-card__image-wrap { aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; }
+.cl-bundle-card__body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+.cl-bundle-card__label { font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-green-mid); margin-bottom: 0.375rem; }
+.cl-bundle-card__name { font-size: 1.1875rem; font-weight: 400; letter-spacing: -0.02em; color: var(--c-black); margin-bottom: 0.5rem; }
+.cl-bundle-card__desc { font-size: 0.8125rem; color: rgba(3,7,6,0.5); line-height: 1.55; margin-bottom: 1.125rem; }
+.cl-bundle-card__products { list-style: none; margin: 0 0 1.375rem; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+.cl-bundle-card__products li { font-size: 0.8125rem; color: rgba(3,7,6,0.7); display: flex; align-items: center; gap: 0.5rem; }
+.cl-bundle-card__products li::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--c-green-mid); flex-shrink: 0; }
+.cl-bundle-card__footer { margin-top: auto; display: flex; align-items: center; justify-content: space-between; padding-top: 1.125rem; border-top: 1px solid var(--c-grey); gap: 0.75rem; }
+.cl-bundle-card__price { font-size: 1rem; font-weight: 500; color: var(--c-black); display: block; }
+.cl-bundle-card__price-note { font-size: 0.7rem; color: var(--c-green-mid); margin-top: 0.1rem; display: block; }
+.cl-bundle-card__cta { height: 36px; padding: 0 1.125rem; background: var(--c-black); color: var(--c-white); border: none; border-radius: 100px; font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; font-family: var(--font-body); transition: background 0.18s ease; white-space: nowrap; }
+.cl-bundle-card__cta:hover { background: var(--c-green-rich); }
+
+/* ─── EDUCATION ─────────────────────────────────────────────── */
+.cl-education { background: var(--c-white); padding: 6rem 0; }
+.cl-education__inner { max-width: 1320px; margin: 0 auto; padding: 0 2rem; }
+.cl-education__eyebrow { font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-green-mid); margin-bottom: 0.875rem; }
+.cl-education__title { font-family: var(--font-heading); font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 400; letter-spacing: -0.03em; color: var(--c-black); margin-bottom: 3rem; }
+.cl-education__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--c-grey); border-radius: 16px; overflow: hidden; }
+.cl-edu-card { background: var(--c-white); padding: 2rem; }
+.cl-edu-card__number { font-size: 0.6875rem; letter-spacing: 0.1em; color: var(--c-green-mid); margin-bottom: 1.25rem; }
+.cl-edu-card__icon { width: 36px; height: 36px; border-radius: 10px; background: var(--c-green-mint); display: flex; align-items: center; justify-content: center; margin-bottom: 1.125rem; color: var(--c-green-rich); }
+.cl-edu-card__title { font-size: 1rem; font-weight: 400; letter-spacing: -0.01em; color: var(--c-black); margin-bottom: 0.625rem; line-height: 1.25; }
+.cl-edu-card__body { font-size: 0.8125rem; color: rgba(3,7,6,0.5); line-height: 1.65; }
+
+/* ─── REVIEWS ───────────────────────────────────────────────── */
+.cl-reviews { background: var(--c-bg); padding: 6rem 0; }
+.cl-reviews__inner { max-width: 1320px; margin: 0 auto; padding: 0 2rem; }
+.cl-reviews__header { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; margin-bottom: 3rem; }
+.cl-reviews__eyebrow { font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-green-mid); margin-bottom: 0.875rem; }
+.cl-reviews__title { font-family: var(--font-heading); font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 400; letter-spacing: -0.03em; color: var(--c-black); }
+.cl-reviews__aggregate { text-align: right; }
+.cl-reviews__score { font-size: 3rem; font-weight: 400; letter-spacing: -0.04em; color: var(--c-black); line-height: 1; margin-bottom: 0.25rem; }
+.cl-reviews__score-stars { display: flex; gap: 2px; justify-content: flex-end; margin-bottom: 0.25rem; color: var(--c-green-rich); }
+.cl-reviews__score-label { font-size: 0.75rem; color: rgba(3,7,6,0.4); }
+.cl-reviews__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.cl-review-card { background: var(--c-white); border: 1px solid rgba(129,157,124,0.28); border-radius: 16px; padding: 1.625rem; display: flex; flex-direction: column; }
+.cl-review-card__stars { display: flex; gap: 2px; margin-bottom: 0.875rem; color: var(--c-green-rich); }
+.cl-review-card__quote { font-size: 0.9375rem; line-height: 1.65; color: var(--c-black); flex: 1; margin-bottom: 1.25rem; }
+.cl-review-card__footer { display: flex; align-items: center; gap: 0.75rem; padding-top: 1.125rem; border-top: 1px solid var(--c-grey); }
+.cl-review-card__avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--c-green-mint); display: flex; align-items: center; justify-content: center; font-size: 0.6875rem; font-weight: 600; color: var(--c-green-rich); flex-shrink: 0; }
+.cl-review-card__name { font-size: 0.8125rem; font-weight: 500; color: var(--c-black); display: block; margin-bottom: 0.1rem; }
+.cl-review-card__product { font-size: 0.6875rem; color: rgba(3,7,6,0.4); display: block; }
+.cl-review-card__verified { margin-left: auto; font-size: 0.6875rem; color: var(--c-green-mid); letter-spacing: 0.04em; display: flex; align-items: center; gap: 0.25rem; flex-shrink: 0; }
+
+/* ─── FAQ ───────────────────────────────────────────────────── */
+.cl-faq { background: var(--c-white); padding: 6rem 0; border-top: 1px solid var(--c-grey); }
+.cl-faq__inner { max-width: 1320px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: 280px 1fr; gap: 8rem; align-items: start; }
+.cl-faq__eyebrow { font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-green-mid); margin-bottom: 0.875rem; }
+.cl-faq__title { font-family: var(--font-heading); font-size: 2rem; font-weight: 400; letter-spacing: -0.03em; color: var(--c-black); line-height: 1.1; }
+.cl-faq-list { display: flex; flex-direction: column; border-top: 1px solid var(--c-grey); }
+.cl-faq-item { border-bottom: 1px solid var(--c-grey); }
+.cl-faq-item summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.375rem 0; cursor: pointer; user-select: none; }
+.cl-faq-item summary::-webkit-details-marker { display: none; }
+.cl-faq-item__question { font-size: 0.9375rem; color: var(--c-black); font-weight: 400; line-height: 1.4; }
+.cl-faq-item__icon { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--c-grey); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease; position: relative; color: var(--c-black); }
+.cl-faq-icon { position: absolute; transition: opacity 0.2s ease; }
+.cl-faq-icon--minus { opacity: 0; }
+.cl-faq-item[open] .cl-faq-item__icon { background: var(--c-black); border-color: var(--c-black); color: var(--c-white); }
+.cl-faq-item[open] .cl-faq-icon--plus { opacity: 0; }
+.cl-faq-item[open] .cl-faq-icon--minus { opacity: 1; }
+.cl-faq-item.is-closing .cl-faq-icon--plus { opacity: 1; }
+.cl-faq-item.is-closing .cl-faq-icon--minus { opacity: 0; }
+.cl-faq-item.is-closing .cl-faq-item__icon { background: transparent; border-color: var(--c-grey); color: var(--c-black); }
+.cl-faq-item__body-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.38s cubic-bezier(0.16,1,0.3,1); }
+.cl-faq-item[open] .cl-faq-item__body-wrap { grid-template-rows: 1fr; }
+.cl-faq-item.is-closing .cl-faq-item__body-wrap { grid-template-rows: 0fr; }
+.cl-faq-item__body-inner { overflow: hidden; min-height: 0; }
+.cl-faq-item__answer { font-size: 0.875rem; line-height: 1.7; color: rgba(3,7,6,0.6); padding-bottom: 1.375rem; max-width: 65ch; }
+
+/* ─── NEWSLETTER ────────────────────────────────────────────── */
+.cl-newsletter { background: var(--c-green-mint); padding: 5rem 0; }
+.cl-newsletter__inner { max-width: 1320px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+.cl-newsletter__eyebrow { font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-green-mid); margin-bottom: 0.875rem; }
+.cl-newsletter__title { font-family: var(--font-heading); font-size: clamp(1.75rem, 3vw, 2.375rem); font-weight: 400; letter-spacing: -0.03em; color: var(--c-black); line-height: 1.1; margin-bottom: 0.875rem; }
+.cl-newsletter__body { font-size: 0.9375rem; color: rgba(3,7,6,0.55); line-height: 1.6; }
+.cl-newsletter__form { display: flex; flex-direction: column; gap: 0.875rem; }
+.cl-newsletter__field-row { display: flex; gap: 0.625rem; }
+.cl-newsletter__input { flex: 1; height: 50px; padding: 0 1.25rem; border-radius: 100px; border: 1px solid rgba(129,157,124,0.45); background: var(--c-white); font-size: 0.875rem; color: var(--c-black); font-family: var(--font-body); outline: none; transition: border-color 0.2s ease; }
+.cl-newsletter__input:focus { border-color: var(--c-green-mid); }
+.cl-newsletter__submit { height: 50px; padding: 0 1.75rem; border-radius: 100px; border: none; background: var(--c-black); color: var(--c-white); font-size: 0.875rem; cursor: pointer; font-family: var(--font-body); white-space: nowrap; transition: background 0.18s ease; flex-shrink: 0; }
+.cl-newsletter__submit:hover { background: var(--c-green-dark); }
+.cl-newsletter__disclaimer { font-size: 0.75rem; color: rgba(3,7,6,0.38); line-height: 1.5; }
+
+/* ─── FOOTER ────────────────────────────────────────────────── */
+.footer { background: var(--c-black); padding: 2.5rem 2rem; text-align: center; font-size: 0.8125rem; color: rgba(255,255,255,0.3); letter-spacing: 0.04em; }
+
+@media (max-width: 1100px) {
+  .cl-hero__inner { grid-template-columns: 1fr; gap: 2rem; }
+  .cl-education__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+  .cl-editorial__inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .cl-bundles__grid { grid-template-columns: 1fr; }
+  .cl-reviews__grid { grid-template-columns: 1fr; }
+  .cl-reviews__header { grid-template-columns: 1fr; }
+  .cl-faq__inner { grid-template-columns: 1fr; gap: 3rem; }
+  .cl-newsletter__inner { grid-template-columns: 1fr; gap: 3rem; }
+}
+@media (max-width: 768px) {
+  .cl-grid__products { grid-template-columns: repeat(2, 1fr); }
+  .cl-education__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .cl-grid__products { grid-template-columns: 1fr; }
+}
+
+/* ── HEADER (landing page style) ── */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  height: 72px;
+  background: rgba(250,249,246,0.88);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--c-grey, #dddcdc);
+  display: flex; align-items: center;
+}
+.site-header .container, .site-header__inner {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; max-width: 1320px; margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+.header-logo { display: inline-flex; text-decoration: none; flex-shrink: 0; overflow: hidden; height: 40px; }
+.header-logo__img { height: 148px; width: auto; margin-top: -46px; display: block; mix-blend-mode: multiply; }
+.header-nav { display: flex; gap: 2.25rem; }
+.header-nav a {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 0.8125rem; color: #2c4f31;
+  letter-spacing: 0.04em; transition: color 0.2s; text-decoration: none;
+}
+.header-nav a:hover { color: #030706; }
+.header-actions { display: flex; align-items: center; gap: 1.25rem; }
+.header-actions a {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 0.8125rem; color: #2c4f31; text-decoration: none;
+}
+.header-cart-btn {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1.125rem;
+  background: #030706; color: #ffffff;
+  border-radius: 100px; font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.08em; border: none; cursor: pointer;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+}
+@media (max-width: 768px) { .header-nav { display: none; } }
+
+
+/* ── BAG DRAWER ── */
+.bag-overlay { position: fixed; inset: 0; background: rgba(3,7,6,0.45); z-index: 900; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.bag-overlay.is-open { opacity: 1; pointer-events: all; }
+.bag-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100vw); background: #faf9f6; z-index: 901; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); display: flex; flex-direction: column; }
+.bag-drawer.is-open { transform: translateX(0); }
+.bag-drawer__header { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 1.75rem; border-bottom: 1px solid #dddcdc; }
+.bag-drawer__title { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #030706; }
+.bag-drawer__count { font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #819d7c; margin-top: 0.125rem; }
+.bag-drawer__close { background: none; border: none; cursor: pointer; padding: 0.5rem; color: #030706; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s; }
+.bag-drawer__close:hover { background: #dddcdc; }
+.bag-drawer__body { flex: 1; overflow-y: auto; display: flex; align-items: center; justify-content: center; }
+.bag-drawer__empty { text-align: center; padding: 3rem 2rem; }
+.bag-drawer__empty-icon { width: 56px; height: 56px; margin: 0 auto 1.5rem; opacity: 0.25; }
+.bag-drawer__empty-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.375rem; font-weight: 400; color: #030706; margin-bottom: 0.625rem; }
+.bag-drawer__empty-sub { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: #819d7c; line-height: 1.6; margin-bottom: 1.75rem; }
+.bag-drawer__cta { display: inline-flex; align-items: center; padding: 0.875rem 2rem; background: #030706; color: #ffffff; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.05em; text-decoration: none; transition: background 0.2s; }
+.bag-drawer__cta:hover { background: #142b1b; }
+.bag-drawer__footer { padding: 1.5rem 1.75rem; border-top: 1px solid #dddcdc; }
+.bag-drawer__subtotal { display: flex; justify-content: space-between; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: #030706; margin-bottom: 1rem; }
+.bag-drawer__checkout { display: block; width: 100%; padding: 1rem; background: #142b1b; color: #ffffff; border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.06em; cursor: pointer; text-align: center; transition: background 0.2s; }
+.bag-drawer__checkout:hover { background: #2c4f31; }
+
+/* ── ACCOUNT DROPDOWN ── */
+.acct-wrap { position: relative; }
+.acct-dropdown { position: absolute; top: calc(100% + 0.75rem); right: 0; width: 200px; background: #faf9f6; border: 1px solid #dddcdc; border-radius: 12px; box-shadow: 0 8px 32px rgba(3,7,6,0.10); overflow: hidden; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.2s, transform 0.2s; z-index: 200; }
+.acct-wrap.is-open .acct-dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
+.acct-dropdown a { display: block; padding: 0.75rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; color: #030706; text-decoration: none; transition: background 0.15s; border-bottom: 1px solid #dddcdc; }
+.acct-dropdown a:last-child { border-bottom: none; }
+.acct-dropdown a:hover { background: #cde8c9; }
+
+/* ── GLOBAL FOOTER ── */
+.site-footer-global { background: var(--c-black, #030706); padding: 6rem clamp(1.5rem,4vw,3rem) 2.75rem; }
+.sfg-inner { max-width: 1320px; margin-inline: auto; display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-bottom: 4rem; }
+.sfg-logo { display: inline-flex; overflow: hidden; height: 42px; margin-bottom: 1.5rem; }
+.sfg-logo__img { height: 172px; width: auto; margin-top: -66px; display: block; filter: brightness(0) invert(1); opacity: 0.9; }
+.sfg-tagline { font-family: 'DM Sans', sans-serif; font-size: 0.9688rem; line-height: 1.75; color: rgba(173,217,168,0.55); }
+.sfg-nav { display: grid; grid-template-columns: repeat(3,1fr); gap: 2.5rem; }
+.sfg-col { display: flex; flex-direction: column; gap: 1rem; }
+.sfg-col-head { font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 0.25rem; }
+.sfg-col a { font-family: 'DM Sans', sans-serif; font-size: 0.9688rem; color: rgba(173,217,168,0.65); text-decoration: none; transition: color 0.2s; }
+.sfg-col a:hover { color: #add9a8; }
+.sfg-bottom { max-width: 1320px; margin-inline: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.08); }
+.sfg-bottom p { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: rgba(173,217,168,0.3); letter-spacing: 0.06em; }
+.sfg-bottom-links { display: flex; gap: 1.75rem; }
+.sfg-bottom-links a { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: rgba(173,217,168,0.6); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+.sfg-bottom-links a:hover { color: #add9a8; }
+@media (max-width: 768px) {
+  .sfg-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .sfg-nav { grid-template-columns: 1fr 1fr; }
+  .sfg-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 1s cubic-bezier(0.22,1,0.36,1),transform 1s cubic-bezier(0.22,1,0.36,1),filter 1s cubic-bezier(0.22,1,0.36,1);will-change:opacity,transform;}
+.reveal[data-anim="fade-left"]{transform:translateX(-22px);}
+.reveal[data-anim="fade-right"]{transform:translateX(22px);}
+.reveal[data-anim="blur"]{transform:translateY(12px);filter:blur(5px);}
+.reveal[data-anim="fade-in"]{transform:none;}
+.reveal.is-visible{opacity:1;transform:none;filter:none;}
+.reveal-group .reveal:nth-child(1){transition-delay:calc(var(--stagger,65ms)*0);}
+.reveal-group .reveal:nth-child(2){transition-delay:calc(var(--stagger,65ms)*1);}
+.reveal-group .reveal:nth-child(3){transition-delay:calc(var(--stagger,65ms)*2);}
+.reveal-group .reveal:nth-child(4){transition-delay:calc(var(--stagger,65ms)*3);}
+.reveal-group .reveal:nth-child(5){transition-delay:calc(var(--stagger,65ms)*4);}
+.reveal-group .reveal:nth-child(6){transition-delay:calc(var(--stagger,65ms)*5);}
+.reveal-group .reveal:nth-child(7){transition-delay:calc(var(--stagger,65ms)*6);}
+.reveal-group .reveal:nth-child(8){transition-delay:calc(var(--stagger,65ms)*7);}
+.reveal-group .reveal:nth-child(n+9){transition-delay:calc(var(--stagger,65ms)*8);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="header-logo"><img src="sebble-logo.png" alt="Sebble" class="header-logo__img"></a>
+    <nav class="header-nav">
+      <a href="collection.html">Shop</a>
+      <a href="routine.html">Routine</a>
+      <a href="ingredients.html">Ingredients</a>
+      <a href="about.html">About</a>
+      <a href="sit.html" class="header-nav__sit" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;"><span style="width:6px;height:6px;border-radius:50%;background:#49724a;display:inline-block;"></span>Skin Consultant</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#">Account</a>
+      <button class="header-cart-btn">Bag (0)</button>
+    </div>
+  </div>
+</header>
+
+<!-- 1. HERO -->
+<section class="cl-hero">
+  <div class="cl-hero__inner">
+    <div class="cl-hero__left">
+      <p class="cl-hero__eyebrow reveal" data-anim="fade-in">Sebble</p>
+      <h1 class="cl-hero__heading reveal">Targeted skincare, simplified</h1>
+    </div>
+    <div class="cl-hero__right">
+      <p class="cl-hero__body">Each formula is built around a single skin goal — choose by concern, not confusion. Every serum is designed to work standalone or layer seamlessly with others.</p>
+      <div class="cl-hero__meta">
+        <span>8 products</span>
+        <span class="cl-hero__stat-dot"></span>
+        <span>Clinically formulated</span>
+        <span class="cl-hero__stat-dot"></span>
+        <span>Fragrance-free</span>
+      </div>
+      <a href="sit.html?sit=quick" class="cl-hero__sit" style="display:inline-flex;align-items:center;gap:9px;margin-top:1.5rem;padding:0.75rem 1.25rem;border:1px solid var(--c-green-nat,#49724a);border-radius:999px;font-size:0.8125rem;font-weight:600;color:var(--c-green-rich,#2c4f31);text-decoration:none;transition:background .25s,transform .25s;">
+        <span style="width:7px;height:7px;border-radius:50%;background:#49724a;display:inline-block;"></span>
+        Not sure which to choose? Match me in 60 seconds
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 2. FILTER -->
+<div class="cl-filter" id="cl-filter">
+  <div class="cl-filter__inner">
+    <span class="cl-filter__label">Filter</span>
+    <button class="cl-filter__pill is-active" data-concern="all" aria-pressed="true">All</button>
+    <button class="cl-filter__pill" data-concern="brightening" aria-pressed="false">Brightening</button>
+    <button class="cl-filter__pill" data-concern="barrier" aria-pressed="false">Barrier</button>
+    <button class="cl-filter__pill" data-concern="repair" aria-pressed="false">Repair</button>
+    <button class="cl-filter__pill" data-concern="renewal" aria-pressed="false">Renewal</button>
+    <button class="cl-filter__pill" data-concern="age-support" aria-pressed="false">Age Support</button>
+    <button class="cl-filter__pill" data-concern="eyes" aria-pressed="false">Eyes</button>
+    <button class="cl-filter__pill" data-concern="hydration" aria-pressed="false">Hydration</button>
+    <button class="cl-filter__pill" data-concern="sensitive-skin" aria-pressed="false">Sensitive Skin</button>
+  </div>
+</div>
+
+<!-- 3. PRODUCT GRID -->
+<section class="cl-grid">
+  <div class="cl-grid__inner">
+    <div class="cl-grid__top">
+      <p class="cl-grid__count"><span id="cl-count-num">8</span> products</p>
+    </div>
+    <div class="cl-grid__products reveal-group" id="cl-products" style="--stagger:60ms">
+
+      <!-- Card 1 — Glow + Marks (hero, 18–35) -->
+      <article class="cl-card reveal" data-concerns="brightening glow">
+        <a class="cl-card__image-wrap" href="product.html" style="background: linear-gradient(145deg, #fff9e6, #fde9c8);">
+          <svg width="52" height="52" viewBox="0 0 48 48" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="18" y="8" width="12" height="4" rx="2" fill="rgba(138,108,0,0.22)"/><rect x="14" y="10" width="20" height="30" rx="6" fill="rgba(138,108,0,0.14)"/><rect x="16" y="20" width="16" height="2" rx="1" fill="rgba(138,108,0,0.3)"/></svg>
+          <span class="cl-card__badge">Bestseller</span>
+          <span class="cl-card__type-badge">Serum</span>
+        </a>
+        <div class="cl-card__body">
+          <h2 class="cl-card__name"><a href="product.html">Glow + Marks Serum</a></h2>
+          <p class="cl-card__benefit">Brightens dullness and softens the look of marks and uneven tone</p>
+          <p class="cl-card__ingredient">3-O-Ethyl Ascorbic Acid · Niacinamide · Tranexamic Acid · Alpha Arbutin</p>
+          <div class="cl-card__footer">
+            <span class="cl-card__price">£58</span>
+            <button class="cl-card__quick-add" data-variant-id="123">Add</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 — Peptide Repair (hero, 25–45) -->
+      <article class="cl-card reveal" data-concerns="barrier sensitive-skin hydration">
+        <a class="cl-card__image-wrap" href="product.html" style="background: linear-gradient(145deg, #e8f4e8, #cfe6cf);">
+          <svg width="52" height="52" viewBox="0 0 48 48" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="18" y="8" width="12" height="4" rx="2" fill="rgba(44,79,49,0.25)"/><rect x="14" y="10" width="20" height="30" rx="6" fill="rgba(44,79,49,0.15)"/></svg>
+          <span class="cl-card__type-badge">Serum</span>
+        </a>
+        <div class="cl-card__body">
+          <h2 class="cl-card__name"><a href="product.html">Peptide Repair Serum</a></h2>
+          <p class="cl-card__benefit">Rebuilds the barrier and supports hydration, firmness and a smoother look</p>
+          <p class="cl-card__ingredient">Peptide Complex · Ceramides · Squalane · Multi-weight HA</p>
+          <div class="cl-card__footer">
+            <span class="cl-card__price">£64</span>
+            <button class="cl-card__quick-add" data-variant-id="124">Add</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 — Caviar Lift (flagship, 35+) -->
+      <article class="cl-card reveal" data-concerns="age-support glow firming">
+        <a class="cl-card__image-wrap" href="product.html" style="background: linear-gradient(145deg, #1c2b22, #2c4f31);">
+          <svg width="52" height="52" viewBox="0 0 48 48" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="18" y="8" width="12" height="4" rx="2" fill="rgba(205,232,201,0.35)"/><rect x="14" y="10" width="20" height="30" rx="6" fill="rgba(205,232,201,0.18)"/></svg>
+          <span class="cl-card__badge">Flagship</span>
+          <span class="cl-card__type-badge">Serum</span>
+        </a>
+        <div class="cl-card__body">
+          <h2 class="cl-card__name"><a href="product.html">Caviar Lift Serum</a></h2>
+          <p class="cl-card__benefit">An instant 30-minute lifted look, with peptides and caviar for firmness over time</p>
+          <p class="cl-card__ingredient">Pullulan · Peptide Blend · Caviar Extract · Microalgae</p>
+          <div class="cl-card__footer">
+            <span class="cl-card__price">£88</span>
+            <button class="cl-card__quick-add" data-variant-id="125">Add</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 — Exosome PDRN Repair (20–40) -->
+      <article class="cl-card reveal" data-concerns="repair sensitive-skin barrier">
+        <a class="cl-card__image-wrap" href="product.html" style="background: linear-gradient(145deg, #eaf3ff, #d3e6fb);">
+          <svg width="52" height="52" viewBox="0 0 48 48" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="18" y="8" width="12" height="4" rx="2" fill="rgba(40,80,140,0.25)"/><rect x="14" y="10" width="20" height="30" rx="6" fill="rgba(40,80,140,0.14)"/><circle cx="24" cy="26" r="4" fill="rgba(40,80,140,0.25)"/></svg>
+          <span class="cl-card__badge">New</span>
+          <span class="cl-card__type-badge">Serum</span>
+        </a>
+        <div class="cl-card__body">
+          <h2 class="cl-card__name"><a href="product.html">Exosome PDRN Repair Serum</a></h2>
+          <p class="cl-card__benefit">Korean clinic-style repair for redness, post-blemish recovery and a glass-skin glow</p>
+          <p class="cl-card__ingredient">Vegan Exosome Complex · PDRN · Centella · Madecassoside</p>
+          <div class="cl-card__footer">
+            <span class="cl-card__price">£78</span>
+            <button class="cl-card__quick-add" data-variant-id="126">Add</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 5 — Retinal Bio-Lift Night (25–45) -->
+      <article class="cl-card reveal" data-concerns="renewal age-support">
+        <a class="cl-card__image-wrap" href="product.html" style="background: linear-gradient(145deg, #2a2438, #423a5c);">
+          <svg width="52" height="52" viewBox="0 0 48 48" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="18" y="8" width="12" height="4" rx="2" fill="rgba(220,210,250,0.35)"/><rect x="14" y="10" width="20" height="30" rx="6" fill="rgba(220,210,250,0.16)"/><path d="M30 16a7 7 0 1 0 0 12 9 9 0 0 1 0-12z" fill="rgba(220,210,250,0.4)"/></svg>
+          <span class="cl-card__badge">Night</span>
+          <span class="cl-card__type-badge">Serum</span>
+        </a>
+        <div class="cl-card__body">
+          <h2 class="cl-card__name"><a href="product.html">Retinal Bio-Lift Night Serum</a></h2>
+          <p class="cl-card__benefit">Night renewal for texture, pores and fine lines while you sleep</p>
+          <p class="cl-card__ingredient">Encapsulated Retinaldehyde · Bakuchiol · Peptides · CoQ10</p>
+          <div class="cl-card__footer">
+            <span class="cl-card__price">£72</span>
+            <button class="cl-card__quick-add" data-variant-id="127">Add</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 6 — Neuro Peptide Eye & Smile Line (22–45) -->
+      <article class="cl-card reveal" data-concerns="eyes age-support">
+        <a class="cl-card__image-wrap" href="product.html" style="background: linear-gradient(145deg, #fdeef2, #f6d8e2);">
+          <svg width="52" height="52" viewBox="0 0 48 48" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="18" y="9" width="12" height="4" rx="2" fill="rgba(150,60,90,0.22)"/><rect x="15" y="11" width="18" height="26" rx="6" fill="rgba(150,60,90,0.13)"/><path d="M17 24c3-3 11-3 14 0-3 3-11 3-14 0z" fill="rgba(150,60,90,0.3)"/></svg>
+          <span class="cl-card__type-badge">Eye Serum</span>
+        </a>
+        <div class="cl-card__body">
+          <h2 class="cl-card__name"><a href="product.html">Neuro Peptide Eye &amp; Smile Line Serum</a></h2>
+          <p class="cl-card__benefit">Softens the look of dark circles, puffiness, under-eye and smile lines</p>
+          <p class="cl-card__ingredient">Argireline · Palmitoyl Tetrapeptide-7 · Caffeine · Pullulan</p>
+          <div class="cl-card__footer">
+            <span class="cl-card__price">£54</span>
+            <button class="cl-card__quick-add" data-variant-id="128">Add</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 7 — Cream -->
+      <article class="cl-card reveal" data-concerns="hydration barrier sensitive-skin">
+        <a class="cl-card__image-wrap" href="product.html" style="background: linear-gradient(145deg, #f0eee8, #e4e0d8);">
+          <svg width="52" height="52" viewBox="0 0 48 48" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="12" y="14" width="24" height="20" rx="8" fill="rgba(73,114,74,0.15)"/><rect x="16" y="8" width="16" height="8" rx="3" fill="rgba(73,114,74,0.2)"/></svg>
+          <span class="cl-card__badge">New</span>
+          <span class="cl-card__type-badge">Cream</span>
+        </a>
+        <div class="cl-card__body">
+          <h2 class="cl-card__name"><a href="product.html">Sebble Barrier Cream</a></h2>
+          <p class="cl-card__benefit">Rich moisturiser that locks in serum actives</p>
+          <p class="cl-card__ingredient">Shea Butter · Ceramide · Niacinamide</p>
+          <div class="cl-card__footer">
+            <span class="cl-card__price">£48</span>
+            <button class="cl-card__quick-add" data-variant-id="131">Add</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 8 — Spray -->
+      <article class="cl-card reveal" data-concerns="hydration glow">
+        <a class="cl-card__image-wrap" href="product.html" style="background: linear-gradient(145deg, #d8ede8, #b8d8d0);">
+          <svg width="52" height="52" viewBox="0 0 48 48" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="20" y="6" width="8" height="32" rx="4" fill="rgba(30,90,140,0.15)"/><rect x="20" y="4" width="8" height="6" rx="2" fill="rgba(30,90,140,0.2)"/></svg>
+          <span class="cl-card__type-badge">Spray</span>
+        </a>
+        <div class="cl-card__body">
+          <h2 class="cl-card__name"><a href="product.html">Sebble Facial Spray</a></h2>
+          <p class="cl-card__benefit">Refreshing mist that sets makeup and boosts glow</p>
+          <p class="cl-card__ingredient">Rose Water · Hyaluronic Acid · Zinc</p>
+          <div class="cl-card__footer">
+            <span class="cl-card__price">£32</span>
+            <button class="cl-card__quick-add" data-variant-id="132">Add</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+    <div class="cl-grid__empty" id="cl-empty">No products match this concern. Try a different filter.</div>
+  </div>
+</section>
+
+<!-- 4. EDITORIAL -->
+<section class="cl-editorial">
+  <div class="cl-editorial__inner">
+    <div>
+      <p class="cl-editorial__eyebrow">The Sebble Method</p>
+      <h2 class="cl-editorial__heading">Build a routine that does more with less</h2>
+    </div>
+    <a class="cl-editorial__cta" href="#">Take the Skin Quiz</a>
+  </div>
+</section>
+
+<!-- 5. COMPARE TABLE -->
+<section class="cl-compare">
+  <div class="cl-compare__inner">
+    <p class="cl-compare__eyebrow">Find your formula</p>
+    <h2 class="cl-compare__title">Compare serums</h2>
+    <div class="cl-compare__scroll">
+      <table class="cl-compare__table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Best For</th>
+            <th>Key Ingredients</th>
+            <th>Texture</th>
+            <th>AM / PM</th>
+            <th>Skin Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="cl-compare__product-name"><a class="cl-compare__product-link" href="product.html">Glow + Marks Serum</a></span></td>
+            <td>Dullness, marks, uneven tone</td>
+            <td><span class="cl-compare__tag">3-O-Ethyl Ascorbic Acid</span><span class="cl-compare__tag">Tranexamic Acid</span><span class="cl-compare__tag">Alpha Arbutin</span></td>
+            <td>Lightweight fluid</td>
+            <td><div class="cl-compare__ampm"><span class="cl-compare__time cl-compare__time--am">AM</span><span class="cl-compare__time cl-compare__time--pm">PM</span></div></td>
+            <td>All skin types · best 18–35</td>
+          </tr>
+          <tr>
+            <td><span class="cl-compare__product-name"><a class="cl-compare__product-link" href="product.html">Peptide Repair Serum</a></span></td>
+            <td>Barrier, hydration, firmness</td>
+            <td><span class="cl-compare__tag">Peptide Complex</span><span class="cl-compare__tag">Ceramides</span><span class="cl-compare__tag">Squalane</span></td>
+            <td>Rich but non-greasy</td>
+            <td><div class="cl-compare__ampm"><span class="cl-compare__time cl-compare__time--am">AM</span><span class="cl-compare__time cl-compare__time--pm">PM</span></div></td>
+            <td>Sensitive, Dry · best 25–45</td>
+          </tr>
+          <tr>
+            <td><span class="cl-compare__product-name"><a class="cl-compare__product-link" href="product.html">Caviar Lift Serum</a></span></td>
+            <td>Firmness, fine lines, an instant lifted look</td>
+            <td><span class="cl-compare__tag">Pullulan</span><span class="cl-compare__tag">Peptide Blend</span><span class="cl-compare__tag">Caviar Extract</span></td>
+            <td>Silky luxury serum</td>
+            <td><div class="cl-compare__ampm"><span class="cl-compare__time cl-compare__time--am">AM</span><span class="cl-compare__time cl-compare__time--pm">PM</span></div></td>
+            <td>Normal, Dry, Mature · best 35+</td>
+          </tr>
+          <tr>
+            <td><span class="cl-compare__product-name"><a class="cl-compare__product-link" href="product.html">Exosome PDRN Repair Serum</a></span></td>
+            <td>Redness, post-blemish recovery, glass skin</td>
+            <td><span class="cl-compare__tag">Exosome Complex</span><span class="cl-compare__tag">PDRN</span><span class="cl-compare__tag">Centella</span></td>
+            <td>Lightweight watery essence</td>
+            <td><div class="cl-compare__ampm"><span class="cl-compare__time cl-compare__time--am">AM</span><span class="cl-compare__time cl-compare__time--pm">PM</span></div></td>
+            <td>Sensitive, All types · best 20–40</td>
+          </tr>
+          <tr>
+            <td><span class="cl-compare__product-name"><a class="cl-compare__product-link" href="product.html">Retinal Bio-Lift Night Serum</a></span></td>
+            <td>Texture, pores, fine lines, renewal</td>
+            <td><span class="cl-compare__tag">Retinaldehyde</span><span class="cl-compare__tag">Bakuchiol</span><span class="cl-compare__tag">CoQ10</span></td>
+            <td>Silky night serum</td>
+            <td><div class="cl-compare__ampm"><span class="cl-compare__time cl-compare__time--pm">PM</span></div></td>
+            <td>Normal, Combination, Oily · best 25–45</td>
+          </tr>
+          <tr>
+            <td><span class="cl-compare__product-name"><a class="cl-compare__product-link" href="product.html">Neuro Peptide Eye &amp; Smile Line Serum</a></span></td>
+            <td>Dark circles, puffiness, expression lines</td>
+            <td><span class="cl-compare__tag">Argireline</span><span class="cl-compare__tag">Caffeine</span><span class="cl-compare__tag">Peptides</span></td>
+            <td>Lightweight eye serum</td>
+            <td><div class="cl-compare__ampm"><span class="cl-compare__time cl-compare__time--am">AM</span><span class="cl-compare__time cl-compare__time--pm">PM</span></div></td>
+            <td>All skin types · best 22–45</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 6. BUNDLES -->
+<section class="cl-bundles">
+  <div class="cl-bundles__inner">
+    <p class="cl-bundles__eyebrow">Ready-made routines</p>
+    <h2 class="cl-bundles__title">Shop curated bundles</h2>
+    <p class="cl-bundles__body">Three products, one clear goal. Bundled to save and designed to work together.</p>
+    <div class="cl-bundles__grid reveal-group" style="--stagger:90ms">
+
+      <article class="cl-bundle-card reveal">
+        <div class="cl-bundle-card__image-wrap" style="background: #cde8c9;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><rect x="20" y="10" width="14" height="5" rx="2.5" fill="rgba(44,79,49,0.3)"/><rect x="16" y="14" width="22" height="36" rx="7" fill="rgba(44,79,49,0.2)"/><rect x="38" y="12" width="12" height="4" rx="2" fill="rgba(44,79,49,0.25)"/><rect x="35" y="15" width="18" height="30" rx="5" fill="rgba(44,79,49,0.15)"/></svg>
+        </div>
+        <div class="cl-bundle-card__body">
+          <p class="cl-bundle-card__label">Bundle</p>
+          <h3 class="cl-bundle-card__name">Glow Routine</h3>
+          <p class="cl-bundle-card__desc">Reveal brighter, more even-looking skin over 4 weeks. Built around the Glow + Marks Serum, supported by barrier repair.</p>
+          <ul class="cl-bundle-card__products">
+            <li>Glow + Marks Serum</li>
+            <li>Peptide Repair Serum</li>
+            <li>Sebble Barrier Cream</li>
+          </ul>
+          <div class="cl-bundle-card__footer">
+            <div class="cl-bundle-card__pricing">
+              <span class="cl-bundle-card__price">£149</span>
+              <span class="cl-bundle-card__price-note">Save £21</span>
+            </div>
+            <a class="cl-bundle-card__cta" href="#">Shop bundle</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="cl-bundle-card reveal">
+        <div class="cl-bundle-card__image-wrap" style="background: #dddcdc;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><rect x="20" y="10" width="14" height="5" rx="2.5" fill="rgba(80,80,80,0.2)"/><rect x="16" y="14" width="22" height="36" rx="7" fill="rgba(80,80,80,0.12)"/><rect x="38" y="12" width="12" height="4" rx="2" fill="rgba(80,80,80,0.15)"/><rect x="35" y="15" width="18" height="30" rx="5" fill="rgba(80,80,80,0.08)"/></svg>
+        </div>
+        <div class="cl-bundle-card__body">
+          <p class="cl-bundle-card__label">Bundle</p>
+          <h3 class="cl-bundle-card__name">Repair &amp; Recovery Routine</h3>
+          <p class="cl-bundle-card__desc">For reactive, red, or post-blemish skin. Korean clinic-style repair that keeps skin calm, hydrated, and glass-smooth.</p>
+          <ul class="cl-bundle-card__products">
+            <li>Exosome PDRN Repair Serum</li>
+            <li>Peptide Repair Serum</li>
+            <li>Sebble Barrier Cream</li>
+          </ul>
+          <div class="cl-bundle-card__footer">
+            <div class="cl-bundle-card__pricing">
+              <span class="cl-bundle-card__price">£169</span>
+              <span class="cl-bundle-card__price-note">Save £21</span>
+            </div>
+            <a class="cl-bundle-card__cta" href="#">Shop bundle</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="cl-bundle-card reveal">
+        <div class="cl-bundle-card__image-wrap" style="background: #add9a8;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><rect x="20" y="10" width="14" height="5" rx="2.5" fill="rgba(30,80,40,0.3)"/><rect x="16" y="14" width="22" height="36" rx="7" fill="rgba(30,80,40,0.2)"/><rect x="38" y="12" width="12" height="4" rx="2" fill="rgba(30,80,40,0.25)"/><rect x="35" y="15" width="18" height="30" rx="5" fill="rgba(30,80,40,0.15)"/></svg>
+        </div>
+        <div class="cl-bundle-card__body">
+          <p class="cl-bundle-card__label">Bundle</p>
+          <h3 class="cl-bundle-card__name">Lift &amp; Firm Routine</h3>
+          <p class="cl-bundle-card__desc">Our premium protocol. An instant lifted finish from the Caviar Lift, with peptides and barrier support for firmness over time.</p>
+          <ul class="cl-bundle-card__products">
+            <li>Caviar Lift Serum</li>
+            <li>Peptide Repair Serum</li>
+            <li>Sebble Barrier Cream</li>
+          </ul>
+          <div class="cl-bundle-card__footer">
+            <div class="cl-bundle-card__pricing">
+              <span class="cl-bundle-card__price">£175</span>
+              <span class="cl-bundle-card__price-note">Save £25</span>
+            </div>
+            <a class="cl-bundle-card__cta" href="#">Shop bundle</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- 7. EDUCATION -->
+<section class="cl-education">
+  <div class="cl-education__inner">
+    <p class="cl-education__eyebrow">How to choose</p>
+    <h2 class="cl-education__title">Choosing the right serum for your skin</h2>
+    <div class="cl-education__grid">
+
+      <div class="cl-edu-card">
+        <p class="cl-edu-card__number">01</p>
+        <div class="cl-edu-card__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </div>
+        <h3 class="cl-edu-card__title">Identify your primary concern</h3>
+        <p class="cl-edu-card__body">Start with one concern — hydration, brightness, texture, or sensitivity. Layering too many actives at once reduces effectiveness.</p>
+      </div>
+
+      <div class="cl-edu-card">
+        <p class="cl-edu-card__number">02</p>
+        <div class="cl-edu-card__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
+        </div>
+        <h3 class="cl-edu-card__title">Check for active conflicts</h3>
+        <p class="cl-edu-card__body">AHAs and retinol should be used on separate evenings. Vitamin C pairs well with SPF but avoid high-dose niacinamide at the same time.</p>
+      </div>
+
+      <div class="cl-edu-card">
+        <p class="cl-edu-card__number">03</p>
+        <div class="cl-edu-card__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 class="cl-edu-card__title">Start slow, build gradually</h3>
+        <p class="cl-edu-card__body">Introduce new actives every 2 weeks. Begin with every-other-night use and build up as your skin adjusts. Always patch test first.</p>
+      </div>
+
+      <div class="cl-edu-card">
+        <p class="cl-edu-card__number">04</p>
+        <div class="cl-edu-card__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3 class="cl-edu-card__title">Layer in the right order</h3>
+        <p class="cl-edu-card__body">Apply thinnest to thickest — water-based serums first, then oil-based, then moisturiser. Allow 60 seconds between each layer.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 8. REVIEWS -->
+<section class="cl-reviews">
+  <div class="cl-reviews__inner">
+    <div class="cl-reviews__header">
+      <div>
+        <p class="cl-reviews__eyebrow">What our customers say</p>
+        <h2 class="cl-reviews__title">Trusted by thousands</h2>
+      </div>
+      <div class="cl-reviews__aggregate">
+        <div class="cl-reviews__score">4.8</div>
+        <div class="cl-reviews__score-stars">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="cl-reviews__score-label">1,247 verified reviews</p>
+      </div>
+    </div>
+    <div class="cl-reviews__grid reveal-group" style="--stagger:90ms">
+
+      <article class="cl-review-card reveal">
+        <div class="cl-review-card__stars">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <blockquote class="cl-review-card__quote">&ldquo;I've tried dozens of serums and nothing has come close to Glow + Marks. My old spots have faded and my skin looks brighter &mdash; three people have asked what I'm doing differently.&rdquo;</blockquote>
+        <div class="cl-review-card__footer">
+          <div class="cl-review-card__avatar">ME</div>
+          <div class="cl-review-card__meta">
+            <span class="cl-review-card__name">Margot Ellison</span>
+            <span class="cl-review-card__product">Glow + Marks Serum</span>
+          </div>
+          <span class="cl-review-card__verified">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Verified
+          </span>
+        </div>
+      </article>
+
+      <article class="cl-review-card reveal">
+        <div class="cl-review-card__stars">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <blockquote class="cl-review-card__quote">&ldquo;The Peptide Repair Serum genuinely settled my skin after a bad reaction left it raw and tight. It feels calm and comfortable again &mdash; I don't leave home without it now.&rdquo;</blockquote>
+        <div class="cl-review-card__footer">
+          <div class="cl-review-card__avatar">TB</div>
+          <div class="cl-review-card__meta">
+            <span class="cl-review-card__name">Th&eacute;a Beaumont</span>
+            <span class="cl-review-card__product">Peptide Repair Serum</span>
+          </div>
+          <span class="cl-review-card__verified">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Verified
+          </span>
+        </div>
+      </article>
+
+      <article class="cl-review-card reveal">
+        <div class="cl-review-card__stars">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <blockquote class="cl-review-card__quote">&ldquo;The Lift &amp; Firm Routine is hands-down the best skincare purchase I've made. My skin looks smoother and more lifted, and the Caviar Lift finish is unreal. Worth every penny.&rdquo;</blockquote>
+        <div class="cl-review-card__footer">
+          <div class="cl-review-card__avatar">AK</div>
+          <div class="cl-review-card__meta">
+            <span class="cl-review-card__name">Aoife Kennelly</span>
+            <span class="cl-review-card__product">Lift &amp; Firm Bundle</span>
+          </div>
+          <span class="cl-review-card__verified">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Verified
+          </span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- 9. FAQ -->
+<section class="cl-faq">
+  <div class="cl-faq__inner">
+    <div class="cl-faq__label-col">
+      <p class="cl-faq__eyebrow">Questions</p>
+      <h2 class="cl-faq__title">FAQ</h2>
+    </div>
+    <div class="cl-faq__content-col">
+      <div class="cl-faq-list">
+
+        <details class="cl-faq-item">
+          <summary class="cl-faq-item__summary">
+            <span class="cl-faq-item__question">Can I use more than one serum at the same time?</span>
+            <span class="cl-faq-item__icon">
+              <svg class="cl-faq-icon cl-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <svg class="cl-faq-icon cl-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </summary>
+          <div class="cl-faq-item__body-wrap">
+            <div class="cl-faq-item__body-inner">
+              <p class="cl-faq-item__answer">Yes — most Sebble serums are designed to layer. Apply in order of lightest to heaviest texture, and allow 60 seconds between each for absorption. Avoid layering AHAs with retinol on the same evening.</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="cl-faq-item">
+          <summary class="cl-faq-item__summary">
+            <span class="cl-faq-item__question">How do I know which serum is right for my skin?</span>
+            <span class="cl-faq-item__icon">
+              <svg class="cl-faq-icon cl-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <svg class="cl-faq-icon cl-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </summary>
+          <div class="cl-faq-item__body-wrap">
+            <div class="cl-faq-item__body-inner">
+              <p class="cl-faq-item__answer">Start with your primary concern — whether that's hydration, texture, sensitivity, or glow. Use our filter above to narrow down by concern, or take our Skin Quiz for a personalised recommendation.</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="cl-faq-item">
+          <summary class="cl-faq-item__summary">
+            <span class="cl-faq-item__question">Are these serums suitable for sensitive skin?</span>
+            <span class="cl-faq-item__icon">
+              <svg class="cl-faq-icon cl-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <svg class="cl-faq-icon cl-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </summary>
+          <div class="cl-faq-item__body-wrap">
+            <div class="cl-faq-item__body-inner">
+              <p class="cl-faq-item__answer">All Sebble formulas are fragrance-free and developed with sensitive skin in mind. For highly reactive skin, we recommend the Peptide Repair Serum as your first step. Always patch test before full facial use.</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="cl-faq-item">
+          <summary class="cl-faq-item__summary">
+            <span class="cl-faq-item__question">Do I need to use SPF with these serums?</span>
+            <span class="cl-faq-item__icon">
+              <svg class="cl-faq-icon cl-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <svg class="cl-faq-icon cl-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </summary>
+          <div class="cl-faq-item__body-wrap">
+            <div class="cl-faq-item__body-inner">
+              <p class="cl-faq-item__answer">Yes. Any formula containing Vitamin C, AHAs, or retinol increases photosensitivity. We recommend a broad-spectrum SPF 30+ every morning, regardless of which serum you use.</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="cl-faq-item">
+          <summary class="cl-faq-item__summary">
+            <span class="cl-faq-item__question">Are your products vegan and cruelty-free?</span>
+            <span class="cl-faq-item__icon">
+              <svg class="cl-faq-icon cl-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <svg class="cl-faq-icon cl-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </summary>
+          <div class="cl-faq-item__body-wrap">
+            <div class="cl-faq-item__body-inner">
+              <p class="cl-faq-item__answer">Yes. All Sebble products are 100% vegan and certified cruelty-free. We do not test on animals at any stage of production, and we do not sell in markets that require animal testing.</p>
+            </div>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10. NEWSLETTER -->
+<section class="cl-newsletter">
+  <div class="cl-newsletter__inner">
+    <div class="cl-newsletter__content">
+      <p class="cl-newsletter__eyebrow">Stay in the loop</p>
+      <h2 class="cl-newsletter__title">Skin intel, delivered</h2>
+      <p class="cl-newsletter__body">New formulas, routine guides, and members-only offers — straight to your inbox.</p>
+    </div>
+    <div class="cl-newsletter__form-wrap">
+      <div class="cl-newsletter__form">
+        <div class="cl-newsletter__field-row">
+          <input class="cl-newsletter__input" type="email" placeholder="Enter your email" autocomplete="email">
+          <button class="cl-newsletter__submit" type="button">Subscribe</button>
+        </div>
+        <p class="cl-newsletter__disclaimer">No spam, ever. Unsubscribe at any time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">© 2026 Sebble. All rights reserved.</footer>
+
+<script>
+(function () {
+  /* Filter */
+  var pills   = document.querySelectorAll('.cl-filter__pill[data-concern]');
+  var cards   = document.querySelectorAll('.cl-card');
+  var empty   = document.getElementById('cl-empty');
+  var countEl = document.getElementById('cl-count-num');
+
+  pills.forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      pills.forEach(function (p) { p.classList.remove('is-active'); p.setAttribute('aria-pressed','false'); });
+      pill.classList.add('is-active');
+      pill.setAttribute('aria-pressed','true');
+      var concern = pill.dataset.concern;
+      var visible = 0;
+      cards.forEach(function (card) {
+        if (concern === 'all') { card.removeAttribute('data-hidden'); visible++; }
+        else {
+          var concerns = (card.dataset.concerns || '').split(' ');
+          if (concerns.indexOf(concern) !== -1) { card.removeAttribute('data-hidden'); visible++; }
+          else card.setAttribute('data-hidden', '');
+        }
+      });
+      if (countEl) countEl.textContent = visible;
+      if (empty) empty.classList.toggle('is-visible', visible === 0);
+    });
+  });
+
+  /* Quick-add demo */
+  document.querySelectorAll('.cl-card__quick-add').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var orig = btn.textContent;
+      btn.classList.add('is-added');
+      btn.textContent = 'Added';
+      setTimeout(function () { btn.classList.remove('is-added'); btn.textContent = orig; }, 2000);
+    });
+  });
+
+  /* FAQ */
+  document.querySelectorAll('.cl-faq-item').forEach(function (item) {
+    item.addEventListener('click', function (e) {
+      if (!e.target.closest('summary')) return;
+      e.preventDefault();
+      if (item.open) {
+        item.classList.add('is-closing');
+        item.addEventListener('transitionend', function h() {
+          item.open = false;
+          item.classList.remove('is-closing');
+          item.removeEventListener('transitionend', h);
+        }, { once: true });
+      } else {
+        item.open = true;
+        item.getBoundingClientRect();
+      }
+    });
+  });
+})();
+</script>
+
+<!-- BAG OVERLAY + DRAWER -->
+<div class="bag-overlay" id="bag-overlay"></div>
+<div class="bag-drawer" id="bag-drawer" role="dialog" aria-label="Shopping bag" aria-hidden="true">
+  <div class="bag-drawer__header">
+    <div>
+      <p class="bag-drawer__title">Your Ritual</p>
+      <p class="bag-drawer__count">0 items</p>
+    </div>
+    <button class="bag-drawer__close" id="bag-close" aria-label="Close bag">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 1l14 14M15 1L1 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="bag-drawer__body">
+    <div class="bag-drawer__empty">
+      <svg class="bag-drawer__empty-icon" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 20h28l-3.5 21H17.5L14 20z" stroke="#030706" stroke-width="1.5" stroke-linejoin="round"/><path d="M21 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#030706" stroke-width="1.5"/></svg>
+      <h3 class="bag-drawer__empty-title">Your ritual awaits.</h3>
+      <p class="bag-drawer__empty-sub">Add a serum to get started.<br>Free delivery on orders over £60.</p>
+      <a href="collection.html" class="bag-drawer__cta" id="bag-explore">Explore Serums</a>
+    </div>
+  </div>
+  <div class="bag-drawer__footer" style="display:none">
+    <div class="bag-drawer__subtotal"><span>Subtotal</span><span>£0.00</span></div>
+    <button class="bag-drawer__checkout">Proceed to Checkout</button>
+  </div>
+</div>
+<script>
+// ── BAG + ACCOUNT ─────────────────────────
+(function() {
+  var overlay  = document.getElementById('bag-overlay');
+  var drawer   = document.getElementById('bag-drawer');
+  var closeBtn = document.getElementById('bag-close');
+  var cartBtns = document.querySelectorAll('.header-cart-btn');
+  var acctWrap = document.querySelector('.acct-wrap');
+
+  function openBag() {
+    drawer.classList.add('is-open');
+    overlay.classList.add('is-open');
+    drawer.setAttribute('aria-hidden','false');
+  }
+  function closeBag() {
+    drawer.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden','true');
+  }
+
+  cartBtns.forEach(function(b){ b.addEventListener('click', openBag); });
+  if (closeBtn) closeBtn.addEventListener('click', closeBag);
+  if (overlay)  overlay.addEventListener('click', closeBag);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeBag(); });
+
+  // Wrap "Account" link in .acct-wrap if not already
+  var acctLinks = document.querySelectorAll('.header-actions a');
+  acctLinks.forEach(function(a) {
+    if (a.textContent.trim() === 'Account') {
+      var wrap = document.createElement('div');
+      wrap.className = 'acct-wrap';
+      var dd = document.createElement('div');
+      dd.className = 'acct-dropdown';
+      dd.innerHTML = '<a href="#">Sign In</a><a href="#">Create Account</a><a href="#">Order History</a>';
+      a.parentNode.insertBefore(wrap, a);
+      wrap.appendChild(a);
+      wrap.appendChild(dd);
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        wrap.classList.toggle('is-open');
+      });
+      document.addEventListener('click', function(e) {
+        if (!wrap.contains(e.target)) wrap.classList.remove('is-open');
+      });
+    }
+  });
+})();
+</script>
+
+<!-- SITE FOOTER -->
+<footer class="site-footer-global">
+  <div class="sfg-inner">
+    <div class="sfg-brand">
+      <a href="index.html" class="sfg-logo"><img src="sebble-logo.png" alt="Sebble" class="sfg-logo__img"></a>
+      <p class="sfg-tagline">Formulated with clinical-grade actives,<br>designed for your daily ritual.</p>
+    </div>
+    <nav class="sfg-nav">
+      <div class="sfg-col">
+        <span class="sfg-col-head">Shop</span>
+        <a href="collection.html">All Serums</a>
+        <a href="serum-finder.html">Find My Serum</a>
+        <a href="routine.html">Build a Routine</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Learn</span>
+        <a href="ingredients.html">Ingredients</a>
+        <a href="about.html">Our Story</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Policies</span>
+        <a href="#">Shipping & Delivery</a>
+        <a href="#">Returns & Refunds</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </nav>
+  </div>
+  <div class="sfg-bottom">
+    <p>© 2026 Sebble. All rights reserved.</p>
+    <nav class="sfg-bottom-links"><a href="ingredients.html">Ingredients</a><a href="contact.html">Contact</a></nav>
+    <p>Cruelty-free · Fragrance-free · EU compliant</p>
+  </div>
+</footer>
+<script>
+(function(){
+  var s={threshold:0.08,rootMargin:'0px 0px -4% 0px'};
+  var g={threshold:0.05,rootMargin:'0px 0px -2% 0px'};
+  var solo=new IntersectionObserver(function(en){en.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add('is-visible');solo.unobserve(e.target);});},s);
+  var grp=new IntersectionObserver(function(en){en.forEach(function(e){if(!e.isIntersecting)return;e.target.querySelectorAll('.reveal').forEach(function(c){c.classList.add('is-visible');solo.unobserve(c);});grp.unobserve(e.target);});},g);
+  document.querySelectorAll('.reveal').forEach(function(el){if(!el.closest('.reveal-group'))solo.observe(el);});
+  document.querySelectorAll('.reveal-group').forEach(function(g){grp.observe(g);});
+})();
+</script>
+<script src="sit-knowledge.js"></script>
+<script src="sit-widget.js"></script>
+</body>
+</html>

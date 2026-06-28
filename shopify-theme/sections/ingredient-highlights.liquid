@@ -1,0 +1,90 @@
+<section class="ingredient-highlights section">
+  <div class="container">
+    <div class="ingredient-highlights__header">
+      {%- if section.settings.label != blank -%}
+        <p class="t-label text-center reveal">{{ section.settings.label }}</p>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="t-h2 text-center reveal reveal-delay-1" style="margin-top: 1rem;">{{ section.settings.title }}</h2>
+      {%- endif -%}
+    </div>
+
+    <div class="ingredient-highlights__grid">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'ingredient' -%}
+            <div class="ingredient-card reveal reveal-delay-{{ forloop.index }}" {{ block.shopify_attributes }}>
+              <div class="ingredient-card__icon">{{ block.settings.icon }}</div>
+              <p class="ingredient-card__name">{{ block.settings.name }}</p>
+              <p class="ingredient-card__benefit">{{ block.settings.benefit }}</p>
+              {%- if block.settings.tag != blank -%}
+                <span class="ingredient-card__tag">{{ block.settings.tag }}</span>
+              {%- endif -%}
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.cta_label != blank -%}
+      <div class="text-center" style="margin-top: 3rem;">
+        <a href="{{ section.settings.cta_url | default: '/pages/ingredients' }}" class="btn btn--outline">
+          {{ section.settings.cta_label }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Ingredient Highlights",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "What's inside"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Powered by nature. Proven by science."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "View All Ingredients"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Emoji icon", "default": "🌿" },
+        { "type": "text", "id": "name", "label": "Ingredient name", "default": "Hyaluronic Acid" },
+        { "type": "text", "id": "benefit", "label": "Key benefit", "default": "Binds 1000x its weight in water to plump and hydrate skin from within." },
+        { "type": "text", "id": "tag", "label": "Category tag", "default": "Hydration" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ingredient Highlights",
+      "blocks": [
+        { "type": "ingredient", "settings": { "icon": "💧", "name": "Hyaluronic Acid", "benefit": "Binds 1000x its weight in water. Triple-weight formula penetrates every skin layer.", "tag": "Hydration" } },
+        { "type": "ingredient", "settings": { "icon": "🌿", "name": "Centella Asiatica", "benefit": "Ancient wound-healing herb that calms inflammation and strengthens the barrier.", "tag": "Calming" } },
+        { "type": "ingredient", "settings": { "icon": "✨", "name": "Vitamin C (15%)", "benefit": "Stable 15% ascorbic acid brightens melanin and stimulates collagen synthesis.", "tag": "Brightening" } },
+        { "type": "ingredient", "settings": { "icon": "🔬", "name": "Retinol 0.3%", "benefit": "Clinically validated at 0.3% to visibly reduce fine lines and refine texture.", "tag": "Anti-aging" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

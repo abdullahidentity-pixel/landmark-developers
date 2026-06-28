@@ -1,0 +1,121 @@
+<section class="hp-routine-cta">
+  <div class="hp-routine-cta__inner container">
+
+    <!-- Content -->
+    <div class="hp-routine-cta__content reveal">
+      {%- if section.settings.label != blank -%}
+        <span class="hp-routine-cta__label">{{ section.settings.label }}</span>
+      {%- endif -%}
+      <h2 class="hp-routine-cta__title">{{ section.settings.title }}</h2>
+      <p class="hp-routine-cta__body">{{ section.settings.body }}</p>
+      <a href="{{ section.settings.cta_url | default: '/pages/routine' }}" class="hp-routine-cta__btn">
+        {{ section.settings.cta_label }}
+      </a>
+    </div>
+
+    <!-- 3-step visual -->
+    <div class="hp-routine-cta__steps reveal">
+      {%- for block in section.blocks -%}
+        <div class="hp-routine-step" {{ block.shopify_attributes }}>
+          <div class="hp-routine-step__number">{{ forloop.index }}</div>
+          {%- if block.settings.image != blank -%}
+            <div class="hp-routine-step__image">
+              {{- block.settings.image | image_url: width: 200 | image_tag:
+                  loading: 'lazy',
+                  alt: block.settings.name,
+                  class: 'hp-routine-step__img' -}}
+            </div>
+          {%- endif -%}
+          <p class="hp-routine-step__name">{{ block.settings.name }}</p>
+          {%- if block.settings.detail != blank -%}
+            <p class="hp-routine-step__detail">{{ block.settings.detail }}</p>
+          {%- endif -%}
+        </div>
+        {%- unless forloop.last -%}
+          <div class="hp-routine-step__connector" aria-hidden="true">→</div>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HP — Routine CTA",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Step name",
+          "default": "Cleanse"
+        },
+        {
+          "type": "text",
+          "id": "detail",
+          "label": "Detail",
+          "default": "Prep with a gentle cleanser"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Step image"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Eyebrow label",
+      "default": "Routine Builder"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Not sure where to start?"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Answer four questions and we'll build your personalised serum routine — matched to your skin type and concerns."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Build My Routine →"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "HP — Routine CTA",
+      "settings": {
+        "label": "Routine Builder",
+        "title": "Not sure where to start?",
+        "body": "Answer four questions and we'll build your personalised serum routine — matched to your skin type and concerns.",
+        "cta_label": "Build My Routine →"
+      },
+      "blocks": [
+        { "type": "step", "settings": { "name": "Cleanse", "detail": "Prep with a gentle cleanser" } },
+        { "type": "step", "settings": { "name": "Treat", "detail": "Apply your targeted serum" } },
+        { "type": "step", "settings": { "name": "Seal", "detail": "Lock in with a lightweight moisturiser" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,10 @@
+{
+  "current": {
+    "color_accent": "#49724a",
+    "color_accent_alt": "#cde8c9",
+    "cart_type": "drawer",
+    "cart_show_gift_note": false,
+    "enable_breadcrumbs": true
+  },
+  "presets": {}
+}

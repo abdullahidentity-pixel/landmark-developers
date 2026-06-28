@@ -1,0 +1,304 @@
+{{ 'brand-pages.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%} ── Hero / Header ── {%- endcomment -%}
+<section class="ct-hero">
+  <div class="ct-hero__left">
+    {%- if section.settings.hero_eyebrow != blank -%}
+      <span class="brand-eyebrow ct-hero__label">{{ section.settings.hero_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.hero_heading != blank -%}
+      <h1 class="brand-heading ct-hero__heading">{{ section.settings.hero_heading }}</h1>
+    {%- endif -%}
+    {%- if section.settings.hero_body != blank -%}
+      <p class="brand-body ct-hero__body">{{ section.settings.hero_body }}</p>
+    {%- endif -%}
+  </div>
+  <div class="ct-hero__right">
+    {%- assign detail_blocks = section.blocks | where: 'type', 'detail' -%}
+    {%- for block in detail_blocks -%}
+      <div class="ct-hero-detail" {{ block.shopify_attributes }}>
+        <div>
+          {%- if block.settings.label != blank -%}
+            <div class="ct-hero-detail__label">{{ block.settings.label }}</div>
+          {%- endif -%}
+          {%- if block.settings.value != blank -%}
+            <div class="ct-hero-detail__value">
+              {%- if block.settings.link != blank -%}
+                <a href="{{ block.settings.link }}">{{ block.settings.value }}</a>
+              {%- else -%}
+                {{ block.settings.value }}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{%- comment -%} ── Contact Form ── {%- endcomment -%}
+<section class="ct-form-section">
+  <div class="ct-form-section__inner">
+    <div>
+      {%- if section.settings.form_eyebrow != blank -%}
+        <span class="brand-eyebrow ct-form-section__label">{{ section.settings.form_eyebrow }}</span>
+      {%- endif -%}
+      {%- if section.settings.form_heading != blank -%}
+        <h2 class="brand-heading ct-form-section__heading">{{ section.settings.form_heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.form_body != blank -%}
+        <p class="ct-form-section__body">{{ section.settings.form_body }}</p>
+      {%- endif -%}
+    </div>
+    <div>
+      {%- form 'contact' -%}
+        {%- if form.posted_successfully? -%}
+          <div class="ct-form-success is-visible" role="alert">
+            {{ section.settings.success_message | default: "Thank you. We'll be in touch within 24 hours." }}
+          </div>
+        {%- else -%}
+          <div class="ct-form">
+            <div class="ct-fields-row">
+              <div class="ct-field">
+                <label for="contact-first-name">First name</label>
+                <input
+                  type="text"
+                  id="contact-first-name"
+                  name="contact[first_name]"
+                  autocomplete="given-name"
+                  placeholder="Mia"
+                  required
+                >
+              </div>
+              <div class="ct-field">
+                <label for="contact-last-name">Last name</label>
+                <input
+                  type="text"
+                  id="contact-last-name"
+                  name="contact[last_name]"
+                  autocomplete="family-name"
+                  placeholder="Calloway"
+                >
+              </div>
+            </div>
+            <div class="ct-field">
+              <label for="contact-email">Email address</label>
+              <input
+                type="email"
+                id="contact-email"
+                name="contact[email]"
+                autocomplete="email"
+                placeholder="you@example.com"
+                required
+              >
+            </div>
+            <div class="ct-field">
+              <label for="contact-subject">What's this about?</label>
+              <select id="contact-subject" name="contact[subject]">
+                <option value="">Select a topic</option>
+                <option value="Skincare advice">Skincare advice</option>
+                <option value="Order or delivery">Order or delivery</option>
+                <option value="Product question">Product question</option>
+                <option value="Returns or refunds">Returns or refunds</option>
+                <option value="Partnership or press">Partnership or press</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="ct-field">
+              <label for="contact-message">Message</label>
+              <textarea
+                id="contact-message"
+                name="contact[body]"
+                placeholder="Tell us about your skin, your question, or how we can help..."
+                required
+              ></textarea>
+            </div>
+            <div>
+              <button type="submit" class="brand-btn">
+                {{ section.settings.button_label | default: 'Send message' }}
+              </button>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ── Quick Links ── {%- endcomment -%}
+{%- assign link_blocks = section.blocks | where: 'type', 'quick_link' -%}
+{%- if link_blocks.size > 0 -%}
+<section class="ct-links">
+  <div class="ct-links__header">
+    {%- if section.settings.links_eyebrow != blank -%}
+      <span class="brand-eyebrow">{{ section.settings.links_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.links_heading != blank -%}
+      <h2 class="brand-heading ct-links__heading">{{ section.settings.links_heading }}</h2>
+    {%- endif -%}
+  </div>
+  <div class="ct-links-grid">
+    {%- for block in link_blocks -%}
+      <a
+        href="{{ block.settings.url | default: '#' }}"
+        class="ct-link-card"
+        {{ block.shopify_attributes }}
+      >
+        {%- if block.settings.label != blank -%}
+          <div class="ct-link-card__label">{{ block.settings.label }}</div>
+        {%- endif -%}
+        {%- if block.settings.title != blank -%}
+          <h3 class="ct-link-card__title">{{ block.settings.title }}</h3>
+        {%- endif -%}
+        {%- if block.settings.description != blank -%}
+          <p class="ct-link-card__desc">{{ block.settings.description }}</p>
+        {%- endif -%}
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ── FAQ ── {%- endcomment -%}
+{%- assign faq_blocks = section.blocks | where: 'type', 'faq' -%}
+{%- if faq_blocks.size > 0 -%}
+<section class="ct-faq">
+  <div class="ct-faq__inner">
+    <div>
+      {%- if section.settings.faq_eyebrow != blank -%}
+        <span class="brand-eyebrow">{{ section.settings.faq_eyebrow }}</span>
+      {%- endif -%}
+      <h2 class="brand-heading ct-faq__heading">{{ section.settings.faq_title | default: 'Common questions' }}</h2>
+    </div>
+    <ul class="brand-faq-list">
+      {%- for block in faq_blocks -%}
+        <li class="brand-faq-item" {{ block.shopify_attributes }}>
+          <details>
+            <summary>
+              {{ block.settings.question }}
+              <span class="brand-faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="brand-faq-body">
+              <p>{{ block.settings.answer }}</p>
+            </div>
+          </details>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ── Newsletter ── {%- endcomment -%}
+<section class="ct-newsletter">
+  <div class="ct-newsletter__inner">
+    <div>
+      {%- if section.settings.newsletter_eyebrow != blank -%}
+        <span class="brand-eyebrow brand-eyebrow--light ct-newsletter__label">{{ section.settings.newsletter_eyebrow }}</span>
+      {%- endif -%}
+      {%- if section.settings.newsletter_heading != blank -%}
+        <h2 class="ct-newsletter__heading">{{ section.settings.newsletter_heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.newsletter_body != blank -%}
+        <p class="ct-newsletter__body">{{ section.settings.newsletter_body }}</p>
+      {%- endif -%}
+    </div>
+    <div>
+      {%- form 'customer' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="ct-newsletter__form">
+          <input
+            class="ct-newsletter__input"
+            type="email"
+            name="contact[email]"
+            placeholder="{{ section.settings.newsletter_placeholder | default: 'Your email address' }}"
+            autocomplete="email"
+            required
+          >
+          <button type="submit" class="ct-newsletter__submit">
+            {{ section.settings.newsletter_cta | default: 'Subscribe' }}
+          </button>
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    { "type": "text",     "id": "hero_eyebrow", "label": "Eyebrow",    "default": "Get in Touch" },
+    { "type": "textarea", "id": "hero_heading", "label": "Heading",    "default": "We would love to hear from you." },
+    { "type": "textarea", "id": "hero_body",    "label": "Body text",  "default": "Whether you have a question about your skin, a formula, or our brand — our team responds within 24 hours, Monday to Friday." },
+    {
+      "type": "header",
+      "content": "Contact Form"
+    },
+    { "type": "text",     "id": "form_eyebrow",    "label": "Eyebrow",          "default": "Send a message" },
+    { "type": "text",     "id": "form_heading",    "label": "Heading",           "default": "Tell us what you need." },
+    { "type": "textarea", "id": "form_body",       "label": "Body text",         "default": "Fill in the form and one of our team will come back to you within one business day." },
+    { "type": "text",     "id": "button_label",    "label": "Button label",      "default": "Send message" },
+    { "type": "textarea", "id": "success_message", "label": "Success message",   "default": "Thank you. We'll be in touch within 24 hours." },
+    {
+      "type": "header",
+      "content": "Quick Links"
+    },
+    { "type": "text", "id": "links_eyebrow", "label": "Eyebrow", "default": "Helpful pages" },
+    { "type": "text", "id": "links_heading", "label": "Heading",  "default": "Find what you need." },
+    {
+      "type": "header",
+      "content": "FAQ"
+    },
+    { "type": "text", "id": "faq_eyebrow", "label": "Eyebrow", "default": "Questions" },
+    { "type": "text", "id": "faq_title",   "label": "Heading",  "default": "Common questions." },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    { "type": "text",     "id": "newsletter_eyebrow",    "label": "Eyebrow",     "default": "Stay updated" },
+    { "type": "text",     "id": "newsletter_heading",    "label": "Heading",     "default": "Skin science in your inbox." },
+    { "type": "textarea", "id": "newsletter_body",       "label": "Body text",   "default": "Ingredient deep-dives, new formula launches, and skincare guidance — no filler, no marketing fluff." },
+    { "type": "text",     "id": "newsletter_placeholder","label": "Placeholder", "default": "Your email address" },
+    { "type": "text",     "id": "newsletter_cta",        "label": "CTA label",   "default": "Subscribe" }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "Contact Detail",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Email" },
+        { "type": "text", "id": "value", "label": "Value", "default": "hello@velourskin.com" },
+        { "type": "url",  "id": "link",  "label": "Link (optional)" }
+      ]
+    },
+    {
+      "type": "quick_link",
+      "name": "Quick Link Card",
+      "settings": [
+        { "type": "text",     "id": "label",       "label": "Category label", "default": "Shipping" },
+        { "type": "text",     "id": "title",       "label": "Card title",     "default": "Shipping & Delivery" },
+        { "type": "textarea", "id": "description", "label": "Description",    "default": "Delivery times, tracking information, and international shipping options." },
+        { "type": "url",      "id": "url",         "label": "Link URL" }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        { "type": "text",     "id": "question", "label": "Question", "default": "What is your return policy?" },
+        { "type": "textarea", "id": "answer",   "label": "Answer",   "default": "We offer a 30-day return on all unopened products. If a product has caused a skin reaction, please contact us — we'll work with you directly." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Page"
+    }
+  ]
+}
+{% endschema %}

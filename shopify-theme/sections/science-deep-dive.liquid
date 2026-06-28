@@ -1,0 +1,128 @@
+<section class="science-hero">
+  <div class="container container--narrow text-center">
+    <p class="t-eyebrow reveal" style="color: var(--c-grey-green);">{{ section.settings.label | default: 'The Science' }}</p>
+    <h1 class="science-hero__title reveal reveal-delay-1">
+      {{ section.settings.heading_before }}
+      <em>{{ section.settings.heading_emphasis | default: 'every ingredient' }}</em>
+      {{ section.settings.heading_after | default: 'earns its place.' }}
+    </h1>
+    <p class="science-hero__sub reveal reveal-delay-2">{{ section.settings.intro }}</p>
+  </div>
+</section>
+
+<section class="ingredients-deep">
+  <div class="container">
+
+    <div class="ingredients-deep__intro">
+      <h2>{{ section.settings.list_heading | default: 'Our active ingredients' }}</h2>
+      <p>{{ section.settings.list_intro }}</p>
+    </div>
+
+    <div class="ingredients-list" data-accordion>
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'ingredient' -%}
+            <div class="ingredient-row reveal" data-accordion-item {{ block.shopify_attributes }}>
+              <span class="ingredient-row__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+              <div class="ingredient-row__name">
+                {{ block.settings.name }}
+                {%- if block.settings.inci != blank -%}
+                  <span>{{ block.settings.inci }}</span>
+                {%- endif -%}
+              </div>
+              <p class="ingredient-row__benefit" data-accordion-content>{{ block.settings.benefit }}</p>
+              <span class="ingredient-row__tag">{{ block.settings.category }}</span>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.footnote != blank -%}
+      <p class="t-body--sm color-sage" style="margin-top: 3rem; max-width: 680px;">{{ section.settings.footnote }}</p>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Science / Ingredients",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "The Science"
+    },
+    {
+      "type": "text",
+      "id": "heading_before",
+      "label": "Heading — before emphasis",
+      "default": "Why we chose"
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis",
+      "label": "Heading — emphasis",
+      "default": "every ingredient"
+    },
+    {
+      "type": "text",
+      "id": "heading_after",
+      "label": "Heading — after emphasis",
+      "default": "we use."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Hero intro text",
+      "default": "We don't add ingredients to look good on the label. Every active has a peer-reviewed reason for being there, at a concentration that actually works."
+    },
+    {
+      "type": "text",
+      "id": "list_heading",
+      "label": "List heading",
+      "default": "Our active ingredient library"
+    },
+    {
+      "type": "textarea",
+      "id": "list_intro",
+      "label": "List intro",
+      "default": "Below is every active ingredient across our range — what it does, why we use it, and where the evidence comes from."
+    },
+    {
+      "type": "textarea",
+      "id": "footnote",
+      "label": "Footnote",
+      "default": "All concentrations listed are at or above the minimum effective dose established in peer-reviewed literature. Full study references are available on request."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Common name", "default": "Hyaluronic Acid" },
+        { "type": "text", "id": "inci", "label": "INCI / scientific name", "default": "Sodium Hyaluronate" },
+        { "type": "textarea", "id": "benefit", "label": "Benefit / explanation", "default": "Humectant that binds up to 1000x its weight in water. Our triple-weight formula (high, medium, low molecular weight) penetrates all three skin layers for multi-depth hydration." },
+        { "type": "text", "id": "category", "label": "Category", "default": "Hydration" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Science / Ingredients",
+      "blocks": [
+        { "type": "ingredient", "settings": { "name": "Hyaluronic Acid", "inci": "Sodium Hyaluronate", "benefit": "Triple-weight humectant delivering 72-hour hydration across all skin layers. Clinically validated at 2% concentration.", "category": "Hydration" } },
+        { "type": "ingredient", "settings": { "name": "Vitamin C", "inci": "Ascorbic Acid", "benefit": "Stable 15% L-ascorbic acid inhibits melanogenesis and stimulates Type I collagen synthesis. In-house stability tested to 18 months.", "category": "Brightening" } },
+        { "type": "ingredient", "settings": { "name": "Retinol", "inci": "Retinol", "benefit": "0.3% encapsulated retinol for skin tolerance. Clinically demonstrated to reduce fine line depth by 34% at 12 weeks.", "category": "Anti-aging" } },
+        { "type": "ingredient", "settings": { "name": "Niacinamide", "inci": "Niacinamide", "benefit": "10% niacinamide reduces sebum production by up to 67%, minimises pore appearance, and brightens post-inflammatory hyperpigmentation.", "category": "Multi-benefit" } },
+        { "type": "ingredient", "settings": { "name": "Centella Asiatica", "inci": "Centella Asiatica Extract", "benefit": "Clinically demonstrated to accelerate wound healing, reduce TEWL by 41%, and calm inflammatory cytokines. Full-spectrum extract retained.", "category": "Calming" } },
+        { "type": "ingredient", "settings": { "name": "Peptide Complex", "inci": "Palmitoyl Tripeptide-1 & Tetrapeptide-7", "benefit": "Signal peptides that instruct fibroblasts to produce collagen and elastin. Evidence-based at 5ppm combined concentration.", "category": "Anti-aging" } },
+        { "type": "ingredient", "settings": { "name": "Ceramide NP", "inci": "Ceramide NP", "benefit": "Matches the skin's natural lipid bilayer to restore and maintain the epidermal moisture barrier. Essential for barrier-impaired or sensitive skin.", "category": "Barrier" } },
+        { "type": "ingredient", "settings": { "name": "Azelaic Acid", "inci": "Azelaic Acid", "benefit": "10% azelaic acid — clinically effective for rosacea, hyperpigmentation, and comedonal acne without the drying effect of benzoyl peroxide.", "category": "Clarifying" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

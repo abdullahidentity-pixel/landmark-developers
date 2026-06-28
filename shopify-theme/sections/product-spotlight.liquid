@@ -1,0 +1,166 @@
+{%- assign featured = section.settings.product -%}
+<section class="product-spotlight section">
+  <div class="container">
+    <div class="product-spotlight__inner">
+
+      <div class="product-spotlight__media reveal">
+        <div class="product-spotlight__image-wrap">
+          {%- if featured != blank and featured.featured_image != blank -%}
+            {{- featured.featured_image | image_url: width: 900 | image_tag:
+                loading: 'lazy',
+                widths: '480, 700, 900',
+                sizes: '(max-width: 768px) 100vw, 50vw',
+                alt: featured.title
+            -}}
+          {%- elsif section.settings.image != blank -%}
+            {{- section.settings.image | image_url: width: 900 | image_tag:
+                loading: 'lazy',
+                widths: '480, 700, 900',
+                sizes: '(max-width: 768px) 100vw, 50vw'
+            -}}
+          {%- else -%}
+            <div style="width:100%;height:100%;background: linear-gradient(160deg, #cde8c9 0%, #add9a8 100%);"></div>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.badge_label != blank -%}
+          <div class="product-spotlight__badge-float">
+            <span>{{ section.settings.badge_label }}</span>
+            <span>{{ section.settings.badge_sub }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="product-spotlight__content">
+        {%- if section.settings.label != blank -%}
+          <p class="t-label product-spotlight__label reveal">{{ section.settings.label }}</p>
+        {%- endif -%}
+
+        <h2 class="product-spotlight__name reveal reveal-delay-1">
+          {%- if featured != blank -%}
+            {{ featured.title }}
+          {%- else -%}
+            {{ section.settings.name }}
+          {%- endif -%}
+        </h2>
+
+        <p class="product-spotlight__desc reveal reveal-delay-2">
+          {%- if featured != blank -%}
+            {{ featured.description | strip_html | truncate: 200 }}
+          {%- else -%}
+            {{ section.settings.description }}
+          {%- endif -%}
+        </p>
+
+        {%- if section.blocks.size > 0 -%}
+          <ul class="product-spotlight__ingredients reveal reveal-delay-2">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'ingredient' -%}
+                <li {{ block.shopify_attributes }}>
+                  <span class="ingredient-dot"></span>
+                  {{ block.settings.ingredient }}
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        <div class="product-spotlight__price-row reveal reveal-delay-3">
+          {%- if featured != blank -%}
+            <span class="product-spotlight__price">{{ featured.price | money }}</span>
+          {%- else -%}
+            <span class="product-spotlight__price">{{ section.settings.price }}</span>
+          {%- endif -%}
+        </div>
+
+        <div class="btn-group reveal reveal-delay-3">
+          {%- if featured != blank -%}
+            <a href="{{ featured.url }}" class="btn btn--primary">Shop Now</a>
+          {%- else -%}
+            <a href="{{ section.settings.product_url | default: '/collections/all' }}" class="btn btn--primary">Shop Now</a>
+          {%- endif -%}
+          <a href="/pages/quiz" class="btn btn--outline">Find Your Match</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product Spotlight",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Bestseller"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Featured product"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (if no product selected)"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Product name (override)",
+      "default": "Hydra-Boost Serum"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description (override)",
+      "default": "Our most loved formula. A lightweight hyaluronic serum that delivers 72-hour moisture and visibly plumps skin from the first application."
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Price (override)",
+      "default": "£52.00"
+    },
+    {
+      "type": "url",
+      "id": "product_url",
+      "label": "Product URL (override)"
+    },
+    {
+      "type": "text",
+      "id": "badge_label",
+      "label": "Badge label",
+      "default": "Bestseller"
+    },
+    {
+      "type": "text",
+      "id": "badge_sub",
+      "label": "Badge subtitle",
+      "default": "#1 Serum"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Key Ingredient",
+      "settings": [
+        { "type": "text", "id": "ingredient", "label": "Ingredient", "default": "Hyaluronic Acid (3 weights)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Spotlight",
+      "blocks": [
+        { "type": "ingredient", "settings": { "ingredient": "Triple-weight Hyaluronic Acid" } },
+        { "type": "ingredient", "settings": { "ingredient": "Ceramide Complex NP" } },
+        { "type": "ingredient", "settings": { "ingredient": "Centella Asiatica Extract" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

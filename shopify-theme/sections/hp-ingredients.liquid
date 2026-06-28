@@ -1,0 +1,176 @@
+<section class="hp-ingredients section">
+  <div class="container">
+
+    <div class="hp-ingredients__header reveal">
+      {%- if section.settings.label != blank -%}
+        <span class="hp-section-label">{{ section.settings.label }}</span>
+      {%- endif -%}
+      <h2 class="hp-ingredients__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="hp-ingredients__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+  </div>
+
+  <div class="hp-ingredients__scroll-wrap">
+    <div class="hp-ingredients__track" id="ingredients-track">
+      {%- for block in section.blocks -%}
+        <div class="hp-ingredient-card" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <div class="hp-ingredient-card__image">
+              {{- block.settings.image | image_url: width: 400 | image_tag:
+                  loading: 'lazy',
+                  alt: block.settings.name,
+                  class: 'hp-ingredient-card__img' -}}
+            </div>
+          {%- else -%}
+            <div class="hp-ingredient-card__image hp-ingredient-card__image--placeholder">
+              {{ 'product-2' | placeholder_svg_tag: 'hp-ingredient-card__img' }}
+            </div>
+          {%- endif -%}
+          <div class="hp-ingredient-card__body">
+            <h3 class="hp-ingredient-card__name">{{ block.settings.name }}</h3>
+            <p class="hp-ingredient-card__benefit">{{ block.settings.benefit }}</p>
+            {%- if block.settings.detail != blank -%}
+              <p class="hp-ingredient-card__detail">{{ block.settings.detail }}</p>
+            {%- endif -%}
+            {%- if block.settings.link_url != blank -%}
+              <a href="{{ block.settings.link_url }}" class="hp-ingredient-card__link">Learn more →</a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- if section.settings.cta_label != blank and section.settings.cta_url != blank -%}
+    <div class="container">
+      <div class="hp-ingredients__cta-wrap reveal">
+        <a href="{{ section.settings.cta_url }}" class="btn btn--secondary">
+          {{ section.settings.cta_label }}
+        </a>
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+<script>
+  (function () {
+    const track = document.getElementById('ingredients-track');
+    if (!track) return;
+
+    let isDown = false, startX, scrollLeft;
+
+    track.addEventListener('mousedown', e => {
+      isDown = true;
+      track.classList.add('is-dragging');
+      startX = e.pageX - track.offsetLeft;
+      scrollLeft = track.scrollLeft;
+    });
+    track.addEventListener('mouseleave', () => { isDown = false; track.classList.remove('is-dragging'); });
+    track.addEventListener('mouseup', () => { isDown = false; track.classList.remove('is-dragging'); });
+    track.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - track.offsetLeft;
+      track.scrollLeft = scrollLeft - (x - startX) * 1.2;
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "HP — Ingredients",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Ingredient name",
+          "default": "Hyaluronic Acid"
+        },
+        {
+          "type": "text",
+          "id": "benefit",
+          "label": "Short benefit",
+          "default": "Deep hydration"
+        },
+        {
+          "type": "textarea",
+          "id": "detail",
+          "label": "Detail text",
+          "default": "A naturally occurring molecule that holds up to 1,000× its weight in water."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Ingredient image"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link to ingredient page"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "The Science"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Ingredients that earn their place"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Every active is chosen for clinical evidence, not trend. Here's what's inside — and why."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Explore the full glossary"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "HP — Ingredients",
+      "settings": {
+        "label": "The Science",
+        "title": "Ingredients that earn their place",
+        "subtitle": "Every active is chosen for clinical evidence, not trend. Here's what's inside — and why.",
+        "cta_label": "Explore the full glossary"
+      },
+      "blocks": [
+        { "type": "ingredient", "settings": { "name": "Hyaluronic Acid", "benefit": "Deep hydration", "detail": "Holds up to 1,000× its weight in water. Multi-weight formula for surface and deeper skin layers." } },
+        { "type": "ingredient", "settings": { "name": "Niacinamide", "benefit": "Pore refinement & tone", "detail": "Regulates sebum, minimises pores, and fades pigmentation at 10% concentration." } },
+        { "type": "ingredient", "settings": { "name": "Peptides", "benefit": "Firmness support", "detail": "Signal proteins that encourage collagen synthesis. Non-irritating age support." } },
+        { "type": "ingredient", "settings": { "name": "Vitamin C", "benefit": "Brightening & antioxidant", "detail": "Stabilised ascorbic acid at 15% for even tone and daily environmental defence." } },
+        { "type": "ingredient", "settings": { "name": "Ceramides", "benefit": "Barrier restoration", "detail": "Lipids identical to those in healthy skin. Seals moisture and strengthens the skin barrier." } },
+        { "type": "ingredient", "settings": { "name": "Centella Asiatica", "benefit": "Calming & healing", "detail": "Madecassoside and asiaticoside reduce redness and support wound healing." } },
+        { "type": "ingredient", "settings": { "name": "Retinol Alternative", "benefit": "Cell renewal without irritation", "detail": "Bakuchiol — plant-derived retinol analogue. Comparable efficacy, suitable for sensitive skin." } },
+        { "type": "ingredient", "settings": { "name": "Green Tea", "benefit": "Antioxidant defence", "detail": "EGCG-rich extract neutralises free radicals and soothes inflammation." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

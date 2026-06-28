@@ -1,0 +1,172 @@
+<section class="hp-bestsellers section">
+  <div class="container">
+
+    <div class="hp-bestsellers__header reveal">
+      {%- if section.settings.label != blank -%}
+        <span class="hp-section-label">{{ section.settings.label }}</span>
+      {%- endif -%}
+      <h2 class="hp-bestsellers__title">{{ section.settings.title }}</h2>
+    </div>
+
+    <div class="hp-bestsellers__grid reveal">
+      {%- for block in section.blocks -%}
+        {%- assign prod = block.settings.product -%}
+        {%- if prod != blank -%}
+          <div class="hp-product-card" {{ block.shopify_attributes }}>
+            <div class="hp-product-card__image-wrap">
+              <a href="{{ prod.url }}" class="hp-product-card__image-link" aria-label="{{ prod.title }}">
+                {%- if prod.featured_image -%}
+                  {{- prod.featured_image | image_url: width: 640 | image_tag:
+                      loading: 'lazy',
+                      alt: prod.featured_image.alt | default: prod.title,
+                      class: 'hp-product-card__img' -}}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'hp-product-card__img hp-product-card__img--placeholder' }}
+                {%- endif -%}
+              </a>
+              {%- if prod.available -%}
+                <button class="hp-product-card__quick-add"
+                        data-product-id="{{ prod.variants.first.id }}"
+                        aria-label="Add {{ prod.title }} to bag">
+                  + Add to Bag
+                </button>
+              {%- else -%}
+                <span class="hp-product-card__sold-out-badge">Sold Out</span>
+              {%- endif -%}
+            </div>
+            <div class="hp-product-card__info">
+              <a href="{{ prod.url }}" class="hp-product-card__name">{{ prod.title }}</a>
+              {%- assign benefit = block.settings.benefit -%}
+              {%- if benefit == blank and prod.metafields.custom.tagline != blank -%}
+                {%- assign benefit = prod.metafields.custom.tagline -%}
+              {%- endif -%}
+              {%- if benefit != blank -%}
+                <p class="hp-product-card__benefit">{{ benefit }}</p>
+              {%- endif -%}
+              <div class="hp-product-card__footer">
+                <span class="hp-product-card__price">
+                  {%- if prod.compare_at_price > prod.price -%}
+                    <s class="hp-product-card__price--compare">{{ prod.compare_at_price | money }}</s>&nbsp;
+                  {%- endif -%}
+                  {{ prod.price_min | money }}
+                </span>
+              </div>
+            </div>
+          </div>
+        {%- else -%}
+          <!-- Placeholder card when no product is selected -->
+          <div class="hp-product-card hp-product-card--placeholder" {{ block.shopify_attributes }}>
+            <div class="hp-product-card__image-wrap">
+              {{ 'product-1' | placeholder_svg_tag: 'hp-product-card__img hp-product-card__img--placeholder' }}
+            </div>
+            <div class="hp-product-card__info">
+              <p class="hp-product-card__name">Select a product</p>
+              <p class="hp-product-card__benefit">Pick a product in the theme editor</p>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.cta_label != blank and section.settings.cta_url != blank -%}
+      <div class="hp-bestsellers__cta-wrap reveal">
+        <a href="{{ section.settings.cta_url }}" class="btn btn--secondary">
+          {{ section.settings.cta_label }}
+        </a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.hp-product-card__quick-add').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const id = btn.dataset.productId;
+      if (!id) return;
+      btn.textContent = '…';
+      btn.disabled = true;
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, quantity: 1 })
+      })
+      .then(r => r.json())
+      .then(() => {
+        btn.textContent = '✓ Added';
+        document.dispatchEvent(new CustomEvent('cart:open'));
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        setTimeout(() => { btn.textContent = '+ Add to Bag'; btn.disabled = false; }, 2000);
+      })
+      .catch(() => { btn.textContent = 'Error'; btn.disabled = false; });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "HP — Bestsellers",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "benefit",
+          "label": "Benefit line",
+          "info": "Short descriptor shown under the product name. Falls back to product metafield tagline."
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Bestsellers"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Our Most-Loved Serums"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "View all serums"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "HP — Bestsellers",
+      "settings": {
+        "label": "Bestsellers",
+        "title": "Our Most-Loved Serums",
+        "cta_label": "View all serums"
+      },
+      "blocks": [
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" }
+      ]
+    }
+  ]
+}
+{% endschema %}

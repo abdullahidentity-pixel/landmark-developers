@@ -1,0 +1,14 @@
+{%- liquid
+  assign target = target | default: product
+  assign compare = target.compare_at_price
+  assign price = target.price
+-%}
+
+<div class="price">
+  {%- if compare > price -%}
+    <span class="price__sale">{{ price | money }}</span>
+    <span class="price__compare">{{ compare | money }}</span>
+  {%- else -%}
+    <span class="price__regular">{{ price | money }}</span>
+  {%- endif -%}
+</div>

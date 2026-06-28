@@ -1,0 +1,65 @@
+<section class="philosophy-strip section--sm">
+  <div class="container">
+    <div class="philosophy-strip__grid">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'pillar' -%}
+            <div class="philosophy-item reveal reveal-delay-{{ forloop.index }}" {{ block.shopify_attributes }}>
+              <span class="philosophy-item__number">0{{ forloop.index }}</span>
+              <p class="philosophy-item__title">{{ block.settings.title }}</p>
+              <p class="philosophy-item__desc">{{ block.settings.description }}</p>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand Philosophy",
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Clinically tested"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Every formula is validated by independent dermatologists."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Philosophy",
+      "blocks": [
+        {
+          "type": "pillar",
+          "settings": { "title": "Clinically tested", "description": "Every formula validated by independent dermatologists for efficacy and safety." }
+        },
+        {
+          "type": "pillar",
+          "settings": { "title": "Plant-derived", "description": "97% naturally derived active ingredients, ethically sourced from certified suppliers." }
+        },
+        {
+          "type": "pillar",
+          "settings": { "title": "Fragrance free", "description": "Zero synthetic fragrance. Nothing that triggers, always something that heals." }
+        },
+        {
+          "type": "pillar",
+          "settings": { "title": "Carbon neutral", "description": "Packaging made from post-consumer recycled materials. Always." }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

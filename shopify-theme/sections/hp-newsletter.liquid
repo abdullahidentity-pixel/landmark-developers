@@ -1,0 +1,139 @@
+<section class="hp-newsletter">
+  <div class="hp-newsletter__inner container">
+
+    <div class="hp-newsletter__content reveal">
+      {%- if section.settings.label != blank -%}
+        <span class="hp-newsletter__label">{{ section.settings.label }}</span>
+      {%- endif -%}
+      <h2 class="hp-newsletter__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="hp-newsletter__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+
+      {%- form 'customer', id: 'hp-newsletter-form', class: 'hp-newsletter__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="hp-newsletter__field-wrap">
+          <label for="hp-email" class="visually-hidden">{{ 'newsletter.label' | t }}</label>
+          <input
+            id="hp-email"
+            type="email"
+            name="contact[email]"
+            class="hp-newsletter__input"
+            placeholder="{{ section.settings.placeholder }}"
+            required
+            autocomplete="email">
+          <button type="submit" class="hp-newsletter__submit">
+            {{ section.settings.button_label }}
+          </button>
+        </div>
+        {%- if form.posted_successfully? -%}
+          <p class="hp-newsletter__success">{{ 'newsletter.success' | t }}</p>
+        {%- endif -%}
+        {%- if form.errors -%}
+          <p class="hp-newsletter__error">{{ form.errors | default_errors }}</p>
+        {%- endif -%}
+      {%- endform -%}
+
+      {%- if section.settings.privacy_note != blank -%}
+        <p class="hp-newsletter__privacy">{{ section.settings.privacy_note }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <nav class="hp-newsletter__links reveal" aria-label="Footer quick links">
+        {%- for block in section.blocks -%}
+          <a href="{{ block.settings.url }}" class="hp-newsletter__link" {{ block.shopify_attributes }}>
+            {{ block.settings.label }}
+          </a>
+        {%- endfor -%}
+      </nav>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HP — Newsletter",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Footer link",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "About"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Eyebrow label",
+      "default": "Stay in the loop"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Skin notes, routine tips, and early access."
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Join the Velour Skin community. No noise, just what your skin needs."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Input placeholder",
+      "default": "Your email address"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Submit button",
+      "default": "Join"
+    },
+    {
+      "type": "text",
+      "id": "privacy_note",
+      "label": "Privacy note",
+      "default": "We respect your privacy. Unsubscribe at any time."
+    }
+  ],
+  "presets": [
+    {
+      "name": "HP — Newsletter",
+      "settings": {
+        "label": "Stay in the loop",
+        "title": "Skin notes, routine tips, and early access.",
+        "subtitle": "Join the Velour Skin community. No noise, just what your skin needs.",
+        "placeholder": "Your email address",
+        "button_label": "Join",
+        "privacy_note": "We respect your privacy. Unsubscribe at any time."
+      },
+      "blocks": [
+        { "type": "link", "settings": { "label": "About Us" } },
+        { "type": "link", "settings": { "label": "Ingredients" } },
+        { "type": "link", "settings": { "label": "The Science" } },
+        { "type": "link", "settings": { "label": "Serum Quiz" } },
+        { "type": "link", "settings": { "label": "Contact" } },
+        { "type": "link", "settings": { "label": "Privacy Policy" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

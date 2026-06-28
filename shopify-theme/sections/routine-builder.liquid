@@ -1,0 +1,125 @@
+{%- liquid
+  assign am_products = section.settings.am_products
+  assign pm_products = section.settings.pm_products
+-%}
+
+<section class="routine-page">
+
+  <!-- Hero -->
+  <div class="routine-hero">
+    <div class="container">
+      <p class="t-eyebrow reveal" style="color: var(--c-sage);">{{ section.settings.label | default: 'The Ritual' }}</p>
+      <h1 class="routine-hero__title reveal reveal-delay-1">
+        {{ section.settings.heading_before }}
+        <em>{{ section.settings.heading_emphasis | default: 'your routine' }}</em>
+      </h1>
+    </div>
+  </div>
+
+  <!-- Skin type selector + routines -->
+  <div class="routine-selector section" data-routine-builder>
+    <div class="container">
+
+      <div class="text-center" style="margin-bottom: 2.5rem;" class="reveal">
+        <p class="t-body color-sage" style="max-width: 520px; margin-inline: auto;">
+          {{ section.settings.intro | default: 'Select your skin type to see a personalised routine built from our range.' }}
+        </p>
+      </div>
+
+      <!-- Skin type tabs -->
+      <div class="routine-selector__tabs">
+        {%- assign types = 'Oily,Dry,Combination,Sensitive,Normal' | split: ',' -%}
+        {%- for type in types -%}
+          <button class="skin-type-btn" data-skin-type="{{ type | downcase }}">{{ type }}</button>
+        {%- endfor -%}
+      </div>
+
+      <!-- Oily routine -->
+      <div class="routine-content" data-routine-content="oily">
+        {%- render 'routine-timeline',
+            am_steps: 'Hydra-Boost Serum,Niacinamide Clear,Pore Refine Serum',
+            pm_steps: 'Pore Refine Serum,Niacinamide Clear,Retinol Renewal',
+            am_descs: 'Lightweight hydration without congestion|Controls shine through the day|Visibly minimises pores',
+            pm_descs: 'Deep clean and refine overnight|Even skin tone while you sleep|Resurface and renew'
+        -%}
+      </div>
+
+      <!-- Dry routine -->
+      <div class="routine-content" data-routine-content="dry">
+        {%- render 'routine-timeline',
+            am_steps: 'Hydra-Boost Serum,Calm Barrier,Luminance Serum',
+            pm_steps: 'Hydra-Boost Serum,Peptide Firming,Calm Barrier',
+            am_descs: '72-hour moisture surge from first use|Restore and protect skin barrier|Luminous glow while skin is most receptive',
+            pm_descs: 'Intensive overnight hydration|Stimulate collagen for firmer skin|Repair and calm skin as you sleep'
+        -%}
+      </div>
+
+      <!-- Combination routine -->
+      <div class="routine-content" data-routine-content="combination">
+        {%- render 'routine-timeline',
+            am_steps: 'Hydra-Boost Serum,Niacinamide Clear',
+            pm_steps: 'Vitamin C Radiance,Retinol Renewal,Hydra-Boost Serum',
+            am_descs: 'Balanced hydration for every zone|Control oily areas, protect dry zones',
+            pm_descs: 'Brighten and even tone overnight|Resurface for smooth texture|Seal in overnight moisture'
+        -%}
+      </div>
+
+      <!-- Sensitive routine -->
+      <div class="routine-content" data-routine-content="sensitive">
+        {%- render 'routine-timeline',
+            am_steps: 'Calm Barrier,Hydra-Boost Serum',
+            pm_steps: 'Calm Barrier,Hydra-Boost Serum',
+            am_descs: 'Soothe and defend against daily irritants|Gentle hydration for reactive skin',
+            pm_descs: 'Intensive repair while you rest|Deep moisture to restore balance'
+        -%}
+      </div>
+
+      <!-- Normal routine -->
+      <div class="routine-content" data-routine-content="normal">
+        {%- render 'routine-timeline',
+            am_steps: 'Vitamin C Radiance,Hydra-Boost Serum',
+            pm_steps: 'Retinol Renewal,Peptide Firming,Hydra-Boost Serum',
+            am_descs: 'Antioxidant protection and radiance all day|Lock in moisture for a balanced, healthy glow',
+            pm_descs: 'Stimulate cell renewal as you sleep|Rebuild firmness and elasticity overnight|Seal in actives with deep hydration'
+        -%}
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Routine Builder",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "The Ritual"
+    },
+    {
+      "type": "text",
+      "id": "heading_before",
+      "label": "Heading before emphasis",
+      "default": "Build"
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis",
+      "label": "Heading emphasis",
+      "default": "your routine"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro paragraph",
+      "default": "Select your skin type to see a personalised routine built from our range of eight targeted serums."
+    }
+  ],
+  "presets": [
+    { "name": "Routine Builder" }
+  ]
+}
+{% endschema %}

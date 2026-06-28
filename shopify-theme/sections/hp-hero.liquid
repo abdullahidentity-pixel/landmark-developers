@@ -1,0 +1,175 @@
+<section class="hp-hero">
+  <div class="hp-hero__inner container">
+
+    <!-- Image column -->
+    <div class="hp-hero__image-col">
+      {%- if section.settings.hero_image != blank -%}
+        <div class="hp-hero__image-wrap">
+          {{- section.settings.hero_image | image_url: width: 1200 | image_tag:
+              loading: 'eager',
+              fetchpriority: 'high',
+              alt: section.settings.hero_image.alt | default: shop.name,
+              class: 'hp-hero__img' -}}
+        </div>
+      {%- else -%}
+        <div class="hp-hero__image-wrap hp-hero__image-wrap--placeholder">
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'hp-hero__img' }}
+        </div>
+      {%- endif -%}
+
+      <!-- Floating product card -->
+      {%- if section.settings.float_product != blank -%}
+        {%- assign float = section.settings.float_product -%}
+        <div class="hp-hero__float-card reveal">
+          <div class="hp-hero__float-image">
+            {%- if float.featured_image -%}
+              {{- float.featured_image | image_url: width: 160 | image_tag:
+                  loading: 'lazy',
+                  alt: float.title,
+                  class: 'hp-hero__float-img' -}}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'hp-hero__float-img' }}
+            {%- endif -%}
+          </div>
+          <div class="hp-hero__float-info">
+            <p class="hp-hero__float-name">{{ float.title }}</p>
+            {%- if float.metafields.custom.tagline != blank -%}
+              <p class="hp-hero__float-sub">{{ float.metafields.custom.tagline }}</p>
+            {%- else -%}
+              <p class="hp-hero__float-sub">{{ float.type }}</p>
+            {%- endif -%}
+            <p class="hp-hero__float-price">{{ float.price_min | money }}</p>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Content column -->
+    <div class="hp-hero__content reveal">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="hp-hero__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+
+      <h1 class="hp-hero__headline">{{ section.settings.headline }}</h1>
+
+      {%- if section.settings.subline != blank -%}
+        <p class="hp-hero__subline">{{ section.settings.subline }}</p>
+      {%- endif -%}
+
+      <div class="hp-hero__ctas">
+        <a href="{{ section.settings.primary_cta_url }}" class="btn btn--primary">
+          {{ section.settings.primary_cta_label }}
+        </a>
+        <a href="{{ section.settings.secondary_cta_url }}" class="btn btn--ghost">
+          {{ section.settings.secondary_cta_label }}
+        </a>
+      </div>
+
+      {%- if section.settings.trust_line != blank -%}
+        <p class="hp-hero__trust">{{ section.settings.trust_line }}</p>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+<link rel="stylesheet" href="{{ 'homepage.css' | asset_url }}">
+
+{% schema %}
+{
+  "name": "HP — Hero",
+  "tag": "section",
+  "class": "hp-hero-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "header",
+      "content": "Copy"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Velour Skin"
+    },
+    {
+      "type": "textarea",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Targeted serums for calm, clear, balanced skin."
+    },
+    {
+      "type": "textarea",
+      "id": "subline",
+      "label": "Sub-headline",
+      "default": "Formulated with clinical-grade actives, designed for your daily ritual."
+    },
+    {
+      "type": "text",
+      "id": "trust_line",
+      "label": "Trust line",
+      "default": "Dermatologist-reviewed · Fragrance-free · EU compliant"
+    },
+    {
+      "type": "header",
+      "content": "Primary CTA"
+    },
+    {
+      "type": "text",
+      "id": "primary_cta_label",
+      "label": "Label",
+      "default": "Shop Serums"
+    },
+    {
+      "type": "url",
+      "id": "primary_cta_url",
+      "label": "URL"
+    },
+    {
+      "type": "header",
+      "content": "Secondary CTA"
+    },
+    {
+      "type": "text",
+      "id": "secondary_cta_label",
+      "label": "Label",
+      "default": "Find Your Routine"
+    },
+    {
+      "type": "url",
+      "id": "secondary_cta_url",
+      "label": "URL"
+    },
+    {
+      "type": "header",
+      "content": "Floating product card"
+    },
+    {
+      "type": "product",
+      "id": "float_product",
+      "label": "Featured product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "HP — Hero",
+      "settings": {
+        "eyebrow": "Velour Skin",
+        "headline": "Targeted serums for calm, clear, balanced skin.",
+        "subline": "Formulated with clinical-grade actives, designed for your daily ritual.",
+        "trust_line": "Dermatologist-reviewed · Fragrance-free · EU compliant",
+        "primary_cta_label": "Shop Serums",
+        "secondary_cta_label": "Find Your Routine"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,77 @@
+{%- if section.blocks.size > 0 -%}
+<section class="press-strip">
+  <div class="container">
+    {%- if section.settings.label != blank -%}
+      <p class="press-strip__label t-eyebrow text-center">{{ section.settings.label }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="press-strip__scroll" aria-hidden="true">
+    <div class="press-strip__track">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'feature' -%}
+            <div class="press-item" {{ block.shopify_attributes }}>
+              {%- if block.settings.outlet != blank -%}
+                <p class="press-item__outlet">{{ block.settings.outlet }}</p>
+              {%- endif -%}
+              {%- if block.settings.quote != blank -%}
+                <p class="press-item__quote">"{{ block.settings.quote }}"</p>
+              {%- endif -%}
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+      {%- comment -%}Duplicate for seamless loop (JS also does this, belt-and-braces){%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'feature' -%}
+            <div class="press-item" aria-hidden="true">
+              {%- if block.settings.outlet != blank -%}
+                <p class="press-item__outlet">{{ block.settings.outlet }}</p>
+              {%- endif -%}
+              {%- if block.settings.quote != blank -%}
+                <p class="press-item__quote">"{{ block.settings.quote }}"</p>
+              {%- endif -%}
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Press Strip",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "As seen in"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Press Feature",
+      "settings": [
+        { "type": "text", "id": "outlet", "label": "Publication name", "default": "Vogue" },
+        { "type": "text", "id": "quote", "label": "Quote / headline", "default": "The serum that changed our beauty editor's skin" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Press Strip",
+      "blocks": [
+        { "type": "feature", "settings": { "outlet": "Vogue", "quote": "The minimalist serum collection redefining luxury skincare" } },
+        { "type": "feature", "settings": { "outlet": "Harper's Bazaar", "quote": "Finally, a formula that's as elegant as it is effective" } },
+        { "type": "feature", "settings": { "outlet": "Glamour", "quote": "Our beauty team hasn't stopped talking about this" } },
+        { "type": "feature", "settings": { "outlet": "The Guardian", "quote": "Clinical meets botanical in this exceptional skincare range" } },
+        { "type": "feature", "settings": { "outlet": "Elle", "quote": "The green standard for next-generation serums" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,80 @@
+{%- if cart.item_count == 0 -%}
+  <section style="min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem var(--pad-x);background:var(--c-cream);">
+    <p class="t-h3" style="color:var(--c-black);margin-bottom:1rem;">Your cart is empty.</p>
+    <p class="t-body color-sage" style="margin-bottom:2rem;">Begin your ritual below.</p>
+    <a href="/collections/all" class="btn btn--primary">Shop Serums</a>
+  </section>
+{%- else -%}
+  <section class="section" style="background:var(--c-cream);">
+    <div class="container">
+      <h1 class="t-h2" style="margin-bottom:2.5rem;">Your Ritual</h1>
+      <div style="display:grid;grid-template-columns:1fr 360px;gap:3rem;align-items:start;" class="cart-page-grid">
+
+        <!-- Items -->
+        <div>
+          {%- for item in cart.items -%}
+            <div class="cart-item" style="display:grid;grid-template-columns:96px 1fr;gap:1.25rem;padding-bottom:1.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--c-grey);">
+              <a href="{{ item.url }}">
+                <div style="border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/5;background:var(--c-mint);">
+                  {{- item.image | image_url: width: 192 | image_tag: loading: 'lazy', alt: item.title -}}
+                </div>
+              </a>
+              <div>
+                <a href="{{ item.url }}" style="font-size:var(--text-base);font-weight:500;color:var(--c-black);">{{ item.product_title }}</a>
+                {%- if item.variant.title != 'Default Title' -%}
+                  <p style="font-size:var(--text-sm);color:var(--c-sage);margin-top:0.25rem;">{{ item.variant.title }}</p>
+                {%- endif -%}
+                <p style="font-size:var(--text-base);font-weight:500;margin-top:0.5rem;">{{ item.final_line_price | money }}</p>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:1rem;">
+                  <div class="product-qty" style="border-color:var(--c-grey);">
+                    <button type="button" class="product-qty__btn"
+                            onclick="fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:'{{ item.key }}',quantity:{{ item.quantity | minus: 1 }}})}).then(()=>location.reload())">−</button>
+                    <span class="product-qty__input" style="display:flex;align-items:center;justify-content:center;">{{ item.quantity }}</span>
+                    <button type="button" class="product-qty__btn"
+                            onclick="fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:'{{ item.key }}',quantity:{{ item.quantity | plus: 1 }}})}).then(()=>location.reload())">+</button>
+                  </div>
+                  <a href="/cart/change?line={{ forloop.index }}&quantity=0" style="font-size:var(--text-xs);color:var(--c-grey-green);text-decoration:underline;">Remove</a>
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <!-- Summary -->
+        <div style="background:var(--c-white);border-radius:var(--r-2xl);padding:2rem;box-shadow:var(--shadow-md);position:sticky;top:calc(var(--header-h) + 1.5rem);">
+          <h2 style="font-size:var(--text-lg);font-weight:500;color:var(--c-black);margin-bottom:1.5rem;">Order Summary</h2>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.75rem;">
+            <span style="font-size:var(--text-sm);color:var(--c-sage);">Subtotal</span>
+            <span style="font-size:var(--text-base);font-weight:500;">{{ cart.total_price | money }}</span>
+          </div>
+          <p style="font-size:var(--text-xs);color:var(--c-grey-green);margin-bottom:1.5rem;">
+            {%- if cart.total_price >= 6000 -%}
+              ✓ Free shipping applied
+            {%- else -%}
+              Add {{ 6000 | minus: cart.total_price | money }} more for free shipping
+            {%- endif -%}
+          </p>
+          <a href="/checkout" class="btn--checkout" style="display:block;padding:1rem;background:var(--c-black);color:var(--c-white);border-radius:var(--r-lg);text-align:center;font-size:var(--text-sm);font-weight:500;margin-bottom:0.75rem;">
+            Checkout →
+          </a>
+          <a href="/collections/all" class="btn--continue" style="display:block;text-align:center;font-size:var(--text-xs);color:var(--c-sage);text-decoration:underline;">Continue Shopping</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+<style>
+  @media (max-width: 768px) {
+    .cart-page-grid { grid-template-columns: 1fr !important; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [],
+  "presets": [{ "name": "Cart" }]
+}
+{% endschema %}

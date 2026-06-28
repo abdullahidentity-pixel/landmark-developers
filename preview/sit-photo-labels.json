@@ -1,0 +1,19 @@
+{
+  "_meta": {
+    "description": "SIT photo-analysis wording rules. Consumer-safe, non-diagnostic language only (\"appears to show\", \"may suggest\").",
+    "updated": "2026-06-27"
+  },
+  "photoLabels": {
+    "visible_dryness": "There may be signs of dryness or dehydration in some areas.",
+    "dehydration": "The skin looks like it may benefit from additional hydration.",
+    "dullness": "The skin appears to have a lower level of radiance than optimal.",
+    "uneven_tone": "There appears to be some variation in skin tone visible in the photo.",
+    "visible_redness": "The photo appears to show some areas of visible redness.",
+    "shine_oiliness": "There may be visible shine, which can suggest some oiliness.",
+    "congestion_appearance": "There may be some visible congestion or pore appearance.",
+    "rough_texture": "The skin surface appears to have some texture variation.",
+    "fine_line_appearance": "There may be some fine line appearance visible in the photo.",
+    "barrier_stress": "The skin shows patterns that may suggest barrier stress.",
+    "severe_concern": "The photo shows a pattern that may need professional assessment. SIT recommends speaking with a dermatologist."
+  }
+}

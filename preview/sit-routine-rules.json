@@ -1,0 +1,48 @@
+{
+  "_meta": {
+    "description": "SIT routine templates for morning/evening by routine depth (minimal/standard/full).",
+    "updated": "2026-06-27"
+  },
+  "routineTemplates": {
+    "morning": {
+      "minimal": [
+        "Cleanse",
+        "Serum",
+        "SPF"
+      ],
+      "standard": [
+        "Cleanse",
+        "Mist (optional)",
+        "Serum",
+        "Moisturiser",
+        "SPF"
+      ],
+      "full": [
+        "Double Cleanse",
+        "Mist",
+        "Serum 1",
+        "Serum 2 (if layering)",
+        "Moisturiser",
+        "SPF"
+      ]
+    },
+    "evening": {
+      "minimal": [
+        "Cleanse",
+        "Serum"
+      ],
+      "standard": [
+        "Cleanse",
+        "Serum",
+        "Support Cream"
+      ],
+      "full": [
+        "Double Cleanse",
+        "Mist",
+        "Serum 1",
+        "Serum 2 (if layering)",
+        "Support Cream"
+      ]
+    }
+  }
+}

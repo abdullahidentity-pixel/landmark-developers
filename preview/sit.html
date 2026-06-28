@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skin Consultant — AI Skin Analysis | Sebble</title>
+<meta name="description" content="SIT, the Sebble Skin Intelligence Tool. Answer a few questions, upload a photo if you choose, and receive a personalised serum routine. Cosmetic guidance, never a medical diagnosis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS — shared with the rest of the Sebble site
+============================================================ */
+:root{
+  --c-black:#030706; --c-forest:#142b1b; --c-green-rich:#2c4f31;
+  --c-green-nat:#49724a; --c-sage:#819d7c; --c-grey-green:#a4b09e;
+  --c-fresh:#add9a8; --c-mint:#cde8c9; --c-cream:#faf9f6;
+  --c-grey:#dddcdc; --c-white:#ffffff;
+  --font-sans:'DM Sans',sans-serif; --font-serif:'Playfair Display',serif;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-sans); color:var(--c-black);
+  background:var(--c-cream); line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.container{max-width:1320px;margin-inline:auto;padding-inline:clamp(1.25rem,5vw,3rem)}
+
+/* ============================================================
+   SITE HEADER (matches other pages)
+============================================================ */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(250,249,246,0.85); backdrop-filter:blur(18px) saturate(140%);
+  border-bottom:1px solid rgba(20,43,27,0.08);
+}
+.site-header .container{display:flex;align-items:center;justify-content:space-between;height:72px}
+.header-logo{display:inline-flex;text-decoration:none;flex-shrink:0;overflow:hidden;height:40px}
+.header-logo__img{height:148px;width:auto;margin-top:-46px;display:block;mix-blend-mode:multiply}
+.header-nav{display:flex;gap:2.25rem}
+.header-nav a{font-size:0.8125rem;color:var(--c-green-rich);letter-spacing:0.04em;transition:color 0.2s;position:relative}
+.header-nav a:hover{color:var(--c-black)}
+.header-nav a.is-active{color:var(--c-black)}
+.header-nav a.nav-sit{display:inline-flex;align-items:center;gap:0.4rem}
+.header-nav a.nav-sit::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--c-green-nat);box-shadow:0 0 0 3px rgba(73,114,74,0.18)}
+.header-actions{display:flex;align-items:center;gap:1.25rem}
+.header-actions a{font-size:0.8125rem;color:var(--c-green-rich)}
+.header-cart-btn{font-size:0.8125rem;color:var(--c-white);background:var(--c-forest);padding:0.5rem 1.1rem;border-radius:999px;transition:background 0.2s}
+.header-cart-btn:hover{background:var(--c-green-rich)}
+@media(max-width:860px){.header-nav{display:none}}
+
+/* ============================================================
+   BUTTONS
+============================================================ */
+.btn{display:inline-flex;align-items:center;gap:0.55rem;font-size:0.8125rem;font-weight:500;letter-spacing:0.03em;padding:0.95rem 1.6rem;border-radius:999px;transition:all 0.35s var(--ease);white-space:nowrap}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--c-forest);color:var(--c-white)}
+.btn-primary:hover{background:var(--c-green-rich);transform:translateY(-1px)}
+.btn-light{background:var(--c-white);color:var(--c-forest);border:1px solid var(--c-grey)}
+.btn-light:hover{border-color:var(--c-sage);transform:translateY(-1px)}
+.btn-ghost{color:var(--c-green-rich);border-bottom:1px solid rgba(44,79,49,0.3);border-radius:0;padding:0.3rem 0}
+.btn-ghost:hover{border-bottom-color:var(--c-green-rich)}
+.btn svg{width:15px;height:15px}
+
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 0.9s var(--ease),transform 0.9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal-group>*{opacity:0;transform:translateY(26px);transition:opacity 0.8s var(--ease),transform 0.8s var(--ease)}
+.reveal-group.in>*{opacity:1;transform:none}
+.reveal-group.in>*:nth-child(2){transition-delay:0.08s}
+.reveal-group.in>*:nth-child(3){transition-delay:0.16s}
+.reveal-group.in>*:nth-child(4){transition-delay:0.24s}
+.reveal-group.in>*:nth-child(5){transition-delay:0.32s}
+.reveal-group.in>*:nth-child(6){transition-delay:0.4s}
+
+.eyebrow{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.6875rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--c-green-nat)}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--c-sage)}
+
+/* ============================================================
+   §1 HERO
+============================================================ */
+.sit-hero{position:relative;overflow:hidden;background:
+   radial-gradient(120% 90% at 85% 0%,rgba(205,232,201,0.5) 0%,rgba(250,249,246,0) 55%),
+   var(--c-cream);
+  border-bottom:1px solid rgba(20,43,27,0.07)}
+.sit-hero__grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:clamp(2rem,5vw,4.5rem);align-items:center;padding-block:clamp(3.5rem,8vw,6.5rem)}
+.sit-hero__title{font-family:var(--font-serif);font-weight:400;font-size:clamp(2.6rem,5.4vw,4.4rem);line-height:1.04;letter-spacing:-0.02em;margin:1.5rem 0 1.5rem}
+.sit-hero__title em{font-style:italic;color:var(--c-green-nat)}
+.sit-hero__sub{font-size:1.0625rem;color:var(--c-green-rich);max-width:46ch;line-height:1.7;margin-bottom:2.25rem}
+.sit-hero__ctas{display:flex;flex-wrap:wrap;gap:0.9rem;align-items:center}
+.sit-hero__meta{display:flex;gap:2rem;margin-top:2.75rem;padding-top:1.75rem;border-top:1px solid rgba(20,43,27,0.1)}
+.sit-hero__meta div{display:flex;flex-direction:column;gap:0.15rem}
+.sit-hero__meta b{font-family:var(--font-serif);font-size:1.5rem;color:var(--c-forest);font-weight:500}
+.sit-hero__meta span{font-size:0.75rem;color:var(--c-sage);letter-spacing:0.04em}
+
+/* Floating preview card */
+.sit-hero__card{position:relative;background:var(--c-white);border:1px solid rgba(20,43,27,0.09);border-radius:24px;padding:1.6rem;box-shadow:0 30px 60px -28px rgba(20,43,27,0.28)}
+.sit-hero__card-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:1.1rem;border-bottom:1px solid var(--c-grey)}
+.sit-hero__card-badge{display:inline-flex;align-items:center;gap:0.45rem;font-size:0.6875rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-green-nat)}
+.sit-hero__card-badge i{width:7px;height:7px;border-radius:50%;background:var(--c-green-nat);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+.sit-hero__card-conf{font-size:0.75rem;color:var(--c-sage)}
+.sit-hero__card-h{font-family:var(--font-serif);font-size:1.2rem;line-height:1.4;margin:1.1rem 0 1.25rem;color:var(--c-forest)}
+.sit-hero__match{display:flex;gap:0.9rem;align-items:center;padding:0.9rem;background:var(--c-cream);border-radius:14px;margin-bottom:0.7rem}
+.sit-hero__match-vis{width:46px;height:58px;border-radius:9px;background:linear-gradient(160deg,var(--c-mint),var(--c-fresh));flex-shrink:0;position:relative}
+.sit-hero__match-vis::after{content:"";position:absolute;inset:34% 38% 12%;border-radius:3px 3px 5px 5px;background:rgba(255,255,255,0.55)}
+.sit-hero__match-info{flex:1}
+.sit-hero__match-info b{display:block;font-size:0.875rem;color:var(--c-black)}
+.sit-hero__match-info span{font-size:0.75rem;color:var(--c-sage)}
+.sit-hero__match-tag{font-size:0.6875rem;font-weight:600;color:var(--c-green-nat);background:rgba(173,217,168,0.28);padding:0.25rem 0.55rem;border-radius:6px}
+.sit-hero__bar{height:5px;border-radius:3px;background:var(--c-grey);overflow:hidden;margin-top:0.9rem}
+.sit-hero__bar i{display:block;height:100%;width:88%;background:linear-gradient(90deg,var(--c-green-nat),var(--c-fresh));border-radius:3px;animation:grow 1.4s var(--ease) both}
+@keyframes grow{from{width:0}}
+.sit-hero__card-note{font-size:0.6875rem;color:var(--c-sage);margin-top:0.7rem;text-align:center}
+
+/* ============================================================
+   GENERIC SECTION
+============================================================ */
+.sec{padding-block:clamp(4rem,8vw,7rem)}
+.sec-head{max-width:640px;margin-bottom:3.25rem}
+.sec-head.center{margin-inline:auto;text-align:center}
+.sec-head h2{font-family:var(--font-serif);font-weight:400;font-size:clamp(2rem,4vw,3rem);line-height:1.12;letter-spacing:-0.015em;margin:1rem 0 0.85rem}
+.sec-head p{font-size:1rem;color:var(--c-green-rich);line-height:1.7}
+
+/* ============================================================
+   §2 HOW IT WORKS
+============================================================ */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.step{padding:2rem 1.5rem 0 0;border-top:1px solid rgba(20,43,27,0.15);position:relative}
+.step:not(:last-child){padding-right:2rem}
+.step__n{font-family:var(--font-serif);font-size:0.95rem;color:var(--c-sage);letter-spacing:0.05em}
+.step__h{font-size:1.0625rem;font-weight:600;margin:1.5rem 0 0.6rem;color:var(--c-forest)}
+.step__p{font-size:0.875rem;color:var(--c-green-rich);line-height:1.65}
+@media(max-width:760px){.steps{grid-template-columns:1fr 1fr;gap:1.5rem 1.25rem}.step{padding-right:1rem!important}}
+@media(max-width:460px){.steps{grid-template-columns:1fr}}
+
+/* ============================================================
+   §3 CHOOSE YOUR PATH
+============================================================ */
+.paths{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
+.path{position:relative;display:flex;flex-direction:column;gap:0.75rem;padding:2rem;background:var(--c-white);border:1px solid rgba(20,43,27,0.09);border-radius:20px;transition:all 0.4s var(--ease);text-align:left;overflow:hidden}
+.path::after{content:"";position:absolute;right:1.6rem;top:1.6rem;width:34px;height:34px;border-radius:50%;border:1px solid var(--c-grey);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%232c4f31' stroke-width='2'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center/14px no-repeat;transition:all 0.4s var(--ease)}
+.path:hover{border-color:var(--c-sage);transform:translateY(-3px);box-shadow:0 24px 44px -26px rgba(20,43,27,0.3)}
+.path:hover::after{background-color:var(--c-forest);border-color:var(--c-forest);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E")}
+.path__tag{font-size:0.6875rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-green-nat)}
+.path__h{font-family:var(--font-serif);font-size:1.45rem;color:var(--c-forest);margin-top:0.2rem}
+.path__p{font-size:0.875rem;color:var(--c-green-rich);line-height:1.6;max-width:34ch}
+.path__time{margin-top:auto;padding-top:1rem;font-size:0.75rem;color:var(--c-sage);display:flex;align-items:center;gap:0.4rem}
+.path--dark{background:var(--c-forest);border-color:var(--c-forest)}
+.path--dark .path__tag{color:var(--c-fresh)}
+.path--dark .path__h{color:var(--c-white)}
+.path--dark .path__p{color:rgba(205,232,201,0.8)}
+.path--dark .path__time{color:rgba(173,217,168,0.7)}
+.path--dark::after{border-color:rgba(255,255,255,0.25);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E")}
+@media(max-width:680px){.paths{grid-template-columns:1fr}}
+
+/* ============================================================
+   §4 SKIN CONCERNS
+============================================================ */
+.concerns-wrap{display:grid;grid-template-columns:0.8fr 1.2fr;gap:clamp(2rem,5vw,4rem);align-items:center}
+.concerns{display:flex;flex-wrap:wrap;gap:0.7rem}
+.concern{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.1rem;background:var(--c-white);border:1px solid rgba(20,43,27,0.1);border-radius:999px;font-size:0.875rem;color:var(--c-green-rich);transition:all 0.3s var(--ease)}
+.concern:hover{background:var(--c-forest);color:var(--c-white);border-color:var(--c-forest);transform:translateY(-2px)}
+.concern i{width:6px;height:6px;border-radius:50%;background:var(--c-fresh)}
+.concern:hover i{background:var(--c-mint)}
+@media(max-width:760px){.concerns-wrap{grid-template-columns:1fr}}
+
+/* ============================================================
+   §5 TRUST & SAFETY (dark)
+============================================================ */
+.trust{background:var(--c-forest);color:var(--c-white);border-radius:28px;padding:clamp(2.5rem,5vw,4rem)}
+.trust__top{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:3rem}
+.trust__top h2{font-family:var(--font-serif);font-weight:400;font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.15}
+.trust__top .eyebrow{color:var(--c-fresh)}
+.trust__top .eyebrow::before{background:rgba(173,217,168,0.5)}
+.trust__lead{font-size:0.95rem;color:rgba(205,232,201,0.82);line-height:1.7}
+.trust__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.75rem;padding-top:2.25rem;border-top:1px solid rgba(255,255,255,0.12)}
+.trust__card h3{display:flex;align-items:center;gap:0.6rem;font-size:1rem;font-weight:600;margin-bottom:0.7rem;color:var(--c-white)}
+.trust__card h3 svg{width:18px;height:18px;stroke:var(--c-fresh)}
+.trust__card p{font-size:0.875rem;color:rgba(205,232,201,0.72);line-height:1.65}
+.trust__disclaimer{margin-top:2.5rem;padding:1.25rem 1.4rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;font-size:0.8125rem;color:rgba(205,232,201,0.78);line-height:1.65}
+.trust__disclaimer b{color:var(--c-fresh);font-weight:600}
+@media(max-width:760px){.trust__top{grid-template-columns:1fr}.trust__grid{grid-template-columns:1fr}}
+
+/* ============================================================
+   §6 PRODUCT INTELLIGENCE
+============================================================ */
+.intel{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:center}
+.intel__list{display:flex;flex-direction:column;gap:0;margin-top:1.5rem}
+.intel__item{display:flex;gap:1.1rem;padding:1.4rem 0;border-top:1px solid rgba(20,43,27,0.12)}
+.intel__item-n{font-family:var(--font-serif);font-size:0.9rem;color:var(--c-sage);flex-shrink:0;width:28px}
+.intel__item h4{font-size:1rem;font-weight:600;color:var(--c-forest);margin-bottom:0.3rem}
+.intel__item p{font-size:0.875rem;color:var(--c-green-rich);line-height:1.6}
+.intel__visual{position:relative;background:linear-gradient(165deg,var(--c-mint),rgba(205,232,201,0.4));border-radius:24px;padding:2.5rem;min-height:380px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.intel__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.7rem;width:100%}
+.intel__bottle{aspect-ratio:3/4;background:rgba(255,255,255,0.55);border:1px solid rgba(255,255,255,0.7);border-radius:10px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:0.7rem;transition:transform 0.4s var(--ease)}
+.intel__bottle span{font-size:0.625rem;color:var(--c-green-rich);font-weight:500}
+.intel__bottle:hover{transform:translateY(-5px)}
+.intel__bottle.feat{background:var(--c-forest);box-shadow:0 16px 30px -14px rgba(20,43,27,0.5)}
+.intel__bottle.feat span{color:var(--c-fresh)}
+@media(max-width:760px){.intel{grid-template-columns:1fr}.intel__visual{min-height:300px}}
+
+/* ============================================================
+   §7 REPORT PREVIEW
+============================================================ */
+.preview{background:var(--c-white);border:1px solid rgba(20,43,27,0.09);border-radius:28px;overflow:hidden;box-shadow:0 40px 80px -40px rgba(20,43,27,0.25)}
+.preview__head{background:var(--c-forest);color:var(--c-white);padding:1.6rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.preview__head h3{font-family:var(--font-serif);font-size:1.3rem;font-weight:500}
+.preview__head span{font-size:0.75rem;color:rgba(173,217,168,0.8);letter-spacing:0.04em}
+.preview__body{padding:2rem;display:grid;grid-template-columns:1.3fr 1fr;gap:2rem}
+.preview__summary{font-family:var(--font-serif);font-size:1.35rem;line-height:1.5;color:var(--c-forest);margin-bottom:1.5rem}
+.preview__summary b{font-style:italic;color:var(--c-green-nat);font-weight:400}
+.preview__goals{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.preview__goal{font-size:0.75rem;color:var(--c-green-nat);background:rgba(173,217,168,0.22);padding:0.35rem 0.75rem;border-radius:7px}
+.preview__routine h4{font-size:0.6875rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--c-sage);margin-bottom:0.85rem}
+.preview__step{display:flex;gap:0.7rem;align-items:center;font-size:0.875rem;color:var(--c-green-rich);padding:0.5rem 0;border-bottom:1px solid var(--c-cream)}
+.preview__step b{width:20px;font-family:var(--font-serif);color:var(--c-sage)}
+.preview__aside{background:var(--c-cream);border-radius:16px;padding:1.5rem}
+.preview__match{text-align:center;padding-bottom:1.3rem;border-bottom:1px solid var(--c-grey);margin-bottom:1.3rem}
+.preview__match-vis{width:64px;height:80px;margin:0 auto 0.9rem;border-radius:11px;background:linear-gradient(160deg,var(--c-mint),var(--c-fresh));position:relative}
+.preview__match-vis::after{content:"";position:absolute;inset:34% 36% 12%;border-radius:3px 3px 6px 6px;background:rgba(255,255,255,0.6)}
+.preview__match b{display:block;font-size:1rem;color:var(--c-forest);font-family:var(--font-serif)}
+.preview__match span{font-size:0.75rem;color:var(--c-sage)}
+.preview__conf{font-size:0.75rem;color:var(--c-green-rich);text-align:center}
+.preview__conf b{display:block;font-size:1.6rem;font-family:var(--font-serif);color:var(--c-green-nat);margin-bottom:0.1rem}
+@media(max-width:680px){.preview__body{grid-template-columns:1fr}}
+
+/* ============================================================
+   §8 FAQ
+============================================================ */
+.faq{max-width:760px;margin-inline:auto}
+.faq__item{border-top:1px solid rgba(20,43,27,0.13)}
+.faq__item:last-child{border-bottom:1px solid rgba(20,43,27,0.13)}
+.faq__q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.4rem 0;text-align:left;font-size:1.0625rem;font-weight:500;color:var(--c-forest)}
+.faq__q i{flex-shrink:0;width:22px;height:22px;position:relative;transition:transform 0.4s var(--ease)}
+.faq__q i::before,.faq__q i::after{content:"";position:absolute;background:var(--c-green-nat);transition:opacity 0.3s}
+.faq__q i::before{top:50%;left:0;right:0;height:1.5px;transform:translateY(-50%)}
+.faq__q i::after{left:50%;top:0;bottom:0;width:1.5px;transform:translateX(-50%)}
+.faq__item.open .faq__q i::after{opacity:0}
+.faq__a{max-height:0;overflow:hidden;transition:max-height 0.45s var(--ease)}
+.faq__a p{padding:0 0 1.4rem;font-size:0.9375rem;color:var(--c-green-rich);line-height:1.7;max-width:62ch}
+
+/* ============================================================
+   §9 CLOSING CTA
+============================================================ */
+.closing{text-align:center;background:
+  radial-gradient(80% 120% at 50% 0%,rgba(205,232,201,0.45),rgba(250,249,246,0) 60%);
+  padding-block:clamp(4rem,8vw,7rem)}
+.closing h2{font-family:var(--font-serif);font-weight:400;font-size:clamp(2.2rem,4.5vw,3.4rem);line-height:1.1;letter-spacing:-0.015em;max-width:18ch;margin:1rem auto 1.5rem}
+.closing p{font-size:1.0625rem;color:var(--c-green-rich);max-width:50ch;margin:0 auto 2.25rem}
+.closing__ctas{display:flex;flex-wrap:wrap;gap:0.9rem;justify-content:center}
+
+/* ============================================================
+   FOOTER (matches other pages)
+============================================================ */
+.site-footer-global{background:var(--c-black);color:var(--c-white);padding:6rem clamp(1.5rem,5vw,3rem) 2.75rem}
+.sfg-inner{max-width:1320px;margin-inline:auto;display:grid;grid-template-columns:1fr 2fr;gap:5rem;margin-bottom:4rem}
+.sfg-logo{display:inline-flex;overflow:hidden;height:42px;margin-bottom:1.5rem}
+.sfg-logo__img{height:172px;width:auto;margin-top:-66px;display:block;filter:brightness(0) invert(1);opacity:0.9}
+.sfg-tagline{font-size:0.9688rem;line-height:1.75;color:rgba(173,217,168,0.55)}
+.sfg-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem}
+.sfg-col{display:flex;flex-direction:column;gap:1rem}
+.sfg-col-head{font-size:0.8125rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:0.25rem}
+.sfg-col a{font-size:0.9688rem;color:rgba(173,217,168,0.65);transition:color 0.2s}
+.sfg-col a:hover{color:var(--c-fresh)}
+.sfg-bottom{max-width:1320px;margin-inline:auto;display:flex;justify-content:space-between;align-items:center;padding-top:2.5rem;border-top:1px solid rgba(255,255,255,0.08)}
+.sfg-bottom p{font-size:0.875rem;color:rgba(173,217,168,0.3);letter-spacing:0.06em}
+.sfg-bottom-links{display:flex;gap:1.75rem}
+.sfg-bottom-links a{font-size:0.875rem;color:rgba(173,217,168,0.6);text-decoration:none;letter-spacing:0.04em;transition:color 0.2s}
+.sfg-bottom-links a:hover{color:var(--c-fresh)}
+@media(max-width:760px){.sfg-inner{grid-template-columns:1fr;gap:2.5rem}.sfg-nav{grid-template-columns:1fr 1fr}.sfg-bottom{flex-direction:column;gap:0.5rem;text-align:center}}
+
+/* ============================================================
+   CONSULTATION MODAL
+============================================================ */
+.sit-modal{position:fixed;inset:0;z-index:1000;display:none}
+.sit-modal.is-open{display:block}
+.sit-modal__scrim{position:absolute;inset:0;background:rgba(3,7,6,0.55);backdrop-filter:blur(3px);opacity:0;transition:opacity 0.4s var(--ease)}
+.sit-modal.is-open .sit-modal__scrim{opacity:1}
+.sit-modal__panel{
+  position:absolute;top:0;right:0;bottom:0;width:min(600px,100%);
+  background:var(--c-cream);display:flex;flex-direction:column;
+  transform:translateX(40px);opacity:0;
+  transition:transform 0.5s var(--ease),opacity 0.5s var(--ease);
+  box-shadow:-30px 0 80px -30px rgba(3,7,6,0.4)
+}
+.sit-modal.is-open .sit-modal__panel{transform:none;opacity:1}
+@media(max-width:640px){.sit-modal__panel{width:100%}}
+
+/* Modal header */
+.sit-mh{flex-shrink:0;padding:1.1rem 1.4rem 0.9rem;background:var(--c-cream);border-bottom:1px solid rgba(20,43,27,0.08)}
+.sit-mh__row{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:0.9rem}
+.sit-mh__back{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.8125rem;color:var(--c-green-rich);opacity:0;pointer-events:none;transition:opacity 0.3s}
+.sit-mh__back.show{opacity:1;pointer-events:auto}
+.sit-mh__back svg{width:14px;height:14px}
+.sit-mh__brand{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.6875rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-green-nat)}
+.sit-mh__brand i{width:7px;height:7px;border-radius:50%;background:var(--c-green-nat);animation:pulse 2s infinite}
+.sit-mh__close{width:34px;height:34px;border-radius:50%;border:1px solid var(--c-grey);display:grid;place-items:center;color:var(--c-green-rich);transition:all 0.25s}
+.sit-mh__close:hover{background:var(--c-forest);color:var(--c-white);border-color:var(--c-forest)}
+.sit-mh__close svg{width:15px;height:15px}
+.sit-mh__prog{height:4px;border-radius:3px;background:var(--c-grey);overflow:hidden}
+.sit-mh__prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c-green-nat),var(--c-fresh));border-radius:3px;transition:width 0.5s var(--ease)}
+.sit-mh__step{font-size:0.6875rem;color:var(--c-sage);margin-top:0.5rem;letter-spacing:0.04em}
+.sit-mh.hide-prog .sit-mh__prog,.sit-mh.hide-prog .sit-mh__step{display:none}
+
+/* Modal body (scrollable) */
+.sit-mb{flex:1;overflow-y:auto;padding:1.8rem 1.4rem 2rem}
+.sit-mb::-webkit-scrollbar{width:8px}
+.sit-mb::-webkit-scrollbar-thumb{background:var(--c-grey);border-radius:4px}
+
+/* Slide-in for each rendered screen */
+.sit-screen{animation:sitIn 0.45s var(--ease) both}
+@keyframes sitIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* Path select */
+.sit-intro{text-align:center;margin-bottom:1.6rem}
+.sit-intro h2{font-family:var(--font-serif);font-weight:400;font-size:1.7rem;color:var(--c-forest);line-height:1.2;margin-bottom:0.5rem}
+.sit-intro p{font-size:0.9rem;color:var(--c-green-rich);max-width:40ch;margin-inline:auto}
+.sit-modes{display:flex;flex-direction:column;gap:0.8rem}
+.sit-mode{display:flex;align-items:center;gap:1rem;padding:1.2rem 1.3rem;background:var(--c-white);border:1px solid rgba(20,43,27,0.1);border-radius:16px;text-align:left;transition:all 0.3s var(--ease)}
+.sit-mode:hover{border-color:var(--c-sage);transform:translateY(-2px);box-shadow:0 18px 36px -22px rgba(20,43,27,0.3)}
+.sit-mode__ic{width:46px;height:46px;border-radius:12px;background:var(--c-mint);display:grid;place-items:center;flex-shrink:0;color:var(--c-forest)}
+.sit-mode__ic svg{width:21px;height:21px}
+.sit-mode__t{flex:1}
+.sit-mode__t b{display:block;font-size:1rem;color:var(--c-forest);font-weight:600}
+.sit-mode__t span{font-size:0.8125rem;color:var(--c-green-rich)}
+.sit-mode__time{font-size:0.6875rem;color:var(--c-sage);flex-shrink:0}
+
+/* Question card */
+.sit-q__hint{font-size:0.6875rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-green-nat);margin-bottom:0.7rem}
+.sit-q__title{font-family:var(--font-serif);font-weight:400;font-size:1.55rem;line-height:1.22;color:var(--c-forest);margin-bottom:0.5rem}
+.sit-q__sub{font-size:0.85rem;color:var(--c-sage);margin-bottom:1.5rem;line-height:1.5}
+.sit-opts{display:flex;flex-direction:column;gap:0.6rem}
+.sit-opt{display:flex;align-items:center;gap:0.85rem;width:100%;padding:1rem 1.1rem;background:var(--c-white);border:1px solid rgba(20,43,27,0.1);border-radius:13px;text-align:left;transition:all 0.22s var(--ease)}
+.sit-opt:hover{border-color:var(--c-sage);background:#fff;transform:translateX(3px)}
+.sit-opt.sel{border-color:var(--c-forest);background:rgba(173,217,168,0.12);box-shadow:inset 0 0 0 1px var(--c-forest)}
+.sit-opt__mark{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--c-grey);flex-shrink:0;display:grid;place-items:center;transition:all 0.22s}
+.sit-opt.sel .sit-opt__mark{border-color:var(--c-forest);background:var(--c-forest)}
+.sit-opt__mark svg{width:11px;height:11px;stroke:var(--c-white);opacity:0;transition:opacity 0.2s}
+.sit-opt.sel .sit-opt__mark svg{opacity:1}
+.sit-opt__t b{display:block;font-size:0.9375rem;color:var(--c-black);font-weight:500}
+.sit-opt__t span{font-size:0.8125rem;color:var(--c-sage)}
+.sit-opt--multi .sit-opt__mark{border-radius:6px}
+.sit-q__text{width:100%;min-height:120px;padding:1rem 1.1rem;background:var(--c-white);border:1px solid rgba(20,43,27,0.12);border-radius:13px;font-family:inherit;font-size:0.9375rem;color:var(--c-black);resize:vertical;line-height:1.6}
+.sit-q__text:focus{outline:none;border-color:var(--c-sage)}
+.sit-q__text::placeholder{color:var(--c-grey-green)}
+
+/* Modal footer actions */
+.sit-mf{flex-shrink:0;padding:1rem 1.4rem 1.3rem;background:var(--c-cream);border-top:1px solid rgba(20,43,27,0.08);display:flex;gap:0.7rem;align-items:center}
+.sit-mf__skip{font-size:0.8125rem;color:var(--c-sage);margin-right:auto}
+.sit-mf__skip:hover{color:var(--c-green-rich)}
+.sit-mf .btn{flex-shrink:0}
+.sit-mf.hide{display:none}
+
+/* Safety notice */
+.sit-safety{background:#fff;border:1px solid rgba(20,43,27,0.12);border-left:3px solid var(--c-green-nat);border-radius:12px;padding:1.3rem 1.4rem;margin-bottom:1.2rem}
+.sit-safety h3{display:flex;align-items:center;gap:0.55rem;font-size:1rem;color:var(--c-forest);margin-bottom:0.6rem;font-weight:600}
+.sit-safety h3 svg{width:18px;height:18px;stroke:var(--c-green-nat)}
+.sit-safety p{font-size:0.875rem;color:var(--c-green-rich);line-height:1.6}
+.sit-safety--stop{border-left-color:#b4543f}
+.sit-safety--stop h3 svg{stroke:#b4543f}
+
+/* Photo flow */
+.sit-photo__tips{display:flex;flex-direction:column;gap:0.55rem;margin:1.3rem 0}
+.sit-photo__tip{display:flex;gap:0.7rem;align-items:center;font-size:0.875rem;color:var(--c-green-rich);padding:0.7rem 0.9rem;background:var(--c-white);border-radius:11px}
+.sit-photo__tip svg{width:17px;height:17px;stroke:var(--c-green-nat);flex-shrink:0}
+.sit-consent{display:flex;flex-direction:column;gap:0.75rem;margin:1.3rem 0}
+.sit-check{display:flex;gap:0.75rem;align-items:flex-start;padding:1rem;background:var(--c-white);border:1px solid rgba(20,43,27,0.1);border-radius:12px;cursor:pointer;transition:border-color 0.2s}
+.sit-check:hover{border-color:var(--c-sage)}
+.sit-check input{position:absolute;opacity:0}
+.sit-check__box{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--c-grey-green);flex-shrink:0;display:grid;place-items:center;margin-top:1px;transition:all 0.2s}
+.sit-check input:checked+.sit-check__box{background:var(--c-forest);border-color:var(--c-forest)}
+.sit-check__box svg{width:12px;height:12px;stroke:#fff;opacity:0;transition:opacity 0.2s}
+.sit-check input:checked+.sit-check__box svg{opacity:1}
+.sit-check__t{font-size:0.85rem;color:var(--c-green-rich);line-height:1.5}
+.sit-check__t b{color:var(--c-black);font-weight:500}
+.sit-check__req{font-size:0.6875rem;color:var(--c-green-nat);font-weight:600}
+.sit-drop{border:1.5px dashed var(--c-grey-green);border-radius:16px;padding:2.5rem 1.5rem;text-align:center;background:var(--c-white);transition:all 0.25s;cursor:pointer}
+.sit-drop:hover,.sit-drop.drag{border-color:var(--c-green-nat);background:rgba(173,217,168,0.08)}
+.sit-drop__ic{width:48px;height:48px;margin:0 auto 1rem;border-radius:50%;background:var(--c-mint);display:grid;place-items:center;color:var(--c-forest)}
+.sit-drop__ic svg{width:22px;height:22px}
+.sit-drop b{display:block;font-size:0.95rem;color:var(--c-forest);margin-bottom:0.3rem}
+.sit-drop span{font-size:0.8125rem;color:var(--c-sage)}
+.sit-preview-img{position:relative;border-radius:16px;overflow:hidden;margin-bottom:1rem}
+.sit-preview-img img{width:100%;max-height:320px;object-fit:cover}
+.sit-preview-img__bar{position:absolute;top:0.7rem;right:0.7rem;display:flex;gap:0.5rem}
+.sit-preview-img__btn{padding:0.45rem 0.8rem;background:rgba(3,7,6,0.6);color:#fff;border-radius:999px;font-size:0.75rem;backdrop-filter:blur(8px)}
+.sit-privacy{font-size:0.75rem;color:var(--c-sage);line-height:1.5;margin-top:0.9rem;display:flex;gap:0.5rem}
+.sit-privacy svg{width:14px;height:14px;stroke:var(--c-green-nat);flex-shrink:0;margin-top:2px}
+
+/* Processing */
+.sit-proc{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:340px;text-align:center}
+.sit-proc__ring{width:64px;height:64px;margin-bottom:1.6rem;position:relative}
+.sit-proc__ring svg{width:100%;height:100%;animation:spin 1.4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sit-proc__msg{font-family:var(--font-serif);font-size:1.2rem;color:var(--c-forest);min-height:1.5em;transition:opacity 0.3s}
+.sit-proc__sub{font-size:0.8125rem;color:var(--c-sage);margin-top:0.5rem}
+
+/* Results / report */
+.sit-rep__head{background:var(--c-forest);color:#fff;border-radius:18px;padding:1.5rem 1.5rem 1.6rem;margin-bottom:1.2rem}
+.sit-rep__head .eyebrow{color:var(--c-fresh)}
+.sit-rep__head .eyebrow::before{background:rgba(173,217,168,0.5)}
+.sit-rep__summary{font-family:var(--font-serif);font-size:1.3rem;line-height:1.45;margin:0.9rem 0 1.1rem}
+.sit-rep__summary b{font-style:italic;color:var(--c-fresh);font-weight:400}
+.sit-rep__conf{display:flex;align-items:center;gap:0.9rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.15)}
+.sit-rep__conf-bar{flex:1;height:6px;background:rgba(255,255,255,0.18);border-radius:3px;overflow:hidden}
+.sit-rep__conf-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--c-fresh),var(--c-mint));border-radius:3px}
+.sit-rep__conf b{font-size:0.95rem;color:var(--c-fresh)}
+.sit-rep__conf span{font-size:0.6875rem;color:rgba(205,232,201,0.7);text-transform:uppercase;letter-spacing:0.1em}
+.sit-rep__sec{margin-bottom:1.2rem}
+.sit-rep__sec-h{font-size:0.6875rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--c-sage);margin-bottom:0.8rem;display:flex;align-items:center;gap:0.6rem}
+.sit-rep__sec-h::after{content:"";flex:1;height:1px;background:rgba(20,43,27,0.1)}
+.sit-prod{display:flex;gap:1rem;padding:1.1rem;background:var(--c-white);border:1px solid rgba(20,43,27,0.1);border-radius:15px;margin-bottom:0.7rem}
+.sit-prod__vis{width:54px;height:68px;border-radius:10px;background:linear-gradient(160deg,var(--c-mint),var(--c-fresh));flex-shrink:0;position:relative}
+.sit-prod__vis::after{content:"";position:absolute;inset:34% 36% 12%;border-radius:3px 3px 5px 5px;background:rgba(255,255,255,0.55)}
+.sit-prod__vis.alt{background:linear-gradient(160deg,#cde8c9,#a4b09e)}
+.sit-prod__vis.cream{background:linear-gradient(160deg,#faf9f6,#dddcdc)}
+.sit-prod__info{flex:1;min-width:0}
+.sit-prod__tag{font-size:0.625rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--c-green-nat)}
+.sit-prod__name{font-size:1rem;font-weight:600;color:var(--c-forest);margin:0.15rem 0 0.3rem}
+.sit-prod__why{font-size:0.8125rem;color:var(--c-green-rich);line-height:1.5;margin-bottom:0.6rem}
+.sit-prod__meta{display:flex;flex-wrap:wrap;gap:0.4rem 0.9rem;font-size:0.6875rem;color:var(--c-sage)}
+.sit-prod__meta b{color:var(--c-green-rich);font-weight:600}
+.sit-prod__foot{display:flex;align-items:center;justify-content:space-between;gap:0.8rem;margin-top:0.8rem}
+.sit-prod__price{font-size:1rem;font-weight:600;color:var(--c-forest)}
+.sit-prod__add{font-size:0.75rem;font-weight:500;color:#fff;background:var(--c-forest);padding:0.5rem 1rem;border-radius:999px;transition:background 0.2s}
+.sit-prod__add:hover{background:var(--c-green-rich)}
+.sit-prod__add.added{background:var(--c-green-nat)}
+.sit-routine{background:var(--c-white);border-radius:14px;padding:1.2rem;border:1px solid rgba(20,43,27,0.08)}
+.sit-routine+.sit-routine{margin-top:0.7rem}
+.sit-routine__t{font-size:0.8125rem;font-weight:600;color:var(--c-forest);margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem}
+.sit-routine__t svg{width:15px;height:15px;stroke:var(--c-green-nat)}
+.sit-rstep{display:flex;gap:0.7rem;align-items:center;font-size:0.85rem;color:var(--c-green-rich);padding:0.45rem 0;border-bottom:1px solid var(--c-cream)}
+.sit-rstep:last-child{border-bottom:none}
+.sit-rstep b{width:18px;font-family:var(--font-serif);color:var(--c-sage);flex-shrink:0}
+.sit-weeks{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
+.sit-week{background:var(--c-white);border:1px solid rgba(20,43,27,0.08);border-radius:12px;padding:0.9rem 1rem}
+.sit-week b{display:block;font-size:0.75rem;color:var(--c-green-nat);font-weight:600;margin-bottom:0.25rem}
+.sit-week span{font-size:0.8rem;color:var(--c-green-rich);line-height:1.45}
+.sit-avoid{display:flex;flex-direction:column;gap:0.4rem}
+.sit-avoid li{display:flex;gap:0.6rem;align-items:flex-start;font-size:0.85rem;color:var(--c-green-rich);list-style:none}
+.sit-avoid li svg{width:15px;height:15px;stroke:var(--c-grey-green);flex-shrink:0;margin-top:3px}
+.sit-cart{background:var(--c-forest);border-radius:16px;padding:1.4rem;margin-top:0.4rem}
+.sit-cart h3{color:#fff;font-size:1rem;font-weight:600;margin-bottom:0.3rem}
+.sit-cart p{font-size:0.8125rem;color:rgba(205,232,201,0.78);margin-bottom:1rem}
+.sit-cart__line{display:flex;align-items:center;gap:0.7rem;padding:0.6rem 0;border-bottom:1px solid rgba(255,255,255,0.1)}
+.sit-cart__line span{flex:1;font-size:0.85rem;color:#fff}
+.sit-cart__line b{font-size:0.85rem;color:var(--c-fresh)}
+.sit-cart__line input{width:16px;height:16px;accent-color:var(--c-fresh)}
+.sit-cart__total{display:flex;justify-content:space-between;align-items:center;margin:0.9rem 0 1rem;font-size:0.9rem;color:#fff}
+.sit-cart__total b{font-size:1.15rem;color:var(--c-fresh)}
+.sit-cart .btn{width:100%;justify-content:center;background:var(--c-fresh);color:var(--c-forest)}
+.sit-cart .btn:hover{background:var(--c-mint)}
+.sit-email{background:var(--c-white);border:1px solid rgba(20,43,27,0.1);border-radius:16px;padding:1.4rem;margin-top:1rem}
+.sit-email h3{font-size:1rem;color:var(--c-forest);margin-bottom:0.3rem}
+.sit-email p{font-size:0.8125rem;color:var(--c-green-rich);margin-bottom:0.9rem}
+.sit-email__row{display:flex;gap:0.5rem}
+.sit-email__row input{flex:1;padding:0.8rem 1rem;border:1px solid var(--c-grey);border-radius:11px;font-family:inherit;font-size:0.875rem}
+.sit-email__row input:focus{outline:none;border-color:var(--c-sage)}
+.sit-email__consent{display:flex;gap:0.5rem;align-items:flex-start;margin-top:0.7rem;font-size:0.7rem;color:var(--c-sage);line-height:1.4}
+.sit-redo{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid rgba(20,43,27,0.1)}
+.sit-redo button{flex:1;min-width:130px;font-size:0.8125rem;padding:0.8rem;border:1px solid var(--c-grey);border-radius:11px;color:var(--c-green-rich);transition:all 0.2s;background:#fff}
+.sit-redo button:hover{border-color:var(--c-sage);color:var(--c-forest)}
+.sit-disclaimer-sm{font-size:0.7rem;color:var(--c-sage);line-height:1.5;margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(20,43,27,0.08)}
+
+/* Chat */
+.sit-chat{display:flex;flex-direction:column;gap:0.8rem}
+.sit-msg{max-width:85%;padding:0.85rem 1.1rem;border-radius:16px;font-size:0.9rem;line-height:1.55}
+.sit-msg--bot{background:var(--c-white);border:1px solid rgba(20,43,27,0.08);color:var(--c-green-rich);border-bottom-left-radius:5px;align-self:flex-start}
+.sit-msg--user{background:var(--c-forest);color:#fff;border-bottom-right-radius:5px;align-self:flex-end}
+.sit-chips{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.4rem}
+.sit-chip{font-size:0.8125rem;color:var(--c-green-rich);background:var(--c-white);border:1px solid rgba(20,43,27,0.12);padding:0.55rem 0.9rem;border-radius:999px;transition:all 0.2s}
+.sit-chip:hover{border-color:var(--c-forest);background:rgba(173,217,168,0.12)}
+.sit-typing{display:flex;gap:4px;padding:0.9rem 1.1rem;background:var(--c-white);border-radius:16px;border-bottom-left-radius:5px;align-self:flex-start;width:fit-content}
+.sit-typing i{width:6px;height:6px;border-radius:50%;background:var(--c-grey-green);animation:typing 1.2s infinite}
+.sit-typing i:nth-child(2){animation-delay:0.2s}
+.sit-typing i:nth-child(3){animation-delay:0.4s}
+@keyframes typing{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+.sit-chatbar{display:flex;gap:0.5rem;align-items:center}
+.sit-chatbar input{flex:1;padding:0.85rem 1.1rem;border:1px solid var(--c-grey);border-radius:999px;font-family:inherit;font-size:0.9rem}
+.sit-chatbar input:focus{outline:none;border-color:var(--c-sage)}
+.sit-chatbar button{width:42px;height:42px;border-radius:50%;background:var(--c-forest);color:#fff;display:grid;place-items:center;flex-shrink:0;transition:background 0.2s}
+.sit-chatbar button:hover{background:var(--c-green-rich)}
+.sit-chatbar button svg{width:17px;height:17px}
+
+/* Floating widget launcher */
+.sit-fab{position:fixed;bottom:1.5rem;right:1.5rem;z-index:900;display:flex;align-items:center;gap:0.65rem;padding:0.7rem 1.2rem 0.7rem 0.8rem;background:var(--c-forest);color:#fff;border-radius:999px;box-shadow:0 18px 40px -16px rgba(20,43,27,0.6);transition:all 0.35s var(--ease)}
+.sit-fab:hover{transform:translateY(-3px);background:var(--c-green-rich)}
+.sit-fab__ic{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.14);display:grid;place-items:center}
+.sit-fab__ic svg{width:18px;height:18px}
+.sit-fab__t{font-size:0.8125rem;font-weight:500;letter-spacing:0.02em}
+@media(max-width:520px){.sit-fab__t{display:none}.sit-fab{padding:0.8rem}}
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="header-logo"><img src="sebble-logo.png" alt="Sebble" class="header-logo__img"></a>
+    <nav class="header-nav">
+      <a href="collection.html">Shop</a>
+      <a href="routine.html">Routine</a>
+      <a href="ingredients.html">Ingredients</a>
+      <a href="sit.html" class="nav-sit is-active">Skin Consultant</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#">Account</a>
+      <button class="header-cart-btn">Bag (0)</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== §1 HERO ===================== -->
+<section class="sit-hero">
+  <div class="container">
+    <div class="sit-hero__grid">
+      <div class="reveal">
+        <span class="eyebrow">SIT — Skin Intelligence Tool</span>
+        <h1 class="sit-hero__title">Your skin routine,<br><em>intelligently matched.</em></h1>
+        <p class="sit-hero__sub">Answer a few questions, upload a photo if you choose, and receive a personalised serum routine — built around your skin goals, sensitivity, and preferences.</p>
+        <div class="sit-hero__ctas">
+          <button class="btn btn-primary" data-sit-open="quick">
+            Start Skin Analysis
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <button class="btn btn-light" data-sit-open="photo">Upload Skin Photo</button>
+          <button class="btn btn-ghost" data-sit-open="chat">Ask SIT a question</button>
+        </div>
+        <div class="sit-hero__meta">
+          <div><b>8</b><span>Targeted serums</span></div>
+          <div><b>60s</b><span>Quick match</span></div>
+          <div><b>3</b><span>Ways to consult</span></div>
+        </div>
+      </div>
+
+      <!-- Floating sample report card -->
+      <div class="sit-hero__card reveal" aria-hidden="true">
+        <div class="sit-hero__card-top">
+          <span class="sit-hero__card-badge"><i></i> SIT Analysis</span>
+          <span class="sit-hero__card-conf">Match confidence 88%</span>
+        </div>
+        <p class="sit-hero__card-h">Your routine should focus on hydration, barrier comfort, and smoother-looking texture.</p>
+        <div class="sit-hero__match">
+          <div class="sit-hero__match-vis"></div>
+          <div class="sit-hero__match-info">
+            <b>Hydration Support Serum</b>
+            <span>Your primary match</span>
+          </div>
+          <span class="sit-hero__match-tag">Primary</span>
+        </div>
+        <div class="sit-hero__match">
+          <div class="sit-hero__match-vis" style="background:linear-gradient(160deg,#cde8c9,#a4b09e)"></div>
+          <div class="sit-hero__match-info">
+            <b>Barrier Support Serum</b>
+            <span>Supporting step</span>
+          </div>
+          <span class="sit-hero__match-tag" style="color:var(--c-sage);background:rgba(129,157,124,0.18)">Support</span>
+        </div>
+        <div class="sit-hero__bar"><i></i></div>
+        <p class="sit-hero__card-note">Sample report — your results will be personalised to you</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== §2 HOW IT WORKS ===================== -->
+<section class="sec container">
+  <div class="sec-head reveal">
+    <span class="eyebrow">How SIT works</span>
+    <h2>A considered consultation, in four steps.</h2>
+    <p>SIT combines what you tell us with optional photo analysis to build a routine that genuinely fits your skin — never a one-size-fits-all guess.</p>
+  </div>
+  <div class="steps reveal-group">
+    <div class="step"><span class="step__n">Step 01</span><h3 class="step__h">Tell us about your skin</h3><p class="step__p">Share your goals, skin type, and how your skin behaves through the day.</p></div>
+    <div class="step"><span class="step__n">Step 02</span><h3 class="step__h">Optional photo analysis</h3><p class="step__p">Upload a clear photo if you'd like SIT to review visible skin patterns too.</p></div>
+    <div class="step"><span class="step__n">Step 03</span><h3 class="step__h">SIT reviews your goals</h3><p class="step__p">The tool weighs your answers against each serum's profile and safety rules.</p></div>
+    <div class="step"><span class="step__n">Step 04</span><h3 class="step__h">Get your serum routine</h3><p class="step__p">Receive a personalised AM and PM routine with a clear 4-week plan.</p></div>
+  </div>
+</section>
+
+<!-- ===================== §3 CHOOSE YOUR PATH ===================== -->
+<section class="sec container">
+  <div class="sec-head reveal">
+    <span class="eyebrow">Choose your path</span>
+    <h2>Three ways to find your match.</h2>
+    <p>Whether you have sixty seconds or five minutes, SIT meets you where you are.</p>
+  </div>
+  <div class="paths reveal-group">
+    <button class="path" data-sit-open="quick">
+      <span class="path__tag">Mode 01</span>
+      <span class="path__h">Quick Skin Match</span>
+      <span class="path__p">Five quick questions for a fast, confident serum recommendation.</span>
+      <span class="path__time"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> About 60 seconds</span>
+    </button>
+    <button class="path path--dark" data-sit-open="full">
+      <span class="path__tag">Mode 02</span>
+      <span class="path__h">Full Consultation</span>
+      <span class="path__p">A deeper guided questionnaire with follow-up logic and a complete routine.</span>
+      <span class="path__time"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> About 5 minutes</span>
+    </button>
+    <button class="path" data-sit-open="photo">
+      <span class="path__tag">Mode 03</span>
+      <span class="path__h">Photo Skin Analysis</span>
+      <span class="path__p">Upload a clear photo and SIT reviews visible skin patterns, privately.</span>
+      <span class="path__time"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/></svg> Photo optional</span>
+    </button>
+    <button class="path" data-sit-open="chat">
+      <span class="path__tag">Anytime</span>
+      <span class="path__h">Ask a Question</span>
+      <span class="path__p">Chat with SIT about ingredients, routines, or which serum suits you.</span>
+      <span class="path__time"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.5 8.5 0 1 1 16.1-3.8z"/></svg> Instant answers</span>
+    </button>
+  </div>
+</section>
+
+<!-- ===================== §4 SKIN CONCERNS ===================== -->
+<section class="sec container">
+  <div class="concerns-wrap">
+    <div class="sec-head reveal" style="margin-bottom:0">
+      <span class="eyebrow">What's on your mind?</span>
+      <h2>Start from a concern.</h2>
+      <p>Tap what you'd like to work on and SIT will begin your analysis there.</p>
+    </div>
+    <div class="concerns reveal">
+      <button class="concern" data-sit-concern="hydration"><i></i> Hydration</button>
+      <button class="concern" data-sit-concern="dullness"><i></i> Dullness</button>
+      <button class="concern" data-sit-concern="barrier_support"><i></i> Barrier support</button>
+      <button class="concern" data-sit-concern="texture"><i></i> Texture</button>
+      <button class="concern" data-sit-concern="oil_balance"><i></i> Oiliness</button>
+      <button class="concern" data-sit-concern="calm"><i></i> Visible redness</button>
+      <button class="concern" data-sit-concern="brightening"><i></i> Uneven tone</button>
+      <button class="concern" data-sit-concern="age_support"><i></i> Age support</button>
+      <button class="concern" data-sit-concern="oil_balance"><i></i> Congestion appearance</button>
+      <button class="concern" data-sit-concern="calm"><i></i> Sensitivity</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== §5 TRUST & SAFETY ===================== -->
+<section class="sec container">
+  <div class="trust reveal">
+    <div class="trust__top">
+      <div>
+        <span class="eyebrow">Trust &amp; safety</span>
+        <h2>Guidance you can trust, with clear limits.</h2>
+      </div>
+      <p class="trust__lead">SIT is a cosmetic skincare advisor — designed to help you choose products and build a routine. It is never a substitute for professional medical care.</p>
+    </div>
+    <div class="trust__grid">
+      <div class="trust__card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Not a medical diagnosis</h3>
+        <p>SIT offers cosmetic guidance and product recommendations only. It does not diagnose, treat, or claim to cure any skin condition.</p>
+      </div>
+      <div class="trust__card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M8 2h8M12 2v6M5 22a7 7 0 0 1 14 0M9 12a3 3 0 1 0 6 0"/></svg> Dermatologist referral</h3>
+        <p>If you describe symptoms that may be painful, severe, or medically concerning, SIT pauses recommendations and suggests professional care.</p>
+      </div>
+      <div class="trust__card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Privacy-first photos</h3>
+        <p>Photos are analysed to generate guidance and are never stored without your explicit consent. You can remove your image at any time.</p>
+      </div>
+    </div>
+    <p class="trust__disclaimer"><b>Important:</b> SIT provides general skincare guidance and product recommendations. It does not diagnose, treat, or replace advice from a qualified dermatologist or medical professional. If your skin concern is painful, severe, persistent, rapidly changing, infected, bleeding, or medically concerning, please consult a dermatologist.</p>
+  </div>
+</section>
+
+<!-- ===================== §6 PRODUCT INTELLIGENCE ===================== -->
+<section class="sec container">
+  <div class="intel">
+    <div class="reveal">
+      <span class="eyebrow">Product intelligence</span>
+      <h2 style="font-family:var(--font-serif);font-weight:400;font-size:clamp(1.9rem,3.6vw,2.7rem);line-height:1.14;letter-spacing:-0.015em;margin:1rem 0 0.5rem">Matched to your skin, not a trend.</h2>
+      <p style="font-size:1rem;color:var(--c-green-rich);line-height:1.7">SIT scores every serum, the support cream, and the facial spray against your profile — then recommends only what fits.</p>
+      <div class="intel__list">
+        <div class="intel__item"><span class="intel__item-n">01</span><div><h4>Your goals come first</h4><p>Hydration, brightening, barrier, texture, calm, oil balance, glow, or age support — your priority shapes the match.</p></div></div>
+        <div class="intel__item"><span class="intel__item-n">02</span><div><h4>Sensitivity is respected</h4><p>SIT softens recommendations for reactive or compromised skin and introduces actives slowly.</p></div></div>
+        <div class="intel__item"><span class="intel__item-n">03</span><div><h4>Compatibility is checked</h4><p>Serums that shouldn't be layered together are never recommended in the same routine.</p></div></div>
+        <div class="intel__item"><span class="intel__item-n">04</span><div><h4>Routine fit, not overwhelm</h4><p>Beginners get a focused routine; experienced users can build something fuller.</p></div></div>
+      </div>
+    </div>
+    <div class="intel__visual reveal">
+      <div class="intel__grid">
+        <div class="intel__bottle"><span>01</span></div>
+        <div class="intel__bottle feat"><span>Match</span></div>
+        <div class="intel__bottle"><span>03</span></div>
+        <div class="intel__bottle"><span>04</span></div>
+        <div class="intel__bottle"><span>05</span></div>
+        <div class="intel__bottle"><span>06</span></div>
+        <div class="intel__bottle"><span>07</span></div>
+        <div class="intel__bottle"><span>08</span></div>
+        <div class="intel__bottle"><span>Cream</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== §7 REPORT PREVIEW ===================== -->
+<section class="sec container">
+  <div class="sec-head center reveal">
+    <span class="eyebrow">Consultation preview</span>
+    <h2>What your SIT report looks like.</h2>
+    <p>Clear, personalised, and ready to act on — with everything you need to start with confidence.</p>
+  </div>
+  <div class="preview reveal">
+    <div class="preview__head">
+      <h3>SIT Skin Intelligence Report</h3>
+      <span>Generated for your skin profile</span>
+    </div>
+    <div class="preview__body">
+      <div>
+        <p class="preview__summary">Your routine should focus on <b>hydration, barrier comfort,</b> and <b>smoother-looking texture.</b></p>
+        <div class="preview__goals">
+          <span class="preview__goal">Hydration</span>
+          <span class="preview__goal">Barrier support</span>
+          <span class="preview__goal">Texture</span>
+        </div>
+        <div class="preview__routine">
+          <h4>Evening routine</h4>
+          <div class="preview__step"><b>1</b> Cleanse with a gentle cleanser</div>
+          <div class="preview__step"><b>2</b> Hydration Support Serum</div>
+          <div class="preview__step"><b>3</b> Seal with Support Cream</div>
+        </div>
+      </div>
+      <div class="preview__aside">
+        <div class="preview__match">
+          <div class="preview__match-vis"></div>
+          <b>Hydration Support Serum</b>
+          <span>Your primary match</span>
+        </div>
+        <div class="preview__conf">
+          <b>88%</b>
+          Product match confidence
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== §8 FAQ ===================== -->
+<section class="sec container">
+  <div class="sec-head center reveal">
+    <span class="eyebrow">Good to know</span>
+    <h2>Frequently asked.</h2>
+  </div>
+  <div class="faq reveal">
+    <div class="faq__item"><button class="faq__q">Is this a medical diagnosis? <i></i></button><div class="faq__a"><p>No. SIT is a cosmetic skincare advisor. It provides general guidance and product recommendations based on what you share — it does not diagnose, treat, or cure any medical condition. For painful, severe, persistent, or changing concerns, please see a dermatologist.</p></div></div>
+    <div class="faq__item"><button class="faq__q">Can I upload a photo? <i></i></button><div class="faq__a"><p>Yes, and it's entirely optional. A clear, well-lit photo lets SIT review visible skin patterns — like apparent dryness, redness, or shine — to refine your recommendation. You can complete a full consultation without one.</p></div></div>
+    <div class="faq__item"><button class="faq__q">Is my image saved? <i></i></button><div class="faq__a"><p>Only if you explicitly consent. By default your photo is analysed to generate guidance and then discarded. You can remove your image at any point before submitting.</p></div></div>
+    <div class="faq__item"><button class="faq__q">How does SIT recommend products? <i></i></button><div class="faq__a"><p>SIT scores each product against your goals, skin type, sensitivity, routine preference, and any safety flags. The highest-scoring serum becomes your primary match, with supporting products added only where they genuinely help.</p></div></div>
+    <div class="faq__item"><button class="faq__q">Can I use more than one serum? <i></i></button><div class="faq__a"><p>Often, yes — but SIT introduces them thoughtfully. It checks compatibility, avoids over-layering, and gives beginners or sensitive skin a slower, gentler introduction plan.</p></div></div>
+    <div class="faq__item"><button class="faq__q">What if my skin is sensitive? <i></i></button><div class="faq__a"><p>SIT prioritises barrier, calming, and hydration support for reactive skin, and recommends patch testing and low-frequency introduction. Stronger actives are softened or held back until your skin feels comfortable.</p></div></div>
+  </div>
+</section>
+
+<!-- ===================== §9 CLOSING CTA ===================== -->
+<section class="closing">
+  <div class="container reveal">
+    <span class="eyebrow" style="justify-content:center">Ready when you are</span>
+    <h2>Let's find the routine your skin has been asking for.</h2>
+    <p>It takes about a minute to start. No account needed.</p>
+    <div class="closing__ctas">
+      <button class="btn btn-primary" data-sit-open="quick">Start Skin Analysis
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+      <button class="btn btn-light" data-sit-open="full">Full Consultation</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer-global">
+  <div class="sfg-inner">
+    <div class="sfg-brand">
+      <a href="index.html" class="sfg-logo"><img src="sebble-logo.png" alt="Sebble" class="sfg-logo__img"></a>
+      <p class="sfg-tagline">Formulated with clinical-grade actives,<br>designed for your daily ritual.</p>
+    </div>
+    <nav class="sfg-nav">
+      <div class="sfg-col">
+        <span class="sfg-col-head">Shop</span>
+        <a href="collection.html">All Serums</a>
+        <a href="serum-finder.html">Find My Serum</a>
+        <a href="routine.html">Build a Routine</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Learn</span>
+        <a href="ingredients.html">Ingredients</a>
+        <a href="sit.html">Skin Consultant</a>
+        <a href="about.html">Our Story</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Policies</span>
+        <a href="#">Shipping &amp; Delivery</a>
+        <a href="#">Returns &amp; Refunds</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </nav>
+  </div>
+  <div class="sfg-bottom">
+    <p>© 2026 Sebble. All rights reserved.</p>
+    <nav class="sfg-bottom-links"><a href="ingredients.html">Ingredients</a><a href="contact.html">Contact</a></nav>
+    <p>Cruelty-free · Fragrance-free · EU compliant</p>
+  </div>
+</footer>
+
+<!-- ===================== FLOATING LAUNCHER ===================== -->
+<button class="sit-fab" data-sit-open="">
+  <span class="sit-fab__ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.5 8.5 0 1 1 16.1-3.8z"/></svg>
+  </span>
+  <span class="sit-fab__t">Skin Consultant</span>
+</button>
+
+<!-- ===================== CONSULTATION MODAL ===================== -->
+<div class="sit-modal" id="sitModal" role="dialog" aria-modal="true" aria-label="SIT Skin Consultant">
+  <div class="sit-modal__scrim" data-sit-close></div>
+  <div class="sit-modal__panel">
+    <div class="sit-mh" id="sitHeader">
+      <div class="sit-mh__row">
+        <button class="sit-mh__back" id="sitBack">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back
+        </button>
+        <span class="sit-mh__brand"><i></i> SIT Skin Consultant</span>
+        <button class="sit-mh__close" id="sitClose" aria-label="Close consultant">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="sit-mh__prog"><i id="sitProg"></i></div>
+      <div class="sit-mh__step" id="sitStepLabel"></div>
+    </div>
+    <div class="sit-mb" id="sitBody"><!-- rendered by engine (Step 3) --></div>
+    <div class="sit-mf hide" id="sitFooter">
+      <button class="sit-mf__skip" id="sitSkip">Skip this question</button>
+      <button class="btn btn-primary" id="sitNext">Continue</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Scroll reveal */
+(function(){
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal,.reveal-group').forEach(function(el){io.observe(el);});
+
+  /* FAQ accordion */
+  document.querySelectorAll('.faq__q').forEach(function(q){
+    q.addEventListener('click',function(){
+      var item=q.closest('.faq__item');
+      var ans=item.querySelector('.faq__a');
+      var open=item.classList.contains('open');
+      document.querySelectorAll('.faq__item.open').forEach(function(i){
+        i.classList.remove('open');i.querySelector('.faq__a').style.maxHeight=null;
+      });
+      if(!open){item.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px';}
+    });
+  });
+
+})();
+</script>
+
+<!-- ===================== SIT CONSULTATION ENGINE ===================== -->
+<script src="sit-knowledge.js"></script>
+<script>
+(function(){
+  "use strict";
+  var KB = window.SIT_KB;
+  if(!KB){console.error('SIT_KB not loaded');return;}
+
+  /* ---- helpers ---- */
+  function el(id){return document.getElementById(id);}
+  function h(html){var t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstChild;}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  /* map scoring key s01 -> serum-01 */
+  function pk(skey){return 'serum-'+skey.slice(1);}
+  function product(handle){return KB.products[handle];}
+  function track(ev,data){ (window.dataLayer=window.dataLayer||[]).push(Object.assign({event:ev},data||{})); }
+
+  var MODAL=el('sitModal'), BODY=el('sitBody'), FOOTER=el('sitFooter'),
+      PROG=el('sitProg'), STEPLBL=el('sitStepLabel'), HEADER=el('sitHeader'),
+      BACK=el('sitBack'), NEXT=el('sitNext'), SKIP=el('sitSkip'), CLOSE=el('sitClose');
+
+  var SIT={
+    mode:null, flow:[], idx:0, answers:{}, scores:{}, flags:{},
+    photo:{consent:false, save:false, file:null}, cart:[], lastFocus:null,
+
+    /* ---------- open / close ---------- */
+    open:function(mode){
+      this.lastFocus=document.activeElement;
+      MODAL.classList.add('is-open');
+      document.body.style.overflow='hidden';
+      track('sit_opened',{mode:mode||'menu'});
+      if(mode==='quick'||mode==='full'){ this.startQuiz(mode); }
+      else if(mode==='photo'){ this.startPhoto(); }
+      else if(mode==='chat'){ this.startChat(); }
+      else { this.renderModes(); }
+    },
+    close:function(){
+      MODAL.classList.remove('is-open');
+      document.body.style.overflow='';
+      if(this.lastFocus&&this.lastFocus.focus)this.lastFocus.focus();
+    },
+    setProgress:function(pct,label){
+      HEADER.classList.toggle('hide-prog', pct==null);
+      if(pct!=null)PROG.style.width=Math.max(0,Math.min(100,pct))+'%';
+      STEPLBL.textContent=label||'';
+    },
+    showFooter:function(show,nextLabel,canSkip){
+      FOOTER.classList.toggle('hide',!show);
+      if(nextLabel)NEXT.textContent=nextLabel;
+      SKIP.style.display=canSkip?'':'none';
+    },
+    showBack:function(show){ BACK.classList.toggle('show',!!show); },
+    paint:function(node){ BODY.innerHTML=''; BODY.appendChild(node); BODY.scrollTop=0; },
+
+    /* ---------- mode select ---------- */
+    renderModes:function(){
+      this.setProgress(null); this.showFooter(false); this.showBack(false);
+      var wrap=h('<div class="sit-screen"></div>');
+      wrap.innerHTML=
+        '<div class="sit-intro"><h2>How would you like to start?</h2>'+
+        '<p>Pick the consultation that suits your time. You can switch at any point.</p></div>'+
+        '<div class="sit-modes">'+
+          this._modeBtn('quick','M03b','Quick Skin Match','Five quick questions','~60s',
+            '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>')+
+          this._modeBtn('full','M02','Full Consultation','Deeper, more accurate routine','~5m',
+            '<path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>')+
+          this._modeBtn('photo','M03','Photo Skin Analysis','Review visible skin patterns','Optional',
+            '<rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/>')+
+          this._modeBtn('chat','Q','Ask a Question','Chat about ingredients & routines','Instant',
+            '<path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.5 8.5 0 1 1 16.1-3.8z"/>')+
+        '</div>';
+      var self=this;
+      wrap.querySelectorAll('[data-mode]').forEach(function(b){
+        b.addEventListener('click',function(){ self.open(b.dataset.mode); });
+      });
+      this.paint(wrap);
+    },
+    _modeBtn:function(mode,tag,title,sub,time,svg){
+      return '<button class="sit-mode" data-mode="'+mode+'">'+
+        '<span class="sit-mode__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+svg+'</svg></span>'+
+        '<span class="sit-mode__t"><b>'+title+'</b><span>'+sub+'</span></span>'+
+        '<span class="sit-mode__time">'+time+'</span></button>';
+    },
+
+    /* ---------- quiz flow ---------- */
+    startQuiz:function(mode){
+      this.mode=mode; this.idx=0; this.answers={}; this.resetScores();
+      this.flow=(mode==='quick'?KB.quickQuestions:KB.fullQuestions).slice();
+      track(mode==='quick'?'sit_quick_match_started':'sit_full_consultation_started',{});
+      this.renderQuestion();
+    },
+    resetScores:function(){
+      this.scores={}; for(var i=1;i<=6;i++)this.scores['s0'+i]=0;
+      this.flags={hard_stop:false,pregnancy:false,prescription:false,gentle:false,no_spf:false};
+    },
+    renderQuestion:function(){
+      var q=this.flow[this.idx];
+      if(!q){ return this.process(); }
+      // skip photo_upload question inside full flow if handled separately -> we keep as choice
+      var total=this.flow.length;
+      this.setProgress(Math.round((this.idx)/total*100), 'Question '+(this.idx+1)+' of '+total);
+      this.showBack(this.idx>0);
+      var multi=q.type==='multi';
+      var screen=h('<div class="sit-screen"></div>');
+      var opts='';
+      if(q.type==='text'){
+        opts='<textarea class="sit-q__text" id="sitText" placeholder="'+esc(q.placeholder||'')+'">'+esc(this.answers[q.id]||'')+'</textarea>';
+      } else {
+        opts='<div class="sit-opts">'+q.options.map(function(o){
+          var sel=multi ? ((SIT.answers[q.id]||[]).indexOf(o.value)>-1) : (SIT.answers[q.id]===o.value);
+          return '<button class="sit-opt'+(multi?' sit-opt--multi':'')+(sel?' sel':'')+'" data-val="'+esc(o.value)+'">'+
+            '<span class="sit-opt__mark"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>'+
+            '<span class="sit-opt__t"><b>'+esc(o.label)+'</b>'+(o.desc?'<span>'+esc(o.desc)+'</span>':'')+'</span></button>';
+        }).join('')+'</div>';
+      }
+      screen.innerHTML='<div class="sit-q">'+
+        '<div class="sit-q__hint">'+esc(q.hint?'':'')+(multi?'Select all that apply':'')+'</div>'+
+        '<h2 class="sit-q__title">'+esc(q.text)+'</h2>'+
+        (q.hint?'<p class="sit-q__sub">'+esc(q.hint)+'</p>':'')+opts+'</div>';
+      var self=this;
+      screen.querySelectorAll('.sit-opt').forEach(function(b){
+        b.addEventListener('click',function(){ self.choose(q, b.dataset.val, multi, b); });
+      });
+      this.paint(screen);
+      // footer: text & multi need Continue button; single auto-advances
+      var optional = (q.type==='text'||q.id==='secondary_goals'||q.id==='am_routine'||q.id==='pm_routine'||q.id==='extra_notes');
+      this.showFooter(multi||q.type==='text', this.idx===this.flow.length-1?'See my results':'Continue', optional);
+    },
+    choose:function(q,val,multi,btn){
+      if(multi){
+        var arr=this.answers[q.id]||[];
+        var i=arr.indexOf(val);
+        if(i>-1){arr.splice(i,1);btn.classList.remove('sel');}
+        else{arr.push(val);btn.classList.add('sel');}
+        this.answers[q.id]=arr;
+      } else {
+        this.answers[q.id]=val;
+        BODY.querySelectorAll('.sit-opt').forEach(function(b){b.classList.remove('sel');});
+        btn.classList.add('sel');
+        // safety interrupt
+        if(q.id==='safety_concern'&&val==='yes'){ this.flags.hard_stop=true; }
+        // brief delay then advance
+        var self=this;
+        setTimeout(function(){ self.next(); }, 230);
+      }
+    },
+    next:function(){
+      var q=this.flow[this.idx];
+      if(q&&q.type==='text'){ var t=el('sitText'); if(t)this.answers[q.id]=t.value; }
+      // hard stop short-circuit
+      if(q&&q.id==='safety_concern'&&this.answers[q.id]==='yes'){ this.flags.hard_stop=true; return this.process(); }
+      if(this.idx>=this.flow.length-1){ return this.process(); }
+      this.idx++; this.renderQuestion();
+    },
+    back:function(){
+      if(this.idx>0){ this.idx--; this.renderQuestion(); }
+    },
+    skip:function(){ this.next(); },
+
+    /* ---------- scoring + safety ---------- */
+    computeScores:function(){
+      this.resetScores();
+      var sc=KB.scoring, A=this.answers, S=this.scores;
+      Object.keys(sc).forEach(function(qid){
+        var ans=A[qid];
+        if(ans==null)return;
+        var vals=Array.isArray(ans)?ans:[ans];
+        vals.forEach(function(v){
+          var deltas=sc[qid]&&sc[qid][v];
+          if(deltas)Object.keys(deltas).forEach(function(p){ if(S[p]!=null)S[p]+=deltas[p]; });
+        });
+      });
+      this.computeFlags();
+      this.applyFlagPenalties();
+    },
+    computeFlags:function(){
+      var A=this.answers, F=this.flags;
+      if(A.safety_concern==='yes')F.hard_stop=true;
+      if(A.safety_concern==='not_sure')F.gentle=true;
+      if(A.pregnancy==='pregnant'||A.pregnancy==='breastfeeding')F.pregnancy=true;
+      if(A.prescription==='yes_topical'||A.prescription==='yes_oral')F.prescription=true;
+      if(A.sensitivity==='high'||A.skin_type==='sensitive')F.gentle=true;
+      if(A.spf==='no'||A.spf==='rarely')F.no_spf=true;
+    },
+    applyFlagPenalties:function(){
+      // Data-driven from KB product metadata so safety logic stays correct as the
+      // serum lineup changes. Keys s01..s06 map to handles serum-01..serum-06.
+      var S=this.scores, F=this.flags, A=this.answers;
+      var preg=(KB.safetyRules&&KB.safetyRules.pregnancy&&KB.safetyRules.pregnancy.avoid_products)||[];
+      Object.keys(S).forEach(function(skey){
+        var p=product(pk(skey)); if(!p) return;
+        var avoid=p.avoid_if||[];
+        var pmOnly=(p.am_pm==='pm_only');
+        var isRetinoid=pmOnly||avoid.indexOf('pregnant')>-1;
+        var gentleSerum=avoid.length===0 && (p.sensitivity_level==='very_low'||p.sensitivity_level==='low');
+        // Pregnancy / breastfeeding: hard-remove any product flagged unsafe.
+        if(F.pregnancy && (preg.indexOf(p.handle)>-1 || avoid.indexOf('pregnant')>-1)){ S[skey]=-999; return; }
+        // Sensitive / "not sure": de-prioritise stronger actives, lift barrier-first picks.
+        if(F.gentle){
+          if(avoid.indexOf('very_sensitive')>-1||avoid.indexOf('compromised_barrier')>-1){ S[skey]-=(isRetinoid?6:4); }
+          if(gentleSerum){ S[skey]+=3; }
+        }
+        // Beginners: ease off night-only / retinoid actives so a gentler serum leads;
+        // the retinoid stays available but is introduced later, never as the first step.
+        if(A.experience==='beginner' && isRetinoid){ S[skey]-=6; }
+      });
+    },
+    topProducts:function(n){
+      this.computeScores();
+      var S=this.scores;
+      var arr=Object.keys(S).map(function(k){return {k:k,v:S[k]};})
+        .sort(function(a,b){return b.v-a.v;});
+      return arr.slice(0,n).filter(function(x){return x.v>-900;}).map(function(x){return pk(x.k);});
+    },
+
+    /* ---------- processing ---------- */
+    process:function(){
+      this.showFooter(false); this.showBack(false); this.setProgress(100,'Building your report');
+      var msgs=this.flags.hard_stop
+        ? ['Reviewing what you shared…','Checking safety guidance…','Preparing your next steps…']
+        : ['Analysing your skin goals…','Reviewing your routine history…','Checking product compatibility…','Building your serum match…','Preparing your SIT report…'];
+      var screen=h('<div class="sit-screen sit-proc">'+
+        '<div class="sit-proc__ring"><svg viewBox="0 0 50 50" fill="none"><circle cx="25" cy="25" r="20" stroke="#dddcdc" stroke-width="4"/><path d="M25 5a20 20 0 0 1 20 20" stroke="#49724a" stroke-width="4" stroke-linecap="round"/></svg></div>'+
+        '<div class="sit-proc__msg" id="sitProcMsg">'+msgs[0]+'</div>'+
+        '<div class="sit-proc__sub">This takes just a moment</div></div>');
+      this.paint(screen);
+      var i=0, node=screen.querySelector('#sitProcMsg'), self=this;
+      var iv=setInterval(function(){
+        i++; if(i>=msgs.length){ clearInterval(iv); setTimeout(function(){ self.renderResults(); }, 380); return; }
+        node.style.opacity=0;
+        setTimeout(function(){ node.textContent=msgs[i]; node.style.opacity=1; }, 220);
+      }, 720);
+    },
+
+    /* ---------- results / report ---------- */
+    buildReport:function(){
+      var A=this.answers, F=this.flags;
+      var goal=A.main_goal||'hydration';
+      var picks=this.topProducts(3);
+      // topProducts -> computeScores -> resetScores replaces this.flags with a fresh,
+      // fully-computed object, so re-read it here (the earlier ref is now stale).
+      F=this.flags;
+      var primary=picks[0]?product(picks[0]):product('serum-01');
+      var secondary=null;
+      var wantsMore = A.routine_pref!=='one_hero' && this.mode==='full';
+      // Over-recommend guardrails: beginners and sensitive/uncertain users get a single
+      // hero serum only; a second serum is reserved for confident, non-sensitive routines.
+      var allowSecond = !F.gentle && A.experience!=='beginner';
+      if((wantsMore||this.mode==='quick'&&A.routine_pref==='full') && picks[1] && allowSecond){
+        var cand=product(picks[1]);
+        if(primary.not_recommended_with.indexOf(cand.handle)===-1) secondary=cand;
+      }
+      var goalLabels={hydration:'hydration',brightening:'a brighter, more even-looking tone',barrier_support:'barrier comfort',texture:'smoother-looking texture',calm:'calmer, more comfortable skin',oil_balance:'balanced, clearer-looking skin',glow:'radiance and glow',age_support:'firmer, smoother-looking skin'};
+      var conf = F.hard_stop?0 : Math.max(72, Math.min(94, 70 + (this.mode==='full'?14:6) + (picks.length>1?4:0)));
+      var summaryGoals=[goalLabels[goal]||'hydration'];
+      if(secondary){ var sg=secondary.primary_goal; if(goalLabels[sg]&&summaryGoals.indexOf(goalLabels[sg])<0)summaryGoals.push(goalLabels[sg]); }
+      if(F.gentle&&summaryGoals.indexOf('barrier comfort')<0)summaryGoals.push('barrier comfort');
+      var summary='Your routine should focus on '+summaryGoals.slice(0,3).join(', ').replace(/,([^,]*)$/,' and$1')+'.';
+      return {primary:primary, secondary:secondary, summary:summary, confidence:conf, goal:goal};
+    },
+
+    /* ---------- reasoning engine ---------- */
+    scoreBreakdown:function(){
+      // Re-bucket each per-product score contribution into the six dimensions SIT
+      // reasons over. Keys s01..s06; reads the same KB.scoring used by computeScores.
+      var sc=KB.scoring, A=this.answers, self=this;
+      var CAT={ main_goal:'goal_match', mirror_concern:'goal_match',
+        skin_type:'skin_type_match', post_cleanse:'skin_type_match', oiliness:'skin_type_match',
+        sensitivity:'sensitivity_match', visible_redness:'sensitivity_match',
+        experience:'routine_fit' };
+      var out={};
+      for(var i=1;i<=6;i++){ out['s0'+i]={goal_match:0,skin_type_match:0,sensitivity_match:0,routine_fit:0,photo_support:0,safety_fit:0}; }
+      Object.keys(sc).forEach(function(qid){
+        var ans=A[qid]; if(ans==null)return;
+        var cat=CAT[qid]||'goal_match';
+        var vals=Array.isArray(ans)?ans:[ans];
+        vals.forEach(function(v){
+          var deltas=sc[qid]&&sc[qid][v];
+          if(deltas)Object.keys(deltas).forEach(function(p){ if(out[p])out[p][cat]+=deltas[p]; });
+        });
+      });
+      if(this.photoScores)Object.keys(this.photoScores).forEach(function(p){ if(out[p])out[p].photo_support+=self.photoScores[p]; });
+      // safety_fit = whatever the safety penalties added/removed vs the raw category sum
+      Object.keys(out).forEach(function(k){
+        var b=out[k]; var raw=b.goal_match+b.skin_type_match+b.sensitivity_match+b.routine_fit+b.photo_support;
+        b.safety_fit=Math.round((self.scores[k]||0)-raw);
+        b.total=self.scores[k]||0;
+      });
+      return out;
+    },
+    buildReasoning:function(R){
+      var A=this.answers, F=this.flags, self=this;
+      var goalLabels={hydration:'long-lasting hydration',brightening:'a brighter, more even-looking tone',barrier_support:'a stronger, calmer barrier',texture:'smoother-looking texture',calm:'calmer, more comfortable skin',oil_balance:'balanced, clearer-looking skin',glow:'visible radiance',age_support:'firmer, smoother-looking skin'};
+      var br=this.scoreBreakdown();
+      var pickHandles={}; pickHandles[R.primary.handle]='primary'; if(R.secondary)pickHandles[R.secondary.handle]='secondary';
+
+      // main goals + supporting signals
+      var mainGoals=[]; var g=A.main_goal||'hydration'; if(goalLabels[g])mainGoals.push(goalLabels[g]);
+      if(A.mirror_concern&&goalLabels[A.mirror_concern]&&mainGoals.indexOf(goalLabels[A.mirror_concern])<0)mainGoals.push(goalLabels[A.mirror_concern]);
+      var signalMap={ skin_type:{dry:'skin that reads as dry',oily:'an oilier skin type',combination:'combination skin',sensitive:'sensitive skin',normal:'balanced skin'},
+        post_cleanse:{tight:'tightness after cleansing',oily_quickly:'oil returning quickly',reactive:'skin that reacts easily',dry_patches:'occasional dry patches'},
+        sensitivity:{high:'higher sensitivity',medium:'some sensitivity'},
+        visible_redness:{often:'visible redness',sometimes:'occasional redness'},
+        oiliness:{yes_all:'all-over shine',t_zone:'a shiny T-zone'},
+        experience:{beginner:'newer to active skincare',advanced:'experienced with actives'} };
+      var signals=[]; Object.keys(signalMap).forEach(function(qid){ var m=signalMap[qid][A[qid]]; if(m)signals.push(m); });
+
+      // risk/safety flags
+      var riskFlags=[];
+      if(F.pregnancy)riskFlags.push('pregnancy_or_breastfeeding');
+      if(F.prescription)riskFlags.push('using_prescription_skincare');
+      if(F.gentle)riskFlags.push('sensitive_or_uncertain_skin');
+      if(F.no_spf)riskFlags.push('inconsistent_spf_use');
+
+      // per-product score objects
+      var product_scores=[];
+      for(var i=1;i<=6;i++){ (function(k){
+        var p=product(pk(k)); if(!p)return; var b=br[k]; var role=pickHandles[p.handle];
+        var reasonSel='', reasonNot='';
+        if(role){ reasonSel=p.short_reason; }
+        if(!role){
+          if(b.total<=-900) reasonNot='Set aside for safety — it contains a retinoid we avoid during pregnancy or breastfeeding.';
+          else if(F.gentle && (p.avoid_if||[]).some(function(x){return x==='very_sensitive'||x==='compromised_barrier';})) reasonNot='Eased out for now because you flagged sensitive or uncertain skin; it can be reintroduced once your barrier feels settled.';
+          else if(A.experience==='beginner' && p.am_pm==='pm_only') reasonNot='Held back while you\'re newer to actives — a night-only retinoid is better added later.';
+          else reasonNot='A good serum, but it scored lower than your matches for your current main goal.';
+        }
+        product_scores.push({ product_handle:p.handle, score:b.total,
+          score_breakdown:{goal_match:b.goal_match,skin_type_match:b.skin_type_match,sensitivity_match:b.sensitivity_match,routine_fit:b.routine_fit,photo_support:b.photo_support,safety_fit:b.safety_fit},
+          reason_selected:reasonSel, reason_not_selected:reasonNot });
+      })('s0'+i); }
+      product_scores.sort(function(a,b){return b.score-a.score;});
+
+      // narrative reasons
+      var primGoalTxt=mainGoals[0]||'your main goal';
+      var primaryReason='Your answers point most clearly to '+primGoalTxt+(signals.length?', alongside '+signals.slice(0,2).join(' and '):'')+'. The '+R.primary.name+' is built around exactly that, which is why it scored highest'+(F.gentle?', and it suits more sensitive skin':'')+'.';
+      var secondaryReason=R.secondary?('The '+R.secondary.name+' complements it without overlapping — added because you were open to a fuller routine and the two layer comfortably.'):'';
+      var supportReason='The Support Cream is suggested to seal everything in and keep the barrier comfortable while your serum does the active work.';
+      var routineReason='SIT kept your routine to '+(R.secondary?'two serums':'a single hero serum')+' so nothing competes or overwhelms your skin'+(A.experience==='beginner'?', which matters while you\'re still building tolerance':'')+'. Start slow, patch test, and build up only once your skin feels comfortable.';
+
+      // confidence level
+      var lvl = F.hard_stop?'safety_redirect' : (R.confidence>=85?'high':(R.confidence>=78?'medium':'low'));
+
+      // next best action
+      var nextAction = F.hard_stop ? 'Speak with a dermatologist before starting new active skincare.'
+        : 'Start with the '+R.primary.name+' a few evenings a week, patch test first, and add the Support Cream over the top.';
+
+      var joinAnd=function(a){return a.slice(0,3).join(', ').replace(/,([^,]*)$/,' and$1');};
+      var profileSummary=(signals.length?'Someone with '+joinAnd(signals):'Someone')+' looking for '+(mainGoals.length?joinAnd(mainGoals):'healthier-looking skin')+'.';
+
+      return {
+        customer_profile_summary:profileSummary,
+        main_skin_goals:mainGoals,
+        supporting_signals:signals,
+        risk_or_safety_flags:riskFlags,
+        product_scores:product_scores,
+        primary_recommendation_reason:primaryReason,
+        secondary_recommendation_reason:secondaryReason,
+        support_product_reason:supportReason,
+        routine_reasoning:routineReason,
+        confidence_level:lvl,
+        customer_facing_summary:R.summary,
+        next_best_action:nextAction
+      };
+    },
+    _reasoningHtml:function(RE,R){
+      var picks={}; picks[R.primary.handle]=1; if(R.secondary)picks[R.secondary.handle]=1;
+      var others=RE.product_scores.filter(function(s){return !picks[s.product_handle];});
+      var lis=others.map(function(s){
+        var p=product(s.product_handle);
+        return '<li style="padding:0.55rem 0;border-top:1px solid var(--c-line,#dddcdc)"><b style="display:block;font-size:0.9rem">'+esc(p.name)+'</b>'+
+          '<span style="font-size:0.84rem;color:var(--c-grey-2,#6b756c)">'+esc(s.reason_not_selected)+'</span></li>';
+      }).join('');
+      return '<div class="sit-rep__sec"><div class="sit-rep__sec-h">Why SIT chose this</div>'+
+        '<p class="sit-prod__why" style="padding:0 0.3rem 0.6rem">'+esc(RE.primary_recommendation_reason)+'</p>'+
+        (RE.secondary_recommendation_reason?'<p class="sit-prod__why" style="padding:0 0.3rem 0.6rem">'+esc(RE.secondary_recommendation_reason)+'</p>':'')+
+        '<p class="sit-prod__why" style="padding:0 0.3rem 0.8rem">'+esc(RE.routine_reasoning)+'</p>'+
+        '<details class="sit-why-not" style="padding:0 0.3rem"><summary style="cursor:pointer;font-weight:600;font-size:0.9rem;color:var(--c-green-deep,#142b1b)">Why not the other serums?</summary>'+
+        '<ul style="list-style:none;margin:0.4rem 0 0;padding:0">'+lis+'</ul></details></div>';
+    },
+    renderResults:function(){
+      this.setProgress(null); this.showFooter(false); this.showBack(false);
+      track('sit_recommendation_generated',{mode:this.mode});
+      if(this.flags.hard_stop){ track('sit_safety_flag_triggered',{}); return this.renderSafetyStop(); }
+      var R=this.buildReport(), A=this.answers, F=this.flags, self=this;
+      var RE=this.buildReasoning(R); this.reasoning=RE;
+      // Privacy: never send answers or images to analytics — only non-identifying outcome.
+      track('sit_reasoning_built',{confidence_level:RE.confidence_level,primary:R.primary.handle,serums:R.secondary?2:1});
+      this.cart=[R.primary.handle];
+      var supportCream=product('support-cream'), supportSpray=product('support-spray');
+      var depth = A.routine_pref==='one_hero'?'minimal':(A.routine_pref==='full'?'full':'standard');
+      if(this.mode==='quick'&&!A.routine_pref)depth='standard';
+
+      var html='<div class="sit-screen">';
+      /* header */
+      html+='<div class="sit-rep__head"><span class="eyebrow">SIT Skin Intelligence Report</span>'+
+        '<p class="sit-rep__summary">'+esc(R.summary).replace('focus on','focus on <b>').replace(/\.$/,'</b>.')+'</p>'+
+        '<div class="sit-rep__conf"><div><b>'+R.confidence+'%</b></div><div class="sit-rep__conf-bar"><i style="width:'+R.confidence+'%"></i></div><span>Match<br>confidence</span></div></div>';
+
+      /* safety caution banners */
+      if(F.pregnancy)html+=this._safety(KB.safetyRules.pregnancy.message,false);
+      if(F.prescription)html+=this._safety(KB.safetyRules.prescription.message,false);
+
+      /* primary */
+      html+='<div class="sit-rep__sec"><div class="sit-rep__sec-h">Your primary serum</div>'+this._prodCard(R.primary,'Primary match',true)+'</div>';
+      /* secondary */
+      if(R.secondary)html+='<div class="sit-rep__sec"><div class="sit-rep__sec-h">Supporting serum</div>'+this._prodCard(R.secondary,'Layer or alternate',false)+
+        '<p class="sit-prod__why" style="padding:0 0.3rem">'+(A.experience==='beginner'?'As you\'re newer to actives, introduce this only once your primary serum feels comfortable — alternate evenings to start.':'Alternate this with your primary serum on separate evenings, or layer lightest-to-richest once your skin is comfortable.')+'</p></div>';
+      /* support products */
+      html+='<div class="sit-rep__sec"><div class="sit-rep__sec-h">Support products</div>'+
+        this._prodCard(supportCream,'Seals your routine',false,'cream')+
+        this._prodCard(supportSpray,'Daytime refresh',false,'alt')+'</div>';
+
+      /* routines */
+      var mTpl=KB.routineTemplates.morning[depth], eTpl=KB.routineTemplates.evening[depth];
+      html+='<div class="sit-rep__sec"><div class="sit-rep__sec-h">Your daily routine</div>'+
+        this._routine('Morning', mTpl, '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/>', R.primary, F)+
+        this._routine('Evening', eTpl, '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>', R.primary, F)+'</div>';
+
+      /* why SIT chose this / why not the others */
+      html+=this._reasoningHtml(RE,R);
+
+      /* 4-week plan */
+      html+='<div class="sit-rep__sec"><div class="sit-rep__sec-h">4-week introduction plan</div><div class="sit-weeks">'+
+        '<div class="sit-week"><b>Week 1</b><span>Patch test first. Use your primary serum 2–3 evenings.</span></div>'+
+        '<div class="sit-week"><b>Week 2</b><span>Increase frequency if your skin feels comfortable.</span></div>'+
+        '<div class="sit-week"><b>Week 3</b><span>'+(R.secondary?'Introduce your supporting serum on alternate nights.':'Add the Support Cream nightly to lock in comfort.')+'</span></div>'+
+        '<div class="sit-week"><b>Week 4</b><span>Review skin comfort. Keep what works, stay consistent.</span></div>'+
+        '</div></div>';
+
+      /* what to avoid */
+      var avoid=['Introducing every product at once — go one at a time'];
+      if(F.no_spf)avoid.unshift('Skipping SPF — daily SPF 30+ protects your results');
+      if(F.gentle)avoid.push('Harsh physical scrubs and over-exfoliation');
+      else avoid.push('Layering too many actives on the same evening');
+      if(A.experience==='advanced')avoid.push('Combining strong acids and retinol on the same night');
+      html+='<div class="sit-rep__sec"><div class="sit-rep__sec-h">What to avoid</div><ul class="sit-avoid">'+
+        avoid.map(function(a){return '<li><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>'+esc(a)+'</li>';}).join('')+'</ul></div>';
+
+      /* cart bundle */
+      html+='<div class="sit-cart"><h3>Add your routine to bag</h3><p>Recommended by SIT for your skin profile. Adjust before adding.</p><div id="sitCartLines"></div>'+
+        '<div class="sit-cart__total"><span>Routine total</span><b id="sitCartTotal">£0</b></div>'+
+        '<button class="btn" id="sitAddCart">Add selected to bag</button></div>';
+
+      /* email */
+      html+='<div class="sit-email"><h3>Email my results</h3><p>Get your full SIT report and routine guide in your inbox.</p>'+
+        '<div class="sit-email__row"><input type="email" id="sitEmail" placeholder="you@email.com" aria-label="Email address"><button class="btn btn-primary" id="sitEmailBtn">Send</button></div>'+
+        '<label class="sit-email__consent"><input type="checkbox" id="sitEmailConsent"> I agree to receive my results and occasional skincare guidance from Sebble. Unsubscribe anytime.</label></div>';
+
+      /* redo */
+      html+='<div class="sit-redo">'+
+        '<button data-redo="restart">Retake consultation</button>'+
+        '<button data-redo="chat">Ask SIT a question</button>'+
+        '<button data-redo="photo">Upload a photo</button>'+
+        '<button data-redo="shop">Shop all serums</button></div>';
+
+      html+='<p class="sit-disclaimer-sm">SIT provides general skincare guidance and product recommendations. It does not diagnose, treat, or replace advice from a qualified dermatologist or medical professional. If your skin concern is painful, severe, persistent, rapidly changing, infected, bleeding, or medically concerning, please consult a dermatologist.</p>';
+      html+='</div>';
+
+      var screen=h('<div></div>'); screen.innerHTML=html;
+      this.paint(screen.firstChild);
+      this.save(R);
+
+      /* wire cart */
+      var lines=[{h:R.primary.handle,goal:R.goal}];
+      if(R.secondary)lines.push({h:R.secondary.handle,goal:R.secondary.primary_goal});
+      lines.push({h:'support-cream',goal:'barrier'});
+      // Spray only for a full routine, or oilier non-sensitive skin — never pad sensitive/beginner carts.
+      if(A.routine_pref==='full' || ((A.skin_type==='oily'||A.oiliness==='yes_all') && !F.gentle))lines.push({h:'support-spray',goal:'refresh'});
+      this._renderCartLines(lines);
+
+      el('sitAddCart').addEventListener('click',function(){ self.addToCart(); });
+      el('sitEmailBtn').addEventListener('click',function(){ self.captureEmail(); });
+      screen.querySelectorAll('[data-redo]').forEach(function(b){
+        b.addEventListener('click',function(){
+          var r=b.dataset.redo;
+          if(r==='restart')self.renderModes();
+          else if(r==='chat')self.startChat();
+          else if(r==='photo')self.startPhoto();
+          else if(r==='shop')location.href='collection.html';
+        });
+      });
+    },
+    _safety:function(msg,stop){
+      return '<div class="sit-safety'+(stop?' sit-safety--stop':'')+'"><h3>'+
+        '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>'+
+        (stop?'A note on your safety':'Good to know')+'</h3><p>'+esc(msg)+'</p></div>';
+    },
+    _prodCard:function(p,tag,primary,visClass){
+      if(!p)return '';
+      return '<div class="sit-prod"><div class="sit-prod__vis '+(visClass||'')+'"></div>'+
+        '<div class="sit-prod__info"><div class="sit-prod__tag">'+esc(tag)+'</div>'+
+        '<div class="sit-prod__name">'+esc(p.name)+'</div>'+
+        '<div class="sit-prod__why">'+esc(p.short_reason)+'</div>'+
+        '<div class="sit-prod__meta"><span><b>Use:</b> '+esc(p.frequency)+'</span><span><b>Texture:</b> '+esc(p.texture)+'</span></div>'+
+        '<div class="sit-prod__foot"><span class="sit-prod__price">'+esc(p.price)+'</span>'+
+        '<a class="sit-prod__add" href="product.html">View product</a></div></div></div>';
+    },
+    _routine:function(title,steps,svg,primary,F){
+      var rows=steps.map(function(s,i){
+        var label=s;
+        if(/Serum 1|^Serum$/.test(s))label=primary.name;
+        else if(/Serum 2/.test(s))label='Supporting serum (if comfortable)';
+        else if(/Support Cream/.test(s))label='Support Cream';
+        else if(/Mist/.test(s))label='Facial Support Spray';
+        return '<div class="sit-rstep"><b>'+(i+1)+'</b>'+esc(label)+'</div>';
+      }).join('');
+      return '<div class="sit-routine"><div class="sit-routine__t"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+svg+'</svg>'+title+'</div>'+rows+'</div>';
+    },
+    _renderCartLines:function(lines){
+      var box=el('sitCartLines'), self=this; this.cart=[];
+      box.innerHTML=lines.map(function(l,i){
+        var p=product(l.h); self.cart.push(l.h);
+        return '<label class="sit-cart__line"><input type="checkbox" data-h="'+l.h+'" data-price="'+parseFloat(p.price.replace('£',''))+'" checked>'+
+          '<span>'+esc(p.name)+'</span><b>'+esc(p.price)+'</b></label>';
+      }).join('');
+      box.querySelectorAll('input').forEach(function(c){ c.addEventListener('change',function(){ self._cartTotal(); }); });
+      this._cartTotal();
+    },
+    _cartTotal:function(){
+      var sum=0, cart=[];
+      el('sitCartLines').querySelectorAll('input').forEach(function(c){ if(c.checked){sum+=parseFloat(c.dataset.price);cart.push(c.dataset.h);} });
+      this.cart=cart;
+      el('sitCartTotal').textContent='£'+sum.toFixed(0);
+    },
+    addToCart:function(){
+      track('sit_routine_added_to_cart',{items:this.cart});
+      var btn=el('sitAddCart');
+      btn.textContent='Added to bag ✓'; btn.style.background='var(--c-green-nat)'; btn.style.color='#fff';
+      // bump header bag count (simulated Shopify AJAX cart)
+      var bag=document.querySelector('.header-cart-btn');
+      if(bag){ var cur=(bag.textContent.match(/\d+/)||[0])[0]; bag.textContent='Bag ('+(parseInt(cur)+this.cart.length)+')'; }
+      setTimeout(function(){ btn.textContent='Add selected to bag'; btn.style.background=''; btn.style.color=''; },1800);
+    },
+    captureEmail:function(){
+      var email=el('sitEmail').value.trim();
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ el('sitEmail').style.borderColor='#b4543f'; return; }
+      track('sit_email_captured',{}); // Klaviyo placeholder: window.klaviyo.push(['identify',{ '$email':email }])
+      var row=el('sitEmail').parentNode;
+      row.innerHTML='<p style="font-size:0.875rem;color:var(--c-green-nat);font-weight:500;padding:0.6rem 0">Sent. Check your inbox for your SIT report.</p>';
+    },
+    renderSafetyStop:function(){
+      var self=this;
+      var screen=h('<div class="sit-screen"></div>');
+      screen.innerHTML=
+        this._safety(KB.safetyRules.hard_stop.message,true)+
+        '<div class="sit-rep__sec"><div class="sit-rep__sec-h">Gentle basics in the meantime</div>'+
+        '<p class="sit-prod__why" style="padding:0 0.3rem 0.8rem">While you seek professional advice, keep your routine simple and supportive — a gentle cleanser, a fragrance-free moisturiser, and daily SPF. Avoid active ingredients until a professional has reviewed your skin.</p>'+
+        this._prodCard(product('serum-02'),'Gentle, barrier-first',false)+
+        this._prodCard(product('support-cream'),'Comforting moisture',false,'cream')+'</div>'+
+        '<div class="sit-redo"><button data-redo="restart">Start over</button><button data-redo="shop">Shop gentle serums</button></div>';
+      this.paint(screen);
+      screen.querySelectorAll('[data-redo]').forEach(function(b){
+        b.addEventListener('click',function(){ b.dataset.redo==='restart'?self.renderModes():(location.href='collection.html'); });
+      });
+    },
+
+    /* ---------- photo flow ---------- */
+    startPhoto:function(){
+      this.mode='photo'; this.idx=0; this.answers={}; this.resetScores();
+      this.photo={consent:false,save:false,file:null};
+      this.renderPhotoPrep();
+    },
+    renderPhotoPrep:function(){
+      this.setProgress(20,'Photo analysis'); this.showBack(true); this.showFooter(false);
+      var self=this;
+      var tips=[['Use natural light','M12 3a6 6 0 0 0-6 6c0 4 6 9 6 9s6-5 6-9a6 6 0 0 0-6-6z'],
+        ['Clean, dry skin — minimal makeup','M3 12h18M12 3v18'],
+        ['Keep your face in focus','M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z'],
+        ['Avoid filters or heavy editing','M5 12h14'],
+        ['Front-facing or a specific area','M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3']];
+      var screen=h('<div class="sit-screen"></div>');
+      screen.innerHTML='<div class="sit-q"><h2 class="sit-q__title">Let\'s prepare your photo</h2>'+
+        '<p class="sit-q__sub">A clear photo helps SIT review visible skin patterns. It\'s optional, and you stay in control of your image.</p>'+
+        '<div class="sit-photo__tips">'+tips.map(function(t){return '<div class="sit-photo__tip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="'+t[1]+'"/></svg>'+esc(t[0])+'</div>';}).join('')+'</div></div>';
+      this.paint(screen);
+      this.showFooter(true,'I\'m ready',false);
+      NEXT.onclick=function(){ self.renderPhotoConsent(); };
+    },
+    renderPhotoConsent:function(){
+      this.setProgress(45,'Consent & privacy'); this.showBack(true);
+      var self=this;
+      var screen=h('<div class="sit-screen"></div>');
+      screen.innerHTML='<div class="sit-q"><h2 class="sit-q__title">Your privacy comes first</h2>'+
+        '<p class="sit-q__sub">SIT only analyses your photo to generate skincare guidance.</p>'+
+        '<div class="sit-consent">'+
+          '<label class="sit-check"><input type="checkbox" id="cConsent"><span class="sit-check__box"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><span class="sit-check__t"><b>I consent for this image to be analysed</b> to generate skincare guidance. <span class="sit-check__req">Required</span></span></label>'+
+          '<label class="sit-check"><input type="checkbox" id="cSave"><span class="sit-check__box"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span><span class="sit-check__t"><b>Save my image and answers</b> for future consultations. <span style="color:var(--c-sage)">Optional</span></span></label>'+
+        '</div>'+
+        '<p class="sit-privacy"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> If you don\'t consent to saving, your image is analysed and then discarded — never stored.</p></div>';
+      this.paint(screen);
+      this.showFooter(true,'Continue to upload',false);
+      var c=screen.querySelector('#cConsent');
+      NEXT.disabled=true; NEXT.style.opacity=0.5;
+      c.addEventListener('change',function(){ NEXT.disabled=!c.checked; NEXT.style.opacity=c.checked?1:0.5; self.photo.consent=c.checked; });
+      screen.querySelector('#cSave').addEventListener('change',function(e){ self.photo.save=e.target.checked; });
+      NEXT.onclick=function(){ if(c.checked)self.renderPhotoUpload(); };
+    },
+    renderPhotoUpload:function(){
+      this.setProgress(70,'Upload your photo'); this.showBack(true);
+      var self=this;
+      var screen=h('<div class="sit-screen"></div>');
+      screen.innerHTML='<div class="sit-q"><h2 class="sit-q__title">Upload your skin photo</h2>'+
+        '<p class="sit-q__sub">Drag and drop, or tap to choose. JPG or PNG, up to 10MB.</p>'+
+        '<div id="sitDrop" class="sit-drop"><div class="sit-drop__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 16v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3"/></svg></div>'+
+        '<b>Drop your photo here</b><span>or tap to browse</span></div>'+
+        '<input type="file" id="sitFile" accept="image/jpeg,image/png,image/webp" hidden>'+
+        '<div id="sitPrev"></div>'+
+        '<p class="sit-privacy"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg> SIT reviews visible patterns only — it never diagnoses or identifies medical conditions.</p></div>';
+      this.paint(screen);
+      this.showFooter(false);
+      var drop=screen.querySelector('#sitDrop'), file=screen.querySelector('#sitFile');
+      drop.addEventListener('click',function(){ file.click(); });
+      drop.addEventListener('dragover',function(e){ e.preventDefault(); drop.classList.add('drag'); });
+      drop.addEventListener('dragleave',function(){ drop.classList.remove('drag'); });
+      drop.addEventListener('drop',function(e){ e.preventDefault(); drop.classList.remove('drag'); if(e.dataTransfer.files[0])self._handleFile(e.dataTransfer.files[0]); });
+      file.addEventListener('change',function(){ if(file.files[0])self._handleFile(file.files[0]); });
+    },
+    _handleFile:function(f){
+      if(!/image\/(jpeg|png|webp)/.test(f.type)){ alert('Please upload a JPG, PNG, or WebP image.'); return; }
+      if(f.size>10*1024*1024){ alert('Please upload an image under 10MB.'); return; }
+      var self=this, reader=new FileReader();
+      reader.onload=function(e){
+        self.photo.file=e.target.result;
+        track('sit_photo_uploaded',{});
+        var prev=el('sitPrev'), drop=el('sitDrop');
+        drop.style.display='none';
+        prev.innerHTML='<div class="sit-preview-img"><img src="'+e.target.result+'" alt="Your uploaded skin photo">'+
+          '<div class="sit-preview-img__bar"><button class="sit-preview-img__btn" id="pReplace">Replace</button><button class="sit-preview-img__btn" id="pDelete">Remove</button></div></div>';
+        el('pReplace').addEventListener('click',function(){ self.photo.file=null; el('sitFile').value=''; el('sitFile').click(); });
+        el('pDelete').addEventListener('click',function(){ self.photo.file=null; prev.innerHTML=''; drop.style.display=''; self.showFooter(false); });
+        self.showFooter(true,'Analyse my skin',false);
+        NEXT.onclick=function(){ self._photoProcess(); };
+      };
+      reader.readAsDataURL(f);
+    },
+    _photoProcess:function(){
+      /* Simulated multimodal analysis -> /api/sit/photo-analysis placeholder.
+         Derives plausible observations; questionnaire answers always take priority. */
+      var labels=KB.photoLabels;
+      var obs=[
+        {key:'dehydration',c:0.81},
+        {key:'visible_redness',c:0.64},
+        {key:'rough_texture',c:0.58}
+      ];
+      // seed goals from photo, but DO NOT override safety
+      this.answers.main_goal=this.answers.main_goal||'hydration';
+      this.answers.skin_type=this.answers.skin_type||'unsure';
+      this.answers.sensitivity=this.answers.sensitivity||'medium';
+      this.answers.mirror_concern=this.answers.mirror_concern||'dryness';
+      this._photoObs=obs;
+      this.process();
+    },
+
+    /* ---------- chat ---------- */
+    startChat:function(){
+      this.mode='chat'; this.setProgress(null); this.showFooter(false); this.showBack(false);
+      var self=this;
+      var screen=h('<div class="sit-screen" style="display:flex;flex-direction:column;height:100%"></div>');
+      screen.innerHTML='<div class="sit-chat" id="sitChat" style="flex:1"></div>'+
+        '<div class="sit-chatbar"><input type="text" id="sitChatIn" placeholder="Ask about your skin or a product…" aria-label="Message SIT"><button id="sitSend" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button></div>';
+      this.paint(screen);
+      var chat=screen.querySelector('#sitChat'), input=screen.querySelector('#sitChatIn');
+      this._chat=chat;
+      this._botSay(KB.chatResponses.greeting);
+      this._chips(['Find my serum','Build my routine','Upload a photo','Compare serums','I have sensitive skin']);
+      function send(){ var v=input.value.trim(); if(!v)return; self._userSay(v); input.value=''; self._reply(v); }
+      screen.querySelector('#sitSend').addEventListener('click',send);
+      input.addEventListener('keydown',function(e){ if(e.key==='Enter')send(); });
+      setTimeout(function(){ input.focus(); },300);
+    },
+    _botSay:function(t){ var m=h('<div class="sit-msg sit-msg--bot">'+esc(t)+'</div>'); this._chat.appendChild(m); this._chat.scrollTop=this._chat.scrollHeight; },
+    _userSay:function(t){ var m=h('<div class="sit-msg sit-msg--user">'+esc(t)+'</div>'); this._chat.appendChild(m); this._chat.scrollTop=this._chat.scrollHeight; },
+    _chips:function(arr){
+      var self=this, w=h('<div class="sit-chips"></div>');
+      arr.forEach(function(c){ var b=h('<button class="sit-chip">'+esc(c)+'</button>'); b.addEventListener('click',function(){ self._userSay(c); w.remove(); self._reply(c); }); w.appendChild(b); });
+      this._chat.appendChild(w); this._chat.scrollTop=this._chat.scrollHeight;
+    },
+    _typing:function(){ var t=h('<div class="sit-typing"><i></i><i></i><i></i></div>'); this._chat.appendChild(t); this._chat.scrollTop=this._chat.scrollHeight; return t; },
+    _reply:function(text){
+      var self=this, t=this._typing();
+      setTimeout(function(){ t.remove(); self._answer(text); }, 650+Math.random()*400);
+    },
+    _answer:function(text){
+      var q=text.toLowerCase();
+      /* safety check first */
+      var danger=/pain|bleed|infect|swollen|swelling|burn|wound|spreading|rapidly|lesion|mole|cancer/;
+      if(danger.test(q)){ this._botSay(KB.chatResponses.safety_flag); return; }
+      /* intent handoffs */
+      if(/find my serum|recommend|which serum|what should i use|my serum/.test(q)){ this._botSay('I can match you to a serum in about a minute. Let\'s run a Quick Skin Match.'); this._handoff('quick','Start Quick Match'); return; }
+      if(/build my routine|full routine|routine/.test(q)){ this._botSay('A full consultation builds your complete AM and PM routine with a 4-week plan.'); this._handoff('full','Start Full Consultation'); return; }
+      if(/upload|photo/.test(q)){ this._botSay('You can upload a clear, well-lit photo and I\'ll review visible skin patterns — privately.'); this._handoff('photo','Upload a photo'); return; }
+      if(/compare/.test(q)){ this._botSay('Tell me which two serums you\'re weighing up — for example, "Hydration vs Barrier" — and I\'ll break down the difference.'); return; }
+      /* retrieve from Q&A bank */
+      var best=this._search(q);
+      if(best){
+        this._botSay(best.answer);
+        if(best.products&&best.products.length){ this._productChips(best.products); }
+        return;
+      }
+      /* sensitive skin */
+      if(/sensitive|reactive|redness|calm/.test(q)){ var qa=KB.qa.find(function(x){return x.id==='qa_002';}); this._botSay(qa.answer); this._productChips(qa.products); return; }
+      this._botSay(KB.chatResponses.low_confidence);
+      this._chips(['Hydration','Brightening','Oil balance','Sensitive skin','Smoother texture']);
+    },
+    _search:function(q){
+      var words=q.split(/\W+/).filter(function(w){return w.length>3;});
+      var best=null,score=0;
+      KB.qa.forEach(function(item){
+        var hay=(item.question+' '+item.tags.join(' ')+' '+item.category).toLowerCase();
+        var s=0; words.forEach(function(w){ if(hay.indexOf(w)>-1)s++; });
+        if(s>score){score=s;best=item;}
+      });
+      return score>=1?best:null;
+    },
+    _productChips:function(handles){
+      var self=this, w=h('<div class="sit-chips"></div>');
+      handles.forEach(function(hd){ var p=product(hd); if(!p)return;
+        var b=h('<button class="sit-chip">'+esc(p.name)+' · '+esc(p.price)+'</button>');
+        b.addEventListener('click',function(){ location.href='product.html'; });
+        w.appendChild(b);
+      });
+      this._chat.appendChild(w); this._chat.scrollTop=this._chat.scrollHeight;
+    },
+    _handoff:function(mode,label){
+      var self=this, w=h('<div class="sit-chips"></div>');
+      var b=h('<button class="sit-chip" style="background:var(--c-forest);color:#fff;border-color:var(--c-forest)">'+esc(label)+'</button>');
+      b.addEventListener('click',function(){ self.open(mode); });
+      w.appendChild(b); this._chat.appendChild(w); this._chat.scrollTop=this._chat.scrollHeight;
+    },
+
+    /* ---------- persistence ---------- */
+    save:function(report){
+      try{ localStorage.setItem('sit_last',JSON.stringify({mode:this.mode,answers:this.answers,date:Date.now(),primary:report&&report.primary?report.primary.handle:null})); }catch(e){}
+    },
+    load:function(){ try{ return JSON.parse(localStorage.getItem('sit_last')); }catch(e){ return null; } }
+  };
+
+  /* ---- global wiring ---- */
+  window.SIT=SIT;
+  CLOSE.addEventListener('click',function(){ SIT.close(); });
+  BACK.addEventListener('click',function(){
+    // photo flow back handled by re-render; quiz handled by SIT.back
+    if(SIT.mode==='photo'){ SIT.renderPhotoPrep(); } else { SIT.back(); }
+  });
+  // quiz advance only; photo flow handles its own advance via NEXT.onclick per screen.
+  NEXT.addEventListener('click',function(){ if(SIT.mode==='quick'||SIT.mode==='full')SIT.next(); });
+  SKIP.addEventListener('click',function(){ SIT.skip(); });
+  document.querySelector('[data-sit-close]').addEventListener('click',function(){ SIT.close(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&MODAL.classList.contains('is-open'))SIT.close(); });
+
+  /* trigger buttons */
+  document.querySelectorAll('[data-sit-open]').forEach(function(b){
+    b.addEventListener('click',function(){ SIT.open(b.dataset.sitOpen||''); });
+  });
+  document.querySelectorAll('[data-sit-concern]').forEach(function(b){
+    b.addEventListener('click',function(){
+      SIT.open('quick');
+      // pre-seed the main goal from the concern, then jump past Q1
+      SIT.answers.main_goal=b.dataset.sitConcern;
+      SIT.idx=1; SIT.renderQuestion();
+    });
+  });
+
+  /* deep-link: open a flow automatically via ?sit=quick|full|photo|chat (used by the
+     site-wide widget on other pages). also supports ?concern=<goal> to pre-seed. */
+  try{
+    var qp=new URLSearchParams(location.search);
+    var sitMode=qp.get('sit');
+    if(sitMode!=null){
+      var concern=qp.get('concern');
+      if(concern){
+        SIT.open('quick'); SIT.answers.main_goal=concern; SIT.idx=1; SIT.renderQuestion();
+      } else {
+        SIT.open(sitMode);
+      }
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

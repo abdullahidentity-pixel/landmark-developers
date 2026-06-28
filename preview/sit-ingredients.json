@@ -1,0 +1,229 @@
+{
+  "_meta": {
+    "description": "SIT ingredient brain — plain-language ingredient education.",
+    "updated": "2026-06-27"
+  },
+  "ingredients": {
+    "hyaluronic_acid": {
+      "name": "Hyaluronic Acid",
+      "benefit": "Draws moisture into the skin from the environment and deeper layers",
+      "best_for": [
+        "dehydrated skin",
+        "dry skin",
+        "all skin types"
+      ],
+      "avoid_if": [],
+      "usage_notes": "Apply to slightly damp skin for best effect. Use morning and evening.",
+      "layering_notes": "Pairs well with ceramides, peptides, niacinamide. Use before thicker textures.",
+      "sensitivity_notes": "Very well tolerated. Suitable for sensitive skin.",
+      "caution": null
+    },
+    "niacinamide": {
+      "name": "Niacinamide (Vitamin B3)",
+      "benefit": "Supports barrier function, helps balance oil, supports an even-looking complexion",
+      "best_for": [
+        "oily skin",
+        "uneven tone",
+        "sensitive skin",
+        "most skin types"
+      ],
+      "avoid_if": [],
+      "usage_notes": "Suitable morning and evening. Stable ingredient.",
+      "layering_notes": "Works well with most ingredients. Avoid pairing with high-dose Vitamin C in the same step.",
+      "sensitivity_notes": "Very well tolerated. Can cause temporary flush in rare cases at high concentrations.",
+      "caution": null
+    },
+    "retinol": {
+      "name": "Retinol (Vitamin A)",
+      "benefit": "Supports cell turnover, fine line appearance, and skin firmness over time",
+      "best_for": [
+        "age support",
+        "texture",
+        "firmness"
+      ],
+      "avoid_if": [
+        "pregnancy",
+        "breastfeeding",
+        "very_sensitive",
+        "compromised_barrier"
+      ],
+      "usage_notes": "Evening use only. Introduce slowly. Always follow with SPF next morning.",
+      "layering_notes": "Do not combine with AHAs, BHAs, or Vitamin C in the same evening step.",
+      "sensitivity_notes": "Can cause purging, redness, or peeling during introduction. Start 2x weekly.",
+      "caution": "Avoid during pregnancy and breastfeeding. Consult a professional if on prescription Tretinoin."
+    },
+    "lactic_acid": {
+      "name": "Lactic Acid (AHA)",
+      "benefit": "Gently exfoliates the skin surface to support smoother-looking texture",
+      "best_for": [
+        "texture",
+        "dullness",
+        "dry skin"
+      ],
+      "avoid_if": [
+        "very_sensitive",
+        "compromised_barrier"
+      ],
+      "usage_notes": "Evening use preferred. Start 2–3 times per week. Use SPF next morning.",
+      "layering_notes": "Do not layer with other exfoliating actives (BHA, retinol) on the same evening.",
+      "sensitivity_notes": "Gentler than Glycolic Acid. Suitable for most skin types when introduced correctly.",
+      "caution": "Avoid on actively irritated, raw, or sunburned skin."
+    },
+    "salicylic_acid": {
+      "name": "Salicylic Acid (BHA)",
+      "benefit": "Oil-soluble exfoliant that supports clearer-looking pores",
+      "best_for": [
+        "oily skin",
+        "congestion",
+        "blemish-prone skin"
+      ],
+      "avoid_if": [
+        "dry skin",
+        "very_sensitive"
+      ],
+      "usage_notes": "Evening use preferred. Start every other night and build up.",
+      "layering_notes": "Do not combine with AHAs or retinol on the same evening.",
+      "sensitivity_notes": "Can be drying. Use a lightweight moisturiser or the Support Spray alongside.",
+      "caution": "High concentrations (above 2%) should be used with caution. Avoid in pregnancy."
+    },
+    "ceramides": {
+      "name": "Ceramides",
+      "benefit": "Reinforce the skin's protective barrier to retain moisture and reduce sensitivity",
+      "best_for": [
+        "sensitive skin",
+        "dry skin",
+        "barrier support",
+        "all skin types"
+      ],
+      "avoid_if": [],
+      "usage_notes": "Morning and evening. Works best when combined with cholesterol and fatty acids.",
+      "layering_notes": "Pairs with all ingredients. Use before occlusive creams.",
+      "sensitivity_notes": "Extremely well tolerated. Often first recommendation for compromised skin.",
+      "caution": null
+    },
+    "vitamin_c": {
+      "name": "Vitamin C (Ascorbyl Glucoside)",
+      "benefit": "Antioxidant that supports brighter-looking skin and even tone appearance",
+      "best_for": [
+        "dull skin",
+        "uneven tone",
+        "brightening"
+      ],
+      "avoid_if": [
+        "very_sensitive"
+      ],
+      "usage_notes": "Suitable morning or evening. Stable form (Ascorbyl Glucoside) is gentler than L-Ascorbic Acid.",
+      "layering_notes": "Avoid combining with Niacinamide at the same time (minor interaction risk — use at different times of day).",
+      "sensitivity_notes": "Can cause mild tingling at first. Reduce frequency if persistent.",
+      "caution": null
+    },
+    "centella_asiatica": {
+      "name": "Centella Asiatica (Cica)",
+      "benefit": "Soothing botanical that supports calmer, more comfortable-looking skin",
+      "best_for": [
+        "sensitive skin",
+        "visible redness",
+        "post-procedure skin"
+      ],
+      "avoid_if": [],
+      "usage_notes": "Morning and evening. Pairs well with barrier ingredients.",
+      "layering_notes": "Works with all ingredients. Often combined with ceramides for barrier repair.",
+      "sensitivity_notes": "Very gentle. One of the best-tolerated cosmetic actives.",
+      "caution": null
+    },
+    "retinaldehyde": {
+      "name": "Retinaldehyde (Retinal)",
+      "benefit": "An advanced retinoid that supports renewal, the look of fine lines, smoother texture, and refined pores",
+      "best_for": [
+        "texture",
+        "fine lines",
+        "pores",
+        "night renewal",
+        "adult acne-prone skin"
+      ],
+      "avoid_if": [
+        "pregnancy",
+        "breastfeeding",
+        "very_sensitive",
+        "compromised_barrier"
+      ],
+      "usage_notes": "Evening use only. In our range it is encapsulated for gentleness in the Retinal Bio-Lift Night Serum. Introduce slowly and use SPF the next morning.",
+      "layering_notes": "Do not combine with AHAs, BHAs, or Vitamin C in the same evening step.",
+      "sensitivity_notes": "Generally better tolerated than older retinoids, but can still cause dryness during introduction. Start 2x weekly.",
+      "caution": "Avoid during pregnancy and breastfeeding. Consult a professional if on prescription retinoids."
+    },
+    "bakuchiol": {
+      "name": "Bakuchiol",
+      "benefit": "A gentle botanical that offers retinoid-like support for firmness and fine lines without typical retinoid irritation",
+      "best_for": [
+        "sensitive skin",
+        "fine lines",
+        "first-time age support"
+      ],
+      "avoid_if": [],
+      "usage_notes": "Suitable morning or evening. In our range it pairs with Retinaldehyde in the Retinal Bio-Lift Night Serum to soften its introduction.",
+      "layering_notes": "Layers well with most ingredients including peptides and HA.",
+      "sensitivity_notes": "Very well tolerated, including by many who cannot use retinoids.",
+      "caution": null
+    },
+    "peptides": {
+      "name": "Peptides (Signal Peptides)",
+      "benefit": "Support a firmer, smoother, more conditioned-looking complexion over time",
+      "best_for": [
+        "firmness",
+        "fine lines",
+        "barrier support",
+        "sensitive skin"
+      ],
+      "avoid_if": [],
+      "usage_notes": "Morning and evening. Feature in our Caviar Lift, Peptide Repair Barrier, and Neuro Peptide Eye & Smile Line serums.",
+      "layering_notes": "Gentle and layer-friendly. Pair comfortably with HA, ceramides, and Niacinamide.",
+      "sensitivity_notes": "Very well tolerated. Suitable for reactive skin.",
+      "caution": null
+    },
+    "exosomes_pdrn": {
+      "name": "Exosome-style Complex & PDRN / Marine DNA",
+      "benefit": "Repair-focused actives that support the look of recovery, calmer redness, and a smooth, glass-skin finish",
+      "best_for": [
+        "post-blemish recovery",
+        "visible redness",
+        "barrier support",
+        "dull or tired skin"
+      ],
+      "avoid_if": [],
+      "usage_notes": "Morning and evening. Featured in our Exosome PDRN Repair Serum.",
+      "layering_notes": "Gentle and layer-friendly under heavier serums or cream.",
+      "sensitivity_notes": "Very well tolerated, suitable for sensitive and recovering skin.",
+      "caution": null
+    },
+    "tranexamic_acid": {
+      "name": "Tranexamic Acid",
+      "benefit": "Supports a more even-looking tone and helps soften the appearance of dark marks and discolouration",
+      "best_for": [
+        "uneven tone",
+        "acne marks",
+        "pigmentation appearance",
+        "brightening"
+      ],
+      "avoid_if": [],
+      "usage_notes": "Morning and evening. Featured in our Glow + Marks Serum alongside stable Vitamin C and Alpha Arbutin.",
+      "layering_notes": "Pairs well with Niacinamide, Alpha Arbutin, and HA.",
+      "sensitivity_notes": "Gentle and well tolerated by most skin types.",
+      "caution": null
+    },
+    "caffeine": {
+      "name": "Caffeine",
+      "benefit": "Helps refresh a puffy, tired-looking appearance, especially around the eyes",
+      "best_for": [
+        "puffiness",
+        "tired eyes",
+        "dark circle appearance"
+      ],
+      "avoid_if": [],
+      "usage_notes": "Morning and evening. Featured in our Neuro Peptide Eye & Smile Line Serum.",
+      "layering_notes": "Layers well with peptides, Niacinamide, and HA.",
+      "sensitivity_notes": "Very gentle, suitable for the delicate eye area.",
+      "caution": null
+    }
+  }
+}

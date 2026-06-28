@@ -1,0 +1,489 @@
+{{ 'brand-pages.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%} ── Hero ── {%- endcomment -%}
+<section class="rt-hero">
+  <div class="rt-hero__content">
+    {%- if section.settings.hero_eyebrow != blank -%}
+      <span class="brand-eyebrow rt-hero__label">{{ section.settings.hero_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.hero_heading != blank -%}
+      <h1 class="brand-heading rt-hero__heading">{{ section.settings.hero_heading }}</h1>
+    {%- endif -%}
+    {%- if section.settings.hero_intro != blank -%}
+      <p class="brand-body rt-hero__intro">{{ section.settings.hero_intro }}</p>
+    {%- endif -%}
+    <div class="rt-hero__btns">
+      {%- if section.settings.hero_cta_label != blank -%}
+        <a href="{{ section.settings.hero_cta_url | default: '/pages/serum-finder' }}" class="brand-btn">
+          {{ section.settings.hero_cta_label }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.hero_secondary_label != blank -%}
+        <a href="{{ section.settings.hero_secondary_url | default: '/pages/ingredients' }}" class="brand-btn brand-btn--ghost">
+          {{ section.settings.hero_secondary_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+  <div class="rt-hero__img-col">
+    {%- if section.settings.hero_image != blank -%}
+      <img
+        class="rt-hero__img"
+        src="{{ section.settings.hero_image | image_url: width: 1200 }}"
+        alt="{{ section.settings.hero_image.alt | default: 'Skincare routine' }}"
+        loading="eager"
+      >
+    {%- else -%}
+      <div class="rt-hero__img" style="background:linear-gradient(180deg,#cde8c9 0%,#49724a 100%);"></div>
+    {%- endif -%}
+  </div>
+</section>
+
+{%- comment -%} ── AM / PM Steps ── {%- endcomment -%}
+<section class="rt-steps">
+  <div class="rt-steps__inner">
+    {%- comment -%} AM Column {%- endcomment -%}
+    <div class="rt-steps-col">
+      {%- if section.settings.am_eyebrow != blank -%}
+        <span class="brand-eyebrow rt-steps-col__label">{{ section.settings.am_eyebrow }}</span>
+      {%- endif -%}
+      <h2 class="rt-steps-col__title">{{ section.settings.am_title | default: 'Morning Routine' }}</h2>
+      <ul class="rt-step-list">
+        {%- assign am_steps = section.blocks | where: 'type', 'am_step' -%}
+        {%- for block in am_steps -%}
+          <li class="rt-step-item" {{ block.shopify_attributes }}>
+            <span class="rt-step-item__num">{{ forloop.index }}</span>
+            <div>
+              {%- if block.settings.name != blank -%}
+                <p class="rt-step-item__name">{{ block.settings.name }}</p>
+              {%- endif -%}
+              {%- if block.settings.description != blank -%}
+                <p class="rt-step-item__desc">{{ block.settings.description }}</p>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    {%- comment -%} PM Column {%- endcomment -%}
+    <div class="rt-steps-col rt-steps-col--pm">
+      {%- if section.settings.pm_eyebrow != blank -%}
+        <span class="brand-eyebrow brand-eyebrow--light rt-steps-col__label">{{ section.settings.pm_eyebrow }}</span>
+      {%- endif -%}
+      <h2 class="rt-steps-col__title">{{ section.settings.pm_title | default: 'Evening Routine' }}</h2>
+      <ul class="rt-step-list">
+        {%- assign pm_steps = section.blocks | where: 'type', 'pm_step' -%}
+        {%- for block in pm_steps -%}
+          <li class="rt-step-item" {{ block.shopify_attributes }}>
+            <span class="rt-step-item__num">{{ forloop.index }}</span>
+            <div>
+              {%- if block.settings.name != blank -%}
+                <p class="rt-step-item__name">{{ block.settings.name }}</p>
+              {%- endif -%}
+              {%- if block.settings.description != blank -%}
+                <p class="rt-step-item__desc">{{ block.settings.description }}</p>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ── Routine by Concern (Tabbed) ── {%- endcomment -%}
+{%- assign concern_blocks = section.blocks | where: 'type', 'concern' -%}
+{%- if concern_blocks.size > 0 -%}
+<section class="rt-concerns">
+  <div class="rt-concerns__header">
+    {%- if section.settings.concerns_eyebrow != blank -%}
+      <span class="brand-eyebrow">{{ section.settings.concerns_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.concerns_heading != blank -%}
+      <h2 class="brand-heading rt-concerns__heading">{{ section.settings.concerns_heading }}</h2>
+    {%- endif -%}
+  </div>
+  <div class="rt-concern-tabs" role="tablist">
+    {%- for block in concern_blocks -%}
+      <button
+        class="rt-concern-tab{% if forloop.first %} is-active{% endif %}"
+        role="tab"
+        aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+        aria-controls="concern-panel-{{ forloop.index }}"
+        data-tab="{{ forloop.index }}"
+      >{{ block.settings.tab_label | default: block.settings.title }}</button>
+    {%- endfor -%}
+  </div>
+  <div class="rt-concern-panels">
+    {%- for block in concern_blocks -%}
+      <div
+        class="rt-concern-panel{% if forloop.first %} is-active{% endif %}"
+        id="concern-panel-{{ forloop.index }}"
+        role="tabpanel"
+        {{ block.shopify_attributes }}
+      >
+        <div>
+          {%- if block.settings.title != blank -%}
+            <h3 class="rt-concern-panel__heading">{{ block.settings.title }}</h3>
+          {%- endif -%}
+          {%- if block.settings.description != blank -%}
+            <p class="rt-concern-panel__desc">{{ block.settings.description }}</p>
+          {%- endif -%}
+          {%- if block.settings.product_1 != blank or block.settings.product_2 != blank or block.settings.product_3 != blank -%}
+            <div class="rt-concern-products">
+              {%- if block.settings.product_1 != blank -%}
+                <div class="rt-concern-product">
+                  <span class="rt-concern-product__dot"></span>
+                  <span class="rt-concern-product__name">{{ block.settings.product_1 }}</span>
+                  <span class="rt-concern-product__role">{{ block.settings.role_1 }}</span>
+                </div>
+              {%- endif -%}
+              {%- if block.settings.product_2 != blank -%}
+                <div class="rt-concern-product">
+                  <span class="rt-concern-product__dot"></span>
+                  <span class="rt-concern-product__name">{{ block.settings.product_2 }}</span>
+                  <span class="rt-concern-product__role">{{ block.settings.role_2 }}</span>
+                </div>
+              {%- endif -%}
+              {%- if block.settings.product_3 != blank -%}
+                <div class="rt-concern-product">
+                  <span class="rt-concern-product__dot"></span>
+                  <span class="rt-concern-product__name">{{ block.settings.product_3 }}</span>
+                  <span class="rt-concern-product__role">{{ block.settings.role_3 }}</span>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+        <div>
+          {%- if block.settings.routine_step_1 != blank -%}
+            <p class="rt-concern-panel__steps-title">Your routine</p>
+            <div class="rt-concern-routine">
+              {%- if block.settings.routine_step_1 != blank -%}
+                <div class="rt-routine-step">
+                  <span class="rt-routine-step__n">1</span>
+                  <span class="rt-routine-step__name">{{ block.settings.routine_step_1 }}</span>
+                  <span class="rt-routine-step__timing">{{ block.settings.timing_1 }}</span>
+                </div>
+              {%- endif -%}
+              {%- if block.settings.routine_step_2 != blank -%}
+                <div class="rt-routine-step">
+                  <span class="rt-routine-step__n">2</span>
+                  <span class="rt-routine-step__name">{{ block.settings.routine_step_2 }}</span>
+                  <span class="rt-routine-step__timing">{{ block.settings.timing_2 }}</span>
+                </div>
+              {%- endif -%}
+              {%- if block.settings.routine_step_3 != blank -%}
+                <div class="rt-routine-step">
+                  <span class="rt-routine-step__n">3</span>
+                  <span class="rt-routine-step__name">{{ block.settings.routine_step_3 }}</span>
+                  <span class="rt-routine-step__timing">{{ block.settings.timing_3 }}</span>
+                </div>
+              {%- endif -%}
+              {%- if block.settings.routine_step_4 != blank -%}
+                <div class="rt-routine-step">
+                  <span class="rt-routine-step__n">4</span>
+                  <span class="rt-routine-step__name">{{ block.settings.routine_step_4 }}</span>
+                  <span class="rt-routine-step__timing">{{ block.settings.timing_4 }}</span>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ── Pairing Cards ── {%- endcomment -%}
+{%- assign pairing_blocks = section.blocks | where: 'type', 'pairing' -%}
+{%- if pairing_blocks.size > 0 -%}
+<section class="rt-pairings">
+  <div class="rt-pairings__header">
+    {%- if section.settings.pairings_eyebrow != blank -%}
+      <span class="brand-eyebrow">{{ section.settings.pairings_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.pairings_heading != blank -%}
+      <h2 class="brand-heading rt-pairings__heading">{{ section.settings.pairings_heading }}</h2>
+    {%- endif -%}
+  </div>
+  <div class="rt-pairing-grid">
+    {%- for block in pairing_blocks -%}
+      <div class="rt-pairing-card" {{ block.shopify_attributes }}>
+        {%- if block.settings.tag != blank -%}
+          <div class="rt-pairing-card__tag">{{ block.settings.tag }}</div>
+        {%- endif -%}
+        {%- if block.settings.title != blank -%}
+          <h3 class="rt-pairing-card__title">{{ block.settings.title }}</h3>
+        {%- endif -%}
+        {%- if block.settings.note != blank -%}
+          <p class="rt-pairing-card__note">{{ block.settings.note }}</p>
+        {%- endif -%}
+        <div class="rt-pairing-card__products">
+          {%- if block.settings.product_a != blank -%}
+            <span class="rt-pairing-chip">{{ block.settings.product_a }}</span>
+          {%- endif -%}
+          {%- if block.settings.product_b != blank -%}
+            <span class="rt-pairing-chip">{{ block.settings.product_b }}</span>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ── Support Products ── {%- endcomment -%}
+<section class="rt-support">
+  <div class="rt-support__header">
+    {%- if section.settings.support_eyebrow != blank -%}
+      <span class="brand-eyebrow">{{ section.settings.support_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.support_heading != blank -%}
+      <h2 class="brand-heading rt-support__heading">{{ section.settings.support_heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.support_intro != blank -%}
+      <p class="rt-support__intro">{{ section.settings.support_intro }}</p>
+    {%- endif -%}
+  </div>
+  <div class="rt-support-cards">
+    <div class="rt-support-card">
+      <div class="rt-support-card__label">{{ section.settings.cream_label | default: 'Every routine' }}</div>
+      <h3 class="rt-support-card__name">{{ section.settings.cream_name | default: 'Velour Barrier Cream' }}</h3>
+      <p class="rt-support-card__desc">{{ section.settings.cream_desc | default: 'The final step in every routine. Ceramide NP and Shea Butter seal in your serum\'s active ingredients and prevent overnight moisture loss.' }}</p>
+      {%- if section.settings.cream_url != blank -%}
+        <a href="{{ section.settings.cream_url }}" class="brand-btn">{{ section.settings.cream_cta | default: 'Shop Barrier Cream' }}</a>
+      {%- endif -%}
+    </div>
+    <div class="rt-support-card">
+      <div class="rt-support-card__label">{{ section.settings.spray_label | default: 'Enhance absorption' }}</div>
+      <h3 class="rt-support-card__name">{{ section.settings.spray_name | default: 'Velour Facial Spray' }}</h3>
+      <p class="rt-support-card__desc">{{ section.settings.spray_desc | default: 'Applied before your serum, the facial spray prepares the skin surface to maximise active ingredient absorption. Particularly effective before Vitamin C and Hyaluronic Acid.' }}</p>
+      {%- if section.settings.spray_url != blank -%}
+        <a href="{{ section.settings.spray_url }}" class="brand-btn">{{ section.settings.spray_cta | default: 'Shop Facial Spray' }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ── Routine Mistakes ── {%- endcomment -%}
+{%- assign mistake_blocks = section.blocks | where: 'type', 'mistake' -%}
+{%- if mistake_blocks.size > 0 -%}
+<section class="rt-mistakes">
+  <div class="rt-mistakes__header">
+    {%- if section.settings.mistakes_eyebrow != blank -%}
+      <span class="brand-eyebrow">{{ section.settings.mistakes_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.mistakes_heading != blank -%}
+      <h2 class="brand-heading rt-mistakes__heading">{{ section.settings.mistakes_heading }}</h2>
+    {%- endif -%}
+  </div>
+  <div class="rt-mistake-grid">
+    {%- for block in mistake_blocks -%}
+      <div class="rt-mistake-card" {{ block.shopify_attributes }}>
+        <div class="rt-mistake-card__num">0{{ forloop.index }}</div>
+        {%- if block.settings.title != blank -%}
+          <h3 class="rt-mistake-card__title">{{ block.settings.title }}</h3>
+        {%- endif -%}
+        {%- if block.settings.description != blank -%}
+          <p class="rt-mistake-card__desc">{{ block.settings.description }}</p>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ── End CTA ── {%- endcomment -%}
+<section class="rt-cta">
+  <div class="rt-cta__inner">
+    {%- if section.settings.cta_eyebrow != blank -%}
+      <span class="brand-eyebrow brand-eyebrow--light">{{ section.settings.cta_eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.cta_heading != blank -%}
+      <h2 class="brand-heading brand-heading--light rt-cta__heading">{{ section.settings.cta_heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.cta_body != blank -%}
+      <p class="brand-body brand-body--light rt-cta__body">{{ section.settings.cta_body }}</p>
+    {%- endif -%}
+    <div class="rt-cta__btns">
+      {%- if section.settings.cta_primary_label != blank -%}
+        <a href="{{ section.settings.cta_primary_url | default: '/pages/serum-finder' }}" class="brand-btn brand-btn--light">
+          {{ section.settings.cta_primary_label }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.cta_secondary_label != blank -%}
+        <a href="{{ section.settings.cta_secondary_url | default: '/collections/serums' }}" class="brand-btn brand-btn--outline-light">
+          {{ section.settings.cta_secondary_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  var tabs = document.querySelectorAll('.rt-concern-tab');
+  var panels = document.querySelectorAll('.rt-concern-panel');
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var index = tab.dataset.tab;
+      tabs.forEach(function (t) {
+        t.classList.remove('is-active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      panels.forEach(function (p) { p.classList.remove('is-active'); });
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
+      var target = document.getElementById('concern-panel-' + index);
+      if (target) target.classList.add('is-active');
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Routine Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    { "type": "image_picker", "id": "hero_image",          "label": "Hero image" },
+    { "type": "text",         "id": "hero_eyebrow",        "label": "Eyebrow",            "default": "The Ritual" },
+    { "type": "textarea",     "id": "hero_heading",        "label": "Heading",             "default": "Build a routine that works with your skin." },
+    { "type": "textarea",     "id": "hero_intro",          "label": "Intro text",          "default": "A great skincare routine doesn't need to be complicated. It needs to be consistent, well-ordered, and matched to your skin." },
+    { "type": "text",         "id": "hero_cta_label",      "label": "Primary CTA label",   "default": "Find your serum" },
+    { "type": "url",          "id": "hero_cta_url",        "label": "Primary CTA URL" },
+    { "type": "text",         "id": "hero_secondary_label","label": "Secondary CTA label", "default": "Ingredient guide" },
+    { "type": "url",          "id": "hero_secondary_url",  "label": "Secondary CTA URL" },
+    {
+      "type": "header",
+      "content": "Morning Routine Column"
+    },
+    { "type": "text", "id": "am_eyebrow", "label": "AM eyebrow", "default": "Morning" },
+    { "type": "text", "id": "am_title",   "label": "AM title",   "default": "Morning Routine" },
+    {
+      "type": "header",
+      "content": "Evening Routine Column"
+    },
+    { "type": "text", "id": "pm_eyebrow", "label": "PM eyebrow", "default": "Evening" },
+    { "type": "text", "id": "pm_title",   "label": "PM title",   "default": "Evening Routine" },
+    {
+      "type": "header",
+      "content": "Routine by Concern"
+    },
+    { "type": "text", "id": "concerns_eyebrow", "label": "Eyebrow", "default": "Personalise" },
+    { "type": "text", "id": "concerns_heading", "label": "Heading",  "default": "Routine by skin concern." },
+    {
+      "type": "header",
+      "content": "Product Pairings"
+    },
+    { "type": "text", "id": "pairings_eyebrow", "label": "Eyebrow", "default": "Synergy" },
+    { "type": "text", "id": "pairings_heading", "label": "Heading",  "default": "Serums that work better together." },
+    {
+      "type": "header",
+      "content": "Support Products"
+    },
+    { "type": "text",     "id": "support_eyebrow", "label": "Eyebrow",   "default": "Complete your routine" },
+    { "type": "textarea", "id": "support_heading", "label": "Heading",    "default": "Two essentials that support every serum." },
+    { "type": "textarea", "id": "support_intro",   "label": "Intro text", "default": "Our Barrier Cream and Facial Spray are designed to work alongside all eight serums — sealing in actives and preparing skin for maximum absorption." },
+    { "type": "text",     "id": "cream_label",     "label": "Cream tag",  "default": "Every routine" },
+    { "type": "text",     "id": "cream_name",      "label": "Cream name", "default": "Velour Barrier Cream" },
+    { "type": "textarea", "id": "cream_desc",      "label": "Cream description", "default": "The final step in every routine. Ceramide NP and Shea Butter seal in your serum's active ingredients and prevent overnight moisture loss." },
+    { "type": "text",     "id": "cream_cta",       "label": "Cream CTA label",   "default": "Shop Barrier Cream" },
+    { "type": "url",      "id": "cream_url",       "label": "Cream URL" },
+    { "type": "text",     "id": "spray_label",     "label": "Spray tag",  "default": "Enhance absorption" },
+    { "type": "text",     "id": "spray_name",      "label": "Spray name", "default": "Velour Facial Spray" },
+    { "type": "textarea", "id": "spray_desc",      "label": "Spray description", "default": "Applied before your serum, the facial spray prepares the skin surface to maximise active ingredient absorption." },
+    { "type": "text",     "id": "spray_cta",       "label": "Spray CTA label",   "default": "Shop Facial Spray" },
+    { "type": "url",      "id": "spray_url",       "label": "Spray URL" },
+    {
+      "type": "header",
+      "content": "Routine Mistakes"
+    },
+    { "type": "text", "id": "mistakes_eyebrow", "label": "Eyebrow", "default": "Common pitfalls" },
+    { "type": "text", "id": "mistakes_heading", "label": "Heading",  "default": "Mistakes to avoid when building your routine." },
+    {
+      "type": "header",
+      "content": "End CTA"
+    },
+    { "type": "text",     "id": "cta_eyebrow",        "label": "Eyebrow",            "default": "Not sure where to start?" },
+    { "type": "textarea", "id": "cta_heading",        "label": "Heading",             "default": "Let us build your routine for you." },
+    { "type": "textarea", "id": "cta_body",           "label": "Body text",           "default": "Answer five questions and we'll recommend the right serums for your skin goals, type, and lifestyle." },
+    { "type": "text",     "id": "cta_primary_label",  "label": "Primary CTA label",   "default": "Take the Quiz" },
+    { "type": "url",      "id": "cta_primary_url",    "label": "Primary CTA URL" },
+    { "type": "text",     "id": "cta_secondary_label","label": "Secondary CTA label", "default": "Browse Serums" },
+    { "type": "url",      "id": "cta_secondary_url",  "label": "Secondary CTA URL" }
+  ],
+  "blocks": [
+    {
+      "type": "am_step",
+      "name": "Morning Step",
+      "settings": [
+        { "type": "text",     "id": "name",        "label": "Step name",   "default": "Cleanser" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Rinse with a gentle, pH-balanced cleanser to remove overnight product buildup without stripping the barrier." }
+      ]
+    },
+    {
+      "type": "pm_step",
+      "name": "Evening Step",
+      "settings": [
+        { "type": "text",     "id": "name",        "label": "Step name",   "default": "Double Cleanse" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Remove sunscreen and makeup with an oil cleanser, followed by your regular cleanser for a clean base." }
+      ]
+    },
+    {
+      "type": "concern",
+      "name": "Concern Tab",
+      "settings": [
+        { "type": "text",     "id": "tab_label",    "label": "Tab label",    "default": "Hydration" },
+        { "type": "text",     "id": "title",        "label": "Panel title",  "default": "Hydration Routine" },
+        { "type": "textarea", "id": "description",  "label": "Description",  "default": "For dehydrated skin that feels tight or looks dull. Focus on layering humectants before sealing with a barrier cream." },
+        { "type": "text",     "id": "product_1",    "label": "Product 1",    "default": "Hydra-Boost Serum" },
+        { "type": "text",     "id": "role_1",       "label": "Product 1 role","default": "Primary" },
+        { "type": "text",     "id": "product_2",    "label": "Product 2",    "default": "Barrier Repair Serum" },
+        { "type": "text",     "id": "role_2",       "label": "Product 2 role","default": "Support" },
+        { "type": "text",     "id": "product_3",    "label": "Product 3" },
+        { "type": "text",     "id": "role_3",       "label": "Product 3 role" },
+        { "type": "text",     "id": "routine_step_1","label": "Routine step 1","default": "Facial Spray" },
+        { "type": "text",     "id": "timing_1",     "label": "Timing 1",     "default": "AM + PM" },
+        { "type": "text",     "id": "routine_step_2","label": "Routine step 2","default": "Hydra-Boost Serum" },
+        { "type": "text",     "id": "timing_2",     "label": "Timing 2",     "default": "AM + PM" },
+        { "type": "text",     "id": "routine_step_3","label": "Routine step 3","default": "Barrier Cream" },
+        { "type": "text",     "id": "timing_3",     "label": "Timing 3",     "default": "AM + PM" },
+        { "type": "text",     "id": "routine_step_4","label": "Routine step 4","default": "SPF 30+" },
+        { "type": "text",     "id": "timing_4",     "label": "Timing 4",     "default": "AM only" }
+      ]
+    },
+    {
+      "type": "pairing",
+      "name": "Product Pairing",
+      "settings": [
+        { "type": "text",     "id": "tag",       "label": "Tag",       "default": "Best pairing" },
+        { "type": "text",     "id": "title",     "label": "Title",     "default": "Hydration + Barrier Repair" },
+        { "type": "textarea", "id": "note",      "label": "Note",      "default": "Both use AM + PM timing. Apply Hydra-Boost first (water-thin texture), then Barrier Repair Serum. Seal with Barrier Cream." },
+        { "type": "text",     "id": "product_a", "label": "Product A", "default": "Hydra-Boost Serum" },
+        { "type": "text",     "id": "product_b", "label": "Product B", "default": "Barrier Repair Serum" }
+      ]
+    },
+    {
+      "type": "mistake",
+      "name": "Routine Mistake",
+      "settings": [
+        { "type": "text",     "id": "title",       "label": "Mistake title", "default": "Layering incompatible actives" },
+        { "type": "textarea", "id": "description", "label": "Description",   "default": "Mixing AHAs/BHAs with Retinol in the same routine can cause significant irritation. Use exfoliating acids and Retinol on alternate evenings." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Routine Page"
+    }
+  ]
+}
+{% endschema %}

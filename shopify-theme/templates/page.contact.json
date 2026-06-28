@@ -1,0 +1,131 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-contact",
+      "settings": {
+        "hero_eyebrow": "Get in Touch",
+        "hero_heading": "We would love to hear from you.",
+        "hero_body": "Whether you have a question about your skin, a formula, or our brand — our team responds within 24 hours, Monday to Friday.",
+
+        "form_eyebrow": "Send a message",
+        "form_heading": "Tell us what you need.",
+        "form_body": "Fill in the form and one of our skin specialists will respond within one business day. For skincare advice, please mention your skin type and current routine.",
+        "button_label": "Send message",
+        "success_message": "Thank you — we'll be in touch within 24 hours.",
+
+        "links_eyebrow": "Helpful pages",
+        "links_heading": "Find what you need.",
+
+        "faq_eyebrow": "Questions",
+        "faq_title": "Common questions.",
+
+        "newsletter_eyebrow": "Stay updated",
+        "newsletter_heading": "Skin science in your inbox.",
+        "newsletter_body": "Ingredient deep-dives, new formula launches, and skincare guidance from our team — no filler, no marketing fluff. Unsubscribe any time.",
+        "newsletter_placeholder": "Your email address",
+        "newsletter_cta": "Subscribe"
+      },
+      "blocks": {
+        "detail-1": {
+          "type": "detail",
+          "settings": {
+            "label": "Email us",
+            "value": "hello@velourskin.com",
+            "link": "mailto:hello@velourskin.com"
+          }
+        },
+        "detail-2": {
+          "type": "detail",
+          "settings": {
+            "label": "Response time",
+            "value": "Within 24 hours, Mon–Fri"
+          }
+        },
+        "detail-3": {
+          "type": "detail",
+          "settings": {
+            "label": "Skincare consultation",
+            "value": "Free — mention it in your message"
+          }
+        },
+        "link-1": {
+          "type": "quick_link",
+          "settings": {
+            "label": "Shipping",
+            "title": "Shipping & Delivery",
+            "description": "Delivery timelines, tracking information, and international shipping options.",
+            "url": "/policies/shipping-policy"
+          }
+        },
+        "link-2": {
+          "type": "quick_link",
+          "settings": {
+            "label": "Returns",
+            "title": "Returns & Refunds",
+            "description": "Our 30-day return policy, how to initiate a return, and refund processing times.",
+            "url": "/policies/refund-policy"
+          }
+        },
+        "link-3": {
+          "type": "quick_link",
+          "settings": {
+            "label": "Orders",
+            "title": "Order Management",
+            "description": "Track your order, make changes before dispatch, or check your order history.",
+            "url": "/account"
+          }
+        },
+        "link-4": {
+          "type": "quick_link",
+          "settings": {
+            "label": "Routine help",
+            "title": "Serum Finder Quiz",
+            "description": "Not sure which serum is right for you? Answer five questions and we'll recommend the right formula.",
+            "url": "/pages/serum-finder"
+          }
+        },
+        "faq-ct-1": {
+          "type": "faq",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "We offer a 30-day return on all unopened products in their original packaging. If a product has caused an unexpected skin reaction, please contact us directly — we'll work with you individually. To start a return, email hello@velourskin.com with your order number."
+          }
+        },
+        "faq-ct-2": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does delivery take?",
+            "answer": "Standard UK delivery takes 2–3 business days. Express next-day delivery is available for orders placed before 2pm Monday–Friday. International delivery to EU countries typically takes 4–6 business days. Full details are on our shipping policy page."
+          }
+        },
+        "faq-ct-3": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I get personalised skincare advice?",
+            "answer": "Yes — and it's free. Mention in your message that you'd like skincare advice, along with your skin type, primary concern, and any products you're currently using. One of our skin specialists will respond with a tailored routine recommendation."
+          }
+        },
+        "faq-ct-4": {
+          "type": "faq",
+          "settings": {
+            "question": "Are your products suitable during pregnancy?",
+            "answer": "Most are, with one exception: our Age-Defy Serum contains Retinol, which is not recommended during pregnancy or breastfeeding. Our Bright-C, Hydra-Boost, Barrier Repair, Calm, and Glow Elixir serums are all considered safe during pregnancy. As always, consult your healthcare provider if you have specific concerns."
+          }
+        },
+        "faq-ct-5": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you offer wholesale or partnership enquiries?",
+            "answer": "Yes — we work with select independent retailers, spas, and clinical practices. If you're interested in stocking Velour Skin or a collaboration, please contact us at hello@velourskin.com with the subject line 'Partnership' and we'll be in touch within three business days."
+          }
+        }
+      },
+      "blocks_order": [
+        "detail-1", "detail-2", "detail-3",
+        "link-1", "link-2", "link-3", "link-4",
+        "faq-ct-1", "faq-ct-2", "faq-ct-3", "faq-ct-4", "faq-ct-5"
+      ]
+    }
+  },
+  "order": ["main"]
+}

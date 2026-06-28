@@ -1,0 +1,146 @@
+<section class="hp-results section">
+  <div class="container">
+
+    <div class="hp-results__header reveal">
+      {%- if section.settings.label != blank -%}
+        <span class="hp-section-label">{{ section.settings.label }}</span>
+      {%- endif -%}
+      <h2 class="hp-results__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.disclaimer != blank -%}
+        <p class="hp-results__disclaimer">{{ section.settings.disclaimer }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="hp-results__cards reveal">
+      {%- for block in section.blocks -%}
+        <div class="hp-result-card" {{ block.shopify_attributes }}>
+          <div class="hp-result-card__icon" aria-hidden="true">{{ block.settings.icon }}</div>
+          <h3 class="hp-result-card__stat">{{ block.settings.stat }}</h3>
+          <p class="hp-result-card__label">{{ block.settings.label }}</p>
+          {%- if block.settings.note != blank -%}
+            <p class="hp-result-card__note">{{ block.settings.note }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.cta_label != blank and section.settings.cta_url != blank -%}
+      <div class="hp-results__cta-wrap reveal">
+        <a href="{{ section.settings.cta_url }}" class="btn btn--secondary">
+          {{ section.settings.cta_label }}
+        </a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HP — Results",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "result",
+      "name": "Result card",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon (emoji)",
+          "default": "💧"
+        },
+        {
+          "type": "text",
+          "id": "stat",
+          "label": "Stat or headline",
+          "default": "Visibly smoother"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Benefit label",
+          "default": "skin texture"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Small print note",
+          "info": "Optional compliance note or timeframe"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Designed to deliver"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Designed to support smoother, calmer, more hydrated-looking skin."
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Compliance disclaimer",
+      "default": "Results vary. Formulas are designed to support skin health when used as part of a consistent routine.",
+      "info": "Shown beneath the title in small text. Use for EU/UK cosmetic claim compliance."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "HP — Results",
+      "settings": {
+        "label": "Designed to deliver",
+        "title": "Designed to support smoother, calmer, more hydrated-looking skin.",
+        "disclaimer": "Results vary. Formulas are designed to support skin health when used as part of a consistent routine."
+      },
+      "blocks": [
+        {
+          "type": "result",
+          "settings": {
+            "icon": "💧",
+            "stat": "Visibly smoother",
+            "label": "skin texture",
+            "note": "With consistent use over 4 weeks"
+          }
+        },
+        {
+          "type": "result",
+          "settings": {
+            "icon": "🌿",
+            "stat": "Calmer-looking",
+            "label": "redness and irritation",
+            "note": "Centella and ceramide formulas"
+          }
+        },
+        {
+          "type": "result",
+          "settings": {
+            "icon": "✨",
+            "stat": "More hydrated",
+            "label": "throughout the day",
+            "note": "Multi-weight hyaluronic acid"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

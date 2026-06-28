@@ -1,0 +1,136 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-about",
+      "settings": {
+        "hero_eyebrow": "Our Story",
+        "hero_heading": "Born from a belief that skin deserves better.",
+        "hero_body": "We spent two years formulating before releasing a single product. No shortcuts. No compromises on what goes on your skin.",
+        "hero_cta_label": "Our Ingredients",
+        "hero_cta_url": "/pages/ingredients",
+        "hero_secondary_label": "Shop Serums",
+        "hero_secondary_url": "/collections/serums",
+
+        "mission_eyebrow": "What we believe",
+        "mission_statement": "Effective skincare shouldn't require a chemistry degree to understand — or a compromise on what goes on your skin.",
+
+        "founder_eyebrow": "A note from our founder",
+        "founder_heading": "We started asking why not better?",
+        "founder_note_1": "Velour Skin was founded in 2021 after years of frustration with skincare that promised everything and delivered very little. Most products were either clinically effective but harsh, or gentle but completely useless.",
+        "founder_note_2": "We spent two years with cosmetic chemists, dermatologists, and botanists before formulating our first serum. Every ingredient has a reason. Every concentration has been tested. No filler. No fragrance. No compromise.",
+        "founder_sig": "— Mia Calloway, Founder",
+
+        "values_eyebrow": "What we stand for",
+        "values_heading": "The principles behind every formula.",
+
+        "footprint_eyebrow": "Our commitment",
+        "footprint_heading": "Minimal footprint. Conscious formulation.",
+        "footprint_body": "We hold ourselves to a higher standard — recycled glass packaging, carbon-neutral shipping, and certified sustainable ingredient sourcing at every stage of production. Our manufacturing facility runs on 100% renewable energy.",
+        "footprint_cta_label": "Read our sustainability report",
+        "footprint_cta_url": "/pages/sustainability",
+
+        "philosophy_eyebrow": "How we think",
+        "philosophy_heading": "The thinking behind our formulas.",
+
+        "quote_text": "Skin is not a surface to be fixed. It is a living system to be understood.",
+        "quote_attribution": "Velour Skin formulation philosophy",
+
+        "cta_eyebrow": "Ready to start?",
+        "cta_heading": "Find your serum in under 60 seconds.",
+        "cta_body": "Answer five simple questions and we'll build a routine tailored to your skin goals, type, and lifestyle.",
+        "cta_primary_label": "Take the Quiz",
+        "cta_primary_url": "/pages/serum-finder",
+        "cta_secondary_label": "Shop Serums",
+        "cta_secondary_url": "/collections/serums"
+      },
+      "blocks": {
+        "value-1": {
+          "type": "value",
+          "settings": {
+            "title": "Transparency",
+            "description": "We publish full INCI ingredient lists, concentration ranges, and clinical study references for every formula. No proprietary blends, no hidden actives."
+          }
+        },
+        "value-2": {
+          "type": "value",
+          "settings": {
+            "title": "Efficacy first",
+            "description": "Every ingredient earns its place by demonstrated clinical effect, not cost, trend, or marketing value. If the evidence isn't there, neither is the ingredient."
+          }
+        },
+        "value-3": {
+          "type": "value",
+          "settings": {
+            "title": "Sustainability",
+            "description": "Recyclable glass packaging, carbon-neutral shipping, and certified sustainable sourcing across our supply chain. We do the hard work so you don't have to."
+          }
+        },
+        "value-4": {
+          "type": "value",
+          "settings": {
+            "title": "Simplicity",
+            "description": "Fewer, better products. A complete routine shouldn't require twelve steps. Our range is designed to work together and cover every primary skin concern."
+          }
+        },
+        "stat-1": {
+          "type": "stat",
+          "settings": {
+            "number": "100%",
+            "label": "Recycled glass packaging across our range"
+          }
+        },
+        "stat-2": {
+          "type": "stat",
+          "settings": {
+            "number": "0",
+            "label": "Synthetic fragrances or essential oils in any formula"
+          }
+        },
+        "stat-3": {
+          "type": "stat",
+          "settings": {
+            "number": "2 yrs",
+            "label": "Formulation and testing before our first product launched"
+          }
+        },
+        "stat-4": {
+          "type": "stat",
+          "settings": {
+            "number": "8",
+            "label": "Targeted serums, each addressing a primary skin concern"
+          }
+        },
+        "phil-1": {
+          "type": "philosophy_row",
+          "settings": {
+            "step_label": "Step one",
+            "title": "Start with the evidence",
+            "description": "Every active ingredient is selected based on peer-reviewed clinical evidence. We look at the study design, the concentration used, the subject population, and the outcomes measured — not just whether the headline sounds impressive."
+          }
+        },
+        "phil-2": {
+          "type": "philosophy_row",
+          "settings": {
+            "step_label": "Step two",
+            "title": "Formulate for real skin",
+            "description": "We work with a team of dermatologists and cosmetic chemists who have spent decades on clinical formulation. Real-world testing on diverse skin types is non-negotiable — no formula ships without it."
+          }
+        },
+        "phil-3": {
+          "type": "philosophy_row",
+          "settings": {
+            "step_label": "Step three",
+            "title": "Tell you exactly what's in it",
+            "description": "Full ingredient transparency isn't a marketing position for us — it's how we hold ourselves accountable. We publish INCI names, concentration ranges, and the clinical rationale for every active we use."
+          }
+        }
+      },
+      "blocks_order": [
+        "value-1", "value-2", "value-3", "value-4",
+        "stat-1", "stat-2", "stat-3", "stat-4",
+        "phil-1", "phil-2", "phil-3"
+      ]
+    }
+  },
+  "order": ["main"]
+}

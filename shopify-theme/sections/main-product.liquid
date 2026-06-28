@@ -1,0 +1,1235 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+<link rel="stylesheet" href="{{ 'product-page.css' | asset_url }}">
+
+<!-- Variants data -->
+<script type="application/json" id="pd-variants-json">{{ product.variants | json }}</script>
+
+<!-- ══════════════════════════════════════════════════════
+     §1  HERO — GALLERY + PURCHASE PANEL
+     ══════════════════════════════════════════════════════ -->
+<section class="pd-hero">
+  <div class="pd-hero__inner container">
+
+    <!-- ── LEFT: GALLERY ── -->
+    <div class="pd-gallery" id="pd-gallery">
+
+      <!-- Main image -->
+      <div class="pd-gallery__main" id="pd-gallery-main" aria-live="polite">
+        {%- if product.featured_media -%}
+          {{- product.featured_media | image_url: width: 1200
+              | image_tag:
+                id: 'pd-main-img',
+                loading: 'eager',
+                fetchpriority: 'high',
+                widths: '480, 800, 1200',
+                sizes: '(max-width: 1024px) 100vw, 50vw',
+                alt: product.featured_media.alt | default: product.title,
+                class: 'pd-gallery__img' -}}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'pd-gallery__img' }}
+        {%- endif -%}
+
+        {%- if section.settings.gallery_badge != blank -%}
+          <span class="pd-gallery__badge">{{ section.settings.gallery_badge }}</span>
+        {%- endif -%}
+      </div>
+
+      <!-- Thumbnails -->
+      {%- if product.images.size > 1 -%}
+        <div class="pd-gallery__thumbs" role="list" aria-label="Product images">
+          {%- for image in product.images limit: 6 -%}
+            <button
+              class="pd-gallery__thumb{% if forloop.first %} is-active{% endif %}"
+              role="listitem"
+              aria-label="View image {{ forloop.index }} of {{ product.images.size }}"
+              data-gallery-thumb
+              data-src="{{ image | image_url: width: 1200 }}"
+              data-alt="{{ image.alt | default: product.title | escape }}">
+              {{- image | image_url: width: 200
+                  | image_tag:
+                    loading: 'lazy',
+                    alt: image.alt | default: product.title,
+                    class: 'pd-gallery__thumb-img' -}}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+    </div>
+
+    <!-- ── RIGHT: PURCHASE PANEL ── -->
+    <div class="pd-purchase" id="pd-purchase">
+
+      <!-- Eyebrow -->
+      <span class="pd-purchase__eyebrow">
+        {{- section.settings.eyebrow | default: product.type | default: 'Serum' -}}
+      </span>
+
+      <!-- Title -->
+      <h1 class="pd-purchase__title">{{ product.title }}</h1>
+
+      <!-- Benefit tagline -->
+      {%- assign tagline = section.settings.tagline -%}
+      {%- if tagline == blank -%}
+        {%- assign tagline = product.metafields.custom.tagline.value -%}
+      {%- endif -%}
+      {%- if tagline != blank -%}
+        <p class="pd-purchase__tagline">{{ tagline }}</p>
+      {%- endif -%}
+
+      <!-- Reviews placeholder -->
+      <div class="pd-purchase__reviews">
+        <div class="pd-stars" aria-label="{{ section.settings.review_score | default: '4.8' }} out of 5 stars">
+          {%- for i in (1..5) -%}
+            <svg class="pd-star" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                    fill="{% if i <= 4 %}currentColor{% else %}none{% endif %}"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {%- endfor -%}
+        </div>
+        <span class="pd-purchase__review-count">
+          {{ section.settings.review_score | default: '4.8' }}
+          &middot;
+          {{ section.settings.review_count | default: '127' }} reviews
+        </span>
+      </div>
+
+      <!-- Price -->
+      <div class="pd-purchase__price-row" id="pd-price-row">
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          <s class="pd-purchase__compare" id="pd-compare-price">
+            {{ current_variant.compare_at_price | money }}
+          </s>
+        {%- endif -%}
+        <span class="pd-purchase__price" id="pd-price">
+          {{ current_variant.price | money }}
+        </span>
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          <span class="pd-purchase__save-badge" id="pd-save-badge">
+            Save {{ current_variant.compare_at_price | minus: current_variant.price | money }}
+          </span>
+        {%- endif -%}
+      </div>
+
+      <!-- Variant selector -->
+      {%- unless product.has_only_default_variant -%}
+        <div class="pd-purchase__variants" id="pd-variants">
+          {%- for option in product.options_with_values -%}
+            <div class="pd-option-group">
+              <div class="pd-option-group__meta">
+                <span class="pd-option-group__label">{{ option.name }}</span>
+                <span class="pd-option-group__selected" id="pd-option-val-{{ forloop.index }}">
+                  {{- option.selected_value -}}
+                </span>
+              </div>
+              <div class="pd-option-group__buttons" role="group" aria-label="{{ option.name }}">
+                {%- for value in option.values -%}
+                  <button
+                    class="pd-option-btn{% if option.selected_value == value %} is-active{% endif %}"
+                    type="button"
+                    data-option-pos="{{ option.position }}"
+                    data-option-val="{{ value | escape }}"
+                    aria-pressed="{{ option.selected_value == value }}"
+                    aria-label="{{ option.name }}: {{ value }}">
+                    {{ value }}
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endunless -%}
+
+      <!-- ATC form -->
+      <form action="/cart/add" method="post" id="pd-atc-form" data-product-id="{{ product.id }}">
+        <input type="hidden" name="id" value="{{ current_variant.id }}" id="pd-variant-id">
+
+        <div class="pd-purchase__controls">
+          <div class="pd-qty" role="group" aria-label="Quantity">
+            <button type="button" class="pd-qty__btn" id="pd-qty-minus" aria-label="Decrease quantity">
+              <svg width="12" height="2" viewBox="0 0 12 2" fill="none" aria-hidden="true">
+                <line x1="1" y1="1" x2="11" y2="1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <input
+              type="number"
+              name="quantity"
+              id="pd-qty-input"
+              class="pd-qty__input"
+              value="1"
+              min="1"
+              max="99"
+              aria-label="Quantity">
+            <button type="button" class="pd-qty__btn" id="pd-qty-plus" aria-label="Increase quantity">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <button
+            type="submit"
+            class="pd-atc-btn"
+            id="pd-atc-btn"
+            {% unless current_variant.available %}disabled{% endunless %}
+            aria-label="{{ current_variant.available | iif: 'Add to bag', 'Sold out' }}">
+            <span class="pd-atc-btn__text" id="pd-atc-text">
+              {%- if current_variant.available -%}Add to Bag{%- else -%}Sold Out{%- endif -%}
+            </span>
+            <span class="pd-atc-btn__price" id="pd-atc-price" aria-hidden="true">
+              {{ current_variant.price | money }}
+            </span>
+          </button>
+        </div>
+
+        <p class="pd-purchase__atc-error" id="pd-atc-error" role="alert" aria-live="assertive"></p>
+      </form>
+
+      <!-- Trust row -->
+      <div class="pd-purchase__trust">
+        <div class="pd-trust-item">
+          <svg class="pd-trust-item__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          <span>Zero synthetic fragrance</span>
+        </div>
+        <div class="pd-trust-item">
+          <svg class="pd-trust-item__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Dermatologist-reviewed</span>
+        </div>
+        <div class="pd-trust-item">
+          <svg class="pd-trust-item__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          <span>Lightweight formula</span>
+        </div>
+        <div class="pd-trust-item">
+          <svg class="pd-trust-item__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 4v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <span>Free delivery over £60</span>
+        </div>
+      </div>
+
+    </div>
+    <!-- /purchase panel -->
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     §2  BENEFIT TAGS
+     ══════════════════════════════════════════════════════ -->
+{%- assign benefit_blocks = section.blocks | where: 'type', 'benefit_tag' -%}
+{%- if benefit_blocks.size > 0 -%}
+<section class="pd-benefits">
+  <div class="pd-benefits__inner container">
+    <span class="pd-section-label">What it does</span>
+    <div class="pd-benefits__wrap">
+      {%- for block in benefit_blocks -%}
+        <span class="pd-benefit-tag" {{ block.shopify_attributes }}>
+          {{ block.settings.label }}
+        </span>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<!-- ══════════════════════════════════════════════════════
+     §3  DESCRIPTION
+     ══════════════════════════════════════════════════════ -->
+<section class="pd-description">
+  <div class="pd-description__inner container">
+    <div class="pd-description__label-col">
+      <span class="pd-section-label">About this Serum</span>
+      <span class="pd-description__accent"></span>
+    </div>
+    <div class="pd-description__content-col">
+      {%- assign desc = section.settings.description -%}
+      {%- if desc != blank -%}
+        <div class="pd-description__body rte">{{ desc }}</div>
+      {%- elsif product.description != blank -%}
+        <div class="pd-description__body rte">{{ product.description }}</div>
+      {%- else -%}
+        <div class="pd-description__body">
+          <p>A concentrated, single-active serum formulated to target a specific skin concern with precision. Designed for daily use in both AM and PM routines, on all skin types including sensitive.</p>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     §4  KEY INGREDIENTS
+     ══════════════════════════════════════════════════════ -->
+{%- assign ingredient_blocks = section.blocks | where: 'type', 'ingredient' -%}
+{%- if ingredient_blocks.size > 0 -%}
+<section class="pd-ingredients">
+  <div class="container">
+    <div class="pd-ingredients__header">
+      <span class="pd-section-label">Key Actives</span>
+      <h2 class="pd-ingredients__title">
+        {{ section.settings.ingredients_title | default: "What's inside" }}
+      </h2>
+    </div>
+    <div class="pd-ingredients__grid">
+      {%- for block in ingredient_blocks -%}
+        <div class="pd-ingredient-card" {{ block.shopify_attributes }}>
+          {%- if block.settings.percentage != blank -%}
+            <span class="pd-ingredient-card__pct" aria-hidden="true">{{ block.settings.percentage }}</span>
+          {%- endif -%}
+          <h3 class="pd-ingredient-card__name">{{ block.settings.name }}</h3>
+          <span class="pd-ingredient-card__benefit">{{ block.settings.benefit }}</span>
+          {%- if block.settings.detail != blank -%}
+            <p class="pd-ingredient-card__detail">{{ block.settings.detail }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<!-- ══════════════════════════════════════════════════════
+     §5  HOW TO USE
+     ══════════════════════════════════════════════════════ -->
+<section class="pd-how-to">
+  <div class="pd-how-to__inner container">
+
+    <div class="pd-how-to__label-col">
+      <span class="pd-section-label">How to Use</span>
+      <span class="pd-description__accent"></span>
+    </div>
+
+    <div class="pd-how-to__content-col">
+      <h2 class="pd-how-to__title">
+        {{ section.settings.how_to_title | default: 'Your daily ritual' }}
+      </h2>
+
+      {%- assign step_blocks = section.blocks | where: 'type', 'how_to_step' -%}
+      <ol class="pd-how-to__steps" role="list">
+        {%- if step_blocks.size > 0 -%}
+          {%- for block in step_blocks -%}
+            <li class="pd-step" style="--step-index: {{ forloop.index }};" {{ block.shopify_attributes }}>
+              <span class="pd-step__num" aria-hidden="true">
+                0{{ forloop.index }}
+              </span>
+              <div class="pd-step__content">
+                <strong class="pd-step__title">{{ block.settings.title }}</strong>
+                {%- if block.settings.detail != blank -%}
+                  <span class="pd-step__detail">{{ block.settings.detail }}</span>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        {%- else -%}
+          <li class="pd-step" style="--step-index:1;">
+            <span class="pd-step__num" aria-hidden="true">01</span>
+            <div class="pd-step__content">
+              <strong class="pd-step__title">Apply after cleansing</strong>
+              <span class="pd-step__detail">Begin with clean, dry or slightly damp skin</span>
+            </div>
+          </li>
+          <li class="pd-step" style="--step-index:2;">
+            <span class="pd-step__num" aria-hidden="true">02</span>
+            <div class="pd-step__content">
+              <strong class="pd-step__title">Use 2–3 drops</strong>
+              <span class="pd-step__detail">Warm between fingertips and press gently into skin — do not rub</span>
+            </div>
+          </li>
+          <li class="pd-step" style="--step-index:3;">
+            <span class="pd-step__num" aria-hidden="true">03</span>
+            <div class="pd-step__content">
+              <strong class="pd-step__title">Follow with cream</strong>
+              <span class="pd-step__detail">Seal active ingredients in with a barrier moisturiser</span>
+            </div>
+          </li>
+          <li class="pd-step" style="--step-index:4;">
+            <span class="pd-step__num" aria-hidden="true">04</span>
+            <div class="pd-step__content">
+              <strong class="pd-step__title">Apply SPF in the morning</strong>
+              <span class="pd-step__detail">Always finish your AM routine with broad-spectrum SPF 30+</span>
+            </div>
+          </li>
+        {%- endif -%}
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     §6  SKIN TYPE COMPATIBILITY
+     ══════════════════════════════════════════════════════ -->
+<section class="pd-skin-types">
+  <div class="container">
+    <div class="pd-skin-types__header">
+      <span class="pd-section-label">Skin Compatibility</span>
+      <h2 class="pd-skin-types__title">
+        {{ section.settings.skin_types_title | default: 'Suitable for' }}
+      </h2>
+    </div>
+
+    {%- assign skin_blocks = section.blocks | where: 'type', 'skin_type' -%}
+    <div class="pd-skin-types__grid" role="list">
+      {%- if skin_blocks.size > 0 -%}
+        {%- for block in skin_blocks -%}
+          <div
+            class="pd-skin-cell{% if block.settings.suitable %} is-suitable{% endif %}"
+            role="listitem"
+            {{ block.shopify_attributes }}>
+            <div class="pd-skin-cell__indicator" aria-hidden="true">
+              {%- if block.settings.suitable -%}
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              {%- else -%}
+                <svg width="11" height="2" viewBox="0 0 12 2" fill="none"><line x1="1" y1="1" x2="11" y2="1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              {%- endif -%}
+            </div>
+            <span class="pd-skin-cell__name">{{ block.settings.skin_type }}</span>
+            {%- if block.settings.note != blank -%}
+              <span class="pd-skin-cell__note">{{ block.settings.note }}</span>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign default_types = 'Dry,Oily,Combination,Sensitive,Normal' | split: ',' -%}
+        {%- for st in default_types -%}
+          <div class="pd-skin-cell is-suitable" role="listitem">
+            <div class="pd-skin-cell__indicator" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span class="pd-skin-cell__name">{{ st }}</span>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     §7  TEXTURE
+     ══════════════════════════════════════════════════════ -->
+<section class="pd-texture">
+  <div class="pd-texture__inner container">
+
+    <div class="pd-texture__image-col">
+      {%- if section.settings.texture_image != blank -%}
+        {{- section.settings.texture_image | image_url: width: 900
+            | image_tag:
+              loading: 'lazy',
+              widths: '480, 700, 900',
+              sizes: '(max-width: 1024px) 100vw, 50vw',
+              alt: section.settings.texture_image.alt | default: 'Serum texture close-up',
+              class: 'pd-texture__img' -}}
+      {%- else -%}
+        <div class="pd-texture__img-placeholder">
+          {{ 'product-2' | placeholder_svg_tag }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="pd-texture__content-col">
+      <span class="pd-section-label">Texture &amp; Feel</span>
+      <h2 class="pd-texture__headline">
+        {{ section.settings.texture_headline | default: 'Lightweight. Fast-absorbing. Leaves no residue.' }}
+      </h2>
+      <p class="pd-texture__body">
+        {{ section.settings.texture_body | default: 'A fluid, water-thin texture that sinks into skin within seconds. No white cast, no tackiness — just clinical-grade actives delivered precisely where skin needs them.' }}
+      </p>
+      <dl class="pd-texture__specs">
+        <div class="pd-texture__spec">
+          <dt class="pd-texture__spec-label">Finish</dt>
+          <dd class="pd-texture__spec-value">{{ section.settings.texture_finish | default: 'Matte-satin, zero residue' }}</dd>
+        </div>
+        <div class="pd-texture__spec">
+          <dt class="pd-texture__spec-label">Absorption</dt>
+          <dd class="pd-texture__spec-value">{{ section.settings.texture_absorption | default: 'Under 30 seconds' }}</dd>
+        </div>
+        <div class="pd-texture__spec">
+          <dt class="pd-texture__spec-label">Layering</dt>
+          <dd class="pd-texture__spec-value">{{ section.settings.texture_layering | default: 'Compatible with all Velour Skin formulas' }}</dd>
+        </div>
+        <div class="pd-texture__spec">
+          <dt class="pd-texture__spec-label">Volume</dt>
+          <dd class="pd-texture__spec-value">30ml / 1.0 fl oz</dd>
+        </div>
+      </dl>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     §8  ROUTINE PAIRING
+     ══════════════════════════════════════════════════════ -->
+{%- assign pair_cream = section.settings.pair_cream -%}
+{%- assign pair_spray = section.settings.pair_spray -%}
+{%- if pair_cream != blank or pair_spray != blank -%}
+<section class="pd-pairing">
+  <div class="container">
+    <div class="pd-pairing__header">
+      <span class="pd-section-label">Complete the Ritual</span>
+      <h2 class="pd-pairing__title">
+        {{ section.settings.pairing_title | default: 'Pair it with' }}
+      </h2>
+    </div>
+    <div class="pd-pairing__grid">
+
+      {%- if pair_cream != blank -%}
+        <div class="pd-pair-card">
+          <div class="pd-pair-card__image-wrap">
+            {%- if pair_cream.featured_image -%}
+              {{- pair_cream.featured_image | image_url: width: 480
+                  | image_tag:
+                    loading: 'lazy',
+                    alt: pair_cream.featured_image.alt | default: pair_cream.title,
+                    class: 'pd-pair-card__img' -}}
+            {%- else -%}
+              {{ 'product-3' | placeholder_svg_tag: 'pd-pair-card__img' }}
+            {%- endif -%}
+          </div>
+          <div class="pd-pair-card__body">
+            <span class="pd-pair-card__type">{{ pair_cream.type | default: 'Moisturiser' }}</span>
+            <h3 class="pd-pair-card__name">{{ pair_cream.title }}</h3>
+            <p class="pd-pair-card__price">{{ pair_cream.price_min | money }}</p>
+            <a href="{{ pair_cream.url }}" class="pd-pair-card__link">View product &rarr;</a>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if pair_spray != blank -%}
+        <div class="pd-pair-card">
+          <div class="pd-pair-card__image-wrap">
+            {%- if pair_spray.featured_image -%}
+              {{- pair_spray.featured_image | image_url: width: 480
+                  | image_tag:
+                    loading: 'lazy',
+                    alt: pair_spray.featured_image.alt | default: pair_spray.title,
+                    class: 'pd-pair-card__img' -}}
+            {%- else -%}
+              {{ 'product-4' | placeholder_svg_tag: 'pd-pair-card__img' }}
+            {%- endif -%}
+          </div>
+          <div class="pd-pair-card__body">
+            <span class="pd-pair-card__type">{{ pair_spray.type | default: 'Setting Mist' }}</span>
+            <h3 class="pd-pair-card__name">{{ pair_spray.title }}</h3>
+            <p class="pd-pair-card__price">{{ pair_spray.price_min | money }}</p>
+            <a href="{{ pair_spray.url }}" class="pd-pair-card__link">View product &rarr;</a>
+          </div>
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<!-- ══════════════════════════════════════════════════════
+     §9  CLINICAL REASSURANCE
+     ══════════════════════════════════════════════════════ -->
+<section class="pd-reassurance">
+  <div class="container">
+    <div class="pd-reassurance__inner">
+
+      {%- assign reassurance_blocks = section.blocks | where: 'type', 'reassurance' -%}
+      {%- if reassurance_blocks.size > 0 -%}
+        {%- for block in reassurance_blocks -%}
+          <div class="pd-reassurance-item" {{ block.shopify_attributes }}>
+            <div class="pd-reassurance-item__icon-wrap" aria-hidden="true">
+              {{ block.settings.icon_svg }}
+            </div>
+            <span class="pd-reassurance-item__label">{{ block.settings.label }}</span>
+            {%- if block.settings.sublabel != blank -%}
+              <span class="pd-reassurance-item__sublabel">{{ block.settings.sublabel }}</span>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="pd-reassurance-item">
+          <div class="pd-reassurance-item__icon-wrap" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <span class="pd-reassurance-item__label">Dermatologist-informed</span>
+          <span class="pd-reassurance-item__sublabel">Formula reviewed by skin specialists</span>
+        </div>
+        <div class="pd-reassurance-item">
+          <div class="pd-reassurance-item__icon-wrap" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          </div>
+          <span class="pd-reassurance-item__label">Fragrance-conscious</span>
+          <span class="pd-reassurance-item__sublabel">Zero synthetic fragrance added</span>
+        </div>
+        <div class="pd-reassurance-item">
+          <div class="pd-reassurance-item__icon-wrap" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          </div>
+          <span class="pd-reassurance-item__label">Lightweight texture</span>
+          <span class="pd-reassurance-item__sublabel">Absorbs in under 30 seconds</span>
+        </div>
+        <div class="pd-reassurance-item">
+          <div class="pd-reassurance-item__icon-wrap" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <span class="pd-reassurance-item__label">Designed for daily routines</span>
+          <span class="pd-reassurance-item__sublabel">Morning and evening compatible</span>
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     §10  FAQ ACCORDION
+     ══════════════════════════════════════════════════════ -->
+<section class="pd-faq">
+  <div class="pd-faq__inner container">
+
+    <div class="pd-faq__label-col">
+      <span class="pd-section-label">Questions</span>
+      <h2 class="pd-faq__title">FAQ</h2>
+    </div>
+
+    <div class="pd-faq__items-col">
+      {%- assign faq_blocks = section.blocks | where: 'type', 'faq' -%}
+      {%- if faq_blocks.size > 0 -%}
+        {%- for block in faq_blocks -%}
+          <details class="pd-faq-item" {{ block.shopify_attributes }}>
+            <summary class="pd-faq-item__summary">
+              <span class="pd-faq-item__question">{{ block.settings.question }}</span>
+              <span class="pd-faq-item__icon" aria-hidden="true">
+                <svg class="pd-faq-icon pd-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <svg class="pd-faq-icon pd-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </summary>
+            <div class="pd-faq-item__body-wrap">
+              <div class="pd-faq-item__body-inner">
+                <p class="pd-faq-item__answer">{{ block.settings.answer }}</p>
+              </div>
+            </div>
+          </details>
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign default_faqs = '
+          How do I layer this with other serums?|Apply lighter water-based serums first, thicker textures after. If using multiple Velour Skin serums, wait 60 seconds between each for full absorption.,
+          Can I use this morning and evening?|Yes — this formula is designed for AM and PM use. Always complete your morning routine with a broad-spectrum SPF 30+ to protect against UV exposure.,
+          Is this suitable for sensitive skin?|The formula is designed with sensitivity in mind. We recommend a 24-hour patch test on the inner forearm before full facial use. Discontinue if redness or irritation occurs.,
+          Is this safe to use during pregnancy?|As with all skincare, we recommend consulting your healthcare provider or midwife before introducing new products during pregnancy or while breastfeeding.,
+          How should I patch test?|Apply a small amount to the inner forearm or behind the ear. Leave unwashed for 24 hours. If no reaction occurs, proceed with regular use.,
+          How long will a 30ml bottle last?|Using 2–3 drops twice daily, a 30ml bottle typically lasts 6–8 weeks with consistent use.
+        ' | split: ',' -%}
+        {%- for faq in default_faqs -%}
+          {%- assign parts = faq | strip | split: '|' -%}
+          {%- if parts.size == 2 -%}
+            <details class="pd-faq-item">
+              <summary class="pd-faq-item__summary">
+                <span class="pd-faq-item__question">{{ parts[0] | strip }}</span>
+                <span class="pd-faq-item__icon" aria-hidden="true">
+                  <svg class="pd-faq-icon pd-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  <svg class="pd-faq-icon pd-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </span>
+              </summary>
+              <div class="pd-faq-item__body-wrap">
+                <div class="pd-faq-item__body-inner">
+                  <p class="pd-faq-item__answer">{{ parts[1] | strip }}</p>
+                </div>
+              </div>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     MOBILE STICKY ATC
+     ══════════════════════════════════════════════════════ -->
+<div class="pd-sticky-mobile" id="pd-sticky-mobile" aria-hidden="true" aria-label="Quick add to bag">
+  <div class="pd-sticky-mobile__inner">
+    <div class="pd-sticky-mobile__info">
+      <span class="pd-sticky-mobile__name">{{ product.title | truncate: 32 }}</span>
+      <span class="pd-sticky-mobile__price" id="pd-sticky-price">{{ current_variant.price | money }}</span>
+    </div>
+    <button class="pd-sticky-mobile__btn" id="pd-sticky-btn" type="button">
+      Add to Bag
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     JAVASCRIPT
+     ══════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── 0. DATA ── */
+  const variants = JSON.parse(
+    document.getElementById('pd-variants-json')?.textContent || '[]'
+  );
+  let selectedOptions = [
+    {{ current_variant.option1 | json }},
+    {{ current_variant.option2 | json }},
+    {{ current_variant.option3 | json }}
+  ];
+
+  /* ── 1. GALLERY ── */
+  const mainImg   = document.getElementById('pd-main-img');
+  const thumbBtns = document.querySelectorAll('[data-gallery-thumb]');
+
+  function setActiveThumb(active) {
+    thumbBtns.forEach(b => b.classList.toggle('is-active', b === active));
+  }
+
+  thumbBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!mainImg) return;
+      setActiveThumb(btn);
+      mainImg.style.opacity = '0';
+      mainImg.style.transform = 'scale(0.98)';
+      setTimeout(() => {
+        mainImg.src = btn.dataset.src;
+        mainImg.alt = btn.dataset.alt || mainImg.alt;
+        mainImg.style.opacity = '1';
+        mainImg.style.transform = 'scale(1)';
+      }, 180);
+    });
+  });
+
+  /* ── 2. QUANTITY ── */
+  const qtyInput = document.getElementById('pd-qty-input');
+
+  document.getElementById('pd-qty-minus')?.addEventListener('click', () => {
+    const v = parseInt(qtyInput.value, 10);
+    if (v > 1) qtyInput.value = v - 1;
+  });
+  document.getElementById('pd-qty-plus')?.addEventListener('click', () => {
+    qtyInput.value = parseInt(qtyInput.value, 10) + 1;
+  });
+
+  /* ── 3. VARIANT SELECTOR ── */
+  function moneyFormat(cents) {
+    const sym = {{ localization.country.currency.symbol | default: '£' | json }};
+    const val = (cents / 100).toFixed(2).replace(/\.00$/, '');
+    return sym + val;
+  }
+
+  function updatePriceUI(variant) {
+    const priceEl  = document.getElementById('pd-price');
+    const compareEl = document.getElementById('pd-compare-price');
+    const saveEl   = document.getElementById('pd-save-badge');
+    const atcPrice = document.getElementById('pd-atc-price');
+    const stickyP  = document.getElementById('pd-sticky-price');
+
+    if (priceEl)   priceEl.textContent   = moneyFormat(variant.price);
+    if (atcPrice)  atcPrice.textContent  = moneyFormat(variant.price);
+    if (stickyP)   stickyP.textContent   = moneyFormat(variant.price);
+
+    if (variant.compare_at_price > variant.price) {
+      if (compareEl) { compareEl.textContent = moneyFormat(variant.compare_at_price); compareEl.hidden = false; }
+      if (saveEl)    { saveEl.textContent = 'Save ' + moneyFormat(variant.compare_at_price - variant.price); saveEl.hidden = false; }
+    } else {
+      if (compareEl) compareEl.hidden = true;
+      if (saveEl)    saveEl.hidden    = true;
+    }
+  }
+
+  function updateAvailability(variant) {
+    const atcBtn  = document.getElementById('pd-atc-btn');
+    const atcText = document.getElementById('pd-atc-text');
+    const idInput = document.getElementById('pd-variant-id');
+
+    if (idInput)  idInput.value = variant.id;
+    if (atcBtn)   atcBtn.disabled = !variant.available;
+    if (atcText)  atcText.textContent = variant.available ? 'Add to Bag' : 'Sold Out';
+  }
+
+  function updateGalleryForVariant(variant) {
+    if (variant.featured_image && mainImg) {
+      const newSrc = variant.featured_image.src;
+      mainImg.style.opacity = '0';
+      setTimeout(() => {
+        mainImg.src = newSrc;
+        mainImg.style.opacity = '1';
+      }, 180);
+      // Activate matching thumb
+      thumbBtns.forEach(btn => {
+        if (btn.dataset.src && btn.dataset.src.includes(newSrc.split('?')[0].split('/').pop())) {
+          setActiveThumb(btn);
+        }
+      });
+    }
+  }
+
+  function resolveVariant() {
+    return variants.find(v =>
+      (selectedOptions[0] == null || v.option1 === selectedOptions[0]) &&
+      (selectedOptions[1] == null || v.option2 === selectedOptions[1]) &&
+      (selectedOptions[2] == null || v.option3 === selectedOptions[2])
+    ) || null;
+  }
+
+  document.querySelectorAll('.pd-option-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const pos = parseInt(btn.dataset.optionPos, 10) - 1;
+      selectedOptions[pos] = btn.dataset.optionVal;
+
+      // Update active button states for this option group
+      document.querySelectorAll(`.pd-option-btn[data-option-pos="${pos + 1}"]`)
+        .forEach(b => {
+          b.classList.toggle('is-active', b === btn);
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+
+      // Update selected label
+      const valLabel = document.getElementById(`pd-option-val-${pos + 1}`);
+      if (valLabel) valLabel.textContent = btn.dataset.optionVal;
+
+      const variant = resolveVariant();
+      if (variant) {
+        updatePriceUI(variant);
+        updateAvailability(variant);
+        updateGalleryForVariant(variant);
+      }
+    });
+  });
+
+  /* ── 4. ATC — AJAX ── */
+  const atcBtn   = document.getElementById('pd-atc-btn');
+  const atcText  = document.getElementById('pd-atc-text');
+  const atcError = document.getElementById('pd-atc-error');
+
+  function addToCart(variantId, qty) {
+    if (!atcBtn || atcBtn.disabled) return;
+    const wasText = atcText?.textContent;
+
+    atcBtn.disabled = true;
+    atcBtn.classList.add('is-loading');
+    if (atcText) atcText.textContent = 'Adding…';
+    if (atcError) atcError.textContent = '';
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: variantId, quantity: qty })
+    })
+    .then(r => r.json())
+    .then(data => {
+      atcBtn.classList.remove('is-loading');
+      if (data.status) throw new Error(data.description || 'Could not add to bag.');
+
+      atcBtn.classList.add('is-added');
+      if (atcText) atcText.textContent = 'Added to Bag';
+      document.dispatchEvent(new CustomEvent('cart:open'));
+      document.dispatchEvent(new CustomEvent('cart:refresh'));
+
+      setTimeout(() => {
+        atcBtn.disabled = false;
+        atcBtn.classList.remove('is-added');
+        if (atcText) atcText.textContent = wasText || 'Add to Bag';
+      }, 2400);
+    })
+    .catch(err => {
+      atcBtn.disabled = false;
+      atcBtn.classList.remove('is-loading', 'is-added');
+      if (atcText) atcText.textContent = wasText || 'Add to Bag';
+      if (atcError) atcError.textContent = err.message || 'Something went wrong. Please try again.';
+    });
+  }
+
+  document.getElementById('pd-atc-form')?.addEventListener('submit', e => {
+    e.preventDefault();
+    const id  = parseInt(document.getElementById('pd-variant-id').value, 10);
+    const qty = parseInt(qtyInput?.value || 1, 10);
+    addToCart(id, qty);
+  });
+
+  // Mobile sticky button mirrors main ATC
+  document.getElementById('pd-sticky-btn')?.addEventListener('click', () => {
+    const id  = parseInt(document.getElementById('pd-variant-id').value, 10);
+    const qty = parseInt(qtyInput?.value || 1, 10);
+    addToCart(id, qty);
+  });
+
+  /* ── 5. MOBILE STICKY ATC VISIBILITY ── */
+  const stickyBar = document.getElementById('pd-sticky-mobile');
+
+  if (stickyBar && atcBtn && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver(entries => {
+      const visible = entries[0].isIntersecting;
+      stickyBar.classList.toggle('is-visible', !visible);
+      stickyBar.setAttribute('aria-hidden', visible ? 'true' : 'false');
+    }, {
+      threshold: 0,
+      rootMargin: '0px 0px -80px 0px'
+    });
+    obs.observe(atcBtn);
+  }
+
+  /* ── 6. FAQ ACCORDION ── */
+  document.querySelectorAll('.pd-faq-item').forEach(details => {
+    const summary = details.querySelector('summary');
+    if (!summary) return;
+
+    summary.addEventListener('click', e => {
+      e.preventDefault();
+      if (details.open) {
+        // Animate close
+        details.classList.add('is-closing');
+        setTimeout(() => {
+          details.open = false;
+          details.classList.remove('is-closing');
+        }, 400);
+      } else {
+        // Close all others
+        document.querySelectorAll('.pd-faq-item[open]').forEach(open => {
+          if (open !== details) {
+            open.classList.add('is-closing');
+            setTimeout(() => {
+              open.open = false;
+              open.classList.remove('is-closing');
+            }, 400);
+          }
+        });
+        details.open = true;
+      }
+    });
+  });
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "tag": "article",
+  "blocks": [
+    {
+      "type": "benefit_tag",
+      "name": "Benefit tag",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Tag label",
+          "default": "Hydrating"
+        }
+      ]
+    },
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Ingredient name",
+          "default": "Hyaluronic Acid"
+        },
+        {
+          "type": "text",
+          "id": "percentage",
+          "label": "Concentration / percentage",
+          "default": "2%",
+          "info": "Displayed as a large figure. Leave blank to omit."
+        },
+        {
+          "type": "text",
+          "id": "benefit",
+          "label": "Short benefit",
+          "default": "Deep hydration"
+        },
+        {
+          "type": "textarea",
+          "id": "detail",
+          "label": "Detail text",
+          "default": "Holds up to 1,000× its weight in water. Multi-weight formula delivers moisture to every skin layer."
+        }
+      ]
+    },
+    {
+      "type": "how_to_step",
+      "name": "How to use step",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step title",
+          "default": "Apply after cleansing"
+        },
+        {
+          "type": "text",
+          "id": "detail",
+          "label": "Step detail",
+          "default": "Begin with clean, dry or slightly damp skin"
+        }
+      ]
+    },
+    {
+      "type": "skin_type",
+      "name": "Skin type",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "skin_type",
+          "label": "Skin type",
+          "default": "Dry"
+        },
+        {
+          "type": "checkbox",
+          "id": "suitable",
+          "label": "Marked as suitable",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Optional note",
+          "info": "e.g. 'Start 2x weekly'"
+        }
+      ]
+    },
+    {
+      "type": "reassurance",
+      "name": "Reassurance badge",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Dermatologist-informed"
+        },
+        {
+          "type": "text",
+          "id": "sublabel",
+          "label": "Sub-label",
+          "default": "Formula reviewed by skin specialists"
+        },
+        {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "Icon SVG",
+          "info": "Paste a 20×20 inline SVG. Leave blank for default shield icon."
+        }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ item",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How do I layer this serum?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "Apply thinner, water-based serums first. Wait 60 seconds between layers for full absorption."
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Serum",
+      "info": "Falls back to the product type set in Shopify admin."
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Benefit tagline",
+      "info": "Falls back to product metafield custom.tagline."
+    },
+    {
+      "type": "text",
+      "id": "gallery_badge",
+      "label": "Gallery badge",
+      "default": "Bestseller",
+      "info": "Leave blank to hide."
+    },
+    {
+      "type": "text",
+      "id": "review_score",
+      "label": "Review score",
+      "default": "4.8"
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review count",
+      "default": "127"
+    },
+    {
+      "type": "header",
+      "content": "Description"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description override",
+      "info": "Falls back to the product description in Shopify admin."
+    },
+    {
+      "type": "header",
+      "content": "Ingredients section"
+    },
+    {
+      "type": "text",
+      "id": "ingredients_title",
+      "label": "Section title",
+      "default": "What's inside"
+    },
+    {
+      "type": "header",
+      "content": "How to use"
+    },
+    {
+      "type": "text",
+      "id": "how_to_title",
+      "label": "Section headline",
+      "default": "Your daily ritual"
+    },
+    {
+      "type": "header",
+      "content": "Skin types"
+    },
+    {
+      "type": "text",
+      "id": "skin_types_title",
+      "label": "Section headline",
+      "default": "Suitable for"
+    },
+    {
+      "type": "header",
+      "content": "Texture"
+    },
+    {
+      "type": "image_picker",
+      "id": "texture_image",
+      "label": "Texture close-up image"
+    },
+    {
+      "type": "text",
+      "id": "texture_headline",
+      "label": "Headline",
+      "default": "Lightweight. Fast-absorbing. Leaves no residue."
+    },
+    {
+      "type": "textarea",
+      "id": "texture_body",
+      "label": "Body copy",
+      "default": "A fluid, water-thin texture that sinks into skin within seconds. No white cast, no tackiness — just clinical-grade actives delivered precisely where skin needs them."
+    },
+    {
+      "type": "text",
+      "id": "texture_finish",
+      "label": "Finish",
+      "default": "Matte-satin, zero residue"
+    },
+    {
+      "type": "text",
+      "id": "texture_absorption",
+      "label": "Absorption",
+      "default": "Under 30 seconds"
+    },
+    {
+      "type": "text",
+      "id": "texture_layering",
+      "label": "Layering note",
+      "default": "Compatible with all Velour Skin formulas"
+    },
+    {
+      "type": "header",
+      "content": "Routine pairing"
+    },
+    {
+      "type": "text",
+      "id": "pairing_title",
+      "label": "Section headline",
+      "default": "Pair it with"
+    },
+    {
+      "type": "product",
+      "id": "pair_cream",
+      "label": "Pairing product (cream)"
+    },
+    {
+      "type": "product",
+      "id": "pair_spray",
+      "label": "Pairing product (spray / mist)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product",
+      "settings": {
+        "eyebrow": "Serum",
+        "gallery_badge": "Bestseller",
+        "review_score": "4.8",
+        "review_count": "127",
+        "how_to_title": "Your daily ritual",
+        "skin_types_title": "Suitable for",
+        "ingredients_title": "What's inside",
+        "texture_headline": "Lightweight. Fast-absorbing. Leaves no residue.",
+        "texture_finish": "Matte-satin, zero residue",
+        "texture_absorption": "Under 30 seconds",
+        "texture_layering": "Compatible with all Velour Skin formulas"
+      },
+      "blocks": [
+        { "type": "benefit_tag", "settings": { "label": "Hydrating" } },
+        { "type": "benefit_tag", "settings": { "label": "Brightening" } },
+        { "type": "benefit_tag", "settings": { "label": "Calming" } },
+        { "type": "benefit_tag", "settings": { "label": "Barrier Support" } },
+        { "type": "benefit_tag", "settings": { "label": "Daily Use" } },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Hyaluronic Acid",
+            "percentage": "2%",
+            "benefit": "Deep hydration",
+            "detail": "Holds up to 1,000× its weight in water. Multi-weight formula for surface and deeper skin layers."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Niacinamide",
+            "percentage": "10%",
+            "benefit": "Pore refinement",
+            "detail": "Regulates sebum, minimises pores, and fades pigmentation at clinical concentration."
+          }
+        },
+        { "type": "how_to_step", "settings": { "title": "Apply after cleansing", "detail": "Begin with clean, dry or slightly damp skin" } },
+        { "type": "how_to_step", "settings": { "title": "Use 2–3 drops", "detail": "Warm between fingertips and press gently into skin" } },
+        { "type": "how_to_step", "settings": { "title": "Follow with cream", "detail": "Seal active ingredients in with a barrier moisturiser" } },
+        { "type": "how_to_step", "settings": { "title": "Apply SPF in the morning", "detail": "Always finish your AM routine with broad-spectrum SPF 30+" } },
+        { "type": "skin_type", "settings": { "skin_type": "Dry", "suitable": true } },
+        { "type": "skin_type", "settings": { "skin_type": "Oily", "suitable": true } },
+        { "type": "skin_type", "settings": { "skin_type": "Combination", "suitable": true } },
+        { "type": "skin_type", "settings": { "skin_type": "Sensitive", "suitable": true } },
+        { "type": "skin_type", "settings": { "skin_type": "Normal", "suitable": true } },
+        { "type": "faq", "settings": { "question": "How do I layer this with other serums?", "answer": "Apply lighter, water-based serums first, followed by thicker textures. If using multiple Velour Skin serums, allow 60 seconds between each for full absorption." } },
+        { "type": "faq", "settings": { "question": "Can I use this morning and evening?", "answer": "Yes — this formula is designed for AM and PM use. Always finish your morning routine with a broad-spectrum SPF 30+." } },
+        { "type": "faq", "settings": { "question": "Is this suitable for sensitive skin?", "answer": "The formula is designed with sensitivity in mind. We recommend a 24-hour patch test on the inner forearm before full facial use." } },
+        { "type": "faq", "settings": { "question": "Is this safe to use during pregnancy?", "answer": "We recommend consulting your healthcare provider or midwife before introducing new products during pregnancy or while breastfeeding." } },
+        { "type": "faq", "settings": { "question": "How should I patch test?", "answer": "Apply a small amount to the inner forearm. Leave unwashed for 24 hours. If no reaction occurs, proceed with regular use." } },
+        { "type": "faq", "settings": { "question": "How long will a 30ml bottle last?", "answer": "Using 2–3 drops twice daily, a 30ml bottle typically lasts 6–8 weeks with consistent use." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

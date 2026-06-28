@@ -1,0 +1,31 @@
+{%- comment -%}
+  QUIZ CTA BANNER STRIP
+  Usage: {% render 'quiz-cta-banner' %}
+  Place on homepage, collection pages, and product pages.
+  Accepts optional overrides:
+    - eyebrow: string
+    - heading: string
+    - body: string
+    - cta_label: string
+    - cta_url: string
+{%- endcomment -%}
+
+{%- assign _eyebrow   = eyebrow   | default: 'Personalised Skincare' -%}
+{%- assign _heading   = heading   | default: 'Not sure which serum is right for you?' -%}
+{%- assign _body      = body      | default: 'Answer five questions and we will match you with the exact formula your skin needs. Free, no account required.' -%}
+{%- assign _cta_label = cta_label | default: 'Take the Skin Quiz' -%}
+{%- assign _cta_url   = cta_url   | default: '/pages/serum-finder' -%}
+
+<section class="quiz-cta-strip reveal">
+  <div class="quiz-cta-strip__inner">
+    <p class="quiz-cta-strip__eyebrow">{{ _eyebrow }}</p>
+    <h2 class="quiz-cta-strip__heading">
+      {{ _heading | replace: 'right', '<em>right</em>' }}
+    </h2>
+    <p class="quiz-cta-strip__body">{{ _body }}</p>
+    <a href="{{ _cta_url }}" class="btn btn--primary">
+      {{ _cta_label }}
+    </a>
+    <p class="quiz-cta-strip__meta">Five questions &middot; No account needed &middot; Instant results</p>
+  </div>
+</section>

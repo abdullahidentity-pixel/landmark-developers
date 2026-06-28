@@ -1,0 +1,51 @@
+{
+  "_meta": {
+    "description": "SIT safety brain — medical-boundary logic. Triggers hard stops and dermatologist referrals.",
+    "updated": "2026-06-27"
+  },
+  "safetyRules": {
+    "hard_stop": {
+      "triggers": [
+        "painful",
+        "bleeding",
+        "infected",
+        "swollen",
+        "rapidly_changing",
+        "burns",
+        "open_wound"
+      ],
+      "message": "The symptoms you've described may need professional attention. SIT is a cosmetic skincare tool and cannot assess, diagnose, or treat medical skin concerns. Please consult a dermatologist or qualified medical professional. If symptoms are severe, seek urgent medical care.",
+      "allow_basic_only": true
+    },
+    "pregnancy": {
+      "triggers": [
+        "pregnant",
+        "breastfeeding"
+      ],
+      "avoid_products": [
+        "serum-05"
+      ],
+      "avoid_ingredients": [
+        "retinol",
+        "retinaldehyde"
+      ],
+      "message": "During pregnancy or breastfeeding, we recommend avoiding retinoids such as the Retinaldehyde in our Retinal Bio-Lift Night Serum. SIT has adjusted your recommendations accordingly. Please consult your healthcare provider or dermatologist for personalised advice during this period.",
+      "flag_level": "caution"
+    },
+    "prescription": {
+      "triggers": [
+        "yes_topical",
+        "yes_oral"
+      ],
+      "message": "You've mentioned you're using prescription skincare or medical treatment. SIT will provide general cosmetic guidance, but we recommend checking with your prescribing professional before adding new active ingredients to your routine.",
+      "flag_level": "caution"
+    },
+    "not_sure_safety": {
+      "triggers": [
+        "not_sure"
+      ],
+      "message": "If you're uncertain about a skin concern, it's always best to speak with a dermatologist before starting new active skincare. SIT will suggest gentle options only.",
+      "flag_level": "gentle"
+    }
+  }
+}

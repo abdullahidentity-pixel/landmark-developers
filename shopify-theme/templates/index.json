@@ -1,0 +1,194 @@
+{
+  "sections": {
+    "hp-hero": {
+      "type": "hp-hero",
+      "settings": {
+        "eyebrow": "Velour Skin",
+        "headline": "Targeted serums for calm, clear, balanced skin.",
+        "subline": "Formulated with clinical-grade actives, designed for your daily ritual.",
+        "trust_line": "Dermatologist-reviewed · Fragrance-free · EU compliant",
+        "primary_cta_label": "Shop Serums",
+        "primary_cta_url": "/collections/serums",
+        "secondary_cta_label": "Find Your Routine",
+        "secondary_cta_url": "/pages/routine"
+      }
+    },
+    "hp-philosophy": {
+      "type": "hp-philosophy",
+      "settings": {
+        "label": "Our Philosophy",
+        "headline": "Fewer ingredients. Clearer skin.",
+        "body": "We believe in precision over excess. Every Velour Skin formula is built around a single active concern — no filler, no compromise. Science-led, skin-first, always transparent about what goes in and why.",
+        "cta_label": "Read the full story",
+        "cta_url": "/pages/about"
+      }
+    },
+    "hp-bestsellers": {
+      "type": "hp-bestsellers",
+      "settings": {
+        "label": "Bestsellers",
+        "title": "Our Most-Loved Serums",
+        "cta_label": "View all serums",
+        "cta_url": "/collections/serums"
+      },
+      "blocks": {
+        "card-1": { "type": "product", "settings": { "benefit": "Deep 72-hour hydration" } },
+        "card-2": { "type": "product", "settings": { "benefit": "Pore refinement & even tone" } },
+        "card-3": { "type": "product", "settings": { "benefit": "Barrier-building ceramides" } },
+        "card-4": { "type": "product", "settings": { "benefit": "Vitamin C brightening complex" } }
+      },
+      "blocks_order": ["card-1", "card-2", "card-3", "card-4"]
+    },
+    "hp-concerns": {
+      "type": "hp-concerns",
+      "settings": {
+        "label": "Shop by Concern",
+        "title": "What does your skin need today?"
+      },
+      "blocks": {
+        "concern-1": { "type": "concern", "settings": { "name": "Hydration", "emoji": "💧", "url": "/collections/serums" } },
+        "concern-2": { "type": "concern", "settings": { "name": "Brightening", "emoji": "✨", "url": "/collections/serums" } },
+        "concern-3": { "type": "concern", "settings": { "name": "Barrier Repair", "emoji": "🛡️", "url": "/collections/serums" } },
+        "concern-4": { "type": "concern", "settings": { "name": "Acne Support", "emoji": "🌿", "url": "/collections/serums" } },
+        "concern-5": { "type": "concern", "settings": { "name": "Texture", "emoji": "🪞", "url": "/collections/serums" } },
+        "concern-6": { "type": "concern", "settings": { "name": "Age Support", "emoji": "⏳", "url": "/collections/serums" } },
+        "concern-7": { "type": "concern", "settings": { "name": "Calmness", "emoji": "🕊️", "url": "/collections/serums" } },
+        "concern-8": { "type": "concern", "settings": { "name": "Glow", "emoji": "🌤️", "url": "/collections/serums" } }
+      },
+      "blocks_order": ["concern-1", "concern-2", "concern-3", "concern-4", "concern-5", "concern-6", "concern-7", "concern-8"]
+    },
+    "hp-values": {
+      "type": "hp-values",
+      "settings": {
+        "label": "What We Stand For",
+        "title": "Four principles. Every formula.",
+        "cta_label": "About Velour Skin",
+        "cta_url": "/pages/about"
+      },
+      "blocks": {
+        "value-1": { "type": "value", "settings": { "name": "Simplicity", "description": "Clean formulas, clear labels, no confusion." } },
+        "value-2": { "type": "value", "settings": { "name": "Efficacy", "description": "Actives at proven concentrations. No aesthetic-only ingredients." } },
+        "value-3": { "type": "value", "settings": { "name": "Transparency", "description": "Full ingredient disclosure. We explain what every component does." } },
+        "value-4": { "type": "value", "settings": { "name": "Consistency", "description": "Results come from ritual. We design for real life, not shelf display." } }
+      },
+      "blocks_order": ["value-1", "value-2", "value-3", "value-4"]
+    },
+    "hp-ingredients": {
+      "type": "hp-ingredients",
+      "settings": {
+        "label": "The Science",
+        "title": "Ingredients that earn their place",
+        "subtitle": "Every active is chosen for clinical evidence, not trend. Here's what's inside — and why.",
+        "cta_label": "Explore the full glossary",
+        "cta_url": "/pages/ingredients"
+      },
+      "blocks": {
+        "ing-1": { "type": "ingredient", "settings": { "name": "Hyaluronic Acid", "benefit": "Deep hydration", "detail": "Holds up to 1,000× its weight in water. Multi-weight formula for surface and deeper skin layers." } },
+        "ing-2": { "type": "ingredient", "settings": { "name": "Niacinamide", "benefit": "Pore refinement & tone", "detail": "Regulates sebum, minimises pores, and fades pigmentation at 10% concentration." } },
+        "ing-3": { "type": "ingredient", "settings": { "name": "Peptides", "benefit": "Firmness support", "detail": "Signal proteins that encourage collagen synthesis. Non-irritating age support." } },
+        "ing-4": { "type": "ingredient", "settings": { "name": "Vitamin C", "benefit": "Brightening & antioxidant", "detail": "Stabilised ascorbic acid at 15% for even tone and daily environmental defence." } },
+        "ing-5": { "type": "ingredient", "settings": { "name": "Ceramides", "benefit": "Barrier restoration", "detail": "Lipids identical to those in healthy skin. Seals moisture and strengthens the skin barrier." } },
+        "ing-6": { "type": "ingredient", "settings": { "name": "Centella Asiatica", "benefit": "Calming & healing", "detail": "Madecassoside and asiaticoside reduce redness and support wound healing." } },
+        "ing-7": { "type": "ingredient", "settings": { "name": "Retinol Alternative", "benefit": "Cell renewal", "detail": "Bakuchiol — plant-derived retinol analogue. Comparable efficacy, suitable for sensitive skin." } },
+        "ing-8": { "type": "ingredient", "settings": { "name": "Green Tea", "benefit": "Antioxidant defence", "detail": "EGCG-rich extract neutralises free radicals and soothes inflammation." } }
+      },
+      "blocks_order": ["ing-1", "ing-2", "ing-3", "ing-4", "ing-5", "ing-6", "ing-7", "ing-8"]
+    },
+    "hp-routine-cta": {
+      "type": "hp-routine-cta",
+      "settings": {
+        "label": "Routine Builder",
+        "title": "Not sure where to start?",
+        "body": "Answer four questions and we'll build your personalised serum routine — matched to your skin type and concerns.",
+        "cta_label": "Build My Routine →",
+        "cta_url": "/pages/routine"
+      },
+      "blocks": {
+        "step-1": { "type": "step", "settings": { "name": "Cleanse", "detail": "Prep with a gentle cleanser" } },
+        "step-2": { "type": "step", "settings": { "name": "Treat", "detail": "Apply your targeted serum" } },
+        "step-3": { "type": "step", "settings": { "name": "Seal", "detail": "Lock in with a lightweight moisturiser" } }
+      },
+      "blocks_order": ["step-1", "step-2", "step-3"]
+    },
+    "hp-support-products": {
+      "type": "hp-support-products",
+      "settings": {
+        "label": "Complete the Ritual",
+        "title": "Beyond the serum"
+      },
+      "blocks": {
+        "card-cream": {
+          "type": "product_card",
+          "settings": {
+            "eyebrow": "The Cream",
+            "headline": "Your ritual, complete.",
+            "body": "A rich barrier cream designed to seal in everything your serum does. Ceramide-forward formula for all skin types.",
+            "detail_1": "Ceramides + Shea Butter",
+            "detail_2": "Fragrance-free",
+            "detail_3": "Morning & evening use",
+            "cta_label": "Shop the Cream"
+          }
+        },
+        "card-spray": {
+          "type": "product_card",
+          "settings": {
+            "eyebrow": "The Spray",
+            "headline": "Set, refresh, protect.",
+            "body": "A weightless facial spray that preps skin before serums and refreshes throughout the day.",
+            "detail_1": "Thermal Water + Niacinamide",
+            "detail_2": "Oil-control mist",
+            "detail_3": "Travel-friendly 100ml",
+            "cta_label": "Shop the Spray"
+          }
+        }
+      },
+      "blocks_order": ["card-cream", "card-spray"]
+    },
+    "hp-results": {
+      "type": "hp-results",
+      "settings": {
+        "label": "Designed to deliver",
+        "title": "Designed to support smoother, calmer, more hydrated-looking skin.",
+        "disclaimer": "Results vary. Formulas are designed to support skin health when used as part of a consistent routine."
+      },
+      "blocks": {
+        "result-1": { "type": "result", "settings": { "icon": "💧", "stat": "Visibly smoother", "label": "skin texture", "note": "With consistent use over 4 weeks" } },
+        "result-2": { "type": "result", "settings": { "icon": "🌿", "stat": "Calmer-looking", "label": "redness and irritation", "note": "Centella and ceramide formulas" } },
+        "result-3": { "type": "result", "settings": { "icon": "✨", "stat": "More hydrated", "label": "throughout the day", "note": "Multi-weight hyaluronic acid" } }
+      },
+      "blocks_order": ["result-1", "result-2", "result-3"]
+    },
+    "hp-newsletter": {
+      "type": "hp-newsletter",
+      "settings": {
+        "label": "Stay in the loop",
+        "title": "Skin notes, routine tips, and early access.",
+        "subtitle": "Join the Velour Skin community. No noise, just what your skin needs.",
+        "placeholder": "Your email address",
+        "button_label": "Join",
+        "privacy_note": "We respect your privacy. Unsubscribe at any time."
+      },
+      "blocks": {
+        "link-1": { "type": "link", "settings": { "label": "About Us", "url": "/pages/about" } },
+        "link-2": { "type": "link", "settings": { "label": "Ingredients", "url": "/pages/ingredients" } },
+        "link-3": { "type": "link", "settings": { "label": "The Science", "url": "/pages/science" } },
+        "link-4": { "type": "link", "settings": { "label": "Serum Quiz", "url": "/pages/quiz" } },
+        "link-5": { "type": "link", "settings": { "label": "Contact", "url": "/pages/contact" } },
+        "link-6": { "type": "link", "settings": { "label": "Privacy Policy", "url": "/policies/privacy-policy" } }
+      },
+      "blocks_order": ["link-1", "link-2", "link-3", "link-4", "link-5", "link-6"]
+    }
+  },
+  "order": [
+    "hp-hero",
+    "hp-philosophy",
+    "hp-bestsellers",
+    "hp-concerns",
+    "hp-values",
+    "hp-ingredients",
+    "hp-routine-cta",
+    "hp-support-products",
+    "hp-results",
+    "hp-newsletter"
+  ]
+}

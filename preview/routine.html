@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Routine — Sebble</title>
+<style>
+:root{--c-black:#030706;--c-white:#ffffff;--c-bg:#faf9f6;--c-grey:#dddcdc;--c-grey-mid:#a4b09e;--c-green-dark:#142b1b;--c-green-rich:#2c4f31;--c-green-mid:#49724a;--c-green-sage:#819d7c;--c-green-mint:#cde8c9;--font-heading:'Playfair Display',Georgia,serif;--font-body:'DM Sans',system-ui,sans-serif;--header-h:72px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-family:var(--font-body);background:#faf9f6;color:var(--c-black);}
+img{display:block;max-width:100%;}
+/* Header */
+
+
+
+
+
+/* Shared */
+.brand-eyebrow{display:inline-block;font-family:var(--font-body);font-size:0.6875rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--c-green-mid);}
+.brand-eyebrow--light{color:var(--c-green-mint);}
+.brand-heading{font-family:var(--font-heading);font-weight:400;line-height:1.1;letter-spacing:-0.02em;color:var(--c-black);}
+.brand-heading--light{color:var(--c-white);}
+.brand-btn{display:inline-flex;align-items:center;padding:0.875rem 2rem;background:var(--c-green-dark);color:var(--c-white);font-family:var(--font-body);font-size:0.8125rem;font-weight:500;letter-spacing:0.05em;text-decoration:none;border:1.5px solid var(--c-green-dark);border-radius:100px;cursor:pointer;transition:background 0.25s,transform 0.2s;}
+.brand-btn--ghost{background:transparent;color:var(--c-green-dark);}
+.brand-btn--ghost:hover{background:var(--c-green-dark);color:var(--c-white);}
+.brand-btn--light{background:var(--c-white);color:var(--c-green-dark);border-color:var(--c-white);}
+.brand-btn--outline-light{background:transparent;color:var(--c-white);border-color:rgba(255,255,255,0.4);}
+/* Hero */
+.rt-hero{display:grid;grid-template-columns:1fr 1fr;min-height:100dvh;background:#faf9f6;}
+.rt-hero__content{display:flex;flex-direction:column;justify-content:flex-end;padding:5rem 4.5rem 5rem 4rem;padding-top:calc(var(--header-h)+3rem);}
+.rt-hero__label{margin-bottom:1.75rem;}
+.rt-hero__heading{font-size:clamp(2.5rem,3.75vw,4rem);margin:0 0 1.75rem;max-width:16ch;}
+.rt-hero__intro{max-width:46ch;margin:0 0 2.5rem;font-size:1rem;line-height:1.7;color:#4a5246;}
+.rt-hero__btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.rt-hero__img-col{position:relative;overflow:hidden;}
+.rt-hero__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+/* Steps */
+.rt-steps{background:var(--c-white);padding:7rem 4rem;}
+.rt-steps__inner{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--c-grey);max-width:1280px;margin:0 auto;}
+.rt-steps-col{background:var(--c-white);padding:4rem 3.5rem;}
+.rt-steps-col__label{margin-bottom:2rem;display:block;}
+.rt-steps-col__title{font-family:var(--font-heading);font-size:1.75rem;font-weight:400;color:var(--c-black);margin:0 0 2.5rem;}
+.rt-steps-col--pm{background:var(--c-green-dark);}
+.rt-steps-col--pm .rt-steps-col__title{color:var(--c-white);}
+.rt-step-list{list-style:none;border-top:1px solid var(--c-grey);}
+.rt-steps-col--pm .rt-step-list{border-top-color:rgba(255,255,255,0.15);}
+.rt-step-item{display:grid;grid-template-columns:2rem 1fr;gap:1.5rem;align-items:start;padding:1.75rem 0;border-bottom:1px solid var(--c-grey);}
+.rt-steps-col--pm .rt-step-item{border-bottom-color:rgba(255,255,255,0.1);}
+.rt-step-item__num{font-family:var(--font-heading);font-style:italic;font-size:1.125rem;color:var(--c-green-sage);padding-top:0.1rem;}
+.rt-steps-col--pm .rt-step-item__num{color:var(--c-green-mint);}
+.rt-step-item__name{font-family:var(--font-body);font-size:0.9375rem;font-weight:600;color:var(--c-black);margin:0 0 0.3rem;}
+.rt-steps-col--pm .rt-step-item__name{color:var(--c-white);}
+.rt-step-item__desc{font-family:var(--font-body);font-size:0.875rem;line-height:1.65;color:#5a6456;margin:0;}
+.rt-steps-col--pm .rt-step-item__desc{color:rgba(255,255,255,0.6);}
+/* Concerns */
+.rt-concerns{background:#faf9f6;padding:7rem 4rem;}
+.rt-concerns__header{margin-bottom:3rem;display:flex;flex-direction:column;gap:0.75rem;}
+.rt-concerns__heading{font-size:clamp(1.875rem,2.5vw,2.625rem);margin:0;}
+.rt-concern-tabs{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:3rem;border-bottom:1px solid var(--c-grey);padding-bottom:0;}
+.rt-concern-tab{padding:0.75rem 1.5rem;background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--font-body);font-size:0.875rem;font-weight:500;color:#6a7a65;cursor:pointer;transition:color 0.2s,border-color 0.2s;}
+.rt-concern-tab.is-active{color:var(--c-black);border-bottom-color:var(--c-green-dark);}
+.rt-concern-panel{display:none;}
+.rt-concern-panel.is-active{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.rt-concern-panel__heading{font-family:var(--font-heading);font-size:1.75rem;font-weight:400;color:var(--c-black);margin:0 0 0.75rem;}
+.rt-concern-panel__desc{font-family:var(--font-body);font-size:0.9375rem;line-height:1.75;color:#5a6456;margin:0 0 2rem;max-width:46ch;}
+.rt-concern-products{display:flex;flex-direction:column;gap:0.75rem;}
+.rt-concern-product{display:flex;align-items:center;gap:1rem;padding:1.25rem 1.5rem;background:var(--c-white);border:1px solid var(--c-grey);}
+.rt-concern-product__dot{width:0.5rem;height:0.5rem;border-radius:50%;background:var(--c-green-mid);flex-shrink:0;}
+.rt-concern-product__name{font-family:var(--font-body);font-size:0.9375rem;font-weight:500;color:var(--c-black);flex:1;}
+.rt-concern-product__role{font-family:var(--font-body);font-size:0.8125rem;color:var(--c-grey-mid);}
+.rt-concern-panel__steps-title{font-family:var(--font-body);font-size:0.75rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-green-mid);margin:0 0 1.25rem;}
+.rt-concern-routine{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--c-grey);}
+.rt-routine-step{display:grid;grid-template-columns:1.5rem 1fr auto;gap:1rem;align-items:center;padding:1rem 0;border-bottom:1px solid var(--c-grey);}
+.rt-routine-step__n{font-family:var(--font-heading);font-style:italic;font-size:0.9375rem;color:var(--c-green-sage);}
+.rt-routine-step__name{font-family:var(--font-body);font-size:0.875rem;font-weight:500;color:var(--c-black);}
+.rt-routine-step__timing{font-family:var(--font-body);font-size:0.75rem;color:var(--c-grey-mid);}
+/* Pairings */
+.rt-pairings{background:var(--c-white);padding:7rem 4rem;}
+.rt-pairings__header{margin-bottom:4rem;display:flex;flex-direction:column;gap:0.75rem;}
+.rt-pairings__heading{font-size:clamp(1.875rem,2.5vw,2.625rem);margin:0;}
+.rt-pairing-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--c-grey);}
+.rt-pairing-card{background:var(--c-white);padding:2.5rem;}
+.rt-pairing-card__tag{display:inline-block;padding:0.3rem 0.75rem;background:var(--c-green-mint);font-family:var(--font-body);font-size:0.6875rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-green-dark);margin-bottom:1.25rem;}
+.rt-pairing-card__title{font-family:var(--font-heading);font-size:1.3125rem;font-weight:400;color:var(--c-black);margin:0 0 0.5rem;}
+.rt-pairing-card__note{font-family:var(--font-body);font-size:0.875rem;line-height:1.65;color:#5a6456;margin:0 0 1.5rem;}
+.rt-pairing-card__products{display:flex;gap:0.5rem;flex-wrap:wrap;}
+.rt-pairing-chip{padding:0.4rem 1rem;background:#faf9f6;border:1px solid var(--c-grey);font-family:var(--font-body);font-size:0.8125rem;color:var(--c-black);}
+/* Support */
+.rt-support{background:var(--c-green-mint);padding:7rem 4rem;}
+.rt-support__header{text-align:center;margin-bottom:4rem;}
+.rt-support__heading{font-family:var(--font-heading);font-size:clamp(1.875rem,2.5vw,2.625rem);font-weight:400;margin:1.25rem 0 1rem;color:var(--c-green-dark);}
+.rt-support__intro{max-width:52ch;margin:0 auto;color:var(--c-green-rich);font-size:0.9375rem;line-height:1.7;}
+.rt-support-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;max-width:900px;margin:0 auto;}
+.rt-support-card{background:var(--c-white);padding:2.5rem;}
+.rt-support-card__label{font-family:var(--font-body);font-size:0.6875rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-green-mid);margin-bottom:1rem;}
+.rt-support-card__name{font-family:var(--font-heading);font-size:1.375rem;font-weight:400;color:var(--c-black);margin:0 0 0.875rem;}
+.rt-support-card__desc{font-family:var(--font-body);font-size:0.9rem;line-height:1.7;color:#5a6456;margin:0 0 1.75rem;}
+/* Mistakes */
+.rt-mistakes{background:#faf9f6;padding:7rem 4rem;}
+.rt-mistakes__header{margin-bottom:4rem;display:flex;flex-direction:column;gap:0.75rem;}
+.rt-mistakes__heading{font-size:clamp(1.875rem,2.5vw,2.625rem);margin:0;max-width:22ch;}
+.rt-mistake-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--c-grey);}
+.rt-mistake-card{background:#faf9f6;padding:2.5rem 2rem;}
+.rt-mistake-card__num{font-family:var(--font-heading);font-size:2.5rem;font-weight:400;color:var(--c-green-mint);line-height:1;margin-bottom:1.5rem;}
+.rt-mistake-card__title{font-family:var(--font-body);font-size:0.9375rem;font-weight:600;color:var(--c-black);margin:0 0 0.625rem;}
+.rt-mistake-card__desc{font-family:var(--font-body);font-size:0.875rem;line-height:1.7;color:#5a6456;margin:0;}
+/* CTA */
+.rt-cta{background:var(--c-green-dark);padding:8rem 4rem;text-align:center;}
+.rt-cta__inner{max-width:680px;margin:0 auto;}
+.rt-cta__heading{font-size:clamp(2rem,3.5vw,3.25rem);margin:1.25rem 0 1.5rem;}
+.rt-cta__body{max-width:50ch;margin:0 auto 2.5rem;font-size:1rem;line-height:1.7;color:rgba(255,255,255,0.72);}
+.rt-cta__btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+
+/* ── HEADER (landing page style) ── */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  height: 72px;
+  background: rgba(250,249,246,0.88);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--c-grey);
+  display: flex; align-items: center;
+}
+.site-header .container {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; max-width: 1320px; margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+.header-logo { display: inline-flex; text-decoration: none; flex-shrink: 0; overflow: hidden; height: 40px; }
+.header-logo__img { height: 148px; width: auto; margin-top: -46px; display: block; mix-blend-mode: multiply; }
+.header-nav { display: flex; gap: 2.25rem; }
+.header-nav a {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 0.8125rem; color: var(--c-green-rich);
+  letter-spacing: 0.04em; transition: color 0.2s; text-decoration: none;
+}
+.header-nav a:hover { color: var(--c-black); }
+.header-actions { display: flex; align-items: center; gap: 1.25rem; }
+.header-actions a {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 0.8125rem; color: var(--c-green-rich); text-decoration: none;
+}
+.header-cart-btn {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1.125rem;
+  background: var(--c-black); color: var(--c-white);
+  border-radius: 100px; font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.08em; border: none; cursor: pointer;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+}
+@media (max-width: 768px) { .header-nav { display: none; } }
+
+
+/* ── BAG DRAWER ── */
+.bag-overlay { position: fixed; inset: 0; background: rgba(3,7,6,0.45); z-index: 900; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.bag-overlay.is-open { opacity: 1; pointer-events: all; }
+.bag-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100vw); background: #faf9f6; z-index: 901; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); display: flex; flex-direction: column; }
+.bag-drawer.is-open { transform: translateX(0); }
+.bag-drawer__header { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 1.75rem; border-bottom: 1px solid #dddcdc; }
+.bag-drawer__title { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #030706; }
+.bag-drawer__count { font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #819d7c; margin-top: 0.125rem; }
+.bag-drawer__close { background: none; border: none; cursor: pointer; padding: 0.5rem; color: #030706; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s; }
+.bag-drawer__close:hover { background: #dddcdc; }
+.bag-drawer__body { flex: 1; overflow-y: auto; display: flex; align-items: center; justify-content: center; }
+.bag-drawer__empty { text-align: center; padding: 3rem 2rem; }
+.bag-drawer__empty-icon { width: 56px; height: 56px; margin: 0 auto 1.5rem; opacity: 0.25; }
+.bag-drawer__empty-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.375rem; font-weight: 400; color: #030706; margin-bottom: 0.625rem; }
+.bag-drawer__empty-sub { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: #819d7c; line-height: 1.6; margin-bottom: 1.75rem; }
+.bag-drawer__cta { display: inline-flex; align-items: center; padding: 0.875rem 2rem; background: #030706; color: #ffffff; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.05em; text-decoration: none; transition: background 0.2s; }
+.bag-drawer__cta:hover { background: #142b1b; }
+.bag-drawer__footer { padding: 1.5rem 1.75rem; border-top: 1px solid #dddcdc; }
+.bag-drawer__subtotal { display: flex; justify-content: space-between; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: #030706; margin-bottom: 1rem; }
+.bag-drawer__checkout { display: block; width: 100%; padding: 1rem; background: #142b1b; color: #ffffff; border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.06em; cursor: pointer; text-align: center; transition: background 0.2s; }
+.bag-drawer__checkout:hover { background: #2c4f31; }
+
+/* ── ACCOUNT DROPDOWN ── */
+.acct-wrap { position: relative; }
+.acct-dropdown { position: absolute; top: calc(100% + 0.75rem); right: 0; width: 200px; background: #faf9f6; border: 1px solid #dddcdc; border-radius: 12px; box-shadow: 0 8px 32px rgba(3,7,6,0.10); overflow: hidden; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.2s, transform 0.2s; z-index: 200; }
+.acct-wrap.is-open .acct-dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
+.acct-dropdown a { display: block; padding: 0.75rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; color: #030706; text-decoration: none; transition: background 0.15s; border-bottom: 1px solid #dddcdc; }
+.acct-dropdown a:last-child { border-bottom: none; }
+.acct-dropdown a:hover { background: #cde8c9; }
+
+/* ── GLOBAL FOOTER ── */
+.site-footer-global { background: var(--c-black, #030706); padding: 6rem clamp(1.5rem,4vw,3rem) 2.75rem; }
+.sfg-inner { max-width: 1320px; margin-inline: auto; display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-bottom: 4rem; }
+.sfg-logo { display: inline-flex; overflow: hidden; height: 42px; margin-bottom: 1.5rem; }
+.sfg-logo__img { height: 172px; width: auto; margin-top: -66px; display: block; filter: brightness(0) invert(1); opacity: 0.9; }
+.sfg-tagline { font-family: 'DM Sans', sans-serif; font-size: 0.9688rem; line-height: 1.75; color: rgba(173,217,168,0.55); }
+.sfg-nav { display: grid; grid-template-columns: repeat(3,1fr); gap: 2.5rem; }
+.sfg-col { display: flex; flex-direction: column; gap: 1rem; }
+.sfg-col-head { font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 0.25rem; }
+.sfg-col a { font-family: 'DM Sans', sans-serif; font-size: 0.9688rem; color: rgba(173,217,168,0.65); text-decoration: none; transition: color 0.2s; }
+.sfg-col a:hover { color: #add9a8; }
+.sfg-bottom { max-width: 1320px; margin-inline: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.08); }
+.sfg-bottom p { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: rgba(173,217,168,0.3); letter-spacing: 0.06em; }
+.sfg-bottom-links { display: flex; gap: 1.75rem; }
+.sfg-bottom-links a { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: rgba(173,217,168,0.6); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+.sfg-bottom-links a:hover { color: #add9a8; }
+@media (max-width: 768px) {
+  .sfg-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .sfg-nav { grid-template-columns: 1fr 1fr; }
+  .sfg-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 1s cubic-bezier(0.22,1,0.36,1),transform 1s cubic-bezier(0.22,1,0.36,1),filter 1s cubic-bezier(0.22,1,0.36,1);will-change:opacity,transform;}
+.reveal[data-anim="fade-left"]{transform:translateX(-22px);}
+.reveal[data-anim="fade-right"]{transform:translateX(22px);}
+.reveal[data-anim="scale"]{transform:scale(0.96);}
+.reveal[data-anim="blur"]{transform:translateY(12px);filter:blur(5px);}
+.reveal[data-anim="fade-in"]{transform:none;}
+.reveal.is-visible{opacity:1;transform:none;filter:none;}
+.reveal-group .reveal:nth-child(1){transition-delay:calc(var(--stagger,65ms)*0);}
+.reveal-group .reveal:nth-child(2){transition-delay:calc(var(--stagger,65ms)*1);}
+.reveal-group .reveal:nth-child(3){transition-delay:calc(var(--stagger,65ms)*2);}
+.reveal-group .reveal:nth-child(4){transition-delay:calc(var(--stagger,65ms)*3);}
+.reveal-group .reveal:nth-child(5){transition-delay:calc(var(--stagger,65ms)*4);}
+.reveal-group .reveal:nth-child(6){transition-delay:calc(var(--stagger,65ms)*5);}
+.reveal-group .reveal:nth-child(n+7){transition-delay:calc(var(--stagger,65ms)*6);}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="header-logo"><img src="sebble-logo.png" alt="Sebble" class="header-logo__img"></a>
+    <nav class="header-nav">
+      <a href="collection.html">Shop</a>
+      <a href="routine.html">Routine</a>
+      <a href="ingredients.html">Ingredients</a>
+      <a href="about.html">About</a>
+      <a href="sit.html" class="header-nav__sit" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;"><span style="width:6px;height:6px;border-radius:50%;background:#49724a;display:inline-block;"></span>Skin Consultant</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#">Account</a>
+      <button class="header-cart-btn">Bag (0)</button>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="rt-hero">
+  <div class="rt-hero__content">
+    <span class="brand-eyebrow rt-hero__label reveal" data-anim="fade-in">The Ritual</span>
+    <h1 class="brand-heading rt-hero__heading reveal">Build a routine that works with your skin.</h1>
+    <p class="rt-hero__intro reveal">A great skincare routine doesn't need to be complicated. It needs to be consistent, well-ordered, and matched to your skin.</p>
+    <div class="rt-hero__btns">
+      <a href="serum-finder.html" class="brand-btn">Find your serum</a>
+      <a href="ingredients.html" class="brand-btn brand-btn--ghost">Ingredient guide</a>
+    </div>
+  </div>
+  <div class="rt-hero__img-col">
+    <img class="rt-hero__img" src="https://picsum.photos/seed/routine-hero/900/1100" alt="Skincare routine">
+  </div>
+</section>
+
+<!-- AM/PM Steps -->
+<section class="rt-steps">
+  <div class="rt-steps__inner">
+    <div class="rt-steps-col">
+      <span class="brand-eyebrow rt-steps-col__label reveal" data-anim="fade-in">Morning</span>
+      <h2 class="rt-steps-col__title reveal">Morning Routine</h2>
+      <ul class="rt-step-list reveal-group" style="--stagger:80ms">
+        <li class="rt-step-item reveal"><span class="rt-step-item__num">1</span><div><p class="rt-step-item__name">Facial Spray (optional)</p><p class="rt-step-item__desc">Mist lightly on a clean face to prepare the skin surface and enhance absorption of the next step.</p></div></li>
+        <li class="rt-step-item reveal"><span class="rt-step-item__num">2</span><div><p class="rt-step-item__name">Serum</p><p class="rt-step-item__desc">Apply 3–5 drops and press gently into skin. Allow 60 seconds to absorb before the next step.</p></div></li>
+        <li class="rt-step-item reveal"><span class="rt-step-item__num">3</span><div><p class="rt-step-item__name">Barrier Cream</p><p class="rt-step-item__desc">Apply a pea-sized amount to seal in your serum and lock in moisture. Suitable for all skin types.</p></div></li>
+        <li class="rt-step-item reveal"><span class="rt-step-item__num">4</span><div><p class="rt-step-item__name">SPF 30+</p><p class="rt-step-item__desc">Non-negotiable when using active ingredients. Apply generously as the absolute final morning step.</p></div></li>
+      </ul>
+    </div>
+    <div class="rt-steps-col rt-steps-col--pm">
+      <span class="brand-eyebrow brand-eyebrow--light rt-steps-col__label reveal" data-anim="fade-in">Evening</span>
+      <h2 class="rt-steps-col__title reveal">Evening Routine</h2>
+      <ul class="rt-step-list reveal-group" style="--stagger:80ms">
+        <li class="rt-step-item reveal"><span class="rt-step-item__num">1</span><div><p class="rt-step-item__name">Double Cleanse</p><p class="rt-step-item__desc">Start with an oil cleanser to dissolve sunscreen and makeup. Follow with a gentle water-based cleanser.</p></div></li>
+        <li class="rt-step-item reveal"><span class="rt-step-item__num">2</span><div><p class="rt-step-item__name">Serum</p><p class="rt-step-item__desc">Apply your PM serum. Keep the Retinal Bio-Lift Night Serum to evenings only, and don't layer it with the Glow + Marks Vitamin C in the same session.</p></div></li>
+        <li class="rt-step-item reveal"><span class="rt-step-item__num">3</span><div><p class="rt-step-item__name">Barrier Cream</p><p class="rt-step-item__desc">The most important evening step. Seals in active ingredients while your skin's repair mechanisms are active.</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Concerns -->
+<section class="rt-concerns">
+  <div class="rt-concerns__header">
+    <span class="brand-eyebrow reveal" data-anim="fade-in">Personalise</span>
+    <h2 class="brand-heading rt-concerns__heading reveal">Routine by skin concern.</h2>
+  </div>
+  <div class="rt-concern-tabs">
+    <button class="rt-concern-tab is-active" data-tab="1">Brightening</button>
+    <button class="rt-concern-tab" data-tab="2">Barrier</button>
+    <button class="rt-concern-tab" data-tab="3">Firming</button>
+    <button class="rt-concern-tab" data-tab="4">Renewal</button>
+    <button class="rt-concern-tab" data-tab="5">Calm</button>
+    <button class="rt-concern-tab" data-tab="6">Eyes</button>
+  </div>
+  <div class="rt-concern-panels">
+    <div class="rt-concern-panel is-active" id="concern-panel-1">
+      <div>
+        <h3 class="rt-concern-panel__heading">Brightening Routine</h3>
+        <p class="rt-concern-panel__desc">For uneven tone, dark marks, and post-blemish spots. Brightening actives suit both AM and PM — always finish the morning with SPF to protect your progress.</p>
+        <div class="rt-concern-products">
+          <div class="rt-concern-product"><span class="rt-concern-product__dot"></span><span class="rt-concern-product__name">Glow + Marks Serum</span><span class="rt-concern-product__role">Primary — AM + PM</span></div>
+          <div class="rt-concern-product"><span class="rt-concern-product__dot"></span><span class="rt-concern-product__name">Barrier Cream</span><span class="rt-concern-product__role">Seal — AM + PM</span></div>
+          <div class="rt-concern-product"><span class="rt-concern-product__dot"></span><span class="rt-concern-product__name">Facial Spray</span><span class="rt-concern-product__role">Prep — AM</span></div>
+        </div>
+      </div>
+      <div>
+        <p class="rt-concern-panel__steps-title">Your routine</p>
+        <div class="rt-concern-routine">
+          <div class="rt-routine-step"><span class="rt-routine-step__n">1</span><span class="rt-routine-step__name">Facial Spray</span><span class="rt-routine-step__timing">AM</span></div>
+          <div class="rt-routine-step"><span class="rt-routine-step__n">2</span><span class="rt-routine-step__name">Glow + Marks Serum</span><span class="rt-routine-step__timing">AM + PM</span></div>
+          <div class="rt-routine-step"><span class="rt-routine-step__n">3</span><span class="rt-routine-step__name">Barrier Cream</span><span class="rt-routine-step__timing">AM + PM</span></div>
+          <div class="rt-routine-step"><span class="rt-routine-step__n">4</span><span class="rt-routine-step__name">SPF 30+</span><span class="rt-routine-step__timing">AM only</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rt-concern-panel" id="concern-panel-2">
+      <div>
+        <h3 class="rt-concern-panel__heading">Barrier Routine</h3>
+        <p class="rt-concern-panel__desc">For dehydrated, tight, or compromised skin. Peptides and ceramides support a stronger-feeling barrier — apply twice daily and always seal with the Barrier Cream.</p>
+        <div class="rt-concern-products">
+          <div class="rt-concern-product"><span class="rt-concern-product__dot"></span><span class="rt-concern-product__name">Peptide Repair Barrier Serum</span><span class="rt-concern-product__role">Primary — AM + PM</span></div>
+          <div class="rt-concern-product"><span class="rt-concern-product__dot"></span><span class="rt-concern-product__name">Barrier Cream</span><span class="rt-concern-product__role">Essential seal</span></div>
+        </div>
+      </div>
+      <div>
+        <p class="rt-concern-panel__steps-title">Your routine</p>
+        <div class="rt-concern-routine">
+          <div class="rt-routine-step"><span class="rt-routine-step__n">1</span><span class="rt-routine-step__name">Facial Spray</span><span class="rt-routine-step__timing">AM</span></div>
+          <div class="rt-routine-step"><span class="rt-routine-step__n">2</span><span class="rt-routine-step__name">Peptide Repair Barrier Serum</span><span class="rt-routine-step__timing">AM + PM</span></div>
+          <div class="rt-routine-step"><span class="rt-routine-step__n">3</span><span class="rt-routine-step__name">Barrier Cream</span><span class="rt-routine-step__timing">AM + PM</span></div>
+          <div class="rt-routine-step"><span class="rt-routine-step__n">4</span><span class="rt-routine-step__name">Mineral SPF</span><span class="rt-routine-step__timing">AM only</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rt-concern-panel" id="concern-panel-3">
+      <div>
+        <h3 class="rt-concern-panel__heading">Firming Routine</h3>
+        <p class="rt-concern-panel__desc">For a loss of firmness and a tired-looking complexion. Caviar Lift is retinol-free, so it suits morning and night — and is friendly for pregnancy too.</p>
+        <div class="rt-concern-products">
+          <div class="rt-concern-product"><span class="rt-concern-product__dot"></span><span class="rt-concern-product__name">Caviar Lift Serum</span><span class="rt-concern-product__role">Primary — AM + PM</span></div>
+          <div class="rt-concern-product"><span class="rt-concern-product__dot"></span><span class="rt-concern-product__name">Neuro Peptide Eye Serum</span><span class="rt-concern-product__role">Eye area — AM + PM</span></div>
+          <div class="rt-concern-product"><span class="rt-concern-product__dot"></span><span class="rt-concern-product__name">Barrier Cream</span><span class="rt-concern-product__role">Seal</span></div>
+        </div>
+      </div>
+      <div>
+        <p class="rt-concern-panel__steps-title">Your routine</p>
+        <div class="rt-concern-routine">
+          <div class="rt-routine-step"><span class="rt-routine-step__n">1</span><span class="rt-routine-step__name">Caviar Lift Serum</span><span class="rt-routine-step__timing">AM + PM</span></div>
+          <div class="rt-routine-step"><span class="rt-routine-step__n">2</span><span class="rt-routine-step__name">Neuro Peptide Eye Serum</span><span class="rt-routine-step__timing">AM + PM</span></div>
+          <div class="rt-routine-step"><span class="rt-routine-step__n">3</span><span class="rt-routine-step__name">Barrier Cream</span><span class="rt-routine-step__timing">AM + PM</span></div>
+          <div class="rt-routine-step"><span class="rt-routine-step__n">4</span><span class="rt-routine-step__name">SPF 30+</span><span class="rt-routine-step__timing">AM only</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rt-concern-panel" id="concern-panel-4"><div><h3 class="rt-concern-panel__heading">Renewal Routine</h3><p class="rt-concern-panel__desc">For rough texture, fine lines, and uneven tone. The encapsulated Retinaldehyde is PM-only — start 2–3 nights a week and build up. Avoid during pregnancy.</p><div class="rt-concern-products"><div class="rt-concern-product"><span class="rt-concern-product__dot"></span><span class="rt-concern-product__name">Retinal Bio-Lift Night Serum</span><span class="rt-concern-product__role">Primary — PM only</span></div><div class="rt-concern-product"><span class="rt-concern-product__dot"></span><span class="rt-concern-product__name">Peptide Repair Barrier Serum</span><span class="rt-concern-product__role">AM + off nights</span></div></div></div><div><p class="rt-concern-panel__steps-title">Your routine</p><div class="rt-concern-routine"><div class="rt-routine-step"><span class="rt-routine-step__n">1</span><span class="rt-routine-step__name">Retinal Bio-Lift Night Serum</span><span class="rt-routine-step__timing">PM · 2–3x/wk to start</span></div><div class="rt-routine-step"><span class="rt-routine-step__n">2</span><span class="rt-routine-step__name">Peptide Repair (off nights + AM)</span><span class="rt-routine-step__timing">AM + off PM</span></div><div class="rt-routine-step"><span class="rt-routine-step__n">3</span><span class="rt-routine-step__name">Barrier Cream</span><span class="rt-routine-step__timing">Every PM</span></div><div class="rt-routine-step"><span class="rt-routine-step__n">4</span><span class="rt-routine-step__name">SPF 30+</span><span class="rt-routine-step__timing">AM — critical</span></div></div></div></div>
+    <div class="rt-concern-panel" id="concern-panel-5"><div><h3 class="rt-concern-panel__heading">Calming Routine</h3><p class="rt-concern-panel__desc">For redness, sensitivity, and stressed-looking skin. Exosomes, PDRN, and Centella comfort the skin and can be used morning and night.</p><div class="rt-concern-products"><div class="rt-concern-product"><span class="rt-concern-product__dot"></span><span class="rt-concern-product__name">Exosome PDRN Repair Serum</span><span class="rt-concern-product__role">Primary — AM + PM</span></div><div class="rt-concern-product"><span class="rt-concern-product__dot"></span><span class="rt-concern-product__name">Barrier Cream</span><span class="rt-concern-product__role">Essential seal</span></div></div></div><div><p class="rt-concern-panel__steps-title">Your routine</p><div class="rt-concern-routine"><div class="rt-routine-step"><span class="rt-routine-step__n">1</span><span class="rt-routine-step__name">Exosome PDRN Repair Serum</span><span class="rt-routine-step__timing">AM + PM</span></div><div class="rt-routine-step"><span class="rt-routine-step__n">2</span><span class="rt-routine-step__name">Barrier Cream</span><span class="rt-routine-step__timing">AM + PM</span></div><div class="rt-routine-step"><span class="rt-routine-step__n">3</span><span class="rt-routine-step__name">Mineral SPF</span><span class="rt-routine-step__timing">AM only</span></div></div></div></div>
+    <div class="rt-concern-panel" id="concern-panel-6"><div><h3 class="rt-concern-panel__heading">Eyes &amp; Smile Lines Routine</h3><p class="rt-concern-panel__desc">For fine lines around the eyes and smile, plus the look of puffiness. Caffeine and neuro-peptides target expression lines morning and night.</p><div class="rt-concern-products"><div class="rt-concern-product"><span class="rt-concern-product__dot"></span><span class="rt-concern-product__name">Neuro Peptide Eye &amp; Smile Line Serum</span><span class="rt-concern-product__role">Primary — AM + PM</span></div><div class="rt-concern-product"><span class="rt-concern-product__dot"></span><span class="rt-concern-product__name">Caviar Lift Serum</span><span class="rt-concern-product__role">Firming support</span></div></div></div><div><p class="rt-concern-panel__steps-title">Your routine</p><div class="rt-concern-routine"><div class="rt-routine-step"><span class="rt-routine-step__n">1</span><span class="rt-routine-step__name">Neuro Peptide Eye Serum</span><span class="rt-routine-step__timing">AM + PM</span></div><div class="rt-routine-step"><span class="rt-routine-step__n">2</span><span class="rt-routine-step__name">Caviar Lift Serum (face)</span><span class="rt-routine-step__timing">AM + PM</span></div><div class="rt-routine-step"><span class="rt-routine-step__n">3</span><span class="rt-routine-step__name">Barrier Cream</span><span class="rt-routine-step__timing">AM + PM</span></div><div class="rt-routine-step"><span class="rt-routine-step__n">4</span><span class="rt-routine-step__name">SPF 30+</span><span class="rt-routine-step__timing">AM only</span></div></div></div></div>
+  </div>
+</section>
+
+<!-- Pairings -->
+<section class="rt-pairings">
+  <div class="rt-pairings__header">
+    <span class="brand-eyebrow">Synergy</span>
+    <h2 class="brand-heading rt-pairings__heading">Serums that work better together.</h2>
+  </div>
+  <div class="rt-pairing-grid">
+    <div class="rt-pairing-card"><div class="rt-pairing-card__tag">Most popular</div><h3 class="rt-pairing-card__title">Peptide Repair + Caviar Lift</h3><p class="rt-pairing-card__note">Both use AM + PM timing. Apply Peptide Repair Barrier first (lighter texture), then Caviar Lift. Seal with Barrier Cream. A firming, barrier-supporting duo for daily use.</p><div class="rt-pairing-card__products"><span class="rt-pairing-chip">Peptide Repair Barrier Serum</span><span class="rt-pairing-chip">Caviar Lift Serum</span></div></div>
+    <div class="rt-pairing-card"><div class="rt-pairing-card__tag">Brightening duo</div><h3 class="rt-pairing-card__title">Glow + Marks (AM) + Retinal (PM)</h3><p class="rt-pairing-card__note">Vitamin C and tranexamic acid in the morning, encapsulated Retinaldehyde at night. Two complementary tone-and-texture mechanisms — kept in separate sessions.</p><div class="rt-pairing-card__products"><span class="rt-pairing-chip">Glow + Marks Serum</span><span class="rt-pairing-chip">Retinal Bio-Lift Night Serum</span></div></div>
+    <div class="rt-pairing-card"><div class="rt-pairing-card__tag">Sensitive skin</div><h3 class="rt-pairing-card__title">Exosome PDRN + Peptide Repair</h3><p class="rt-pairing-card__note">Calm and support together. Exosome PDRN Repair comforts stressed-looking skin while Peptide Repair Barrier reinforces the barrier — both gentle, both AM + PM.</p><div class="rt-pairing-card__products"><span class="rt-pairing-chip">Exosome PDRN Repair Serum</span><span class="rt-pairing-chip">Peptide Repair Barrier Serum</span></div></div>
+    <div class="rt-pairing-card"><div class="rt-pairing-card__tag">Eyes &amp; firmness</div><h3 class="rt-pairing-card__title">Neuro Peptide Eye + Caviar Lift</h3><p class="rt-pairing-card__note">Target the look of expression lines around the eyes and smile while Caviar Lift firms the rest of the face. Both retinol-free and safe morning and night.</p><div class="rt-pairing-card__products"><span class="rt-pairing-chip">Neuro Peptide Eye Serum</span><span class="rt-pairing-chip">Caviar Lift Serum</span></div></div>
+  </div>
+</section>
+
+<!-- Support -->
+<section class="rt-support">
+  <div class="rt-support__header">
+    <span class="brand-eyebrow">Complete your routine</span>
+    <h2 class="rt-support__heading">Two essentials that support every serum.</h2>
+    <p class="rt-support__intro">Our Barrier Cream and Facial Spray are designed to work alongside all six serums — sealing in actives and preparing skin for maximum absorption.</p>
+  </div>
+  <div class="rt-support-cards">
+    <div class="rt-support-card"><div class="rt-support-card__label">Every routine</div><h3 class="rt-support-card__name">Sebble Barrier Cream</h3><p class="rt-support-card__desc">The final step in every routine. Ceramide NP and Shea Butter seal in your serum's active ingredients and prevent overnight moisture loss.</p><a href="product.html" class="brand-btn">Shop Barrier Cream</a></div>
+    <div class="rt-support-card"><div class="rt-support-card__label">Enhance absorption</div><h3 class="rt-support-card__name">Sebble Facial Spray</h3><p class="rt-support-card__desc">Applied before your serum on slightly damp skin, the facial spray prepares the surface to maximise active ingredient penetration.</p><a href="product.html" class="brand-btn">Shop Facial Spray</a></div>
+  </div>
+</section>
+
+<!-- Mistakes -->
+<section class="rt-mistakes">
+  <div class="rt-mistakes__header">
+    <span class="brand-eyebrow">Common pitfalls</span>
+    <h2 class="brand-heading rt-mistakes__heading">Mistakes to avoid when building your routine.</h2>
+  </div>
+  <div class="rt-mistake-grid">
+    <div class="rt-mistake-card"><div class="rt-mistake-card__num">01</div><h3 class="rt-mistake-card__title">Layering incompatible actives</h3><p class="rt-mistake-card__desc">Mixing AHAs/BHAs with Retinol in the same routine causes significant irritation. Use them on alternate evenings — they'll both work better for it.</p></div>
+    <div class="rt-mistake-card"><div class="rt-mistake-card__num">02</div><h3 class="rt-mistake-card__title">Skipping SPF with actives</h3><p class="rt-mistake-card__desc">Vitamin C, AHAs, BHAs, and Retinol all increase photosensitivity. Without SPF, you're undoing the benefits. SPF 30 minimum, every morning.</p></div>
+    <div class="rt-mistake-card"><div class="rt-mistake-card__num">03</div><h3 class="rt-mistake-card__title">Too many new products at once</h3><p class="rt-mistake-card__desc">If your skin reacts, you'll have no way to identify the cause. Introduce one new product per two-week period to accurately assess tolerance.</p></div>
+    <div class="rt-mistake-card"><div class="rt-mistake-card__num">04</div><h3 class="rt-mistake-card__title">Not waiting for absorption</h3><p class="rt-mistake-card__desc">Applying moisturiser immediately after serum dilutes the active ingredients. Give each product 60–90 seconds to penetrate before applying the next.</p></div>
+    <div class="rt-mistake-card"><div class="rt-mistake-card__num">05</div><h3 class="rt-mistake-card__title">Over-exfoliating</h3><p class="rt-mistake-card__desc">Using acids or Retinol every night breaks down the skin barrier and triggers inflammation. Every other night is the correct frequency, especially initially.</p></div>
+    <div class="rt-mistake-card"><div class="rt-mistake-card__num">06</div><h3 class="rt-mistake-card__title">Abandoning the routine too early</h3><p class="rt-mistake-card__desc">Meaningful skin changes take 6–12 weeks of consistent use. Switching before this window closes means you'll never know what was actually working.</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="rt-cta">
+  <div class="rt-cta__inner">
+    <span class="brand-eyebrow brand-eyebrow--light">Not sure where to start?</span>
+    <h2 class="brand-heading brand-heading--light rt-cta__heading">Let us build your routine for you.</h2>
+    <p class="rt-cta__body">Answer five questions and we'll recommend the right serums for your skin goals, type, and experience with active ingredients.</p>
+    <div class="rt-cta__btns">
+      <a href="sit.html?sit=full" class="brand-btn brand-btn--light">Build my routine</a>
+      <a href="serum-finder.html" class="brand-btn brand-btn--outline-light">Take the Quiz</a>
+      <a href="collection.html" class="brand-btn brand-btn--outline-light">Browse Serums</a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.rt-concern-tab');
+  var panels=document.querySelectorAll('.rt-concern-panel');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click',function(){
+      var idx=tab.dataset.tab;
+      tabs.forEach(function(t){t.classList.remove('is-active');});
+      panels.forEach(function(p){p.classList.remove('is-active');});
+      tab.classList.add('is-active');
+      var target=document.getElementById('concern-panel-'+idx);
+      if(target)target.classList.add('is-active');
+    });
+  });
+})();
+</script>
+
+<!-- BAG OVERLAY + DRAWER -->
+<div class="bag-overlay" id="bag-overlay"></div>
+<div class="bag-drawer" id="bag-drawer" role="dialog" aria-label="Shopping bag" aria-hidden="true">
+  <div class="bag-drawer__header">
+    <div>
+      <p class="bag-drawer__title">Your Ritual</p>
+      <p class="bag-drawer__count">0 items</p>
+    </div>
+    <button class="bag-drawer__close" id="bag-close" aria-label="Close bag">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 1l14 14M15 1L1 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="bag-drawer__body">
+    <div class="bag-drawer__empty">
+      <svg class="bag-drawer__empty-icon" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 20h28l-3.5 21H17.5L14 20z" stroke="#030706" stroke-width="1.5" stroke-linejoin="round"/><path d="M21 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#030706" stroke-width="1.5"/></svg>
+      <h3 class="bag-drawer__empty-title">Your ritual awaits.</h3>
+      <p class="bag-drawer__empty-sub">Add a serum to get started.<br>Free delivery on orders over £60.</p>
+      <a href="collection.html" class="bag-drawer__cta" id="bag-explore">Explore Serums</a>
+    </div>
+  </div>
+  <div class="bag-drawer__footer" style="display:none">
+    <div class="bag-drawer__subtotal"><span>Subtotal</span><span>£0.00</span></div>
+    <button class="bag-drawer__checkout">Proceed to Checkout</button>
+  </div>
+</div>
+<script>
+// ── BAG + ACCOUNT ─────────────────────────
+(function() {
+  var overlay  = document.getElementById('bag-overlay');
+  var drawer   = document.getElementById('bag-drawer');
+  var closeBtn = document.getElementById('bag-close');
+  var cartBtns = document.querySelectorAll('.header-cart-btn');
+  var acctWrap = document.querySelector('.acct-wrap');
+
+  function openBag() {
+    drawer.classList.add('is-open');
+    overlay.classList.add('is-open');
+    drawer.setAttribute('aria-hidden','false');
+  }
+  function closeBag() {
+    drawer.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden','true');
+  }
+
+  cartBtns.forEach(function(b){ b.addEventListener('click', openBag); });
+  if (closeBtn) closeBtn.addEventListener('click', closeBag);
+  if (overlay)  overlay.addEventListener('click', closeBag);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeBag(); });
+
+  // Wrap "Account" link in .acct-wrap if not already
+  var acctLinks = document.querySelectorAll('.header-actions a');
+  acctLinks.forEach(function(a) {
+    if (a.textContent.trim() === 'Account') {
+      var wrap = document.createElement('div');
+      wrap.className = 'acct-wrap';
+      var dd = document.createElement('div');
+      dd.className = 'acct-dropdown';
+      dd.innerHTML = '<a href="#">Sign In</a><a href="#">Create Account</a><a href="#">Order History</a>';
+      a.parentNode.insertBefore(wrap, a);
+      wrap.appendChild(a);
+      wrap.appendChild(dd);
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        wrap.classList.toggle('is-open');
+      });
+      document.addEventListener('click', function(e) {
+        if (!wrap.contains(e.target)) wrap.classList.remove('is-open');
+      });
+    }
+  });
+})();
+</script>
+
+<!-- SITE FOOTER -->
+<footer class="site-footer-global">
+  <div class="sfg-inner">
+    <div class="sfg-brand">
+      <a href="index.html" class="sfg-logo"><img src="sebble-logo.png" alt="Sebble" class="sfg-logo__img"></a>
+      <p class="sfg-tagline">Formulated with clinical-grade actives,<br>designed for your daily ritual.</p>
+    </div>
+    <nav class="sfg-nav">
+      <div class="sfg-col">
+        <span class="sfg-col-head">Shop</span>
+        <a href="collection.html">All Serums</a>
+        <a href="serum-finder.html">Find My Serum</a>
+        <a href="routine.html">Build a Routine</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Learn</span>
+        <a href="ingredients.html">Ingredients</a>
+        <a href="about.html">Our Story</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Policies</span>
+        <a href="#">Shipping & Delivery</a>
+        <a href="#">Returns & Refunds</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </nav>
+  </div>
+  <div class="sfg-bottom">
+    <p>© 2026 Sebble. All rights reserved.</p>
+    <nav class="sfg-bottom-links"><a href="ingredients.html">Ingredients</a><a href="contact.html">Contact</a></nav>
+    <p>Cruelty-free · Fragrance-free · EU compliant</p>
+  </div>
+</footer>
+<script>
+(function(){
+  var s={threshold:0.08,rootMargin:'0px 0px -4% 0px'};
+  var g={threshold:0.05,rootMargin:'0px 0px -2% 0px'};
+  var solo=new IntersectionObserver(function(en){en.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add('is-visible');solo.unobserve(e.target);});},s);
+  var grp=new IntersectionObserver(function(en){en.forEach(function(e){if(!e.isIntersecting)return;e.target.querySelectorAll('.reveal').forEach(function(c){c.classList.add('is-visible');solo.unobserve(c);});grp.unobserve(e.target);});},g);
+  document.querySelectorAll('.reveal').forEach(function(el){if(!el.closest('.reveal-group'))solo.observe(el);});
+  document.querySelectorAll('.reveal-group').forEach(function(g){grp.observe(g);});
+})();
+</script>
+<script src="sit-knowledge.js"></script>
+<script src="sit-widget.js"></script>
+</body>
+</html>

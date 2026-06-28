@@ -1,0 +1,203 @@
+<section class="hp-support section">
+  <div class="container">
+
+    {%- if section.settings.label != blank or section.settings.title != blank -%}
+      <div class="hp-support__header reveal">
+        {%- if section.settings.label != blank -%}
+          <span class="hp-section-label">{{ section.settings.label }}</span>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="hp-support__title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="hp-support__grid reveal">
+      {%- for block in section.blocks -%}
+        {%- assign prod = block.settings.product -%}
+        <div class="hp-support-card hp-support-card--{{ forloop.index }}" {{ block.shopify_attributes }}>
+
+          <div class="hp-support-card__image-col">
+            {%- if prod != blank and prod.featured_image -%}
+              {{- prod.featured_image | image_url: width: 800 | image_tag:
+                  loading: 'lazy',
+                  alt: prod.featured_image.alt | default: prod.title,
+                  class: 'hp-support-card__img' -}}
+            {%- elsif block.settings.image != blank -%}
+              {{- block.settings.image | image_url: width: 800 | image_tag:
+                  loading: 'lazy',
+                  alt: block.settings.headline,
+                  class: 'hp-support-card__img' -}}
+            {%- else -%}
+              {{ 'product-3' | placeholder_svg_tag: 'hp-support-card__img' }}
+            {%- endif -%}
+          </div>
+
+          <div class="hp-support-card__content-col">
+            {%- if block.settings.eyebrow != blank -%}
+              <span class="hp-support-card__eyebrow">{{ block.settings.eyebrow }}</span>
+            {%- endif -%}
+            <h3 class="hp-support-card__headline">
+              {%- if block.settings.headline != blank -%}
+                {{ block.settings.headline }}
+              {%- elsif prod != blank -%}
+                {{ prod.title }}
+              {%- endif -%}
+            </h3>
+            <p class="hp-support-card__body">
+              {%- if block.settings.body != blank -%}
+                {{ block.settings.body }}
+              {%- elsif prod != blank and prod.description != blank -%}
+                {{ prod.description | strip_html | truncatewords: 30 }}
+              {%- endif -%}
+            </p>
+            {%- if block.settings.detail_1 != blank -%}
+              <ul class="hp-support-card__details">
+                {%- if block.settings.detail_1 != blank -%}<li>{{ block.settings.detail_1 }}</li>{%- endif -%}
+                {%- if block.settings.detail_2 != blank -%}<li>{{ block.settings.detail_2 }}</li>{%- endif -%}
+                {%- if block.settings.detail_3 != blank -%}<li>{{ block.settings.detail_3 }}</li>{%- endif -%}
+              </ul>
+            {%- endif -%}
+            <div class="hp-support-card__footer">
+              {%- if prod != blank -%}
+                <span class="hp-support-card__price">{{ prod.price_min | money }}</span>
+              {%- endif -%}
+              {%- if prod != blank -%}
+                <a href="{{ prod.url }}" class="btn btn--primary">
+                  {{ block.settings.cta_label | default: 'Shop Now' }}
+                </a>
+              {%- elsif block.settings.cta_url != blank -%}
+                <a href="{{ block.settings.cta_url }}" class="btn btn--primary">
+                  {{ block.settings.cta_label | default: 'Shop Now' }}
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HP — Support Products",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product card",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image override",
+          "info": "Falls back to product featured image"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow label",
+          "default": "The Cream"
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Headline",
+          "default": "Your ritual, complete."
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body copy",
+          "default": "A rich barrier cream designed to seal in everything your serum does."
+        },
+        {
+          "type": "text",
+          "id": "detail_1",
+          "label": "Detail bullet 1",
+          "default": "Ceramides + Shea Butter"
+        },
+        {
+          "type": "text",
+          "id": "detail_2",
+          "label": "Detail bullet 2"
+        },
+        {
+          "type": "text",
+          "id": "detail_3",
+          "label": "Detail bullet 3"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA URL (fallback if no product)"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Complete the Ritual"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Beyond the serum"
+    }
+  ],
+  "presets": [
+    {
+      "name": "HP — Support Products",
+      "settings": {
+        "label": "Complete the Ritual",
+        "title": "Beyond the serum"
+      },
+      "blocks": [
+        {
+          "type": "product_card",
+          "settings": {
+            "eyebrow": "The Cream",
+            "headline": "Your ritual, complete.",
+            "body": "A rich barrier cream designed to seal in everything your serum does. Ceramide-forward formula for all skin types.",
+            "detail_1": "Ceramides + Shea Butter",
+            "detail_2": "Fragrance-free",
+            "detail_3": "Morning & evening use",
+            "cta_label": "Shop the Cream"
+          }
+        },
+        {
+          "type": "product_card",
+          "settings": {
+            "eyebrow": "The Spray",
+            "headline": "Set, refresh, protect.",
+            "body": "A weightless facial spray that preps skin before serums and refreshes throughout the day.",
+            "detail_1": "Thermal Water + Niacinamide",
+            "detail_2": "Oil-control mist",
+            "detail_3": "Travel-friendly 100ml",
+            "cta_label": "Shop the Spray"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

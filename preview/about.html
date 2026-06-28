@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Sebble</title>
+<style>
+:root {
+  --c-black:      #030706;
+  --c-white:      #ffffff;
+  --c-bg:         #f8f7f5;
+  --c-grey:       #dddcdc;
+  --c-grey-mid:   #a4b09e;
+  --c-green-dark: #142b1b;
+  --c-green-rich: #2c4f31;
+  --c-green-mid:  #49724a;
+  --c-green-sage: #819d7c;
+  --c-green-mint: #cde8c9;
+  --c-green-pale: #dddcdc;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --header-h:     72px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-family: var(--font-body); background: #faf9f6; color: var(--c-black); }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+
+/* Header */
+
+
+
+
+
+
+
+/* Shared */
+.brand-eyebrow { display: inline-block; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--c-green-mid); }
+.brand-eyebrow--light { color: var(--c-green-mint); }
+.brand-heading { font-family: var(--font-heading); font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; color: var(--c-black); }
+.brand-heading em { font-style: italic; color: var(--c-green-rich); }
+.brand-heading--light { color: var(--c-white); }
+.brand-heading--light em { color: var(--c-green-mint); }
+.brand-body { font-family: var(--font-body); font-size: 1rem; line-height: 1.7; color: #4a5246; }
+.brand-body--light { color: rgba(255,255,255,0.72); }
+.brand-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.875rem 2rem; background: var(--c-green-dark); color: var(--c-white); font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.05em; text-decoration: none; border: 1.5px solid var(--c-green-dark); border-radius: 100px; cursor: pointer; transition: background 0.25s, transform 0.2s; }
+.brand-btn:hover { background: var(--c-green-rich); border-color: var(--c-green-rich); }
+.brand-btn--ghost { background: transparent; color: var(--c-green-dark); }
+.brand-btn--ghost:hover { background: var(--c-green-dark); color: var(--c-white); }
+.brand-btn--light { background: var(--c-white); color: var(--c-green-dark); border-color: var(--c-white); }
+.brand-btn--outline-light { background: transparent; color: var(--c-white); border-color: rgba(255,255,255,0.4); }
+.brand-btn--outline-light:hover { background: rgba(255,255,255,0.1); border-color: var(--c-white); }
+
+/* Hero */
+.ab-hero { display: grid; grid-template-columns: 1.1fr 0.9fr; min-height: 100dvh; background: #faf9f6; }
+.ab-hero__img-col { position: relative; overflow: hidden; }
+.ab-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.ab-hero__img-placeholder { position: absolute; inset: 0; background: linear-gradient(160deg, #cde8c9 0%, #819d7c 100%); }
+.ab-hero__content-col { display: flex; flex-direction: column; justify-content: flex-end; padding: 5rem 4rem 5rem 4.5rem; padding-top: calc(var(--header-h) + 3rem); }
+.ab-hero__label { margin-bottom: 1.75rem; }
+.ab-hero__heading { font-size: clamp(2.75rem, 4vw, 4.25rem); margin: 0 0 2rem; max-width: 14ch; }
+.ab-hero__para { margin: 0 0 2.5rem; max-width: 42ch; }
+.ab-hero__btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+/* Mission */
+.ab-mission { background: var(--c-green-mint); padding: 8rem 4rem; text-align: center; }
+.ab-mission__inner { max-width: 900px; margin: 0 auto; }
+.ab-mission__statement { font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 3.25rem); font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; color: var(--c-green-dark); margin: 1.5rem 0 0; }
+.ab-mission__statement em { font-style: italic; }
+
+/* Founder */
+.ab-founder { display: grid; grid-template-columns: 1fr 1fr; background: var(--c-white); }
+.ab-founder__img-col { position: relative; min-height: 620px; overflow: hidden; }
+.ab-founder__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ab-founder__content { padding: 6rem 4.5rem 6rem 5rem; display: flex; flex-direction: column; justify-content: center; }
+.ab-founder__label { margin-bottom: 1.5rem; }
+.ab-founder__heading { font-size: clamp(1.875rem, 2.5vw, 2.5rem); margin: 0 0 2rem; max-width: 18ch; }
+.ab-founder__note { font-family: var(--font-body); font-size: 1rem; line-height: 1.75; color: #4a5246; margin: 0 0 1.25rem; max-width: 48ch; }
+.ab-founder__sig { font-family: var(--font-heading); font-style: italic; font-size: 1.375rem; color: var(--c-green-rich); margin-top: 1.25rem; }
+
+/* Values */
+.ab-values { background: #faf9f6; padding: 7rem 4rem; }
+.ab-values__header { margin-bottom: 4rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.ab-values__heading { font-size: clamp(2rem, 3vw, 3rem); margin: 0; max-width: 20ch; }
+.ab-values__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--c-grey); }
+.ab-value-card { background: #faf9f6; padding: 3rem 2.5rem; }
+.ab-value-card__num { font-family: var(--font-heading); font-size: 3.5rem; font-weight: 400; color: var(--c-green-mint); line-height: 1; margin-bottom: 2rem; }
+.ab-value-card__title { font-family: var(--font-body); font-size: 1.0625rem; font-weight: 600; color: var(--c-black); margin: 0 0 0.875rem; }
+.ab-value-card__desc { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.7; color: #5a6456; margin: 0; }
+
+/* Footprint */
+.ab-footprint { background: var(--c-green-dark); padding: 8rem 4rem; }
+.ab-footprint__inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; max-width: 1280px; margin: 0 auto; }
+.ab-footprint__label { margin-bottom: 1.5rem; }
+.ab-footprint__heading { font-size: clamp(2rem, 3vw, 2.875rem); margin: 0 0 1.5rem; max-width: 18ch; }
+.ab-footprint__body { max-width: 46ch; margin: 0 0 2.5rem; }
+.ab-footprint__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.12); }
+.ab-stat { background: var(--c-green-dark); padding: 2.5rem 2rem; }
+.ab-stat__num { font-family: var(--font-heading); font-size: 2.75rem; font-weight: 400; color: var(--c-green-mint); line-height: 1; margin-bottom: 0.5rem; }
+.ab-stat__label { font-family: var(--font-body); font-size: 0.875rem; color: rgba(255,255,255,0.6); line-height: 1.4; }
+
+/* Philosophy */
+.ab-philosophy { background: var(--c-white); padding: 7rem 4rem; }
+.ab-philosophy__header { margin-bottom: 5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.ab-philosophy__heading { font-size: clamp(2rem, 3vw, 3rem); margin: 0; max-width: 22ch; }
+.ab-philosophy__row { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--c-grey); margin-bottom: 1px; }
+.ab-philosophy__img-wrap { position: relative; min-height: 440px; overflow: hidden; }
+.ab-philosophy__img-wrap img, .ab-philosophy__img-wrap .img-ph { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ab-philosophy__text { background: #faf9f6; padding: 5rem 4.5rem; display: flex; flex-direction: column; justify-content: center; }
+.ab-philosophy__row--flipped .ab-philosophy__img-wrap { order: 2; }
+.ab-philosophy__row--flipped .ab-philosophy__text { order: 1; }
+.ab-philosophy__step { font-family: var(--font-heading); font-size: 1rem; font-style: italic; color: var(--c-green-sage); margin-bottom: 0.75rem; }
+.ab-philosophy__title { font-family: var(--font-heading); font-size: clamp(1.5rem, 2vw, 2rem); font-weight: 400; color: var(--c-black); margin: 0 0 1.25rem; }
+.ab-philosophy__desc { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.75; color: #5a6456; margin: 0; max-width: 44ch; }
+
+/* Quote */
+.ab-quote { position: relative; min-height: 560px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--c-green-dark); }
+.ab-quote__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.18; }
+.ab-quote__inner { position: relative; z-index: 1; text-align: center; padding: 5rem 4rem; max-width: 900px; }
+.ab-quote__text { font-family: var(--font-heading); font-size: clamp(1.875rem, 3.5vw, 3rem); font-weight: 400; font-style: italic; line-height: 1.3; color: var(--c-white); margin: 0 0 2rem; }
+.ab-quote__attr { font-family: var(--font-body); font-size: 0.8125rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-green-mint); }
+
+/* CTA */
+.ab-cta { background: #faf9f6; padding: 8rem 4rem; text-align: center; }
+.ab-cta__inner { max-width: 680px; margin: 0 auto; }
+.ab-cta__heading { font-size: clamp(2rem, 3.5vw, 3.25rem); margin: 1.25rem 0 1.5rem; }
+.ab-cta__body { margin: 0 0 2.5rem; }
+.ab-cta__btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* ── HEADER (landing page style) ── */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  height: 72px;
+  background: rgba(250,249,246,0.88);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--c-grey);
+  display: flex; align-items: center;
+}
+.site-header .container {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; max-width: 1320px; margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+.header-logo { display: inline-flex; text-decoration: none; flex-shrink: 0; overflow: hidden; height: 40px; }
+.header-logo__img { height: 148px; width: auto; margin-top: -46px; display: block; mix-blend-mode: multiply; }
+.header-nav { display: flex; gap: 2.25rem; }
+.header-nav a {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 0.8125rem; color: var(--c-green-rich);
+  letter-spacing: 0.04em; transition: color 0.2s; text-decoration: none;
+}
+.header-nav a:hover { color: var(--c-black); }
+.header-actions { display: flex; align-items: center; gap: 1.25rem; }
+.header-actions a {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 0.8125rem; color: var(--c-green-rich); text-decoration: none;
+}
+.header-cart-btn {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1.125rem;
+  background: var(--c-black); color: var(--c-white);
+  border-radius: 100px; font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.08em; border: none; cursor: pointer;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+}
+@media (max-width: 768px) { .header-nav { display: none; } }
+
+
+/* ── BAG DRAWER ── */
+.bag-overlay { position: fixed; inset: 0; background: rgba(3,7,6,0.45); z-index: 900; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.bag-overlay.is-open { opacity: 1; pointer-events: all; }
+.bag-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100vw); background: #faf9f6; z-index: 901; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); display: flex; flex-direction: column; }
+.bag-drawer.is-open { transform: translateX(0); }
+.bag-drawer__header { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 1.75rem; border-bottom: 1px solid #dddcdc; }
+.bag-drawer__title { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #030706; }
+.bag-drawer__count { font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #819d7c; margin-top: 0.125rem; }
+.bag-drawer__close { background: none; border: none; cursor: pointer; padding: 0.5rem; color: #030706; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s; }
+.bag-drawer__close:hover { background: #dddcdc; }
+.bag-drawer__body { flex: 1; overflow-y: auto; display: flex; align-items: center; justify-content: center; }
+.bag-drawer__empty { text-align: center; padding: 3rem 2rem; }
+.bag-drawer__empty-icon { width: 56px; height: 56px; margin: 0 auto 1.5rem; opacity: 0.25; }
+.bag-drawer__empty-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.375rem; font-weight: 400; color: #030706; margin-bottom: 0.625rem; }
+.bag-drawer__empty-sub { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: #819d7c; line-height: 1.6; margin-bottom: 1.75rem; }
+.bag-drawer__cta { display: inline-flex; align-items: center; padding: 0.875rem 2rem; background: #030706; color: #ffffff; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.05em; text-decoration: none; transition: background 0.2s; }
+.bag-drawer__cta:hover { background: #142b1b; }
+.bag-drawer__footer { padding: 1.5rem 1.75rem; border-top: 1px solid #dddcdc; }
+.bag-drawer__subtotal { display: flex; justify-content: space-between; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: #030706; margin-bottom: 1rem; }
+.bag-drawer__checkout { display: block; width: 100%; padding: 1rem; background: #142b1b; color: #ffffff; border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.06em; cursor: pointer; text-align: center; transition: background 0.2s; }
+.bag-drawer__checkout:hover { background: #2c4f31; }
+
+/* ── ACCOUNT DROPDOWN ── */
+.acct-wrap { position: relative; }
+.acct-dropdown { position: absolute; top: calc(100% + 0.75rem); right: 0; width: 200px; background: #faf9f6; border: 1px solid #dddcdc; border-radius: 12px; box-shadow: 0 8px 32px rgba(3,7,6,0.10); overflow: hidden; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.2s, transform 0.2s; z-index: 200; }
+.acct-wrap.is-open .acct-dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
+.acct-dropdown a { display: block; padding: 0.75rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; color: #030706; text-decoration: none; transition: background 0.15s; border-bottom: 1px solid #dddcdc; }
+.acct-dropdown a:last-child { border-bottom: none; }
+.acct-dropdown a:hover { background: #cde8c9; }
+
+/* ── GLOBAL FOOTER ── */
+.site-footer-global { background: var(--c-black, #030706); padding: 6rem clamp(1.5rem,4vw,3rem) 2.75rem; }
+.sfg-inner { max-width: 1320px; margin-inline: auto; display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-bottom: 4rem; }
+.sfg-logo { display: inline-flex; overflow: hidden; height: 42px; margin-bottom: 1.5rem; }
+.sfg-logo__img { height: 172px; width: auto; margin-top: -66px; display: block; filter: brightness(0) invert(1); opacity: 0.9; }
+.sfg-tagline { font-family: 'DM Sans', sans-serif; font-size: 0.9688rem; line-height: 1.75; color: rgba(173,217,168,0.55); }
+.sfg-nav { display: grid; grid-template-columns: repeat(3,1fr); gap: 2.5rem; }
+.sfg-col { display: flex; flex-direction: column; gap: 1rem; }
+.sfg-col-head { font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 0.25rem; }
+.sfg-col a { font-family: 'DM Sans', sans-serif; font-size: 0.9688rem; color: rgba(173,217,168,0.65); text-decoration: none; transition: color 0.2s; }
+.sfg-col a:hover { color: #add9a8; }
+.sfg-bottom { max-width: 1320px; margin-inline: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.08); }
+.sfg-bottom p { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: rgba(173,217,168,0.3); letter-spacing: 0.06em; }
+.sfg-bottom-links { display: flex; gap: 1.75rem; }
+.sfg-bottom-links a { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: rgba(173,217,168,0.6); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+.sfg-bottom-links a:hover { color: #add9a8; }
+@media (max-width: 768px) {
+  .sfg-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .sfg-nav { grid-template-columns: 1fr 1fr; }
+  .sfg-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 1s cubic-bezier(0.22,1,0.36,1),transform 1s cubic-bezier(0.22,1,0.36,1),filter 1s cubic-bezier(0.22,1,0.36,1);will-change:opacity,transform;}
+.reveal[data-anim="fade-left"]{transform:translateX(-22px);}
+.reveal[data-anim="fade-right"]{transform:translateX(22px);}
+.reveal[data-anim="blur"]{transform:translateY(12px);filter:blur(5px);}
+.reveal[data-anim="fade-in"]{transform:none;}
+.reveal.is-visible{opacity:1;transform:none;filter:none;}
+.reveal-group .reveal:nth-child(1){transition-delay:calc(var(--stagger,65ms)*0);}
+.reveal-group .reveal:nth-child(2){transition-delay:calc(var(--stagger,65ms)*1);}
+.reveal-group .reveal:nth-child(3){transition-delay:calc(var(--stagger,65ms)*2);}
+.reveal-group .reveal:nth-child(4){transition-delay:calc(var(--stagger,65ms)*3);}
+.reveal-group .reveal:nth-child(n+5){transition-delay:calc(var(--stagger,65ms)*4);}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="header-logo"><img src="sebble-logo.png" alt="Sebble" class="header-logo__img"></a>
+    <nav class="header-nav">
+      <a href="collection.html">Shop</a>
+      <a href="routine.html">Routine</a>
+      <a href="ingredients.html">Ingredients</a>
+      <a href="about.html">About</a>
+      <a href="sit.html" class="header-nav__sit" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;"><span style="width:6px;height:6px;border-radius:50%;background:#49724a;display:inline-block;"></span>Skin Consultant</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#">Account</a>
+      <button class="header-cart-btn">Bag (0)</button>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="ab-hero">
+  <div class="ab-hero__img-col">
+    <img class="ab-hero__img" src="https://picsum.photos/seed/velour-about/900/1200" alt="Sebble about">
+  </div>
+  <div class="ab-hero__content-col">
+    <span class="brand-eyebrow ab-hero__label">Our Story</span>
+    <h1 class="brand-heading ab-hero__heading reveal">Born from a belief that skin deserves better.</h1>
+    <p class="brand-body ab-hero__para">We spent two years formulating before releasing a single product. No shortcuts. No compromises on what goes on your skin.</p>
+    <div class="ab-hero__btns">
+      <a href="ingredients.html" class="brand-btn">Our Ingredients</a>
+      <a href="collection.html" class="brand-btn brand-btn--ghost">Shop Serums</a>
+    </div>
+  </div>
+</section>
+
+<!-- Mission -->
+<section class="ab-mission">
+  <div class="ab-mission__inner">
+    <span class="brand-eyebrow">What we believe</span>
+    <p class="ab-mission__statement reveal" data-anim="blur">Effective skincare shouldn't require a chemistry degree to understand — <em>or a compromise</em> on what goes on your skin.</p>
+  </div>
+</section>
+
+<!-- Founder -->
+<section class="ab-founder">
+  <div class="ab-founder__img-col">
+    <img class="ab-founder__img" src="https://picsum.photos/seed/founder-velour/700/900" alt="Mia Calloway, Founder">
+  </div>
+  <div class="ab-founder__content">
+    <span class="brand-eyebrow ab-founder__label">A note from our founder</span>
+    <h2 class="brand-heading ab-founder__heading reveal">We started asking why not better?</h2>
+    <p class="ab-founder__note reveal">Sebble was founded in 2021 after years of frustration with skincare that promised everything and delivered very little. Most products were either clinically effective but harsh, or gentle but completely useless.</p>
+    <p class="ab-founder__note">We spent two years with cosmetic chemists, dermatologists, and botanists before formulating our first serum. Every ingredient has a reason. Every concentration has been tested. No filler. No fragrance. No compromise.</p>
+    <p class="ab-founder__sig">— Mia Calloway, Founder</p>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="ab-values">
+  <div class="ab-values__header">
+    <span class="brand-eyebrow">What we stand for</span>
+    <h2 class="brand-heading ab-values__heading reveal">The principles behind every formula.</h2>
+  </div>
+  <div class="ab-values__grid reveal-group" style="--stagger:90ms">
+    <div class="ab-value-card reveal">
+      <div class="ab-value-card__num">01</div>
+      <h3 class="ab-value-card__title">Transparency</h3>
+      <p class="ab-value-card__desc">We publish full INCI ingredient lists, concentration ranges, and clinical study references for every formula. No proprietary blends, no hidden actives.</p>
+    </div>
+    <div class="ab-value-card reveal">
+      <div class="ab-value-card__num">02</div>
+      <h3 class="ab-value-card__title">Efficacy first</h3>
+      <p class="ab-value-card__desc">Every ingredient earns its place by demonstrated clinical effect, not cost, trend, or marketing value. If the evidence isn't there, neither is the ingredient.</p>
+    </div>
+    <div class="ab-value-card reveal">
+      <div class="ab-value-card__num">03</div>
+      <h3 class="ab-value-card__title">Sustainability</h3>
+      <p class="ab-value-card__desc">Recyclable glass packaging, carbon-neutral shipping, and certified sustainable sourcing across our entire supply chain.</p>
+    </div>
+    <div class="ab-value-card reveal">
+      <div class="ab-value-card__num">04</div>
+      <h3 class="ab-value-card__title">Simplicity</h3>
+      <p class="ab-value-card__desc">Fewer, better products. A complete routine shouldn't require twelve steps. Our range is designed to cover every primary skin concern.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footprint -->
+<section class="ab-footprint">
+  <div class="ab-footprint__inner">
+    <div>
+      <span class="brand-eyebrow brand-eyebrow--light ab-footprint__label">Our commitment</span>
+      <h2 class="brand-heading brand-heading--light ab-footprint__heading reveal">Minimal footprint. Conscious formulation.</h2>
+      <p class="brand-body brand-body--light ab-footprint__body">We hold ourselves to a higher standard — recycled glass packaging, carbon-neutral shipping, and certified sustainable ingredient sourcing at every stage of production.</p>
+      <a href="about.html" class="brand-btn brand-btn--outline-light">Sustainability report</a>
+    </div>
+    <div class="ab-footprint__stats">
+      <div class="ab-stat"><div class="ab-stat__num">100%</div><div class="ab-stat__label">Recycled glass packaging across our range</div></div>
+      <div class="ab-stat"><div class="ab-stat__num">0</div><div class="ab-stat__label">Synthetic fragrances or essential oils in any formula</div></div>
+      <div class="ab-stat"><div class="ab-stat__num">2 yrs</div><div class="ab-stat__label">Formulation and testing before our first product launched</div></div>
+      <div class="ab-stat"><div class="ab-stat__num">8</div><div class="ab-stat__label">Targeted serums, each addressing a primary skin concern</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Philosophy -->
+<section class="ab-philosophy">
+  <div class="ab-philosophy__header">
+    <span class="brand-eyebrow">How we think</span>
+    <h2 class="brand-heading ab-philosophy__heading">The thinking behind our formulas.</h2>
+  </div>
+
+  <div class="ab-philosophy__row">
+    <div class="ab-philosophy__img-wrap">
+      <img src="https://picsum.photos/seed/phil-01/800/600" alt="">
+    </div>
+    <div class="ab-philosophy__text">
+      <p class="ab-philosophy__step">Step one</p>
+      <h3 class="ab-philosophy__title">Start with the evidence</h3>
+      <p class="ab-philosophy__desc">Every active ingredient is selected based on peer-reviewed clinical evidence. We look at study design, concentration, and outcomes measured — not just whether the headline sounds impressive.</p>
+    </div>
+  </div>
+
+  <div class="ab-philosophy__row ab-philosophy__row--flipped">
+    <div class="ab-philosophy__img-wrap">
+      <img src="https://picsum.photos/seed/phil-02/800/600" alt="">
+    </div>
+    <div class="ab-philosophy__text">
+      <p class="ab-philosophy__step">Step two</p>
+      <h3 class="ab-philosophy__title">Formulate for real skin</h3>
+      <p class="ab-philosophy__desc">We work with dermatologists and cosmetic chemists who have spent decades on clinical formulation. Real-world testing on diverse skin types is non-negotiable — no formula ships without it.</p>
+    </div>
+  </div>
+
+  <div class="ab-philosophy__row">
+    <div class="ab-philosophy__img-wrap">
+      <img src="https://picsum.photos/seed/phil-03/800/600" alt="">
+    </div>
+    <div class="ab-philosophy__text">
+      <p class="ab-philosophy__step">Step three</p>
+      <h3 class="ab-philosophy__title">Tell you exactly what's in it</h3>
+      <p class="ab-philosophy__desc">Full ingredient transparency isn't a marketing position for us — it's how we hold ourselves accountable. We publish INCI names, concentration ranges, and the clinical rationale for every active we use.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Quote -->
+<section class="ab-quote">
+  <img class="ab-quote__bg" src="https://picsum.photos/seed/quote-bg/2000/800" alt="">
+  <div class="ab-quote__inner">
+    <blockquote class="ab-quote__text">"Skin is not a surface to be fixed. It is a living system to be understood."</blockquote>
+    <p class="ab-quote__attr">Sebble formulation philosophy</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="ab-cta">
+  <div class="ab-cta__inner">
+    <span class="brand-eyebrow">Ready to start?</span>
+    <h2 class="brand-heading ab-cta__heading">Find your serum in under 60 seconds.</h2>
+    <p class="brand-body ab-cta__body">Answer five simple questions and we'll build a routine tailored to your skin goals, type, and lifestyle.</p>
+    <div class="ab-cta__btns">
+      <a href="serum-finder.html" class="brand-btn">Take the Quiz</a>
+      <a href="collection.html" class="brand-btn brand-btn--ghost">Shop Serums</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- BAG OVERLAY + DRAWER -->
+<div class="bag-overlay" id="bag-overlay"></div>
+<div class="bag-drawer" id="bag-drawer" role="dialog" aria-label="Shopping bag" aria-hidden="true">
+  <div class="bag-drawer__header">
+    <div>
+      <p class="bag-drawer__title">Your Ritual</p>
+      <p class="bag-drawer__count">0 items</p>
+    </div>
+    <button class="bag-drawer__close" id="bag-close" aria-label="Close bag">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 1l14 14M15 1L1 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="bag-drawer__body">
+    <div class="bag-drawer__empty">
+      <svg class="bag-drawer__empty-icon" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 20h28l-3.5 21H17.5L14 20z" stroke="#030706" stroke-width="1.5" stroke-linejoin="round"/><path d="M21 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#030706" stroke-width="1.5"/></svg>
+      <h3 class="bag-drawer__empty-title">Your ritual awaits.</h3>
+      <p class="bag-drawer__empty-sub">Add a serum to get started.<br>Free delivery on orders over £60.</p>
+      <a href="collection.html" class="bag-drawer__cta" id="bag-explore">Explore Serums</a>
+    </div>
+  </div>
+  <div class="bag-drawer__footer" style="display:none">
+    <div class="bag-drawer__subtotal"><span>Subtotal</span><span>£0.00</span></div>
+    <button class="bag-drawer__checkout">Proceed to Checkout</button>
+  </div>
+</div>
+<script>
+// ── BAG + ACCOUNT ─────────────────────────
+(function() {
+  var overlay  = document.getElementById('bag-overlay');
+  var drawer   = document.getElementById('bag-drawer');
+  var closeBtn = document.getElementById('bag-close');
+  var cartBtns = document.querySelectorAll('.header-cart-btn');
+  var acctWrap = document.querySelector('.acct-wrap');
+
+  function openBag() {
+    drawer.classList.add('is-open');
+    overlay.classList.add('is-open');
+    drawer.setAttribute('aria-hidden','false');
+  }
+  function closeBag() {
+    drawer.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden','true');
+  }
+
+  cartBtns.forEach(function(b){ b.addEventListener('click', openBag); });
+  if (closeBtn) closeBtn.addEventListener('click', closeBag);
+  if (overlay)  overlay.addEventListener('click', closeBag);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeBag(); });
+
+  // Wrap "Account" link in .acct-wrap if not already
+  var acctLinks = document.querySelectorAll('.header-actions a');
+  acctLinks.forEach(function(a) {
+    if (a.textContent.trim() === 'Account') {
+      var wrap = document.createElement('div');
+      wrap.className = 'acct-wrap';
+      var dd = document.createElement('div');
+      dd.className = 'acct-dropdown';
+      dd.innerHTML = '<a href="#">Sign In</a><a href="#">Create Account</a><a href="#">Order History</a>';
+      a.parentNode.insertBefore(wrap, a);
+      wrap.appendChild(a);
+      wrap.appendChild(dd);
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        wrap.classList.toggle('is-open');
+      });
+      document.addEventListener('click', function(e) {
+        if (!wrap.contains(e.target)) wrap.classList.remove('is-open');
+      });
+    }
+  });
+})();
+</script>
+
+<!-- SITE FOOTER -->
+<footer class="site-footer-global">
+  <div class="sfg-inner">
+    <div class="sfg-brand">
+      <a href="index.html" class="sfg-logo"><img src="sebble-logo.png" alt="Sebble" class="sfg-logo__img"></a>
+      <p class="sfg-tagline">Formulated with clinical-grade actives,<br>designed for your daily ritual.</p>
+    </div>
+    <nav class="sfg-nav">
+      <div class="sfg-col">
+        <span class="sfg-col-head">Shop</span>
+        <a href="collection.html">All Serums</a>
+        <a href="serum-finder.html">Find My Serum</a>
+        <a href="routine.html">Build a Routine</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Learn</span>
+        <a href="ingredients.html">Ingredients</a>
+        <a href="about.html">Our Story</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Policies</span>
+        <a href="#">Shipping & Delivery</a>
+        <a href="#">Returns & Refunds</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </nav>
+  </div>
+  <div class="sfg-bottom">
+    <p>© 2026 Sebble. All rights reserved.</p>
+    <nav class="sfg-bottom-links"><a href="ingredients.html">Ingredients</a><a href="contact.html">Contact</a></nav>
+    <p>Cruelty-free · Fragrance-free · EU compliant</p>
+  </div>
+</footer>
+<script>
+(function(){
+  var s={threshold:0.08,rootMargin:'0px 0px -4% 0px'};
+  var g={threshold:0.05,rootMargin:'0px 0px -2% 0px'};
+  var solo=new IntersectionObserver(function(en){en.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add('is-visible');solo.unobserve(e.target);});},s);
+  var grp=new IntersectionObserver(function(en){en.forEach(function(e){if(!e.isIntersecting)return;e.target.querySelectorAll('.reveal').forEach(function(c){c.classList.add('is-visible');solo.unobserve(c);});grp.unobserve(e.target);});},g);
+  document.querySelectorAll('.reveal').forEach(function(el){if(!el.closest('.reveal-group'))solo.observe(el);});
+  document.querySelectorAll('.reveal-group').forEach(function(g){grp.observe(g);});
+})();
+</script>
+<script src="sit-knowledge.js"></script>
+<script src="sit-widget.js"></script>
+</body>
+</html>

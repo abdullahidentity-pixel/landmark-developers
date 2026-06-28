@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Sebble Skin</title>
+<style>
+:root{--c-black:#030706;--c-white:#ffffff;--c-bg:#faf9f6;--c-grey:#dddcdc;--c-grey-mid:#a4b09e;--c-green-dark:#142b1b;--c-green-rich:#2c4f31;--c-green-mid:#49724a;--c-green-sage:#819d7c;--c-green-mint:#cde8c9;--font-heading:'Playfair Display',Georgia,serif;--font-body:'DM Sans',system-ui,sans-serif;--header-h:72px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-family:var(--font-body);background:#faf9f6;color:var(--c-black);}
+/* Header */
+
+
+
+
+
+/* Shared */
+.brand-eyebrow{display:inline-block;font-family:var(--font-body);font-size:0.6875rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--c-green-mid);}
+.brand-eyebrow--light{color:var(--c-green-mint);}
+.brand-heading{font-family:var(--font-heading);font-weight:400;line-height:1.1;letter-spacing:-0.02em;color:var(--c-black);}
+.brand-body{font-family:var(--font-body);font-size:1rem;line-height:1.7;color:#4a5246;}
+.brand-btn{display:inline-flex;align-items:center;padding:0.875rem 2rem;background:var(--c-green-dark);color:var(--c-white);font-family:var(--font-body);font-size:0.8125rem;font-weight:500;letter-spacing:0.05em;text-decoration:none;border:1.5px solid var(--c-green-dark);border-radius:100px;cursor:pointer;transition:background 0.25s,transform 0.2s;}
+.brand-btn:hover{background:var(--c-green-rich);}
+.brand-faq-list{list-style:none;border-top:1px solid var(--c-grey);}
+.brand-faq-item summary{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.5rem 0;font-family:var(--font-body);font-size:1rem;font-weight:500;color:var(--c-black);cursor:pointer;list-style:none;border-bottom:1px solid var(--c-grey);}
+.brand-faq-item summary::-webkit-details-marker{display:none;}
+.brand-faq-icon{flex-shrink:0;width:1.25rem;height:1.25rem;position:relative;}
+.brand-faq-icon::before,.brand-faq-icon::after{content:'';position:absolute;top:50%;left:0;width:100%;height:1.5px;background:currentColor;transform:translateY(-50%);transition:transform 0.3s,opacity 0.3s;}
+.brand-faq-icon::after{transform:translateY(-50%) rotate(90deg);}
+.brand-faq-item[open] .brand-faq-icon::after{transform:translateY(-50%) rotate(0deg);opacity:0;}
+.brand-faq-body p{font-family:var(--font-body);font-size:0.9375rem;line-height:1.75;color:#5a6456;padding:1.25rem 0 1.75rem;max-width:72ch;}
+/* Hero */
+.ct-hero{padding:calc(var(--header-h) + 5rem) clamp(1.5rem,5vw,4rem) 6rem;background:#faf9f6;}
+.ct-hero__inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.ct-hero__label{margin-bottom:1.75rem;display:block;}
+.ct-hero__heading{font-size:clamp(2.5rem,4vw,4.25rem);margin:0 0 1.5rem;max-width:15ch;}
+.ct-hero__body{max-width:44ch;margin:0;font-size:1rem;line-height:1.7;color:#4a5246;}
+.ct-hero__right{display:flex;flex-direction:column;gap:1.5rem;padding-bottom:0.5rem;}
+.ct-hero-detail{display:flex;align-items:flex-start;gap:1.25rem;padding:1.5rem;background:var(--c-white);border:1px solid var(--c-grey);}
+.ct-hero-detail__label{font-family:var(--font-body);font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-green-mid);margin-bottom:0.375rem;}
+.ct-hero-detail__value{font-family:var(--font-body);font-size:0.9375rem;color:var(--c-black);font-weight:500;}
+.ct-hero-detail__value a{color:inherit;text-decoration:none;}
+/* Form section */
+.ct-form-section{background:var(--c-white);padding:7rem clamp(1.5rem,5vw,4rem);}
+.ct-form-section__inner{display:grid;grid-template-columns:1fr 1.5fr;gap:6rem;align-items:start;max-width:1280px;margin:0 auto;}
+.ct-form-section__label{margin-bottom:1.5rem;display:block;}
+.ct-form-section__heading{font-size:clamp(1.875rem,2.5vw,2.5rem);margin:0 0 1rem;}
+.ct-form-section__body{font-size:0.9375rem;color:#5a6456;max-width:38ch;line-height:1.75;margin:0;position:sticky;top:calc(var(--header-h, 72px) + 2rem);}
+.ct-form{display:flex;flex-direction:column;gap:1.25rem;}
+.ct-field{display:flex;flex-direction:column;gap:0.5rem;}
+.ct-field label{font-family:var(--font-body);font-size:0.8125rem;font-weight:500;color:var(--c-black);letter-spacing:0.02em;}
+.ct-field input,.ct-field select,.ct-field textarea{width:100%;padding:0.875rem 1.125rem;background:#faf9f6;border:1.5px solid var(--c-grey);font-family:var(--font-body);font-size:0.9375rem;color:var(--c-black);outline:none;appearance:none;transition:border-color 0.2s;}
+.ct-field input:focus,.ct-field select:focus,.ct-field textarea:focus{border-color:var(--c-green-mid);background:var(--c-white);}
+.ct-field textarea{resize:vertical;min-height:140px;}
+.ct-field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23819d7c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;cursor:pointer;}
+.ct-fields-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.ct-form-success{display:none;padding:1.25rem 1.5rem;background:var(--c-green-mint);border-left:3px solid var(--c-green-mid);font-family:var(--font-body);font-size:0.9375rem;color:var(--c-green-dark);}
+.ct-form-success.is-visible{display:block;}
+/* Quick links */
+.ct-links{background:#faf9f6;padding:7rem clamp(1.5rem,5vw,4rem);}
+.ct-links__inner{max-width:1280px;margin:0 auto;}
+.ct-links__header{margin-bottom:3rem;display:flex;flex-direction:column;gap:0.75rem;}
+.ct-links__heading{font-size:clamp(1.875rem,2.5vw,2.625rem);margin:0;}
+.ct-links-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--c-grey);}
+.ct-link-card{background:#faf9f6;padding:2.5rem 2rem;text-decoration:none;display:block;transition:background 0.2s;}
+.ct-link-card:hover{background:var(--c-green-mint);}
+.ct-link-card__label{font-family:var(--font-body);font-size:0.6875rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-green-mid);margin-bottom:0.875rem;}
+.ct-link-card__title{font-family:var(--font-heading);font-size:1.25rem;font-weight:400;color:var(--c-black);margin:0 0 0.5rem;}
+.ct-link-card__desc{font-family:var(--font-body);font-size:0.875rem;line-height:1.65;color:#5a6456;margin:0;}
+/* FAQ */
+.ct-faq{background:var(--c-white);padding:7rem clamp(1.5rem,5vw,4rem);}
+.ct-faq__inner{display:grid;grid-template-columns:1fr 1.5fr;gap:6rem;align-items:start;max-width:1280px;margin:0 auto;}
+.ct-faq__heading{font-size:clamp(1.875rem,2.5vw,2.5rem);margin:0;position:sticky;top:calc(var(--header-h, 72px) + 2rem);}
+/* Newsletter */
+.ct-newsletter{background:var(--c-black);padding:7rem clamp(1.5rem,5vw,4rem);}
+.ct-newsletter__inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.ct-newsletter__label{margin-bottom:1.25rem;display:block;}
+.ct-newsletter__heading{font-family:var(--font-heading);font-size:clamp(1.875rem,2.5vw,2.625rem);font-weight:400;margin:0 0 0.75rem;color:var(--c-white);}
+.ct-newsletter__body{font-size:0.9375rem;color:rgba(255,255,255,0.6);max-width:42ch;line-height:1.7;margin:0;}
+.ct-newsletter__form{display:flex;}
+.ct-newsletter__input{flex:1;padding:1rem 1.5rem;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.15);border-right:none;color:var(--c-white);font-family:var(--font-body);font-size:0.9375rem;outline:none;}
+.ct-newsletter__input::placeholder{color:rgba(255,255,255,0.35);}
+.ct-newsletter__submit{padding:1rem 2rem;background:var(--c-green-mint);border:1.5px solid var(--c-green-mint);border-left:none;color:var(--c-green-dark);font-family:var(--font-body);font-size:0.8125rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap;}
+
+/* Responsive — tablet */
+@media (max-width:960px){
+  .ct-hero__inner,.ct-form-section__inner,.ct-faq__inner,.ct-newsletter__inner{grid-template-columns:1fr;gap:2.5rem;}
+  .ct-hero__inner{align-items:start;}
+  .ct-form-section__body,.ct-faq__heading{position:static;top:auto;max-width:none;}
+  .ct-links-grid{grid-template-columns:1fr 1fr;}
+  .ct-form-section,.ct-links,.ct-faq,.ct-newsletter{padding-top:4.5rem;padding-bottom:4.5rem;}
+  .ct-hero{padding-bottom:4rem;}
+}
+/* Responsive — mobile */
+@media (max-width:600px){
+  .ct-links-grid{grid-template-columns:1fr;}
+  .ct-fields-row{grid-template-columns:1fr;}
+  .ct-newsletter__form{flex-direction:column;gap:0.75rem;}
+  .ct-newsletter__input{border-right:1.5px solid rgba(255,255,255,0.15);}
+  .ct-newsletter__submit{border-left:1.5px solid var(--c-green-mint);padding:0.875rem 2rem;}
+  .ct-hero__heading{max-width:none;}
+}
+
+/* ── HEADER (landing page style) ── */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  height: 72px;
+  background: rgba(250,249,246,0.88);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--c-grey);
+  display: flex; align-items: center;
+}
+.site-header .container {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; max-width: 1320px; margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+.header-logo { display: inline-flex; text-decoration: none; flex-shrink: 0; overflow: hidden; height: 40px; }
+.header-logo__img { height: 148px; width: auto; margin-top: -46px; display: block; mix-blend-mode: multiply; }
+.header-nav { display: flex; gap: 2.25rem; }
+.header-nav a {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 0.8125rem; color: var(--c-green-rich);
+  letter-spacing: 0.04em; transition: color 0.2s; text-decoration: none;
+}
+.header-nav a:hover { color: var(--c-black); }
+.header-actions { display: flex; align-items: center; gap: 1.25rem; }
+.header-actions a {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 0.8125rem; color: var(--c-green-rich); text-decoration: none;
+}
+.header-cart-btn {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1.125rem;
+  background: var(--c-black); color: var(--c-white);
+  border-radius: 100px; font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.08em; border: none; cursor: pointer;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+}
+@media (max-width: 768px) { .header-nav { display: none; } }
+
+
+/* ── BAG DRAWER ── */
+.bag-overlay { position: fixed; inset: 0; background: rgba(3,7,6,0.45); z-index: 900; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.bag-overlay.is-open { opacity: 1; pointer-events: all; }
+.bag-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100vw); background: #faf9f6; z-index: 901; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); display: flex; flex-direction: column; }
+.bag-drawer.is-open { transform: translateX(0); }
+.bag-drawer__header { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 1.75rem; border-bottom: 1px solid #dddcdc; }
+.bag-drawer__title { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #030706; }
+.bag-drawer__count { font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #819d7c; margin-top: 0.125rem; }
+.bag-drawer__close { background: none; border: none; cursor: pointer; padding: 0.5rem; color: #030706; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s; }
+.bag-drawer__close:hover { background: #dddcdc; }
+.bag-drawer__body { flex: 1; overflow-y: auto; display: flex; align-items: center; justify-content: center; }
+.bag-drawer__empty { text-align: center; padding: 3rem 2rem; }
+.bag-drawer__empty-icon { width: 56px; height: 56px; margin: 0 auto 1.5rem; opacity: 0.25; }
+.bag-drawer__empty-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.375rem; font-weight: 400; color: #030706; margin-bottom: 0.625rem; }
+.bag-drawer__empty-sub { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: #819d7c; line-height: 1.6; margin-bottom: 1.75rem; }
+.bag-drawer__cta { display: inline-flex; align-items: center; padding: 0.875rem 2rem; background: #030706; color: #ffffff; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.05em; text-decoration: none; transition: background 0.2s; }
+.bag-drawer__cta:hover { background: #142b1b; }
+.bag-drawer__footer { padding: 1.5rem 1.75rem; border-top: 1px solid #dddcdc; }
+.bag-drawer__subtotal { display: flex; justify-content: space-between; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: #030706; margin-bottom: 1rem; }
+.bag-drawer__checkout { display: block; width: 100%; padding: 1rem; background: #142b1b; color: #ffffff; border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.06em; cursor: pointer; text-align: center; transition: background 0.2s; }
+.bag-drawer__checkout:hover { background: #2c4f31; }
+
+/* ── ACCOUNT DROPDOWN ── */
+.acct-wrap { position: relative; }
+.acct-dropdown { position: absolute; top: calc(100% + 0.75rem); right: 0; width: 200px; background: #faf9f6; border: 1px solid #dddcdc; border-radius: 12px; box-shadow: 0 8px 32px rgba(3,7,6,0.10); overflow: hidden; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.2s, transform 0.2s; z-index: 200; }
+.acct-wrap.is-open .acct-dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
+.acct-dropdown a { display: block; padding: 0.75rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; color: #030706; text-decoration: none; transition: background 0.15s; border-bottom: 1px solid #dddcdc; }
+.acct-dropdown a:last-child { border-bottom: none; }
+.acct-dropdown a:hover { background: #cde8c9; }
+
+/* ── GLOBAL FOOTER ── */
+.site-footer-global { background: var(--c-black, #030706); padding: 6rem clamp(1.5rem,4vw,3rem) 2.75rem; }
+.sfg-inner { max-width: 1320px; margin-inline: auto; display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-bottom: 4rem; }
+.sfg-logo { display: inline-flex; overflow: hidden; height: 42px; margin-bottom: 1.5rem; }
+.sfg-logo__img { height: 172px; width: auto; margin-top: -66px; display: block; filter: brightness(0) invert(1); opacity: 0.9; }
+.sfg-tagline { font-family: 'DM Sans', sans-serif; font-size: 0.9688rem; line-height: 1.75; color: rgba(173,217,168,0.55); }
+.sfg-nav { display: grid; grid-template-columns: repeat(3,1fr); gap: 2.5rem; }
+.sfg-col { display: flex; flex-direction: column; gap: 1rem; }
+.sfg-col-head { font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 0.25rem; }
+.sfg-col a { font-family: 'DM Sans', sans-serif; font-size: 0.9688rem; color: rgba(173,217,168,0.65); text-decoration: none; transition: color 0.2s; }
+.sfg-col a:hover { color: #add9a8; }
+.sfg-bottom { max-width: 1320px; margin-inline: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.08); }
+.sfg-bottom p { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: rgba(173,217,168,0.3); letter-spacing: 0.06em; }
+.sfg-bottom-links { display: flex; gap: 1.75rem; }
+.sfg-bottom-links a { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: rgba(173,217,168,0.6); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+.sfg-bottom-links a:hover { color: #add9a8; }
+@media (max-width: 768px) {
+  .sfg-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .sfg-nav { grid-template-columns: 1fr 1fr; }
+  .sfg-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="header-logo"><img src="sebble-logo.png" alt="Sebble" class="header-logo__img"></a>
+    <nav class="header-nav">
+      <a href="collection.html">Shop</a>
+      <a href="routine.html">Routine</a>
+      <a href="ingredients.html">Ingredients</a>
+      <a href="about.html">About</a>
+      <a href="sit.html" class="header-nav__sit" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;"><span style="width:6px;height:6px;border-radius:50%;background:#49724a;display:inline-block;"></span>Skin Consultant</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#">Account</a>
+      <button class="header-cart-btn">Bag (0)</button>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="ct-hero">
+  <div class="ct-hero__inner">
+    <div>
+      <span class="brand-eyebrow ct-hero__label">Get in Touch</span>
+      <h1 class="brand-heading ct-hero__heading">We would love to hear from you.</h1>
+      <p class="ct-hero__body">Whether you have a question about your skin, a formula, or our brand — our team responds within 24 hours, Monday to Friday.</p>
+    </div>
+    <div class="ct-hero__right">
+      <div class="ct-hero-detail"><div><div class="ct-hero-detail__label">Email us</div><div class="ct-hero-detail__value"><a href="mailto:hello@sebble.com">hello@sebble.com</a></div></div></div>
+      <div class="ct-hero-detail"><div><div class="ct-hero-detail__label">Response time</div><div class="ct-hero-detail__value">Within 24 hours, Mon–Fri</div></div></div>
+      <div class="ct-hero-detail"><div><div class="ct-hero-detail__label">Skincare consultation</div><div class="ct-hero-detail__value">Free — mention it in your message</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Form -->
+<section class="ct-form-section">
+  <div class="ct-form-section__inner">
+    <div>
+      <span class="brand-eyebrow ct-form-section__label">Send a message</span>
+      <h2 class="brand-heading ct-form-section__heading">Tell us what you need.</h2>
+      <p class="ct-form-section__body">Fill in the form and one of our skin specialists will respond within one business day. For skincare advice, please mention your skin type and current routine.</p>
+    </div>
+    <div>
+      <div id="contact-success" class="ct-form-success">Thank you — we'll be in touch within 24 hours.</div>
+      <form class="ct-form" id="contact-form" novalidate>
+        <div class="ct-fields-row">
+          <div class="ct-field"><label for="first-name">First name</label><input type="text" id="first-name" placeholder="Mia" required></div>
+          <div class="ct-field"><label for="last-name">Last name</label><input type="text" id="last-name" placeholder="Calloway"></div>
+        </div>
+        <div class="ct-field"><label for="email">Email address</label><input type="email" id="email" placeholder="you@example.com" required></div>
+        <div class="ct-field">
+          <label for="subject">What's this about?</label>
+          <select id="subject">
+            <option value="">Select a topic</option>
+            <option>Skincare advice</option>
+            <option>Order or delivery</option>
+            <option>Product question</option>
+            <option>Returns or refunds</option>
+            <option>Partnership or press</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="ct-field"><label for="message">Message</label><textarea id="message" placeholder="Tell us about your skin, your question, or how we can help..." required></textarea></div>
+        <div><button type="submit" class="brand-btn">Send message</button></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Quick Links -->
+<section class="ct-links">
+  <div class="ct-links__inner">
+  <div class="ct-links__header">
+    <span class="brand-eyebrow">Helpful pages</span>
+    <h2 class="brand-heading ct-links__heading">Find what you need.</h2>
+  </div>
+  <div class="ct-links-grid">
+    <a href="#" class="ct-link-card"><div class="ct-link-card__label">Shipping</div><h3 class="ct-link-card__title">Shipping & Delivery</h3><p class="ct-link-card__desc">Delivery timelines, tracking information, and international shipping options.</p></a>
+    <a href="#" class="ct-link-card"><div class="ct-link-card__label">Returns</div><h3 class="ct-link-card__title">Returns & Refunds</h3><p class="ct-link-card__desc">Our 30-day return policy, how to initiate a return, and refund processing times.</p></a>
+    <a href="#" class="ct-link-card"><div class="ct-link-card__label">Orders</div><h3 class="ct-link-card__title">Order Management</h3><p class="ct-link-card__desc">Track your order, make changes before dispatch, or check your order history.</p></a>
+    <a href="serum-finder.html" class="ct-link-card"><div class="ct-link-card__label">Routine help</div><h3 class="ct-link-card__title">Serum Finder Quiz</h3><p class="ct-link-card__desc">Not sure which serum is right for you? Answer five questions and we'll recommend the right formula.</p></a>
+  </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="ct-faq">
+  <div class="ct-faq__inner">
+    <div>
+      <span class="brand-eyebrow" style="margin-bottom:1rem;display:inline-block;">Questions</span>
+      <h2 class="brand-heading ct-faq__heading">Common questions.</h2>
+    </div>
+    <ul class="brand-faq-list">
+      <li class="brand-faq-item"><details><summary>What is your return policy?<span class="brand-faq-icon"></span></summary><div class="brand-faq-body"><p>We offer a 30-day return on all unopened products in their original packaging. If a product has caused an unexpected skin reaction, please contact us directly — we'll work with you individually. To start a return, email hello@sebble.com with your order number.</p></div></details></li>
+      <li class="brand-faq-item"><details><summary>How long does delivery take?<span class="brand-faq-icon"></span></summary><div class="brand-faq-body"><p>Standard UK delivery takes 2–3 business days. Express next-day delivery is available for orders placed before 2pm Monday–Friday. International delivery to EU countries typically takes 4–6 business days.</p></div></details></li>
+      <li class="brand-faq-item"><details><summary>Can I get personalised skincare advice?<span class="brand-faq-icon"></span></summary><div class="brand-faq-body"><p>Yes — and it's free. Mention in your message that you'd like skincare advice, along with your skin type, primary concern, and any products you're currently using. One of our skin specialists will respond with a tailored routine recommendation.</p></div></details></li>
+      <li class="brand-faq-item"><details><summary>Are your products suitable during pregnancy?<span class="brand-faq-icon"></span></summary><div class="brand-faq-body"><p>Most are, with one exception: our Retinal Bio-Lift Night Serum contains an encapsulated retinoid (Retinaldehyde), which is best avoided during pregnancy or breastfeeding. Our Glow + Marks, Peptide Repair Barrier, Caviar Lift (retinol-free), Exosome PDRN Repair, and Neuro Peptide Eye serums are all considered pregnancy-friendly. As always, we recommend checking with your healthcare provider before introducing new products.</p></div></details></li>
+      <li class="brand-faq-item"><details><summary>Do you offer wholesale or partnership enquiries?<span class="brand-faq-icon"></span></summary><div class="brand-faq-body"><p>Yes — we work with select independent retailers, spas, and clinical practices. Contact us at hello@sebble.com with the subject line 'Partnership' and we'll be in touch within three business days.</p></div></details></li>
+    </ul>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="ct-newsletter">
+  <div class="ct-newsletter__inner">
+    <div>
+      <span class="brand-eyebrow brand-eyebrow--light ct-newsletter__label">Stay updated</span>
+      <h2 class="ct-newsletter__heading">Skin science in your inbox.</h2>
+      <p class="ct-newsletter__body">Ingredient deep-dives, new formula launches, and skincare guidance from our team — no filler, no marketing fluff. Unsubscribe any time.</p>
+    </div>
+    <div>
+      <form id="newsletter-form" novalidate>
+        <div class="ct-newsletter__form">
+          <input class="ct-newsletter__input" type="email" placeholder="Your email address" required>
+          <button type="submit" class="ct-newsletter__submit">Subscribe</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  // Contact form preview behaviour
+  var form=document.getElementById('contact-form');
+  var success=document.getElementById('contact-success');
+  if(form){
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      form.style.display='none';
+      if(success){success.classList.add('is-visible');}
+    });
+  }
+  // Newsletter
+  var nf=document.getElementById('newsletter-form');
+  if(nf){
+    nf.addEventListener('submit',function(e){
+      e.preventDefault();
+      var btn=nf.querySelector('button');
+      if(btn){btn.textContent='Subscribed';btn.style.background='#819d7c';}
+    });
+  }
+})();
+</script>
+
+<!-- BAG OVERLAY + DRAWER -->
+<div class="bag-overlay" id="bag-overlay"></div>
+<div class="bag-drawer" id="bag-drawer" role="dialog" aria-label="Shopping bag" aria-hidden="true">
+  <div class="bag-drawer__header">
+    <div>
+      <p class="bag-drawer__title">Your Ritual</p>
+      <p class="bag-drawer__count">0 items</p>
+    </div>
+    <button class="bag-drawer__close" id="bag-close" aria-label="Close bag">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 1l14 14M15 1L1 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="bag-drawer__body">
+    <div class="bag-drawer__empty">
+      <svg class="bag-drawer__empty-icon" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 20h28l-3.5 21H17.5L14 20z" stroke="#030706" stroke-width="1.5" stroke-linejoin="round"/><path d="M21 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#030706" stroke-width="1.5"/></svg>
+      <h3 class="bag-drawer__empty-title">Your ritual awaits.</h3>
+      <p class="bag-drawer__empty-sub">Add a serum to get started.<br>Free delivery on orders over £60.</p>
+      <a href="collection.html" class="bag-drawer__cta" id="bag-explore">Explore Serums</a>
+    </div>
+  </div>
+  <div class="bag-drawer__footer" style="display:none">
+    <div class="bag-drawer__subtotal"><span>Subtotal</span><span>£0.00</span></div>
+    <button class="bag-drawer__checkout">Proceed to Checkout</button>
+  </div>
+</div>
+<script>
+// ── BAG + ACCOUNT ─────────────────────────
+(function() {
+  var overlay  = document.getElementById('bag-overlay');
+  var drawer   = document.getElementById('bag-drawer');
+  var closeBtn = document.getElementById('bag-close');
+  var cartBtns = document.querySelectorAll('.header-cart-btn');
+  var acctWrap = document.querySelector('.acct-wrap');
+
+  function openBag() {
+    drawer.classList.add('is-open');
+    overlay.classList.add('is-open');
+    drawer.setAttribute('aria-hidden','false');
+  }
+  function closeBag() {
+    drawer.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden','true');
+  }
+
+  cartBtns.forEach(function(b){ b.addEventListener('click', openBag); });
+  if (closeBtn) closeBtn.addEventListener('click', closeBag);
+  if (overlay)  overlay.addEventListener('click', closeBag);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeBag(); });
+
+  // Wrap "Account" link in .acct-wrap if not already
+  var acctLinks = document.querySelectorAll('.header-actions a');
+  acctLinks.forEach(function(a) {
+    if (a.textContent.trim() === 'Account') {
+      var wrap = document.createElement('div');
+      wrap.className = 'acct-wrap';
+      var dd = document.createElement('div');
+      dd.className = 'acct-dropdown';
+      dd.innerHTML = '<a href="#">Sign In</a><a href="#">Create Account</a><a href="#">Order History</a>';
+      a.parentNode.insertBefore(wrap, a);
+      wrap.appendChild(a);
+      wrap.appendChild(dd);
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        wrap.classList.toggle('is-open');
+      });
+      document.addEventListener('click', function(e) {
+        if (!wrap.contains(e.target)) wrap.classList.remove('is-open');
+      });
+    }
+  });
+})();
+</script>
+
+<!-- SITE FOOTER -->
+<footer class="site-footer-global">
+  <div class="sfg-inner">
+    <div class="sfg-brand">
+      <a href="index.html" class="sfg-logo"><img src="sebble-logo.png" alt="Sebble" class="sfg-logo__img"></a>
+      <p class="sfg-tagline">Formulated with clinical-grade actives,<br>designed for your daily ritual.</p>
+    </div>
+    <nav class="sfg-nav">
+      <div class="sfg-col">
+        <span class="sfg-col-head">Shop</span>
+        <a href="collection.html">All Serums</a>
+        <a href="serum-finder.html">Find My Serum</a>
+        <a href="routine.html">Build a Routine</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Learn</span>
+        <a href="ingredients.html">Ingredients</a>
+        <a href="about.html">Our Story</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Policies</span>
+        <a href="#">Shipping & Delivery</a>
+        <a href="#">Returns & Refunds</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </nav>
+  </div>
+  <div class="sfg-bottom">
+    <p>© 2026 Sebble Skin. All rights reserved.</p>
+    <nav class="sfg-bottom-links"><a href="ingredients.html">Ingredients</a><a href="contact.html">Contact</a></nav>
+    <p>Cruelty-free · Fragrance-free · EU compliant</p>
+  </div>
+</footer>
+<script src="sit-knowledge.js"></script>
+<script src="sit-widget.js"></script>
+</body>
+</html>

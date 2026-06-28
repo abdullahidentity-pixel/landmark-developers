@@ -1,0 +1,51 @@
+{%- if section.settings.text != blank -%}
+<div class="announcement-bar" role="complementary" aria-label="Announcement">
+  <div class="container">
+    {{ section.settings.text }}
+    {%- if section.settings.link != blank and section.settings.link_text != blank -%}
+      &nbsp;·&nbsp; <a href="{{ section.settings.link }}">{{ section.settings.link_text }}</a>
+    {%- endif -%}
+  </div>
+  {%- if section.settings.dismissible -%}
+    <button class="announcement-bar__close" aria-label="Dismiss announcement">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  {%- endif -%}
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Announcement text",
+      "default": "Free shipping on orders over £60"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link URL"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link text",
+      "default": "Shop now"
+    },
+    {
+      "type": "checkbox",
+      "id": "dismissible",
+      "label": "Allow dismissal",
+      "default": true
+    }
+  ],
+  "presets": [
+    { "name": "Announcement Bar" }
+  ]
+}
+{% endschema %}

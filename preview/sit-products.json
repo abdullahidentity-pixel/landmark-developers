@@ -1,0 +1,396 @@
+{
+  "_meta": {
+    "description": "SIT product brain — edit product names, goals, suitability, usage, and recommendation reasons here.",
+    "note": "This file mirrors SIT_KB.products in sit-knowledge.js. Update copy here, then sync into sit-knowledge.js.",
+    "updated": "2026-06-27"
+  },
+  "products": {
+    "serum-01": {
+      "handle": "serum-01",
+      "name": "Glow + Marks Serum",
+      "price": "£58",
+      "best_age": "18–35",
+      "primary_goal": "brightening",
+      "secondary_goals": [
+        "uneven_tone",
+        "glow",
+        "dullness",
+        "hydration"
+      ],
+      "suitable_skin_types": [
+        "normal",
+        "combination",
+        "dry",
+        "oily"
+      ],
+      "avoid_if": [
+        "very_sensitive",
+        "compromised_barrier"
+      ],
+      "sensitivity_level": "medium",
+      "texture": "lightweight fluid",
+      "am_pm": "both",
+      "key_ingredients": [
+        "3-O-Ethyl Ascorbic Acid (5–10%)",
+        "Niacinamide (4–5%)",
+        "Tranexamic Acid (2–3%)",
+        "Alpha Arbutin (1–2%)",
+        "Panthenol (1–2%)",
+        "Hyaluronic Acid (0.1–0.2%)",
+        "Licorice Extract (0.5–1%)"
+      ],
+      "routine_position": 1,
+      "compatible_products": [
+        "serum-02",
+        "serum-04",
+        "serum-06",
+        "support-cream",
+        "support-spray"
+      ],
+      "not_recommended_with": [],
+      "short_reason": "Glow + Marks hero: supports a brighter, more even-looking tone and softens the look of acne marks.",
+      "long_reason": "Our Glow + Marks hero, ideal for the 18–35 range and anyone targeting dullness, uneven tone, pigmentation, and post-blemish marks. It pairs a stable, heat-friendly form of Vitamin C (3-O-Ethyl Ascorbic Acid) with Niacinamide, Tranexamic Acid, and Alpha Arbutin to support a brighter, more uniform-looking complexion, while Licorice Extract, Panthenol, and Hyaluronic Acid keep skin comfortable. The stable Vitamin C suits warm climates far better than pure L-ascorbic acid. Use SPF daily when using this serum in the morning. Results are gradual over 8–12 weeks.",
+      "how_to_use": "Apply 3–4 drops to cleansed skin, AM and/or PM. Allow to absorb before next step. Always use SPF in the morning.",
+      "frequency": "Morning preferred, or both AM and PM",
+      "introduction": "Start every other day for 1–2 weeks if new to active ingredients.",
+      "image": null
+    },
+    "serum-02": {
+      "handle": "serum-02",
+      "name": "Peptide Repair Barrier Serum",
+      "price": "£64",
+      "best_age": "25–45",
+      "primary_goal": "barrier_support",
+      "secondary_goals": [
+        "hydration",
+        "dryness",
+        "sensitivity",
+        "calm",
+        "fine_lines"
+      ],
+      "suitable_skin_types": [
+        "dry",
+        "sensitive",
+        "normal",
+        "combination"
+      ],
+      "avoid_if": [],
+      "sensitivity_level": "very_low",
+      "texture": "rich but non-greasy serum",
+      "am_pm": "both",
+      "key_ingredients": [
+        "Peptide Complex (2–5%)",
+        "Ceramide Complex (0.5–2%)",
+        "Squalane (2–5%)",
+        "Panthenol (1–2%)",
+        "Multi-weight Hyaluronic Acid (0.1–0.3%)",
+        "Niacinamide (2–4%)",
+        "Beta-Glucan (0.2–0.5%)"
+      ],
+      "routine_position": 1,
+      "compatible_products": [
+        "serum-01",
+        "serum-03",
+        "serum-04",
+        "serum-05",
+        "serum-06",
+        "support-cream",
+        "support-spray"
+      ],
+      "not_recommended_with": [],
+      "short_reason": "Peptide Repair hero: rebuilds the barrier and supports hydration, firmness, and a smoother look.",
+      "long_reason": "Our Peptide Repair Barrier hero, ideal for the 25–45 range and any skin that feels dry, reactive, over-exfoliated, or compromised. A Peptide Complex supports firmness and a conditioned, resilient feel, while a Ceramide Complex, Squalane, and multi-weight Hyaluronic Acid replenish barrier lipids and layered hydration. Niacinamide, Beta-Glucan, and Panthenol soothe and support comfort. Gentle enough for daily use and a reassuring base under more targeted actives. It is the most layer-friendly serum in the range.",
+      "how_to_use": "Apply 3–4 drops to cleansed skin, AM and/or PM. Can be used as the sole treatment step. Layer Support Cream over for deeper comfort.",
+      "frequency": "Morning and evening",
+      "introduction": "Gentle enough for immediate daily use.",
+      "image": null
+    },
+    "serum-03": {
+      "handle": "serum-03",
+      "name": "Caviar Lift Serum",
+      "price": "£88",
+      "best_age": "35+",
+      "primary_goal": "age_support",
+      "secondary_goals": [
+        "firmness",
+        "fine_lines",
+        "glow",
+        "texture"
+      ],
+      "suitable_skin_types": [
+        "normal",
+        "dry",
+        "combination"
+      ],
+      "avoid_if": [
+        "very_sensitive"
+      ],
+      "sensitivity_level": "medium",
+      "texture": "silky cushioning serum",
+      "am_pm": "both",
+      "key_ingredients": [
+        "Instant-Tightening Polymer / Pullulan (1–3%)",
+        "Peptide Blend (2–5%)",
+        "Caviar Extract (0.5–2%)",
+        "Marine DNA / Sodium DNA (0.1–0.5%)",
+        "Microalgae Extract (0.5–2%)",
+        "Niacinamide (2–4%)",
+        "Glycerin (3–5%)",
+        "Multi-weight Hyaluronic Acid (0.1–0.3%)",
+        "Ceramide Complex (0.2–1%)",
+        "Panthenol (1–2%)"
+      ],
+      "routine_position": 1,
+      "compatible_products": [
+        "serum-02",
+        "serum-06",
+        "support-cream",
+        "support-spray"
+      ],
+      "not_recommended_with": [],
+      "short_reason": "Caviar Lift flagship: an immediate 30-minute lifted look plus peptide and caviar support for firmness over time.",
+      "long_reason": "Our premium Caviar Lift flagship, the luxury choice for skin 35+. Instant-tightening polymers such as Pullulan create a visible 30-minute smoothing, lifted, plumped finish, while a peptide blend, Caviar Extract, Marine DNA, and Microalgae Extract support firmer, well-conditioned-looking skin over time. Niacinamide, Glycerin, multi-weight Hyaluronic Acid, Ceramides, and Panthenol keep skin cushioned and comfortable. This formula is retinol-free, so it is gentle enough for daytime and special occasions as well as nightly use.",
+      "how_to_use": "Apply 3–4 drops to cleansed skin. For an instant lift before an event, apply 30 minutes ahead and let it set. Follow with Support Cream.",
+      "frequency": "Morning and/or evening",
+      "introduction": "Suitable from day 1; patch test first if you have very sensitive skin.",
+      "image": null
+    },
+    "serum-04": {
+      "handle": "serum-04",
+      "name": "Exosome PDRN Repair Serum",
+      "price": "£78",
+      "best_age": "20–40",
+      "primary_goal": "calm",
+      "secondary_goals": [
+        "visible_redness",
+        "barrier_support",
+        "hydration",
+        "glow",
+        "sensitivity"
+      ],
+      "suitable_skin_types": [
+        "sensitive",
+        "dry",
+        "normal",
+        "combination",
+        "oily"
+      ],
+      "avoid_if": [],
+      "sensitivity_level": "very_low",
+      "texture": "lightweight watery essence",
+      "am_pm": "both",
+      "key_ingredients": [
+        "Vegan Exosome-style Complex (0.5–3%)",
+        "PDRN / Marine DNA (0.1–0.5%)",
+        "Centella Asiatica (0.5–2%)",
+        "Madecassoside (0.05–0.2%)",
+        "Copper Tripeptide-1",
+        "Panthenol (1–2%)",
+        "Beta-Glucan (0.2–0.5%)",
+        "Multi-weight Hyaluronic Acid (0.1–0.3%)",
+        "Ceramide Complex (0.3–1%)",
+        "Allantoin (0.2–0.5%)"
+      ],
+      "routine_position": 1,
+      "compatible_products": [
+        "serum-01",
+        "serum-02",
+        "serum-06",
+        "support-cream",
+        "support-spray"
+      ],
+      "not_recommended_with": [],
+      "short_reason": "Korean clinic-style repair: supports post-blemish recovery, calmer-looking redness, and a glass-skin glow.",
+      "long_reason": "Our rare-innovation repair serum, ideal for the 20–40 range and anyone chasing a \"Korean clinic treatment\" feel. A vegan exosome-style complex with PDRN/Marine DNA, Centella Asiatica, and Madecassoside supports a calmer, less red-looking complexion and the appearance of post-acne recovery, while Copper Tripeptide-1, Beta-Glucan, Ceramides, Allantoin, and multi-weight Hyaluronic Acid help skin look smooth, hydrated, and glass-like. Very well tolerated and a great daily base for reactive or recovering skin.",
+      "how_to_use": "Apply 3–4 drops to cleansed skin, AM and/or PM, before heavier serums or cream.",
+      "frequency": "Morning and evening",
+      "introduction": "Gentle enough for immediate daily use.",
+      "image": null
+    },
+    "serum-05": {
+      "handle": "serum-05",
+      "name": "Retinal Bio-Lift Night Serum",
+      "price": "£72",
+      "best_age": "25–45",
+      "primary_goal": "texture",
+      "secondary_goals": [
+        "visible_pores",
+        "fine_lines",
+        "age_support",
+        "oil_balance",
+        "smoothness"
+      ],
+      "suitable_skin_types": [
+        "normal",
+        "combination",
+        "oily",
+        "dry"
+      ],
+      "avoid_if": [
+        "pregnant",
+        "very_sensitive",
+        "compromised_barrier"
+      ],
+      "sensitivity_level": "medium_high",
+      "texture": "silky night serum",
+      "am_pm": "pm_only",
+      "key_ingredients": [
+        "Encapsulated Retinaldehyde (0.03–0.1%)",
+        "Bakuchiol (0.5–1%)",
+        "Peptide Complex (2–5%)",
+        "Niacinamide (2–4%)",
+        "Ceramide Complex (0.5–1.5%)",
+        "Squalane (2–5%)",
+        "Bisabolol (0.1–0.3%)",
+        "CoQ10 (0.1–0.5%)",
+        "Panthenol (1–2%)",
+        "Hyaluronic Acid (0.1–0.2%)"
+      ],
+      "routine_position": 1,
+      "compatible_products": [
+        "serum-02",
+        "support-cream"
+      ],
+      "not_recommended_with": [
+        "serum-01",
+        "serum-03"
+      ],
+      "short_reason": "Night renewal: encapsulated Retinaldehyde with Bakuchiol for texture, pores, and fine lines while you sleep.",
+      "long_reason": "Our serious night treatment for the 25–45 range, targeting texture, visible pores, fine lines, skin renewal, and adult acne-prone skin. Encapsulated Retinaldehyde paired with Bakuchiol delivers gentle, gradual renewal, while a Peptide Complex, Ceramides, Squalane, CoQ10, Bisabolol, and Niacinamide keep the barrier supported and comfortable. Because it contains a retinoid, use it in the evening only, introduce it slowly, do not layer it with Vitamin C or other strong actives on the same night, avoid during pregnancy or breastfeeding, and always use SPF the following morning.",
+      "how_to_use": "Apply 2–3 drops to cleansed, dry skin in the evening only. Follow with Support Cream. Always use SPF next morning.",
+      "frequency": "Evening only, 2x per week to start",
+      "introduction": "Start 2x per week for 4 weeks. Increase to every other night if no sensitivity. Full nightly use after 8–12 weeks.",
+      "image": null
+    },
+    "serum-06": {
+      "handle": "serum-06",
+      "name": "Neuro Peptide Eye & Smile Line Serum",
+      "price": "£54",
+      "best_age": "22–45",
+      "primary_goal": "age_support",
+      "secondary_goals": [
+        "fine_lines",
+        "dark_circles",
+        "puffiness",
+        "eye_area"
+      ],
+      "suitable_skin_types": [
+        "dry",
+        "normal",
+        "combination",
+        "sensitive",
+        "oily"
+      ],
+      "avoid_if": [],
+      "sensitivity_level": "low",
+      "texture": "lightweight eye serum",
+      "am_pm": "both",
+      "key_ingredients": [
+        "Acetyl Hexapeptide-8 / Argireline (5–10%)",
+        "Dipeptide-2 (0.5–2%)",
+        "Palmitoyl Tetrapeptide-7 (1–3%)",
+        "Caffeine (0.5–1.5%)",
+        "Hesperidin Methyl Chalcone (0.1–0.5%)",
+        "Vitamin K Oxide (0.05–0.2%)",
+        "Niacinamide (2–3%)",
+        "Multi-weight Hyaluronic Acid (0.1–0.25%)",
+        "Pullulan (0.5–1.5%)",
+        "Panthenol (1%)"
+      ],
+      "routine_position": 1,
+      "compatible_products": [
+        "serum-01",
+        "serum-02",
+        "serum-03",
+        "serum-04",
+        "serum-05",
+        "support-cream",
+        "support-spray"
+      ],
+      "not_recommended_with": [],
+      "short_reason": "Eye & smile-line care: peptides, caffeine and Pullulan to soften the look of dark circles, puffiness and expression lines.",
+      "long_reason": "Our targeted eye and expression-line serum for the 22–45 range, made for tired-looking eyes, puffiness, under-eye lines, and smile lines. Neuro-peptides such as Argireline, Dipeptide-2, and Palmitoyl Tetrapeptide-7 support a smoother look around expressive areas, while Caffeine and Hesperidin help refresh a puffy, tired appearance and Pullulan gives an instant smoothing finish. Vitamin K Oxide, Niacinamide, and Hyaluronic Acid support the look of dark circles and hydration. Gentle enough for the delicate eye area, morning and night.",
+      "how_to_use": "Pat a small amount (rice-grain size) around the orbital bone and over smile lines, AM and/or PM. Avoid the lash line and inner eye.",
+      "frequency": "Morning and evening",
+      "introduction": "Suitable from day 1.",
+      "image": null
+    },
+    "support-cream": {
+      "handle": "support-cream",
+      "name": "Support Cream",
+      "price": "£48",
+      "primary_goal": "moisturiser",
+      "secondary_goals": [
+        "barrier_seal",
+        "hydration",
+        "comfort"
+      ],
+      "suitable_skin_types": [
+        "dry",
+        "sensitive",
+        "normal",
+        "combination"
+      ],
+      "avoid_if": [
+        "very_oily"
+      ],
+      "sensitivity_level": "very_low",
+      "texture": "medium-weight cream",
+      "am_pm": "both",
+      "key_ingredients": [
+        "Ceramide NP",
+        "Shea Butter",
+        "Squalane",
+        "Panthenol",
+        "Glycerin"
+      ],
+      "routine_position": 2,
+      "compatible_products": [
+        "all"
+      ],
+      "not_recommended_with": [],
+      "short_reason": "Seals in serum benefits and supports the skin barrier all day and night.",
+      "long_reason": "A foundational moisturiser that works with every serum. Ceramides reinforce the barrier, Shea Butter provides lipid nourishment, and Squalane offers lightweight occlusion. Use after your serum to lock in active ingredients and maintain skin comfort. Suitable for morning and evening.",
+      "how_to_use": "Apply over serum while skin is still slightly damp. Press gently into skin.",
+      "frequency": "Morning and/or evening",
+      "introduction": "Suitable from day 1.",
+      "image": null
+    },
+    "support-spray": {
+      "handle": "support-spray",
+      "name": "Facial Support Spray",
+      "price": "£32",
+      "primary_goal": "hydration_refresh",
+      "secondary_goals": [
+        "layering",
+        "calm",
+        "daytime_refresh"
+      ],
+      "suitable_skin_types": [
+        "all"
+      ],
+      "avoid_if": [],
+      "sensitivity_level": "very_low",
+      "texture": "ultra-fine mist",
+      "am_pm": "both",
+      "key_ingredients": [
+        "Rose Water",
+        "Centella Asiatica",
+        "Glycerin",
+        "Aloe Vera",
+        "Hyaluronic Acid (low MW)"
+      ],
+      "routine_position": 0,
+      "compatible_products": [
+        "all"
+      ],
+      "not_recommended_with": [],
+      "short_reason": "Primes skin before serum and refreshes throughout the day.",
+      "long_reason": "A multi-purpose hydrating mist that can be used before serum application to prepare and slightly dampen skin (improving serum absorption), mid-day as a comfort refresh, or as a final setting step. Suitable for all skin types.",
+      "how_to_use": "Mist onto clean skin before serum, or over makeup for a refresh. Hold 20cm from face.",
+      "frequency": "As needed, any time of day",
+      "introduction": "Suitable from day 1.",
+      "image": null
+    }
+  }
+}

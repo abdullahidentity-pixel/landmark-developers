@@ -1,0 +1,136 @@
+<section class="routine-teaser section">
+  <div class="container">
+    <div class="routine-teaser__inner">
+
+      <div class="routine-teaser__content">
+        {%- if section.settings.label != blank -%}
+          <p class="t-label reveal">{{ section.settings.label }}</p>
+        {%- endif -%}
+
+        <h2 class="routine-teaser__heading reveal reveal-delay-1">
+          {{ section.settings.heading_before }}
+          {%- if section.settings.heading_emphasis != blank -%}
+            <em>{{ section.settings.heading_emphasis }}</em>
+          {%- endif -%}
+          {{ section.settings.heading_after }}
+        </h2>
+
+        <p class="routine-teaser__body reveal reveal-delay-2">{{ section.settings.body }}</p>
+
+        <div class="routine-steps">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'step' -%}
+                <div class="routine-step reveal reveal-delay-{{ forloop.index | plus: 2 }}" {{ block.shopify_attributes }}>
+                  <div class="routine-step__num">{{ forloop.index }}</div>
+                  <div class="routine-step__text">
+                    <strong>{{ block.settings.title }}</strong>
+                    <span>{{ block.settings.subtitle }}</span>
+                  </div>
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+
+        {%- if section.settings.cta_label != blank -%}
+          <div style="margin-top: 2.5rem;" class="reveal">
+            <a href="{{ section.settings.cta_url | default: '/pages/routine' }}" class="btn btn--primary">
+              {{ section.settings.cta_label }}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="routine-teaser__visual reveal">
+        {%- if section.settings.image != blank -%}
+          <div class="routine-teaser__image">
+            {{- section.settings.image | image_url: width: 800 | image_tag:
+                loading: 'lazy',
+                widths: '400, 600, 800',
+                sizes: '(max-width: 1024px) 100vw, 50vw'
+            -}}
+          </div>
+        {%- else -%}
+          <div class="routine-teaser__image" style="background: linear-gradient(160deg, rgba(255,255,255,0.5), rgba(205,232,201,0.6)); display:flex; align-items:center; justify-content:center;">
+            <span class="t-label" style="color: var(--c-green-nat);">Product Image</span>
+          </div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Routine Teaser",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "The Ritual"
+    },
+    {
+      "type": "text",
+      "id": "heading_before",
+      "label": "Heading — before emphasis",
+      "default": "Build your"
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis",
+      "label": "Heading — emphasis",
+      "default": "perfect routine"
+    },
+    {
+      "type": "text",
+      "id": "heading_after",
+      "label": "Heading — after emphasis"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Skin that thrives isn't accidental. We'll help you build a simple, intentional ritual from our range of eight targeted serums."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Build Your Routine"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Step title", "default": "Cleanse" },
+        { "type": "text", "id": "subtitle", "label": "Step subtitle", "default": "Always start with a clean canvas" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Routine Teaser",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Cleanse", "subtitle": "Always start with a clean canvas" } },
+        { "type": "step", "settings": { "title": "Serum", "subtitle": "Your targeted treatment step" } },
+        { "type": "step", "settings": { "title": "Moisturise", "subtitle": "Lock in and protect" } },
+        { "type": "step", "settings": { "title": "Protect", "subtitle": "SPF, every morning without exception" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,32 @@
+{% layout 'theme' %}
+
+<section style="
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem var(--pad-x);
+  background: var(--c-cream);
+">
+  <p class="t-eyebrow" style="color: var(--c-sage); margin-bottom: 1.5rem;">404</p>
+  <h1 style="
+    font-family: var(--font-sans);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 300;
+    color: var(--c-black);
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    max-width: 560px;
+  ">
+    This page <em style="font-family: var(--font-serif); font-style: italic; color: var(--c-green-nat);">doesn't exist.</em>
+  </h1>
+  <p style="color: var(--c-sage); max-width: 400px; line-height: 1.65; margin-bottom: 2.5rem;">
+    The page you're looking for may have been moved, renamed, or is temporarily unavailable.
+  </p>
+  <div class="btn-group" style="justify-content: center;">
+    <a href="/" class="btn btn--primary">Go Home</a>
+    <a href="/collections/all" class="btn btn--outline">Shop Serums</a>
+  </div>
+</section>

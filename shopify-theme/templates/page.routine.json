@@ -1,0 +1,325 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-routine",
+      "settings": {
+        "hero_eyebrow": "The Ritual",
+        "hero_heading": "Build a routine that works with your skin.",
+        "hero_intro": "A great skincare routine doesn't need to be complicated. It needs to be consistent, well-ordered, and matched to your skin. We'll help you build one.",
+        "hero_cta_label": "Find your serum",
+        "hero_cta_url": "/pages/serum-finder",
+        "hero_secondary_label": "Ingredient guide",
+        "hero_secondary_url": "/pages/ingredients",
+
+        "am_eyebrow": "Morning",
+        "am_title": "Morning Routine",
+        "pm_eyebrow": "Evening",
+        "pm_title": "Evening Routine",
+
+        "concerns_eyebrow": "Personalise",
+        "concerns_heading": "Routine by skin concern.",
+
+        "pairings_eyebrow": "Synergy",
+        "pairings_heading": "Serums that work better together.",
+
+        "support_eyebrow": "Complete your routine",
+        "support_heading": "Two essentials that support every serum.",
+        "support_intro": "Our Barrier Cream and Facial Spray are designed to work alongside all eight serums — sealing in actives and preparing skin for maximum absorption.",
+
+        "cream_label": "Every routine",
+        "cream_name": "Velour Barrier Cream",
+        "cream_desc": "The final step in every routine. Ceramide NP and Shea Butter seal in your serum's active ingredients and prevent overnight moisture loss. Apply a pea-sized amount after your serum has fully absorbed.",
+        "cream_cta": "Shop Barrier Cream",
+        "cream_url": "/products/barrier-cream",
+
+        "spray_label": "Enhance absorption",
+        "spray_name": "Velour Facial Spray",
+        "spray_desc": "Applied before your serum on slightly damp skin, the facial spray prepares the surface to maximise active ingredient penetration. Especially effective before Hyaluronic Acid and Vitamin C serums.",
+        "spray_cta": "Shop Facial Spray",
+        "spray_url": "/products/facial-spray",
+
+        "mistakes_eyebrow": "Common pitfalls",
+        "mistakes_heading": "Mistakes to avoid when building your routine.",
+
+        "cta_eyebrow": "Not sure where to start?",
+        "cta_heading": "Let us build your routine for you.",
+        "cta_body": "Answer five questions and we'll recommend the right serums for your skin goals, type, and experience with active ingredients.",
+        "cta_primary_label": "Take the Quiz",
+        "cta_primary_url": "/pages/serum-finder",
+        "cta_secondary_label": "Browse Serums",
+        "cta_secondary_url": "/collections/serums"
+      },
+      "blocks": {
+        "am-1": {
+          "type": "am_step",
+          "settings": {
+            "name": "Facial Spray (optional)",
+            "description": "Mist lightly on a clean face to prepare the skin surface. Creates a slightly damp base that enhances absorption of the next step."
+          }
+        },
+        "am-2": {
+          "type": "am_step",
+          "settings": {
+            "name": "Serum",
+            "description": "Apply 3–5 drops to fingertips and press gently into skin. Allow 60 seconds to absorb before moving to the next step."
+          }
+        },
+        "am-3": {
+          "type": "am_step",
+          "settings": {
+            "name": "Barrier Cream",
+            "description": "Apply a pea-sized amount to seal in your serum and lock in moisture. Works on every skin type including oily and combination."
+          }
+        },
+        "am-4": {
+          "type": "am_step",
+          "settings": {
+            "name": "SPF 30+",
+            "description": "Non-negotiable, especially if using Vitamin C or active acids. Apply generously as the final morning step after the Barrier Cream has absorbed."
+          }
+        },
+        "pm-1": {
+          "type": "pm_step",
+          "settings": {
+            "name": "Double Cleanse",
+            "description": "Start with an oil cleanser to dissolve sunscreen and makeup. Follow with a gentle water-based cleanser. This thorough approach prevents congestion."
+          }
+        },
+        "pm-2": {
+          "type": "pm_step",
+          "settings": {
+            "name": "Serum",
+            "description": "Apply your PM serum (or alternate between two on separate evenings if using exfoliants and Retinol). Allow full absorption before barrier cream."
+          }
+        },
+        "pm-3": {
+          "type": "pm_step",
+          "settings": {
+            "name": "Barrier Cream",
+            "description": "The most important evening step. Seals in active ingredients while your skin's overnight repair mechanisms are active. Apply as the final step."
+          }
+        },
+        "concern-hydration": {
+          "type": "concern",
+          "settings": {
+            "tab_label": "Hydration",
+            "title": "Hydration Routine",
+            "description": "For dehydrated skin that feels tight or looks dull. Focus on layering humectants before sealing with the Barrier Cream to lock in moisture.",
+            "product_1": "Hydra-Boost Serum",
+            "role_1": "Primary — AM + PM",
+            "product_2": "Barrier Cream",
+            "role_2": "Seal — AM + PM",
+            "product_3": "Facial Spray",
+            "role_3": "Prep — AM",
+            "routine_step_1": "Facial Spray",
+            "timing_1": "AM",
+            "routine_step_2": "Hydra-Boost Serum",
+            "timing_2": "AM + PM",
+            "routine_step_3": "Barrier Cream",
+            "timing_3": "AM + PM",
+            "routine_step_4": "SPF 30+",
+            "timing_4": "AM only"
+          }
+        },
+        "concern-brightening": {
+          "type": "concern",
+          "settings": {
+            "tab_label": "Brightening",
+            "title": "Brightening Routine",
+            "description": "For uneven skin tone, dark spots, and dullness. Vitamin C works best in the morning, paired with SPF to protect against UV-induced melanin production.",
+            "product_1": "Bright-C Serum",
+            "role_1": "Primary — AM",
+            "product_2": "Glow Elixir Serum",
+            "role_2": "PM option",
+            "product_3": "Facial Spray",
+            "role_3": "Prep — AM",
+            "routine_step_1": "Facial Spray",
+            "timing_1": "AM",
+            "routine_step_2": "Bright-C Serum",
+            "timing_2": "AM",
+            "routine_step_3": "Glow Elixir (optional PM)",
+            "timing_3": "PM",
+            "routine_step_4": "SPF 50",
+            "timing_4": "AM only — essential"
+          }
+        },
+        "concern-barrier": {
+          "type": "concern",
+          "settings": {
+            "tab_label": "Barrier",
+            "title": "Barrier Repair Routine",
+            "description": "For reactive, sensitive, or compromised skin. Strip back to the essentials and let the barrier rebuild before introducing stronger actives.",
+            "product_1": "Barrier Repair Serum",
+            "role_1": "Primary — AM + PM",
+            "product_2": "Barrier Cream",
+            "role_2": "Essential seal",
+            "routine_step_1": "Barrier Repair Serum",
+            "timing_1": "AM + PM",
+            "routine_step_2": "Barrier Cream",
+            "timing_2": "AM + PM",
+            "routine_step_3": "Mineral SPF",
+            "timing_3": "AM — gentle formula",
+            "routine_step_4": "Wait 4–6 weeks",
+            "timing_4": "Then introduce actives"
+          }
+        },
+        "concern-texture": {
+          "type": "concern",
+          "settings": {
+            "tab_label": "Texture",
+            "title": "Resurfacing Routine",
+            "description": "For rough texture, enlarged pores, and congestion. Use the Smooth Resurfacing Serum every other evening to avoid over-exfoliation. Always follow with Barrier Cream.",
+            "product_1": "Smooth Resurfacing Serum",
+            "role_1": "Primary — alternate PM",
+            "product_2": "Hydra-Boost Serum",
+            "role_2": "Hydration — nights off",
+            "product_3": "Barrier Cream",
+            "role_3": "Essential seal",
+            "routine_step_1": "Smooth Resurfacing Serum",
+            "timing_1": "PM alternate nights",
+            "routine_step_2": "Hydra-Boost (off nights)",
+            "timing_2": "PM alternate nights",
+            "routine_step_3": "Barrier Cream",
+            "timing_3": "Every PM",
+            "routine_step_4": "SPF 30+",
+            "timing_4": "AM — critical"
+          }
+        },
+        "concern-calm": {
+          "type": "concern",
+          "settings": {
+            "tab_label": "Calm",
+            "title": "Calming Routine",
+            "description": "For persistent redness, rosacea, and reactive skin. The Calm Serum can be used twice daily. Avoid harsh exfoliants and introduce any new active slowly.",
+            "product_1": "Calm Serum",
+            "role_1": "Primary — AM + PM",
+            "product_2": "Barrier Repair Serum",
+            "role_2": "Support — PM",
+            "product_3": "Barrier Cream",
+            "role_3": "Essential seal",
+            "routine_step_1": "Calm Serum",
+            "timing_1": "AM + PM",
+            "routine_step_2": "Barrier Repair (PM add-on)",
+            "timing_2": "PM optional",
+            "routine_step_3": "Barrier Cream",
+            "timing_3": "AM + PM",
+            "routine_step_4": "Mineral SPF",
+            "timing_4": "AM — non-irritating formula"
+          }
+        },
+        "concern-glow": {
+          "type": "concern",
+          "settings": {
+            "tab_label": "Glow",
+            "title": "Glow Routine",
+            "description": "For luminosity and that healthy, dewy look. Bakuchiol in the Glow Elixir delivers Retinol-like renewal without the sensitivity risk — making it suitable morning and evening.",
+            "product_1": "Glow Elixir Serum",
+            "role_1": "Primary — AM + PM",
+            "product_2": "Bright-C Serum",
+            "role_2": "AM boost",
+            "product_3": "Facial Spray",
+            "role_3": "Prep — AM",
+            "routine_step_1": "Facial Spray",
+            "timing_1": "AM",
+            "routine_step_2": "Bright-C Serum",
+            "timing_2": "AM",
+            "routine_step_3": "Glow Elixir Serum",
+            "timing_3": "PM",
+            "routine_step_4": "SPF with glow finish",
+            "timing_4": "AM only"
+          }
+        },
+        "pair-1": {
+          "type": "pairing",
+          "settings": {
+            "tag": "Most popular",
+            "title": "Hydra-Boost + Barrier Repair",
+            "note": "Both use AM + PM timing. Apply Hydra-Boost first (water-thin texture), then Barrier Repair Serum. Seal with Barrier Cream. Ideal for chronically dry or compromised skin.",
+            "product_a": "Hydra-Boost Serum",
+            "product_b": "Barrier Repair Serum"
+          }
+        },
+        "pair-2": {
+          "type": "pairing",
+          "settings": {
+            "tag": "Brightening duo",
+            "title": "Bright-C + Glow Elixir",
+            "note": "Vitamin C in the morning, Bakuchiol-powered Glow Elixir in the evening. Two complementary brightening mechanisms without any conflict — and no photosensitivity risk.",
+            "product_a": "Bright-C Serum",
+            "product_b": "Glow Elixir Serum"
+          }
+        },
+        "pair-3": {
+          "type": "pairing",
+          "settings": {
+            "tag": "Anti-ageing",
+            "title": "Age-Defy + Hydra-Boost",
+            "note": "Retinol on alternate evenings, Hydra-Boost every morning. Retinol can cause initial dryness — daily hydration with Hyaluronic Acid counteracts this and supports skin through the adjustment period.",
+            "product_a": "Age-Defy Serum",
+            "product_b": "Hydra-Boost Serum"
+          }
+        },
+        "pair-4": {
+          "type": "pairing",
+          "settings": {
+            "tag": "Clear skin",
+            "title": "Clear Skin + Smooth Resurfacing",
+            "note": "Use Clear Skin Serum daily (AM + PM), and add Smooth Resurfacing Serum two to three times per week in the evening. Never use both on the same night.",
+            "product_a": "Clear Skin Serum",
+            "product_b": "Smooth Resurfacing Serum"
+          }
+        },
+        "mistake-1": {
+          "type": "mistake",
+          "settings": {
+            "title": "Layering incompatible actives",
+            "description": "Mixing AHAs/BHAs with Retinol in the same routine causes significant irritation. Use exfoliating acids and Retinol on alternate evenings — they'll both work better for it."
+          }
+        },
+        "mistake-2": {
+          "type": "mistake",
+          "settings": {
+            "title": "Skipping SPF with actives",
+            "description": "Vitamin C, AHAs, BHAs, and Retinol all increase photosensitivity. Without SPF, you're undoing the benefits and risking pigmentation. SPF 30 minimum, every morning."
+          }
+        },
+        "mistake-3": {
+          "type": "mistake",
+          "settings": {
+            "title": "Introducing too many new products at once",
+            "description": "If your skin reacts, you'll have no way to identify the cause. Introduce one new product per two-week period so you can accurately assess tolerance."
+          }
+        },
+        "mistake-4": {
+          "type": "mistake",
+          "settings": {
+            "title": "Not waiting for absorption",
+            "description": "Applying moisturiser immediately after serum dilutes the active ingredients before they can absorb. Give each product 60–90 seconds to penetrate before applying the next."
+          }
+        },
+        "mistake-5": {
+          "type": "mistake",
+          "settings": {
+            "title": "Over-exfoliating",
+            "description": "More exfoliation does not mean faster results. Using acids or Retinol every night, especially at the start, breaks down the skin barrier and triggers inflammation. Every other night is the correct frequency."
+          }
+        },
+        "mistake-6": {
+          "type": "mistake",
+          "settings": {
+            "title": "Abandoning a routine too early",
+            "description": "Meaningful skin changes take 6–12 weeks of consistent use. Switching products before this window closes means you'll never know what was actually working — or what wasn't."
+          }
+        }
+      },
+      "blocks_order": [
+        "am-1", "am-2", "am-3", "am-4",
+        "pm-1", "pm-2", "pm-3",
+        "concern-hydration", "concern-brightening", "concern-barrier", "concern-texture", "concern-calm", "concern-glow",
+        "pair-1", "pair-2", "pair-3", "pair-4",
+        "mistake-1", "mistake-2", "mistake-3", "mistake-4", "mistake-5", "mistake-6"
+      ]
+    }
+  },
+  "order": ["main"]
+}

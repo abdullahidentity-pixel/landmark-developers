@@ -1,0 +1,236 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-serum-finder",
+      "settings": {
+        "hero_eyebrow": "Velour Skin",
+        "hero_heading": "Find your serum in under 60 seconds",
+        "hero_body": "Answer a few simple questions and we'll suggest a routine tailored to your skin goals.",
+        "hero_cta": "Start Quiz",
+        "q1_label": "What is your main skin goal?",
+        "q2_label": "What is your skin type?",
+        "q3_label": "What texture do you prefer?",
+        "q4_label": "When do you want to use it?",
+        "q5_label": "How experienced are you with active ingredients?",
+        "ing_eyebrow": "The science",
+        "ing_title": "Key ingredients, explained",
+        "contact_eyebrow": "Still unsure?",
+        "contact_heading": "Not sure which serum is right for you? Our skin specialists are here to help.",
+        "contact_cta_label": "Get in touch",
+        "contact_url": "/pages/contact",
+        "faq_eyebrow": "Questions",
+        "faq_title": "FAQ"
+      },
+      "blocks": {
+        "sr-01": {
+          "type": "serum_result",
+          "settings": {
+            "serum_id": "serum-01",
+            "fallback_name": "Hydra-Boost Serum",
+            "benefit": "72-hour deep hydration for visibly plumper skin",
+            "why": "Your skin needs intensive moisture replenishment. Hyaluronic Acid at 2% draws water into the dermis and holds it there, while glycerin maintains that moisture balance through the day. Ideal for dehydrated skin that feels tight or looks dull.",
+            "texture": "Water-thin fluid",
+            "timing": "AM + PM"
+          }
+        },
+        "sr-02": {
+          "type": "serum_result",
+          "settings": {
+            "serum_id": "serum-02",
+            "fallback_name": "Bright-C Serum",
+            "benefit": "Visible brightening and dark spot reduction in 4 weeks",
+            "why": "Vitamin C at 15% inhibits melanin production and neutralises free radicals that cause uneven tone. Paired with Ferulic Acid, its stability and potency are significantly extended. Best applied in the morning before SPF.",
+            "texture": "Lightweight gel",
+            "timing": "AM"
+          }
+        },
+        "sr-03": {
+          "type": "serum_result",
+          "settings": {
+            "serum_id": "serum-03",
+            "fallback_name": "Barrier Repair Serum",
+            "benefit": "Rebuild your skin barrier and calm persistent redness",
+            "why": "Ceramide NP at 1% replenishes the lipid matrix that keeps skin protected and hydrated. Combined with Centella Asiatica at 5%, it actively calms inflammation while the barrier heals. Perfect for skin that reacts easily or feels compromised.",
+            "texture": "Milky emulsion",
+            "timing": "AM + PM"
+          }
+        },
+        "sr-04": {
+          "type": "serum_result",
+          "settings": {
+            "serum_id": "serum-04",
+            "fallback_name": "Clear Skin Serum",
+            "benefit": "Targets breakouts, controls shine, and unclogs pores",
+            "why": "Salicylic Acid at 2% penetrates the pore lining to dissolve congestion at the source. Zinc calms active inflammation while Niacinamide at 5% reduces sebum production — addressing oil at the root rather than just the surface.",
+            "texture": "Lightweight gel",
+            "timing": "AM + PM"
+          }
+        },
+        "sr-05": {
+          "type": "serum_result",
+          "settings": {
+            "serum_id": "serum-05",
+            "fallback_name": "Smooth Resurfacing Serum",
+            "benefit": "Smooth texture, refined pores, and polished skin surface",
+            "why": "AHA at 10% dissolves the bonds between dead cells for a smoother surface, while BHA at 2% clears inside pores. Polyglutamic Acid keeps the resurfacing process hydration-neutral. Use every other evening for best results.",
+            "texture": "Clear fluid",
+            "timing": "PM"
+          }
+        },
+        "sr-06": {
+          "type": "serum_result",
+          "settings": {
+            "serum_id": "serum-06",
+            "fallback_name": "Calm Serum",
+            "benefit": "Reduce redness, ease irritation, and soothe reactive skin",
+            "why": "Azelaic Acid at 10% is one of the few actives clinically proven to reduce rosacea-associated redness. Allantoin accelerates skin cell renewal to repair damage, while Green Tea extract provides broad antioxidant protection.",
+            "texture": "Soothing gel",
+            "timing": "AM + PM"
+          }
+        },
+        "sr-07": {
+          "type": "serum_result",
+          "settings": {
+            "serum_id": "serum-07",
+            "fallback_name": "Age-Defy Serum",
+            "benefit": "Visibly reduce fine lines and firm skin over 8–12 weeks",
+            "why": "Retinol at 0.3% accelerates cell turnover and stimulates collagen synthesis — the most well-studied anti-ageing ingredient available without prescription. Our Peptide Complex provides additional structural support. Use on alternate evenings to begin.",
+            "texture": "Rich fluid",
+            "timing": "PM"
+          }
+        },
+        "sr-08": {
+          "type": "serum_result",
+          "settings": {
+            "serum_id": "serum-08",
+            "fallback_name": "Glow Elixir Serum",
+            "benefit": "A luminous, dewy finish with lasting radiance",
+            "why": "Bakuchiol at 1% delivers retinol-like cell renewal without the sensitivity risk, making it suitable morning or evening. Rosehip Oil provides essential fatty acids for glow, and Squalane seals everything in with a non-greasy luminosity.",
+            "texture": "Dry-touch oil-serum",
+            "timing": "AM + PM"
+          }
+        },
+        "sp-cream": {
+          "type": "support_product",
+          "settings": {
+            "support_id": "support-cream",
+            "fallback_name": "Velour Barrier Cream",
+            "label": "Complete your routine",
+            "show_for": "always"
+          }
+        },
+        "sp-spray": {
+          "type": "support_product",
+          "settings": {
+            "support_id": "support-spray",
+            "fallback_name": "Velour Facial Spray",
+            "label": "Boost absorption and refresh",
+            "show_for": "brightening,overall-glow,oily"
+          }
+        },
+        "ing-1": {
+          "type": "ingredient_card",
+          "settings": {
+            "name": "Hyaluronic Acid",
+            "percentage": "2%",
+            "benefit": "HYDRATION",
+            "description": "A naturally occurring polysaccharide that holds up to 1,000× its weight in water. Draws moisture from the environment into the skin and locks it in at the dermis level for lasting plumpness.",
+            "serums": "Hydra-Boost Serum, Barrier Repair Serum"
+          }
+        },
+        "ing-2": {
+          "type": "ingredient_card",
+          "settings": {
+            "name": "Vitamin C",
+            "percentage": "15%",
+            "benefit": "BRIGHTENING",
+            "description": "L-Ascorbic acid inhibits the enzyme tyrosinase to slow melanin production, visibly fading dark spots. It also neutralises UV-induced free radicals — making it the ideal morning antioxidant when paired with SPF.",
+            "serums": "Bright-C Serum"
+          }
+        },
+        "ing-3": {
+          "type": "ingredient_card",
+          "settings": {
+            "name": "Ceramide NP",
+            "percentage": "1%",
+            "benefit": "BARRIER REPAIR",
+            "description": "Ceramides make up over 50% of the skin's lipid matrix. Replenishing them with Ceramide NP directly rebuilds the protective barrier, preventing moisture loss and reducing sensitivity to irritants.",
+            "serums": "Barrier Repair Serum"
+          }
+        },
+        "ing-4": {
+          "type": "ingredient_card",
+          "settings": {
+            "name": "Salicylic Acid",
+            "percentage": "2%",
+            "benefit": "CLARIFYING",
+            "description": "A lipophilic beta-hydroxy acid that penetrates the sebaceous follicle to dissolve the keratin plugs causing congestion. Unlike surface exfoliants, it works inside the pore — making it uniquely effective for breakout-prone skin.",
+            "serums": "Clear Skin Serum, Smooth Resurfacing Serum"
+          }
+        },
+        "ing-5": {
+          "type": "ingredient_card",
+          "settings": {
+            "name": "Retinol",
+            "percentage": "0.3%",
+            "benefit": "ANTI-AGEING",
+            "description": "A vitamin A derivative that binds to skin receptors and accelerates cell turnover while stimulating collagen and elastin production. The most well-researched cosmetic ingredient for reducing fine lines, with decades of clinical data.",
+            "serums": "Age-Defy Serum"
+          }
+        },
+        "ing-6": {
+          "type": "ingredient_card",
+          "settings": {
+            "name": "Azelaic Acid",
+            "percentage": "10%",
+            "benefit": "CALMING",
+            "description": "A dicarboxylic acid with dual anti-inflammatory and antimicrobial action, clinically proven to reduce rosacea-associated redness and post-acne pigmentation. Uniquely, it is both safe for sensitive skin and safe during pregnancy.",
+            "serums": "Calm Serum"
+          }
+        },
+        "faq-sf-1": {
+          "type": "faq",
+          "settings": {
+            "question": "How accurate is the serum recommendation?",
+            "answer": "The quiz matches your answers against our formulation matrix — mapping skin goal, type, texture preference, timing, and experience level to the serum most likely to deliver results. We also apply safety overrides: beginners are guided away from harsh actives, and morning users are matched to photostable formulas. While no quiz replaces a skin consultation, the recommendation will get you started on the right formula for your primary concern."
+          }
+        },
+        "faq-sf-2": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I use the primary and secondary serum together?",
+            "answer": "In most cases, yes. Check the AM/PM timing labels — if both are marked 'AM + PM', you can layer them morning and evening (lightest texture first). The main exception is mixing exfoliating acids (AHAs/BHAs) with retinol — these should be used on alternate evenings to avoid sensitivity. Our routine guides provide specific layering instructions for each combination."
+          }
+        },
+        "faq-sf-3": {
+          "type": "faq",
+          "settings": {
+            "question": "What if I have multiple skin concerns?",
+            "answer": "Choose your single highest-priority concern — the one that bothers you most day-to-day. The quiz is designed to find your best starting formula, and the secondary recommendation adds complementary coverage. Once your skin has adjusted (usually 4–6 weeks), you can introduce additional serums to address secondary concerns."
+          }
+        },
+        "faq-sf-4": {
+          "type": "faq",
+          "settings": {
+            "question": "Are all serums fragrance-free?",
+            "answer": "Yes. Every Velour Skin serum is 100% fragrance-free, including essential oils and parfum derivatives. All formulas are tested under dermatologist supervision and are suitable for fragrance-sensitive skin. If you have a diagnosed contact allergy to a specific ingredient, always check the full INCI list on the product page before use."
+          }
+        },
+        "faq-sf-5": {
+          "type": "faq",
+          "settings": {
+            "question": "What does the Barrier Cream do in the routine?",
+            "answer": "The Velour Barrier Cream is your routine's finishing step — it seals in the active ingredients your serum has delivered and prevents trans-epidermal water loss. Formulated with Ceramides and Shea Butter, it strengthens the outer skin barrier overnight. Apply a pea-sized amount after your serum has fully absorbed, morning or evening."
+          }
+        }
+      },
+      "blocks_order": [
+        "sr-01", "sr-02", "sr-03", "sr-04", "sr-05", "sr-06", "sr-07", "sr-08",
+        "sp-cream", "sp-spray",
+        "ing-1", "ing-2", "ing-3", "ing-4", "ing-5", "ing-6",
+        "faq-sf-1", "faq-sf-2", "faq-sf-3", "faq-sf-4", "faq-sf-5"
+      ]
+    }
+  },
+  "order": ["main"]
+}

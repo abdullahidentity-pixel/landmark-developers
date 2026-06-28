@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp *)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(pnpm add *)",
+      "WebFetch(domain:oasis.landmarkdevelopers.com.pk)",
+      "WebFetch(domain:www.habibiholdings.com)",
+      "WebFetch(domain:www.smartpropertysolution.pk)",
+      "WebFetch(domain:propertymastermarketing.com)",
+      "Bash(curl -s -o grand-15-c.jpg -A \"Mozilla/5.0\" \"https://www.smartpropertysolution.pk/wp-content/uploads/the-grand-15-grand-lifestyle-premium-service-apartments-bahria-town-lahore-landmark-developers.jpg\")",
+      "Bash(mv t5.jpg grand-15.jpg)",
+      "Bash(mv grand-14-a.jpg grand-14.jpg)",
+      "Bash(mv t2.jpg grand-x.jpg)",
+      "Bash(mv t3.jpg the-view.jpg)",
+      "Bash(rm -f t1.jpg t4.jpg t6.jpg grand-15-a.jpg)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('scripts:', d.get\\('scripts'\\)\\); print\\('name:', d.get\\('name'\\)\\)\")",
+      "Bash(cat vite.config.js)",
+      "Bash(cat vite.config.ts)",
+      "Bash(/Users/macbookpro/Documents/Codex/2026-05-12/hello/.tools/pnpm/bin/node /Users/macbookpro/Documents/Codex/2026-05-12/hello/.tools/pnpm/bin/pnpm.cjs add react-router-dom)",
+      "Bash(pnpm --version)",
+      "Bash(pnpm install *)",
+      "Bash(pnpm approve-builds *)",
+      "Bash(pnpm exec *)"
+    ]
+  }
+}

@@ -1,0 +1,784 @@
+{
+  "_meta": {
+    "description": "SIT questionnaire — Quick Match (5 questions) and Full Consultation (20 questions).",
+    "updated": "2026-06-27"
+  },
+  "quickQuestions": [
+    {
+      "id": "main_goal",
+      "text": "What is your main skin goal?",
+      "hint": "Choose the one that matters most right now.",
+      "type": "single",
+      "options": [
+        {
+          "value": "hydration",
+          "label": "Hydration",
+          "desc": "Skin feels dry or tight"
+        },
+        {
+          "value": "brightening",
+          "label": "Brightening",
+          "desc": "Dull or uneven-looking skin"
+        },
+        {
+          "value": "barrier_support",
+          "label": "Barrier Support",
+          "desc": "Sensitive or reactive skin"
+        },
+        {
+          "value": "texture",
+          "label": "Smoother Texture",
+          "desc": "Rough or uneven surface feel"
+        },
+        {
+          "value": "calm",
+          "label": "Calmer Skin",
+          "desc": "Visible redness or reactivity"
+        },
+        {
+          "value": "oil_balance",
+          "label": "Oil Balance",
+          "desc": "Oily or congestion-prone skin"
+        },
+        {
+          "value": "glow",
+          "label": "Glow",
+          "desc": "Tired or dull-looking skin"
+        },
+        {
+          "value": "age_support",
+          "label": "Age Support",
+          "desc": "Fine lines or firmness support"
+        }
+      ]
+    },
+    {
+      "id": "skin_type",
+      "text": "What is your skin type?",
+      "hint": "If you're unsure, think about how your skin behaves mid-afternoon.",
+      "type": "single",
+      "options": [
+        {
+          "value": "dry",
+          "label": "Dry",
+          "desc": "Feels tight, looks dull"
+        },
+        {
+          "value": "oily",
+          "label": "Oily",
+          "desc": "Shiny, especially T-zone"
+        },
+        {
+          "value": "combination",
+          "label": "Combination",
+          "desc": "Oily T-zone, normal cheeks"
+        },
+        {
+          "value": "sensitive",
+          "label": "Sensitive",
+          "desc": "Reacts easily, feels reactive"
+        },
+        {
+          "value": "normal",
+          "label": "Normal",
+          "desc": "Generally balanced"
+        },
+        {
+          "value": "unsure",
+          "label": "Not Sure",
+          "desc": "I'll let SIT decide"
+        }
+      ]
+    },
+    {
+      "id": "post_cleanse",
+      "text": "How does your skin feel right after cleansing?",
+      "hint": "Before applying anything — just after washing.",
+      "type": "single",
+      "options": [
+        {
+          "value": "tight",
+          "label": "Tight or Dry",
+          "desc": "Uncomfortable, feels taut"
+        },
+        {
+          "value": "comfortable",
+          "label": "Comfortable",
+          "desc": "Balanced, no issue"
+        },
+        {
+          "value": "oily_quickly",
+          "label": "Gets Oily Quickly",
+          "desc": "Shine within 30 minutes"
+        },
+        {
+          "value": "dry_patches",
+          "label": "Dry in Some Areas",
+          "desc": "Patchy dryness, not uniform"
+        },
+        {
+          "value": "reactive",
+          "label": "Warm or Reactive",
+          "desc": "Redness, stinging, or warmth"
+        },
+        {
+          "value": "unsure",
+          "label": "Not Sure",
+          "desc": "Haven't paid attention"
+        }
+      ]
+    },
+    {
+      "id": "experience",
+      "text": "How experienced are you with active skincare ingredients?",
+      "hint": "This helps us match the right formula strength.",
+      "type": "single",
+      "options": [
+        {
+          "value": "beginner",
+          "label": "Beginner",
+          "desc": "New to serums and actives"
+        },
+        {
+          "value": "intermediate",
+          "label": "Intermediate",
+          "desc": "Use a few products regularly"
+        },
+        {
+          "value": "advanced",
+          "label": "Advanced",
+          "desc": "Familiar with AHAs, retinol etc."
+        }
+      ]
+    },
+    {
+      "id": "routine_pref",
+      "text": "What kind of routine are you looking for?",
+      "hint": "We'll keep it realistic for your lifestyle.",
+      "type": "single",
+      "options": [
+        {
+          "value": "one_hero",
+          "label": "One Hero Product",
+          "desc": "Simple, minimal effort"
+        },
+        {
+          "value": "two_step",
+          "label": "Simple 2-Step",
+          "desc": "Serum + moisturiser"
+        },
+        {
+          "value": "full",
+          "label": "Full Routine",
+          "desc": "All the right steps"
+        }
+      ]
+    }
+  ],
+  "fullQuestions": [
+    {
+      "id": "main_goal",
+      "text": "What is your main skin goal?",
+      "hint": "Your primary focus right now.",
+      "type": "single",
+      "options": [
+        {
+          "value": "hydration",
+          "label": "Hydration",
+          "desc": "Skin feels dry or tight"
+        },
+        {
+          "value": "brightening",
+          "label": "Brightening",
+          "desc": "Dull or uneven-looking skin"
+        },
+        {
+          "value": "barrier_support",
+          "label": "Barrier Support",
+          "desc": "Sensitive or reactive skin"
+        },
+        {
+          "value": "texture",
+          "label": "Smoother Texture",
+          "desc": "Rough or uneven surface feel"
+        },
+        {
+          "value": "calm",
+          "label": "Calmer Skin",
+          "desc": "Visible redness or reactivity"
+        },
+        {
+          "value": "oil_balance",
+          "label": "Oil Balance",
+          "desc": "Oily or congestion-prone"
+        },
+        {
+          "value": "glow",
+          "label": "Glow",
+          "desc": "Tired or dull-looking skin"
+        },
+        {
+          "value": "age_support",
+          "label": "Age Support",
+          "desc": "Fine lines or firmness"
+        }
+      ]
+    },
+    {
+      "id": "secondary_goals",
+      "text": "Any secondary goals? (Select all that apply)",
+      "hint": "Optional but helps us refine your routine.",
+      "type": "multi",
+      "options": [
+        {
+          "value": "hydration",
+          "label": "More hydration"
+        },
+        {
+          "value": "brightening",
+          "label": "Brighter-looking skin"
+        },
+        {
+          "value": "barrier_support",
+          "label": "Barrier comfort"
+        },
+        {
+          "value": "texture",
+          "label": "Texture refinement"
+        },
+        {
+          "value": "calm",
+          "label": "Less visible redness"
+        },
+        {
+          "value": "glow",
+          "label": "Radiance and glow"
+        },
+        {
+          "value": "age_support",
+          "label": "Firmness and fine lines"
+        },
+        {
+          "value": "oil_balance",
+          "label": "Oil control"
+        }
+      ]
+    },
+    {
+      "id": "skin_type",
+      "text": "What is your skin type?",
+      "hint": "Think about mid-afternoon on an average day.",
+      "type": "single",
+      "options": [
+        {
+          "value": "dry",
+          "label": "Dry",
+          "desc": "Tight, lacks moisture"
+        },
+        {
+          "value": "oily",
+          "label": "Oily",
+          "desc": "Shiny throughout the day"
+        },
+        {
+          "value": "combination",
+          "label": "Combination",
+          "desc": "Oily T-zone, drier elsewhere"
+        },
+        {
+          "value": "sensitive",
+          "label": "Sensitive",
+          "desc": "Reacts easily to products"
+        },
+        {
+          "value": "normal",
+          "label": "Normal",
+          "desc": "Balanced, few concerns"
+        },
+        {
+          "value": "unsure",
+          "label": "Not Sure",
+          "desc": "Help me figure it out"
+        }
+      ]
+    },
+    {
+      "id": "sensitivity",
+      "text": "How sensitive does your skin feel?",
+      "hint": "This affects which actives are right for you.",
+      "type": "single",
+      "options": [
+        {
+          "value": "low",
+          "label": "Not Sensitive",
+          "desc": "Rarely reacts to products"
+        },
+        {
+          "value": "medium",
+          "label": "Mildly Sensitive",
+          "desc": "Occasional reactions"
+        },
+        {
+          "value": "high",
+          "label": "Very Sensitive",
+          "desc": "Frequently reacts, needs gentle care"
+        }
+      ]
+    },
+    {
+      "id": "post_cleanse",
+      "text": "How does your skin feel right after cleansing?",
+      "hint": "Before applying any product.",
+      "type": "single",
+      "options": [
+        {
+          "value": "tight",
+          "label": "Tight or Dry",
+          "desc": "Uncomfortable after washing"
+        },
+        {
+          "value": "comfortable",
+          "label": "Comfortable",
+          "desc": "No notable sensation"
+        },
+        {
+          "value": "oily_quickly",
+          "label": "Gets Oily Quickly",
+          "desc": "Shine returns within minutes"
+        },
+        {
+          "value": "dry_patches",
+          "label": "Patchy Dryness",
+          "desc": "Some areas dry, others fine"
+        },
+        {
+          "value": "reactive",
+          "label": "Warm or Reactive",
+          "desc": "Redness, stinging, or warmth"
+        }
+      ]
+    },
+    {
+      "id": "mirror_concern",
+      "text": "What do you notice most when you look in the mirror?",
+      "hint": "Your main visible concern.",
+      "type": "single",
+      "options": [
+        {
+          "value": "dullness",
+          "label": "Dullness",
+          "desc": "Skin looks flat or tired"
+        },
+        {
+          "value": "redness",
+          "label": "Visible Redness",
+          "desc": "Uneven red patches or flush"
+        },
+        {
+          "value": "texture",
+          "label": "Rough Texture",
+          "desc": "Bumpy or uneven surface"
+        },
+        {
+          "value": "shine",
+          "label": "Excess Shine",
+          "desc": "Oily appearance"
+        },
+        {
+          "value": "dryness",
+          "label": "Dry Patches",
+          "desc": "Flaky or tight-looking areas"
+        },
+        {
+          "value": "uneven_tone",
+          "label": "Uneven Tone",
+          "desc": "Dark marks or discolouration"
+        },
+        {
+          "value": "fine_lines",
+          "label": "Fine Lines",
+          "desc": "Around eyes or forehead"
+        },
+        {
+          "value": "congestion",
+          "label": "Congestion",
+          "desc": "Clogged pores or congestion"
+        }
+      ]
+    },
+    {
+      "id": "visible_redness",
+      "text": "Do you experience visible redness or flushing?",
+      "hint": "This helps identify if calming ingredients are needed.",
+      "type": "single",
+      "options": [
+        {
+          "value": "often",
+          "label": "Often",
+          "desc": "Most days"
+        },
+        {
+          "value": "sometimes",
+          "label": "Sometimes",
+          "desc": "Triggered by heat, stress, or products"
+        },
+        {
+          "value": "rarely",
+          "label": "Rarely",
+          "desc": "Hardly ever"
+        },
+        {
+          "value": "never",
+          "label": "Never",
+          "desc": "Not a concern"
+        }
+      ]
+    },
+    {
+      "id": "oiliness",
+      "text": "Does your skin feel oily during the day?",
+      "hint": "Even if your skin type is combination.",
+      "type": "single",
+      "options": [
+        {
+          "value": "yes_all",
+          "label": "Yes, all over",
+          "desc": "Shine across the whole face"
+        },
+        {
+          "value": "t_zone",
+          "label": "T-zone only",
+          "desc": "Forehead, nose, chin"
+        },
+        {
+          "value": "rarely",
+          "label": "Rarely",
+          "desc": "Only in warm weather or stress"
+        },
+        {
+          "value": "no",
+          "label": "No",
+          "desc": "More dry than oily"
+        }
+      ]
+    },
+    {
+      "id": "dryness",
+      "text": "Does your skin feel dry or tight during the day?",
+      "hint": "Even after applying moisturiser.",
+      "type": "single",
+      "options": [
+        {
+          "value": "often",
+          "label": "Yes, often",
+          "desc": "Tight feeling persists all day"
+        },
+        {
+          "value": "by_end",
+          "label": "By end of day",
+          "desc": "Gets tighter as the day goes on"
+        },
+        {
+          "value": "sometimes",
+          "label": "Sometimes",
+          "desc": "On and off"
+        },
+        {
+          "value": "rarely",
+          "label": "Rarely",
+          "desc": "Skin stays comfortable"
+        }
+      ]
+    },
+    {
+      "id": "active_usage",
+      "text": "Are you currently using active skincare ingredients?",
+      "hint": "Actives include: AHAs, BHAs, retinol, vitamin C, niacinamide, etc.",
+      "type": "single",
+      "options": [
+        {
+          "value": "none",
+          "label": "None",
+          "desc": "Not currently using any"
+        },
+        {
+          "value": "some_niacinamide",
+          "label": "Niacinamide only",
+          "desc": "Gentle actives only"
+        },
+        {
+          "value": "aha_bha",
+          "label": "AHAs/BHAs",
+          "desc": "Exfoliating acids"
+        },
+        {
+          "value": "retinol",
+          "label": "Retinol",
+          "desc": "Vitamin A derivatives"
+        },
+        {
+          "value": "mixed",
+          "label": "Several",
+          "desc": "Mixing multiple actives"
+        }
+      ]
+    },
+    {
+      "id": "prescription",
+      "text": "Are you using any prescription skincare or under medical treatment for your skin?",
+      "hint": "For example: Tretinoin, Clindamycin, Benzoyl Peroxide by prescription, or medical treatment.",
+      "type": "single",
+      "options": [
+        {
+          "value": "no",
+          "label": "No",
+          "desc": "No prescription products"
+        },
+        {
+          "value": "yes_topical",
+          "label": "Yes, topical",
+          "desc": "Prescription cream or gel"
+        },
+        {
+          "value": "yes_oral",
+          "label": "Yes, oral/other",
+          "desc": "Medication for skin health"
+        },
+        {
+          "value": "prefer_not",
+          "label": "Prefer not to say",
+          "desc": "I'd rather skip this"
+        }
+      ]
+    },
+    {
+      "id": "pregnancy",
+      "text": "Are you pregnant, breastfeeding, or avoiding any specific ingredients?",
+      "hint": "This helps us avoid retinol and other cautioned ingredients.",
+      "type": "single",
+      "options": [
+        {
+          "value": "pregnant",
+          "label": "Pregnant",
+          "desc": "Currently pregnant"
+        },
+        {
+          "value": "breastfeeding",
+          "label": "Breastfeeding",
+          "desc": "Currently breastfeeding"
+        },
+        {
+          "value": "avoiding",
+          "label": "Avoiding some ingredients",
+          "desc": "E.g. fragrance, retinol"
+        },
+        {
+          "value": "no",
+          "label": "None apply",
+          "desc": "No restrictions"
+        }
+      ]
+    },
+    {
+      "id": "safety_concern",
+      "text": "Do you have any skin that is painful, bleeding, infected, or rapidly changing?",
+      "hint": "This is important. SIT is a cosmetic tool and cannot help with medical skin concerns.",
+      "type": "single",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes",
+          "desc": "I have a concerning skin issue"
+        },
+        {
+          "value": "no",
+          "label": "No",
+          "desc": "No medical concerns"
+        },
+        {
+          "value": "not_sure",
+          "label": "Not Sure",
+          "desc": "I'm uncertain"
+        }
+      ]
+    },
+    {
+      "id": "am_routine",
+      "text": "What is your current morning routine?",
+      "hint": "Don't worry if it's basic — we can build from here.",
+      "type": "multi",
+      "options": [
+        {
+          "value": "cleanser",
+          "label": "Cleanser"
+        },
+        {
+          "value": "toner",
+          "label": "Toner/Mist"
+        },
+        {
+          "value": "serum",
+          "label": "Serum"
+        },
+        {
+          "value": "moisturiser",
+          "label": "Moisturiser"
+        },
+        {
+          "value": "spf",
+          "label": "SPF"
+        },
+        {
+          "value": "nothing",
+          "label": "Nothing yet"
+        }
+      ]
+    },
+    {
+      "id": "pm_routine",
+      "text": "What is your current evening routine?",
+      "hint": "Evening routines are where active products work best.",
+      "type": "multi",
+      "options": [
+        {
+          "value": "double_cleanse",
+          "label": "Double Cleanse"
+        },
+        {
+          "value": "cleanser",
+          "label": "Single Cleanse"
+        },
+        {
+          "value": "toner",
+          "label": "Toner/Mist"
+        },
+        {
+          "value": "serum",
+          "label": "Serum"
+        },
+        {
+          "value": "moisturiser",
+          "label": "Moisturiser/Cream"
+        },
+        {
+          "value": "nothing",
+          "label": "Nothing yet"
+        }
+      ]
+    },
+    {
+      "id": "spf",
+      "text": "Do you use SPF daily?",
+      "hint": "SPF is essential when using many active ingredients.",
+      "type": "single",
+      "options": [
+        {
+          "value": "daily",
+          "label": "Every morning",
+          "desc": "Consistent daily habit"
+        },
+        {
+          "value": "sometimes",
+          "label": "Sometimes",
+          "desc": "On sunny days or occasionally"
+        },
+        {
+          "value": "rarely",
+          "label": "Rarely",
+          "desc": "Not a current habit"
+        },
+        {
+          "value": "no",
+          "label": "No",
+          "desc": "Don't currently use SPF"
+        }
+      ]
+    },
+    {
+      "id": "texture_pref",
+      "text": "What texture do you prefer for a serum?",
+      "hint": "This helps with comfort and wearability.",
+      "type": "single",
+      "options": [
+        {
+          "value": "watery",
+          "label": "Very Light",
+          "desc": "Almost water-like"
+        },
+        {
+          "value": "fluid",
+          "label": "Fluid/Gel",
+          "desc": "Light but with some body"
+        },
+        {
+          "value": "serum",
+          "label": "Classic Serum",
+          "desc": "Medium consistency"
+        },
+        {
+          "value": "richer",
+          "label": "Richer",
+          "desc": "Nourishing and cushioning"
+        },
+        {
+          "value": "no_pref",
+          "label": "No Preference",
+          "desc": "Whatever works best"
+        }
+      ]
+    },
+    {
+      "id": "routine_pref",
+      "text": "What kind of routine are you looking to build?",
+      "hint": "Be honest — the best routine is one you'll actually follow.",
+      "type": "single",
+      "options": [
+        {
+          "value": "one_hero",
+          "label": "One Hero Product",
+          "desc": "Keep it simple"
+        },
+        {
+          "value": "two_step",
+          "label": "Two Steps",
+          "desc": "Serum + moisturiser"
+        },
+        {
+          "value": "full",
+          "label": "Complete Routine",
+          "desc": "All the right steps"
+        }
+      ]
+    },
+    {
+      "id": "photo_upload",
+      "text": "Would you like to upload a skin photo for additional analysis?",
+      "hint": "Optional. Natural light, minimal makeup, front-facing image works best.",
+      "type": "single",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes, upload a photo",
+          "desc": "For more personalised analysis"
+        },
+        {
+          "value": "no",
+          "label": "No thanks",
+          "desc": "Continue without photo"
+        },
+        {
+          "value": "later",
+          "label": "Maybe later",
+          "desc": "I'll decide after my results"
+        }
+      ]
+    },
+    {
+      "id": "extra_notes",
+      "text": "Anything else SIT should know about your skin?",
+      "hint": "Optional free text — allergies, concerns, previous reactions, anything.",
+      "type": "text",
+      "placeholder": "e.g. I'm allergic to fragrance, or I had a bad reaction to retinol last year..."
+    }
+  ]
+}

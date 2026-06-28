@@ -1,0 +1,139 @@
+<section class="hero" id="hero">
+  <div class="hero__media">
+    {%- if section.settings.image != blank -%}
+      {{- section.settings.image | image_url: width: 2000 | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '768, 1024, 1440, 2000',
+          sizes: '100vw'
+      -}}
+    {%- else -%}
+      <div style="width:100%;height:100%;background: linear-gradient(135deg, #142b1b 0%, #2c4f31 50%, #49724a 100%);"></div>
+    {%- endif -%}
+  </div>
+
+  <div class="hero__overlay"></div>
+
+  <div class="hero__content">
+    <div class="hero__inner">
+
+      {%- if section.settings.label != blank -%}
+        <div class="hero__label t-label--white reveal">
+          <span class="hero__label-dot"></span>
+          {{ section.settings.label }}
+        </div>
+      {%- endif -%}
+
+      <div class="hero__heading reveal reveal-delay-1">
+        {%- if section.settings.heading_serif != blank -%}
+          <span class="line-serif">{{ section.settings.heading_serif }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading_sans != blank -%}
+          <span class="line-sans">{{ section.settings.heading_sans }}</span>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.subtext != blank -%}
+        <p class="hero__subtext reveal reveal-delay-2">{{ section.settings.subtext }}</p>
+      {%- endif -%}
+
+      <div class="hero__cta reveal reveal-delay-3">
+        {%- if section.settings.cta_primary_label != blank -%}
+          <a href="{{ section.settings.cta_primary_url | default: '/collections/all' }}"
+             class="btn btn--outline-white btn--lg">
+            {{ section.settings.cta_primary_label }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.cta_secondary_label != blank -%}
+          <a href="{{ section.settings.cta_secondary_url | default: '/pages/quiz' }}"
+             class="btn btn--ghost" style="color: rgba(205,232,201,0.8);">
+            {{ section.settings.cta_secondary_label }} →
+          </a>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="hero__scroll-line"></div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile background image"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label text",
+      "default": "New arrivals — 2024"
+    },
+    {
+      "type": "text",
+      "id": "heading_serif",
+      "label": "Heading (serif / italic)",
+      "default": "Formulated"
+    },
+    {
+      "type": "text",
+      "id": "heading_sans",
+      "label": "Heading (sans-serif continuation)",
+      "default": "for skin that thrives."
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Plant-powered serums with clinical precision."
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_label",
+      "label": "Primary CTA label",
+      "default": "Shop Serums"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_url",
+      "label": "Primary CTA URL"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_label",
+      "label": "Secondary CTA label",
+      "default": "Find Your Formula"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_url",
+      "label": "Secondary CTA URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "settings": {
+        "label": "New arrivals — 2024",
+        "heading_serif": "Formulated",
+        "heading_sans": "for skin that thrives.",
+        "subtext": "Plant-powered serums with clinical precision.",
+        "cta_primary_label": "Shop Serums",
+        "cta_secondary_label": "Find Your Formula"
+      }
+    }
+  ]
+}
+{% endschema %}

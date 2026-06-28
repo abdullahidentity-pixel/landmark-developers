@@ -1,0 +1,149 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "eyebrow": "Serum",
+        "gallery_badge": "Bestseller",
+        "review_score": "4.8",
+        "review_count": "127",
+        "how_to_title": "Your daily ritual",
+        "skin_types_title": "Suitable for",
+        "ingredients_title": "What's inside",
+        "texture_headline": "Lightweight. Fast-absorbing. Leaves no residue.",
+        "texture_body": "A fluid, water-thin texture that sinks into skin within seconds. No white cast, no tackiness — just clinical-grade actives delivered precisely where skin needs them.",
+        "texture_finish": "Matte-satin, zero residue",
+        "texture_absorption": "Under 30 seconds",
+        "texture_layering": "Compatible with all Velour Skin formulas",
+        "pairing_title": "Pair it with"
+      },
+      "blocks": {
+        "tag-1": { "type": "benefit_tag", "settings": { "label": "Hydrating" } },
+        "tag-2": { "type": "benefit_tag", "settings": { "label": "Brightening" } },
+        "tag-3": { "type": "benefit_tag", "settings": { "label": "Calming" } },
+        "tag-4": { "type": "benefit_tag", "settings": { "label": "Barrier Support" } },
+        "tag-5": { "type": "benefit_tag", "settings": { "label": "Smoothing" } },
+        "tag-6": { "type": "benefit_tag", "settings": { "label": "Daily Use" } },
+        "ing-1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Hyaluronic Acid",
+            "percentage": "2%",
+            "benefit": "Deep hydration",
+            "detail": "Holds up to 1,000× its weight in water. Multi-weight formula for surface and deeper skin layers."
+          }
+        },
+        "ing-2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Niacinamide",
+            "percentage": "10%",
+            "benefit": "Pore refinement",
+            "detail": "Regulates sebum, minimises pores, and fades pigmentation at clinical concentration."
+          }
+        },
+        "ing-3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Ceramide NP",
+            "percentage": "1%",
+            "benefit": "Barrier restoration",
+            "detail": "Lipids identical to those found in healthy skin. Seals moisture and strengthens the skin barrier."
+          }
+        },
+        "ing-4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Centella Asiatica",
+            "percentage": "5%",
+            "benefit": "Calming & healing",
+            "detail": "Madecassoside and asiaticoside reduce redness and support wound healing at cellular level."
+          }
+        },
+        "step-1": {
+          "type": "how_to_step",
+          "settings": {
+            "title": "Apply after cleansing",
+            "detail": "Begin with clean, dry or slightly damp skin"
+          }
+        },
+        "step-2": {
+          "type": "how_to_step",
+          "settings": {
+            "title": "Use 2–3 drops",
+            "detail": "Warm between fingertips and press gently into skin"
+          }
+        },
+        "step-3": {
+          "type": "how_to_step",
+          "settings": {
+            "title": "Follow with cream",
+            "detail": "Seal active ingredients in with a barrier moisturiser"
+          }
+        },
+        "step-4": {
+          "type": "how_to_step",
+          "settings": {
+            "title": "Apply SPF in the morning",
+            "detail": "Always finish your AM routine with broad-spectrum SPF 30+"
+          }
+        },
+        "st-1": { "type": "skin_type", "settings": { "skin_type": "Dry", "suitable": true } },
+        "st-2": { "type": "skin_type", "settings": { "skin_type": "Oily", "suitable": true } },
+        "st-3": { "type": "skin_type", "settings": { "skin_type": "Combination", "suitable": true } },
+        "st-4": { "type": "skin_type", "settings": { "skin_type": "Sensitive", "suitable": true } },
+        "st-5": { "type": "skin_type", "settings": { "skin_type": "Normal", "suitable": true } },
+        "faq-1": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I layer this with other serums?",
+            "answer": "Apply lighter, water-based serums first, followed by thicker textures. If using multiple Velour Skin serums, allow 60 seconds between each for full absorption."
+          }
+        },
+        "faq-2": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I use this morning and evening?",
+            "answer": "Yes — this formula is designed for AM and PM use. Always finish your morning routine with a broad-spectrum SPF 30+."
+          }
+        },
+        "faq-3": {
+          "type": "faq",
+          "settings": {
+            "question": "Is this suitable for sensitive skin?",
+            "answer": "The formula is designed with sensitivity in mind. We recommend a 24-hour patch test on the inner forearm before full facial use. Discontinue if redness or irritation occurs."
+          }
+        },
+        "faq-4": {
+          "type": "faq",
+          "settings": {
+            "question": "Is this safe to use during pregnancy?",
+            "answer": "We recommend consulting your healthcare provider or midwife before introducing new products during pregnancy or while breastfeeding."
+          }
+        },
+        "faq-5": {
+          "type": "faq",
+          "settings": {
+            "question": "How should I patch test?",
+            "answer": "Apply a small amount to the inner forearm or behind the ear. Leave unwashed for 24 hours. If no reaction occurs, proceed with regular use."
+          }
+        },
+        "faq-6": {
+          "type": "faq",
+          "settings": {
+            "question": "How long will a 30ml bottle last?",
+            "answer": "Using 2–3 drops twice daily, a 30ml bottle typically lasts 6–8 weeks with consistent use."
+          }
+        }
+      },
+      "blocks_order": [
+        "tag-1", "tag-2", "tag-3", "tag-4", "tag-5", "tag-6",
+        "ing-1", "ing-2", "ing-3", "ing-4",
+        "step-1", "step-2", "step-3", "step-4",
+        "st-1", "st-2", "st-3", "st-4", "st-5",
+        "faq-1", "faq-2", "faq-3", "faq-4", "faq-5", "faq-6"
+      ]
+    }
+  },
+  "order": ["main"]
+}

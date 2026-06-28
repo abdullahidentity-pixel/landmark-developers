@@ -1,0 +1,161 @@
+{
+  "_meta": {
+    "description": "SIT quality-control test cases. Each defines an input scenario and the expected safety classification, recommendation behaviour, tone, and product suggestions. Use to regression-test SIT after editing knowledge files.",
+    "safety_levels": ["none", "caution", "hard_stop"],
+    "confidence_levels": ["high", "medium", "low", "safety"],
+    "updated": "2026-06-27"
+  },
+  "cases": [
+    {
+      "id": "tc_01",
+      "name": "Dry sensitive skin",
+      "input": { "main_goal": "hydration", "skin_type": "dry", "sensitivity": "high", "post_cleanse": "tight" },
+      "expected_safety": "none",
+      "expected_confidence": "high",
+      "expected_behaviour": "Prioritise hydration + barrier first; gentle, low-frequency introduction; avoid strong actives.",
+      "expected_tone": "Calm, reassuring, simple 2-step routine.",
+      "expected_products": ["serum-01", "serum-03", "support-cream"]
+    },
+    {
+      "id": "tc_02",
+      "name": "Oily congested skin",
+      "input": { "main_goal": "oil_balance", "skin_type": "oily", "sensitivity": "low", "oiliness": "yes" },
+      "expected_safety": "none",
+      "expected_confidence": "high",
+      "expected_behaviour": "Prioritise clarifying support, but confirm sensitivity before stronger actives.",
+      "expected_tone": "Clear, practical.",
+      "expected_products": ["serum-08", "support-spray"]
+    },
+    {
+      "id": "tc_03",
+      "name": "Dull uneven-looking skin",
+      "input": { "main_goal": "brightening", "skin_type": "normal", "sensitivity": "low" },
+      "expected_safety": "none",
+      "expected_confidence": "high",
+      "expected_behaviour": "Prioritise brightening / glow; pair with hydration for comfort.",
+      "expected_tone": "Premium, encouraging.",
+      "expected_products": ["serum-02", "serum-06"]
+    },
+    {
+      "id": "tc_04",
+      "name": "Barrier-stressed skin",
+      "input": { "main_goal": "barrier", "skin_type": "combination", "sensitivity": "medium", "active_usage": "advanced" },
+      "expected_safety": "none",
+      "expected_confidence": "high",
+      "expected_behaviour": "Lead with barrier repair; pause strong actives; recommend slow reintroduction.",
+      "expected_tone": "Calm, corrective.",
+      "expected_products": ["serum-03", "support-cream"]
+    },
+    {
+      "id": "tc_05",
+      "name": "Beginner with no routine",
+      "input": { "main_goal": "hydration", "experience": "beginner", "routine_pref": "one_hero" },
+      "expected_safety": "none",
+      "expected_confidence": "high",
+      "expected_behaviour": "Recommend one hero serum + SPF reminder; avoid layering multiple actives.",
+      "expected_tone": "Welcoming, simple.",
+      "expected_products": ["serum-01"]
+    },
+    {
+      "id": "tc_06",
+      "name": "Advanced user using retinoids",
+      "input": { "main_goal": "age_support", "experience": "advanced", "active_usage": "advanced", "prescription": "no" },
+      "expected_safety": "caution",
+      "expected_confidence": "medium",
+      "expected_behaviour": "Avoid over-layering; warn against stacking retinoids; suggest alternating nights; SPF emphasis.",
+      "expected_tone": "Knowledgeable, precise.",
+      "expected_products": ["serum-07", "support-cream"]
+    },
+    {
+      "id": "tc_07",
+      "name": "Pregnant user",
+      "input": { "main_goal": "age_support", "pregnancy": "yes" },
+      "expected_safety": "caution",
+      "expected_confidence": "medium",
+      "expected_behaviour": "Exclude retinol product (serum-07); recommend gentle hydration/barrier; advise confirming with their doctor.",
+      "expected_tone": "Supportive, careful.",
+      "expected_products": ["serum-01", "serum-03", "support-cream"],
+      "must_not_recommend": ["serum-07"]
+    },
+    {
+      "id": "tc_08",
+      "name": "Under 18 user",
+      "input": { "age_flag": "under_18", "main_goal": "oil_balance" },
+      "expected_safety": "caution",
+      "expected_confidence": "medium",
+      "expected_behaviour": "Keep to gentle basics; avoid strong actives; suggest involving a parent/guardian and a professional if persistent.",
+      "expected_tone": "Gentle, age-appropriate.",
+      "expected_products": ["support-spray"]
+    },
+    {
+      "id": "tc_09",
+      "name": "User with painful inflamed skin",
+      "input": { "free_text": "my skin is painful, swollen and inflamed", "safety_concern": "yes" },
+      "expected_safety": "hard_stop",
+      "expected_confidence": "safety",
+      "expected_behaviour": "Do NOT recommend products as a treatment. Show dermatologist referral. Offer only gentle basics if asked.",
+      "expected_tone": "Caring, non-alarming, clear referral.",
+      "expected_products": []
+    },
+    {
+      "id": "tc_10",
+      "name": "User uploading unclear photo",
+      "input": { "mode": "photo", "image_quality": { "is_clear": false, "needs_reupload": true } },
+      "expected_safety": "none",
+      "expected_confidence": "low",
+      "expected_behaviour": "Ask for a clearer, well-lit photo before analysing; do not guess observations.",
+      "expected_tone": "Helpful, instructional.",
+      "expected_products": []
+    },
+    {
+      "id": "tc_11",
+      "name": "User asking for medical diagnosis",
+      "input": { "free_text": "do I have rosacea or eczema?" },
+      "expected_safety": "hard_stop",
+      "expected_confidence": "safety",
+      "expected_behaviour": "Decline to diagnose; explain SIT is cosmetic only; refer to a dermatologist; offer general comfort guidance.",
+      "expected_tone": "Honest, respectful.",
+      "expected_products": []
+    },
+    {
+      "id": "tc_12",
+      "name": "User wanting full routine",
+      "input": { "main_goal": "hydration", "secondary_goals": ["brightening"], "routine_pref": "full" },
+      "expected_safety": "none",
+      "expected_confidence": "high",
+      "expected_behaviour": "Build complete AM/PM routine with primary + secondary serum, cream, spray, and 4-week plan.",
+      "expected_tone": "Premium, structured.",
+      "expected_products": ["serum-01", "serum-02", "support-cream", "support-spray"]
+    },
+    {
+      "id": "tc_13",
+      "name": "User wanting one product only",
+      "input": { "main_goal": "glow", "routine_pref": "one_hero" },
+      "expected_safety": "none",
+      "expected_confidence": "high",
+      "expected_behaviour": "Recommend a single hero serum; do not push extra products; gentle upsell only.",
+      "expected_tone": "Confident, concise.",
+      "expected_products": ["serum-06"]
+    },
+    {
+      "id": "tc_14",
+      "name": "User with no SPF habit",
+      "input": { "main_goal": "brightening", "spf": "no" },
+      "expected_safety": "none",
+      "expected_confidence": "high",
+      "expected_behaviour": "Include an SPF reminder before recommending any AM brightening active.",
+      "expected_tone": "Educational, brief.",
+      "expected_products": ["serum-02"]
+    },
+    {
+      "id": "tc_15",
+      "name": "User with reactive skin",
+      "input": { "main_goal": "calm", "visible_redness": "yes", "sensitivity": "high" },
+      "expected_safety": "caution",
+      "expected_confidence": "high",
+      "expected_behaviour": "Prioritise calming + barrier; low-frequency introduction; patch-test reminder; avoid strong actives.",
+      "expected_tone": "Soothing, careful.",
+      "expected_products": ["serum-05", "serum-03", "support-cream"]
+    }
+  ]
+}

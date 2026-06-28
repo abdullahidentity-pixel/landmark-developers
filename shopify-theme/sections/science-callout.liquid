@@ -1,0 +1,125 @@
+<section class="science-callout">
+  <div class="science-callout__inner">
+
+    <div class="science-callout__content">
+      <p class="t-label--white reveal">{{ section.settings.label | default: 'The Science' }}</p>
+
+      <h2 class="science-callout__heading reveal reveal-delay-1">
+        {{ section.settings.heading_before }}
+        {%- if section.settings.heading_emphasis != blank -%}
+          <em>{{ section.settings.heading_emphasis }}</em>
+        {%- endif -%}
+        {{ section.settings.heading_after }}
+      </h2>
+
+      <p class="science-callout__body reveal reveal-delay-2">{{ section.settings.body }}</p>
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="science-callout__stats reveal reveal-delay-2">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'stat' -%}
+              <div class="science-stat" {{ block.shopify_attributes }}>
+                <p class="science-stat__number">{{ block.settings.number }}</p>
+                <p class="science-stat__label">{{ block.settings.label }}</p>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ section.settings.cta_url | default: '/pages/ingredients' }}"
+           class="btn btn--outline-white reveal reveal-delay-3">
+          {{ section.settings.cta_label }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="science-callout__media">
+      {%- if section.settings.image != blank -%}
+        {{- section.settings.image | image_url: width: 900 | image_tag:
+            loading: 'lazy',
+            widths: '480, 768, 900',
+            sizes: '50vw'
+        -}}
+      {%- else -%}
+        <div style="width:100%;height:100%;background: linear-gradient(135deg, #2c4f31, #49724a);"></div>
+      {%- endif -%}
+      <div class="science-callout__media-overlay"></div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Science Callout",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "The Science"
+    },
+    {
+      "type": "text",
+      "id": "heading_before",
+      "label": "Heading — before emphasis",
+      "default": "The science of"
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis",
+      "label": "Heading — emphasis (italic green)",
+      "default": "healthy skin"
+    },
+    {
+      "type": "text",
+      "id": "heading_after",
+      "label": "Heading — after emphasis"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "We combine cutting-edge biotechnology with the ancient intelligence of plants. Every ingredient is chosen for clinical evidence, not marketing appeal."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Explore the Ingredients"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Statistic",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number / stat", "default": "97%" },
+        { "type": "text", "id": "label", "label": "Stat label", "default": "Naturally derived ingredients" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Science Callout",
+      "blocks": [
+        { "type": "stat", "settings": { "number": "97%", "label": "Naturally derived" } },
+        { "type": "stat", "settings": { "number": "12", "label": "Clinical trials" } },
+        { "type": "stat", "settings": { "number": "0", "label": "Synthetic fragrances" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

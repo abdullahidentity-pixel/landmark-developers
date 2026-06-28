@@ -1,0 +1,112 @@
+<section class="hp-concerns section">
+  <div class="container">
+
+    <div class="hp-concerns__header reveal">
+      {%- if section.settings.label != blank -%}
+        <span class="hp-section-label">{{ section.settings.label }}</span>
+      {%- endif -%}
+      <h2 class="hp-concerns__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="hp-concerns__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="hp-concerns__grid reveal">
+      {%- for block in section.blocks -%}
+        <a href="{{ block.settings.url | default: '/collections/all' }}"
+           class="hp-concern-card"
+           {{ block.shopify_attributes }}>
+          <div class="hp-concern-card__icon">
+            {%- if block.settings.icon != blank -%}
+              {{- block.settings.icon | image_url: width: 80 | image_tag:
+                  loading: 'lazy',
+                  alt: block.settings.name,
+                  class: 'hp-concern-card__icon-img' -}}
+            {%- else -%}
+              <span class="hp-concern-card__icon-emoji" aria-hidden="true">{{ block.settings.emoji }}</span>
+            {%- endif -%}
+          </div>
+          <span class="hp-concern-card__name">{{ block.settings.name }}</span>
+        </a>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HP — Skin Concerns",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "concern",
+      "name": "Concern",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Concern name",
+          "default": "Hydration"
+        },
+        {
+          "type": "text",
+          "id": "emoji",
+          "label": "Emoji icon (fallback)",
+          "default": "💧",
+          "info": "Shown when no image is uploaded."
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon image (optional)"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link to collection or tag"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Shop by Concern"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "What does your skin need today?"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle"
+    }
+  ],
+  "presets": [
+    {
+      "name": "HP — Skin Concerns",
+      "settings": {
+        "label": "Shop by Concern",
+        "title": "What does your skin need today?"
+      },
+      "blocks": [
+        { "type": "concern", "settings": { "name": "Hydration", "emoji": "💧" } },
+        { "type": "concern", "settings": { "name": "Brightening", "emoji": "✨" } },
+        { "type": "concern", "settings": { "name": "Barrier Repair", "emoji": "🛡️" } },
+        { "type": "concern", "settings": { "name": "Acne Support", "emoji": "🌿" } },
+        { "type": "concern", "settings": { "name": "Texture", "emoji": "🪞" } },
+        { "type": "concern", "settings": { "name": "Age Support", "emoji": "⏳" } },
+        { "type": "concern", "settings": { "name": "Calmness", "emoji": "🕊️" } },
+        { "type": "concern", "settings": { "name": "Glow", "emoji": "🌤️" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

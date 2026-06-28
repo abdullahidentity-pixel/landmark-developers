@@ -1,0 +1,836 @@
+{{ 'serum-finder.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  Serialise serum product data for the quiz engine.
+  Each serum_result block has a product picker and metadata fields.
+{%- endcomment -%}
+{%- assign serum_blocks = section.blocks | where: 'type', 'serum_result' -%}
+{%- assign support_blocks = section.blocks | where: 'type', 'support_product' -%}
+{%- assign faq_blocks = section.blocks | where: 'type', 'faq' -%}
+{%- assign ing_blocks = section.blocks | where: 'type', 'ingredient_card' -%}
+
+<script type="application/json" id="sf-serum-json">
+[
+  {%- for block in serum_blocks -%}
+    {%- assign prod = block.settings.product -%}
+    {
+      "id": "{{ block.settings.serum_id }}",
+      "name": {{ prod.title | default: block.settings.fallback_name | json }},
+      "handle": {{ prod.handle | default: block.settings.serum_id | json }},
+      "price": {{ prod.price | money | json }},
+      "variantId": {{ prod.variants.first.id | default: 0 }},
+      "available": {{ prod.available | default: true }},
+      "image": {{ prod.featured_image | image_url: width: 600 | json }},
+      "benefit": {{ block.settings.benefit | json }},
+      "why": {{ block.settings.why | json }},
+      "texture": {{ block.settings.texture | json }},
+      "timing": {{ block.settings.timing | json }}
+    }{% unless forloop.last %},{% endunless %}
+  {%- endfor -%}
+]
+</script>
+
+<script type="application/json" id="sf-support-json">
+[
+  {%- for block in support_blocks -%}
+    {%- assign prod = block.settings.product -%}
+    {
+      "id": "{{ block.settings.support_id }}",
+      "name": {{ prod.title | default: block.settings.fallback_name | json }},
+      "handle": {{ prod.handle | default: block.settings.support_id | json }},
+      "price": {{ prod.price | money | json }},
+      "variantId": {{ prod.variants.first.id | default: 0 }},
+      "image": {{ prod.featured_image | image_url: width: 300 | json }},
+      "label": {{ block.settings.label | json }},
+      "showFor": {{ block.settings.show_for | json }}
+    }{% unless forloop.last %},{% endunless %}
+  {%- endfor -%}
+]
+</script>
+
+<div class="sf-page">
+
+  {%- comment -%}══════════════════════════════════════════
+    HERO
+  ══════════════════════════════════════════{%- endcomment -%}
+  <section class="sf-hero" id="sf-hero">
+    <div class="sf-hero__inner">
+      {%- if section.settings.hero_eyebrow != blank -%}
+        <p class="sf-hero__eyebrow">{{ section.settings.hero_eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="sf-hero__heading">{{ section.settings.hero_heading }}</h1>
+      {%- if section.settings.hero_body != blank -%}
+        <p class="sf-hero__body">{{ section.settings.hero_body }}</p>
+      {%- endif -%}
+      <button class="sf-hero__cta" id="sf-start" type="button" aria-label="Start the serum finder quiz">
+        {{ section.settings.hero_cta | default: 'Start Quiz' }}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <div class="sf-hero__trust">
+        <span class="sf-hero__trust-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Under 60 seconds
+        </span>
+        <span class="sf-hero__trust-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          No account needed
+        </span>
+        <span class="sf-hero__trust-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Personalised to your skin
+        </span>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%}══════════════════════════════════════════
+    QUIZ SECTION
+  ══════════════════════════════════════════{%- endcomment -%}
+  <div class="sf-quiz-section" id="sf-quiz-section" aria-live="polite">
+    <div class="sf-quiz-inner">
+
+      {%- comment -%} Progress bar {%- endcomment -%}
+      <div class="sf-progress" id="sf-progress">
+        <div class="sf-progress__meta">
+          <span class="sf-progress__label">{{ section.settings.hero_eyebrow | default: 'Serum Finder' }}</span>
+          <span class="sf-progress__step" id="sf-step-meta">Step 1 of 5</span>
+        </div>
+        <div class="sf-progress__track">
+          <div class="sf-progress__fill" id="sf-progress-fill" style="width: 20%;"></div>
+        </div>
+      </div>
+
+      {%- comment -%}────────────────────────────────────────
+        Q1 — Skin Goal
+      ────────────────────────────────────────{%- endcomment -%}
+      <div class="sf-step" data-step="1" id="sf-step-1">
+        <div class="sf-question-card">
+          <p class="sf-question__number">01 / 05</p>
+          <h2 class="sf-question__text">{{ section.settings.q1_label | default: 'What is your main skin goal?' }}</h2>
+          <div class="sf-options sf-options--grid" role="radiogroup" aria-label="Skin goal">
+            {%- assign q1_opts = 'hydration|Hydration|Plump, well-moisturised skin,brightening|Brightening|Even tone and faded dark spots,barrier-repair|Barrier repair|Strengthen and rebuild skin,clearer-skin|Clearer skin|Reduce breakouts and congestion,smooth-texture|Smooth texture|Refine pores and resurface skin,calm-redness|Calm redness|Soothe irritation and reactivity,firming|Firming|Support elasticity and reduce lines,overall-glow|Overall glow|General radiance and luminosity' | split: ',' -%}
+            {%- for opt in q1_opts -%}
+              {%- assign parts = opt | split: '|' -%}
+              <button class="sf-option" data-question="goal" data-value="{{ parts[0] }}" role="radio" aria-checked="false" type="button">
+                <span class="sf-option__check" aria-hidden="true"></span>
+                <span class="sf-option__content">
+                  <span class="sf-option__label">{{ parts[1] }}</span>
+                  <span class="sf-option__desc">{{ parts[2] }}</span>
+                </span>
+              </button>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%}────────────────────────────────────────
+        Q2 — Skin Type
+      ────────────────────────────────────────{%- endcomment -%}
+      <div class="sf-step" data-step="2" id="sf-step-2">
+        <div class="sf-question-card">
+          <p class="sf-question__number">02 / 05</p>
+          <h2 class="sf-question__text">{{ section.settings.q2_label | default: 'What is your skin type?' }}</h2>
+          <div class="sf-options" role="radiogroup" aria-label="Skin type">
+            {%- assign q2_opts = 'dry|Dry|Often feels tight, flaky, or thirsty,oily|Oily|Prone to shine, congestion and enlarged pores,combination|Combination|Oily T-zone with drier cheeks and jaw,sensitive|Sensitive|Reacts easily to new products or ingredients,normal|Normal|Generally balanced and comfortable' | split: ',' -%}
+            {%- for opt in q2_opts -%}
+              {%- assign parts = opt | split: '|' -%}
+              <button class="sf-option" data-question="skinType" data-value="{{ parts[0] }}" role="radio" aria-checked="false" type="button">
+                <span class="sf-option__check" aria-hidden="true"></span>
+                <span class="sf-option__content">
+                  <span class="sf-option__label">{{ parts[1] }}</span>
+                  <span class="sf-option__desc">{{ parts[2] }}</span>
+                </span>
+              </button>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%}────────────────────────────────────────
+        Q3 — Texture Preference
+      ────────────────────────────────────────{%- endcomment -%}
+      <div class="sf-step" data-step="3" id="sf-step-3">
+        <div class="sf-question-card">
+          <p class="sf-question__number">03 / 05</p>
+          <h2 class="sf-question__text">{{ section.settings.q3_label | default: 'What texture do you prefer?' }}</h2>
+          <div class="sf-options" role="radiogroup" aria-label="Texture preference">
+            {%- assign q3_opts = 'lightweight|Lightweight|Water-thin and fast-absorbing — no residue,milky|Milky|Creamy and soothing — good for barrier repair,gel|Gel|Cooling and mattifying — ideal for oily or reactive skin,rich|Richer finish|Nourishing and cushioning — great for dry or mature skin' | split: ',' -%}
+            {%- for opt in q3_opts -%}
+              {%- assign parts = opt | split: '|' -%}
+              <button class="sf-option" data-question="texture" data-value="{{ parts[0] }}" role="radio" aria-checked="false" type="button">
+                <span class="sf-option__check" aria-hidden="true"></span>
+                <span class="sf-option__content">
+                  <span class="sf-option__label">{{ parts[1] }}</span>
+                  <span class="sf-option__desc">{{ parts[2] }}</span>
+                </span>
+              </button>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%}────────────────────────────────────────
+        Q4 — Timing
+      ────────────────────────────────────────{%- endcomment -%}
+      <div class="sf-step" data-step="4" id="sf-step-4">
+        <div class="sf-question-card">
+          <p class="sf-question__number">04 / 05</p>
+          <h2 class="sf-question__text">{{ section.settings.q4_label | default: 'When do you want to use it?' }}</h2>
+          <div class="sf-options sf-options--row" role="radiogroup" aria-label="Timing preference">
+            <button class="sf-option" data-question="timing" data-value="morning" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__label">Morning</span>
+              <span class="sf-option__desc">AM routine only</span>
+            </button>
+            <button class="sf-option" data-question="timing" data-value="evening" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__label">Evening</span>
+              <span class="sf-option__desc">PM routine only</span>
+            </button>
+            <button class="sf-option" data-question="timing" data-value="both" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__label">Both</span>
+              <span class="sf-option__desc">AM and PM use</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%}────────────────────────────────────────
+        Q5 — Experience
+      ────────────────────────────────────────{%- endcomment -%}
+      <div class="sf-step" data-step="5" id="sf-step-5">
+        <div class="sf-question-card">
+          <p class="sf-question__number">05 / 05</p>
+          <h2 class="sf-question__text">{{ section.settings.q5_label | default: 'How experienced are you with active ingredients?' }}</h2>
+          <div class="sf-options" role="radiogroup" aria-label="Experience level">
+            <button class="sf-option" data-question="experience" data-value="beginner" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Beginner</span>
+                <span class="sf-option__desc">New to serums or active skincare — I want a gentle starting point</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="experience" data-value="intermediate" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Intermediate</span>
+                <span class="sf-option__desc">I use serums regularly and have a basic routine in place</span>
+              </span>
+            </button>
+            <button class="sf-option" data-question="experience" data-value="advanced" role="radio" aria-checked="false" type="button">
+              <span class="sf-option__check" aria-hidden="true"></span>
+              <span class="sf-option__content">
+                <span class="sf-option__label">Advanced</span>
+                <span class="sf-option__desc">I'm confident with AHAs, retinoids, and layering multiple actives</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%}────────────────────────────────────────
+        Results
+      ────────────────────────────────────────{%- endcomment -%}
+      <div class="sf-step" data-step="results" id="sf-step-results">
+        {%- comment -%} Populated by JS {%- endcomment -%}
+      </div>
+
+      {%- comment -%} Navigation {%- endcomment -%}
+      <div class="sf-quiz-nav" id="sf-quiz-nav">
+        <button class="sf-nav-back" id="sf-back" type="button" hidden aria-label="Go to previous question">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Back
+        </button>
+        <button class="sf-nav-continue" id="sf-continue" type="button" disabled aria-label="Continue to next question">
+          Continue
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  {%- comment -%}══════════════════════════════════════════
+    INGREDIENT GUIDE
+  ══════════════════════════════════════════{%- endcomment -%}
+  {%- if ing_blocks.size > 0 -%}
+  <section class="sf-ingredients">
+    <div class="sf-ingredients__inner">
+      <div class="sf-ingredients__header">
+        {%- if section.settings.ing_eyebrow != blank -%}
+          <p class="sf-ingredients__eyebrow">{{ section.settings.ing_eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="sf-ingredients__title">{{ section.settings.ing_title }}</h2>
+      </div>
+      <div class="sf-ingredients__grid">
+        {%- for block in ing_blocks -%}
+          <div class="sf-ingredient-card" {{ block.shopify_attributes }}>
+            {%- if block.settings.percentage != blank -%}
+              <p class="sf-ingredient-card__pct">{{ block.settings.percentage }}</p>
+            {%- endif -%}
+            <h3 class="sf-ingredient-card__name">{{ block.settings.name }}</h3>
+            {%- if block.settings.benefit != blank -%}
+              <p class="sf-ingredient-card__benefit">{{ block.settings.benefit }}</p>
+            {%- endif -%}
+            <p class="sf-ingredient-card__desc">{{ block.settings.description }}</p>
+            {%- if block.settings.serums != blank -%}
+              <div class="sf-ingredient-card__serums">
+                {%- assign serum_tags = block.settings.serums | split: ',' -%}
+                {%- for tag in serum_tags -%}
+                  <span class="sf-ingredient-card__serum-tag">{{ tag | strip }}</span>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+  {%- endif -%}
+
+  {%- comment -%}══════════════════════════════════════════
+    CONTACT CTA
+  ══════════════════════════════════════════{%- endcomment -%}
+  <section class="sf-contact">
+    <div class="sf-contact__inner">
+      <div>
+        {%- if section.settings.contact_eyebrow != blank -%}
+          <p class="sf-contact__eyebrow">{{ section.settings.contact_eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="sf-contact__heading">{{ section.settings.contact_heading }}</h2>
+      </div>
+      <a class="sf-contact__cta" href="{{ section.settings.contact_url | default: 'mailto:hello@velourskin.com' }}">
+        {{ section.settings.contact_cta_label | default: 'Get in touch' }}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </section>
+
+  {%- comment -%}══════════════════════════════════════════
+    FAQ
+  ══════════════════════════════════════════{%- endcomment -%}
+  {%- if faq_blocks.size > 0 -%}
+  <section class="sf-faq">
+    <div class="sf-faq__inner">
+      <div>
+        {%- if section.settings.faq_eyebrow != blank -%}
+          <p class="sf-faq__eyebrow">{{ section.settings.faq_eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="sf-faq__title">{{ section.settings.faq_title }}</h2>
+      </div>
+      <div class="sf-faq__content-col">
+        <div class="sf-faq-list">
+          {%- for block in faq_blocks -%}
+            <details class="sf-faq-item" {{ block.shopify_attributes }}>
+              <summary class="sf-faq-item__summary">
+                <span class="sf-faq-item__question">{{ block.settings.question }}</span>
+                <span class="sf-faq-item__icon" aria-hidden="true">
+                  <svg class="sf-faq-icon sf-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  <svg class="sf-faq-icon sf-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </span>
+              </summary>
+              <div class="sf-faq-item__body-wrap">
+                <div class="sf-faq-item__body-inner">
+                  <p class="sf-faq-item__answer">{{ block.settings.answer }}</p>
+                </div>
+              </div>
+            </details>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </section>
+  {%- endif -%}
+
+</div><!-- /sf-page -->
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Data from Liquid ───────────────────────────────────────── */
+  var SERUMS   = JSON.parse(document.getElementById('sf-serum-json')?.textContent || '[]');
+  var SUPPORTS = JSON.parse(document.getElementById('sf-support-json')?.textContent || '[]');
+
+  /* Fallback catalogue (used when no blocks are set in theme editor) */
+  var FALLBACK_SERUMS = [
+    { id: 'serum-01', name: 'Hydra-Boost Serum',         handle: 'serum-01', price: '£52', variantId: 0, benefit: '72-hour deep hydration for visibly plumper skin',           why: 'Your skin is calling for intensive moisture. Multi-weight hyaluronic acid binds water at every layer — surface and deep — so hydration stays put across the day.',                     texture: 'Water-thin fluid', timing: 'AM + PM' },
+    { id: 'serum-02', name: 'Bright-C Serum',            handle: 'serum-02', price: '£58', variantId: 0, benefit: 'Fades dark spots and boosts natural radiance',                why: 'Clinical-concentration Vitamin C breaks down existing pigmentation at the source while Ferulic Acid stabilises its potency. Use in the morning followed by SPF.',                  texture: 'Lightweight gel',  timing: 'AM only' },
+    { id: 'serum-03', name: 'Barrier Repair Serum',      handle: 'serum-03', price: '£54', variantId: 0, benefit: 'Restores and strengthens the skin\'s protective barrier',     why: 'Ceramides identical to those found in healthy skin fill the gaps left by dryness or damage. Centella Asiatica calms inflammation while your barrier rebuilds from within.',         texture: 'Milky emulsion',   timing: 'AM + PM' },
+    { id: 'serum-04', name: 'Clear Skin Serum',          handle: 'serum-04', price: '£48', variantId: 0, benefit: 'Targets breakouts and regulates excess sebum',                why: 'Salicylic acid penetrates pores to dissolve congestion, while zinc moderates oil production. Niacinamide fades post-breakout marks over time. Safe for daily use.',               texture: 'Lightweight gel',  timing: 'AM + PM' },
+    { id: 'serum-05', name: 'Smooth Resurfacing Serum',  handle: 'serum-05', price: '£56', variantId: 0, benefit: 'Refines skin texture and minimises visible pores',            why: 'A dual acid exfoliant — AHAs resurface the skin surface, BHAs go deeper into pores. Use in the evening on dry skin. Always follow with SPF the next morning.',                  texture: 'Clear fluid',      timing: 'PM only' },
+    { id: 'serum-06', name: 'Calm Serum',                handle: 'serum-06', price: '£50', variantId: 0, benefit: 'Soothes redness and calms reactive skin',                    why: 'Azelaic acid targets redness and pigmentation while allantoin and green tea extract calm inflammation. The fragrance-free formula is safe for the most sensitive complexions.',     texture: 'Soothing gel',     timing: 'AM + PM' },
+    { id: 'serum-07', name: 'Age-Defy Serum',            handle: 'serum-07', price: '£68', variantId: 0, benefit: 'Reduces fine lines and improves skin firmness',               why: 'A 0.3% retinol concentration is the clinical sweet spot — effective enough to stimulate collagen without excessive dryness. Start every third evening and build from there.',       texture: 'Rich fluid',       timing: 'PM only' },
+    { id: 'serum-08', name: 'Glow Elixir Serum',         handle: 'serum-08', price: '£62', variantId: 0, benefit: 'Natural-origin oil serum for luminous, radiant skin',         why: 'Bakuchiol delivers retinol-like results without the irritation, making it ideal for sensitive or retinol-naive skin. Squalane replenishes the lipid barrier for a lasting glow.', texture: 'Dry-touch oil',    timing: 'AM + PM' }
+  ];
+
+  var FALLBACK_SUPPORTS = [
+    { id: 'support-cream', name: 'Velour Barrier Cream', handle: 'support-cream', price: '£48', variantId: 0, label: 'Complete your routine', showFor: 'always' },
+    { id: 'support-spray', name: 'Velour Facial Spray',  handle: 'support-spray', price: '£32', variantId: 0, label: 'Boost & refresh',      showFor: 'brightening,overall-glow,oily' }
+  ];
+
+  if (!SERUMS.length)   SERUMS   = FALLBACK_SERUMS;
+  if (!SUPPORTS.length) SUPPORTS = FALLBACK_SUPPORTS;
+
+  /* Index by id */
+  var serumMap   = {};
+  var supportMap = {};
+  SERUMS.forEach(function (s) { serumMap[s.id] = s; });
+  SUPPORTS.forEach(function (s) { supportMap[s.id] = s; });
+
+  /* ── State ──────────────────────────────────────────────────── */
+  var TOTAL_STEPS = 5;
+  var currentStep = 1;
+  var answers = {};
+
+  var hero          = document.getElementById('sf-hero');
+  var quizSection   = document.getElementById('sf-quiz-section');
+  var progressFill  = document.getElementById('sf-progress-fill');
+  var stepMeta      = document.getElementById('sf-step-meta');
+  var btnBack       = document.getElementById('sf-back');
+  var btnContinue   = document.getElementById('sf-continue');
+  var quizNav       = document.getElementById('sf-quiz-nav');
+
+  /* ── Start quiz ─────────────────────────────────────────────── */
+  document.getElementById('sf-start')?.addEventListener('click', function () {
+    hero.classList.add('is-hidden');
+    quizSection.classList.add('is-active');
+    showStep(1, false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ── Navigate steps ─────────────────────────────────────────── */
+  function showStep(step, goingBack) {
+    var prevEl = document.querySelector('.sf-step.is-active');
+    var nextEl = document.getElementById('sf-step-' + step);
+    if (!nextEl) return;
+
+    if (prevEl) {
+      prevEl.classList.remove('is-active');
+    }
+
+    nextEl.classList.add('is-active');
+    nextEl.classList.add(goingBack ? 'is-entering-back' : 'is-entering');
+    nextEl.addEventListener('animationend', function () {
+      nextEl.classList.remove('is-entering', 'is-entering-back');
+    }, { once: true });
+
+    currentStep = step;
+
+    /* Update progress */
+    if (step !== 'results') {
+      var pct = (step / TOTAL_STEPS) * 100;
+      progressFill.style.width = pct + '%';
+      stepMeta.textContent = 'Step ' + step + ' of ' + TOTAL_STEPS;
+      document.getElementById('sf-progress').style.display = '';
+      quizNav.style.display = '';
+
+      /* Back button */
+      if (step > 1) {
+        btnBack.removeAttribute('hidden');
+      } else {
+        btnBack.setAttribute('hidden', '');
+      }
+
+      /* Enable continue if answer already selected for this step */
+      var questionEl = nextEl.querySelector('[data-question]');
+      var qKey = questionEl ? questionEl.dataset.question : null;
+      btnContinue.disabled = !(qKey && answers[qKey]);
+      btnContinue.textContent = step === TOTAL_STEPS ? 'See my results' : 'Continue';
+      /* Re-attach arrow */
+      btnContinue.innerHTML = (step === TOTAL_STEPS ? 'See my results' : 'Continue') +
+        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+    } else {
+      /* Results page */
+      document.getElementById('sf-progress').style.display = 'none';
+      quizNav.style.display = 'none';
+      renderResults();
+    }
+
+    /* Scroll to top of quiz */
+    quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ── Option selection ───────────────────────────────────────── */
+  document.querySelectorAll('.sf-option').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var qKey = btn.dataset.question;
+      var val  = btn.dataset.value;
+
+      /* Deselect siblings */
+      btn.closest('.sf-options').querySelectorAll('.sf-option').forEach(function (b) {
+        b.classList.remove('is-selected');
+        b.setAttribute('aria-checked', 'false');
+      });
+
+      btn.classList.add('is-selected');
+      btn.setAttribute('aria-checked', 'true');
+
+      answers[qKey] = val;
+      btnContinue.disabled = false;
+
+      /* Auto-advance on last step */
+      if (currentStep === TOTAL_STEPS) {
+        setTimeout(function () { goForward(); }, 320);
+      }
+    });
+  });
+
+  /* ── Continue / Back ────────────────────────────────────────── */
+  btnContinue.addEventListener('click', goForward);
+  btnBack.addEventListener('click', goBack);
+
+  function goForward() {
+    if (btnContinue.disabled) return;
+    if (currentStep < TOTAL_STEPS) {
+      showStep(currentStep + 1, false);
+    } else {
+      showStep('results', false);
+    }
+  }
+
+  function goBack() {
+    if (currentStep === 1) return;
+    showStep(currentStep - 1, true);
+  }
+
+  /* ── Recommendation engine ──────────────────────────────────── */
+  function recommend(ans) {
+    var goalMap = {
+      'hydration':      'serum-01',
+      'brightening':    'serum-02',
+      'barrier-repair': 'serum-03',
+      'clearer-skin':   'serum-04',
+      'smooth-texture': 'serum-05',
+      'calm-redness':   'serum-06',
+      'firming':        'serum-07',
+      'overall-glow':   'serum-08'
+    };
+
+    var primary = goalMap[ans.goal] || 'serum-01';
+    var override = null;
+
+    /* Beginner safety: swap harsh actives */
+    if (ans.experience === 'beginner') {
+      if (primary === 'serum-05') { primary = 'serum-03'; override = 'beginner-05'; }
+      if (primary === 'serum-07') { primary = 'serum-08'; override = 'beginner-07'; }
+    }
+
+    /* Morning-use: PM-only actives need swapping */
+    if (ans.timing === 'morning') {
+      if (primary === 'serum-05') { primary = 'serum-04'; override = 'timing-05'; }
+      if (primary === 'serum-07') { primary = 'serum-02'; override = 'timing-07'; }
+    }
+
+    /* Secondary: complement by skin type */
+    var skinSecondary = { dry: 'serum-01', oily: 'serum-04', combination: 'serum-04', sensitive: 'serum-06', normal: 'serum-08' };
+    var secondary = skinSecondary[ans.skinType] || 'serum-01';
+    if (secondary === primary) {
+      secondary = (primary === 'serum-01') ? 'serum-03' : 'serum-01';
+    }
+
+    /* Support products */
+    var supports = ['support-cream'];
+    var glowGoals = ['brightening', 'overall-glow'];
+    if (glowGoals.indexOf(ans.goal) !== -1 || ans.skinType === 'oily') {
+      supports.push('support-spray');
+    }
+
+    return { primary: primary, secondary: secondary, supports: supports, override: override };
+  }
+
+  /* ── Override explanations ──────────────────────────────────── */
+  var OVERRIDE_TEXT = {
+    'beginner-05': 'You selected texture refinement as your goal. Because you\'re new to active ingredients, we\'ve started you on a ceramide-rich formula instead of exfoliating acids — you\'ll build a resilient base first.',
+    'beginner-07': 'You selected firming as your goal. Because you\'re new to actives, we\'ve chosen our bakuchiol formula rather than retinol — it delivers similar collagen-support with far less adjustment risk.',
+    'timing-05':   'Exfoliating acids (AHAs) are for evening use only as they increase sun sensitivity. Since you prefer mornings, we\'ve matched you with a daytime-safe alternative that targets your skin concern.',
+    'timing-07':   'Retinol is a PM-only ingredient as it breaks down in daylight. We\'ve matched you with Vitamin C instead — the ideal morning active that still targets your firming and brightness goals.'
+  };
+
+  /* ── Render results ─────────────────────────────────────────── */
+  function renderResults() {
+    var rec     = recommend(answers);
+    var primary = serumMap[rec.primary];
+    var secondary = serumMap[rec.secondary];
+    var el = document.getElementById('sf-step-results');
+
+    if (!primary || !secondary) { el.innerHTML = '<p>Something went wrong — <a href="">retake the quiz</a>.</p>'; return; }
+
+    var overrideHTML = rec.override && OVERRIDE_TEXT[rec.override]
+      ? '<div class="sf-result-primary__why"><p class="sf-result-primary__why-label">Why we adjusted your recommendation</p><p class="sf-result-primary__why-text">' + escHtml(OVERRIDE_TEXT[rec.override]) + '</p></div>'
+      : '<div class="sf-result-primary__why"><p class="sf-result-primary__why-label">Why this serum</p><p class="sf-result-primary__why-text">' + escHtml(primary.why) + '</p></div>';
+
+    var imgHtml = primary.image
+      ? '<img src="' + primary.image + '" alt="' + escHtml(primary.name) + '" width="600" height="300" loading="lazy">'
+      : '<div class="sf-result-primary__image-placeholder">' + serumSVG() + '</div>';
+
+    var secImgHtml = secondary.image
+      ? '<img src="' + secondary.image + '" alt="' + escHtml(secondary.name) + '" width="400" height="200" loading="lazy">'
+      : '<div style="width:100%;height:100%;background:var(--c-green-mint);display:flex;align-items:center;justify-content:center;">' + serumSVGSmall() + '</div>';
+
+    /* Support cards HTML */
+    var supportHTML = '';
+    rec.supports.forEach(function (sid) {
+      var s = supportMap[sid];
+      if (!s) return;
+      var sImg = s.image
+        ? '<img src="' + s.image + '" alt="' + escHtml(s.name) + '" width="100" height="100" loading="lazy">'
+        : '<svg width="28" height="28" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="14" y="10" width="20" height="30" rx="6" fill="rgba(73,114,74,0.2)"/></svg>';
+      supportHTML += '<div class="sf-support-card">' +
+        '<div class="sf-support-card__image">' + sImg + '</div>' +
+        '<div>' +
+          '<p class="sf-support-card__label">' + escHtml(s.label) + '</p>' +
+          '<p class="sf-support-card__name">' + escHtml(s.name) + '</p>' +
+          '<p class="sf-support-card__price">' + escHtml(s.price) + '</p>' +
+        '</div></div>';
+    });
+
+    /* Collect variant IDs for add-all */
+    var variantIds = [primary.variantId, secondary.variantId];
+    rec.supports.forEach(function (sid) { if (supportMap[sid]) variantIds.push(supportMap[sid].variantId); });
+    variantIds = variantIds.filter(function (v) { return v > 0; });
+
+    el.innerHTML =
+      '<div class="sf-results">' +
+        '<div class="sf-results__header">' +
+          '<p class="sf-results__eyebrow">Your result</p>' +
+          '<h2 class="sf-results__heading">Your recommended routine</h2>' +
+        '</div>' +
+
+        '<div class="sf-result-primary">' +
+          '<div class="sf-result-primary__image">' + imgHtml + '<span class="sf-result-primary__tag">Primary pick</span></div>' +
+          '<div class="sf-result-primary__body">' +
+            '<h3 class="sf-result-primary__name">' + escHtml(primary.name) + '</h3>' +
+            '<p class="sf-result-primary__benefit">' + escHtml(primary.benefit) + '</p>' +
+            overrideHTML +
+            '<div class="sf-result-primary__specs">' +
+              '<div class="sf-result-primary__spec"><strong>Texture</strong>' + escHtml(primary.texture) + '</div>' +
+              '<div class="sf-result-primary__spec"><strong>Use</strong>' + escHtml(primary.timing) + '</div>' +
+            '</div>' +
+            '<div class="sf-result-primary__footer">' +
+              '<span class="sf-result-primary__price">' + escHtml(primary.price) + '</span>' +
+              '<button class="sf-result-primary__atc" data-variant-id="' + primary.variantId + '" type="button">Add to bag</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="sf-results__secondary-row">' +
+          '<div class="sf-result-secondary">' +
+            '<div class="sf-result-secondary__image" style="background:var(--c-green-mint);">' + secImgHtml + '<span class="sf-result-secondary__tag">Layer with</span></div>' +
+            '<div class="sf-result-secondary__body">' +
+              '<h3 class="sf-result-secondary__name">' + escHtml(secondary.name) + '</h3>' +
+              '<p class="sf-result-secondary__benefit">' + escHtml(secondary.benefit) + '</p>' +
+              '<p style="font-size:0.8rem;color:rgba(3,7,6,0.5);line-height:1.55;margin-bottom:0.875rem;">' + escHtml(secondary.why) + '</p>' +
+              '<div class="sf-result-secondary__footer">' +
+                '<span class="sf-result-secondary__price">' + escHtml(secondary.price) + '</span>' +
+                '<a class="sf-result-secondary__link" href="/products/' + escHtml(secondary.handle) + '">View product <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+
+          (supportHTML ? '<div>' +
+            '<p class="sf-results__support-label" style="margin-bottom:0.75rem;">Complete your routine</p>' +
+            '<div class="sf-results__support-grid" style="grid-template-columns:1fr;">' + supportHTML + '</div>' +
+          '</div>' : '') +
+        '</div>' +
+
+        '<div class="sf-results__actions">' +
+          (variantIds.length > 0
+            ? '<button class="sf-add-all" id="sf-add-all" type="button" data-variants="' + variantIds.join(',') + '">Add all to bag</button>'
+            : '<a class="sf-add-all" href="/products/' + escHtml(primary.handle) + '" style="display:flex;align-items:center;justify-content:center;text-decoration:none;">Shop my picks</a>'
+          ) +
+          '<button class="sf-retake" id="sf-retake" type="button">Retake quiz</button>' +
+        '</div>' +
+        '<a class="sf-results__routine-link" href="/pages/routines">View full routine guide &rarr;</a>' +
+      '</div>';
+
+    /* Bind events in results */
+    bindResultEvents();
+  }
+
+  /* ── Result event bindings ──────────────────────────────────── */
+  function bindResultEvents() {
+    /* Retake */
+    document.getElementById('sf-retake')?.addEventListener('click', function () {
+      answers = {};
+      document.querySelectorAll('.sf-option').forEach(function (b) {
+        b.classList.remove('is-selected');
+        b.setAttribute('aria-checked', 'false');
+      });
+      btnContinue.disabled = true;
+      document.getElementById('sf-step-results').classList.remove('is-active');
+      document.getElementById('sf-progress').style.display = '';
+      quizNav.style.display = '';
+      showStep(1, true);
+    });
+
+    /* Individual ATC on primary card */
+    document.querySelector('.sf-result-primary__atc')?.addEventListener('click', async function (e) {
+      var btn = e.currentTarget;
+      var vid = parseInt(btn.dataset.variantId, 10);
+      if (!vid) { window.location.href = '/cart'; return; }
+      await addToCart([vid], btn);
+    });
+
+    /* Add all to bag */
+    document.getElementById('sf-add-all')?.addEventListener('click', async function (e) {
+      var btn = e.currentTarget;
+      var ids = btn.dataset.variants.split(',').map(function (v) { return parseInt(v, 10); }).filter(Boolean);
+      if (!ids.length) return;
+      await addToCart(ids, btn);
+    });
+  }
+
+  /* ── AJAX cart ──────────────────────────────────────────────── */
+  async function addToCart(variantIds, triggerEl) {
+    if (!variantIds.length) return;
+    var orig = triggerEl.textContent.trim();
+    triggerEl.classList.add('is-loading');
+    triggerEl.textContent = '…';
+
+    try {
+      var items = variantIds.map(function (id) { return { id: id, quantity: 1 }; });
+      var res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ items: items })
+      });
+      if (!res.ok) throw new Error('Cart error');
+
+      triggerEl.classList.remove('is-loading');
+      triggerEl.classList.add('is-done');
+      triggerEl.textContent = 'Added to bag';
+
+      document.dispatchEvent(new CustomEvent('cart:refresh'));
+      document.dispatchEvent(new CustomEvent('cart:open'));
+
+    } catch (err) {
+      triggerEl.classList.remove('is-loading');
+      triggerEl.textContent = 'Error — try again';
+      setTimeout(function () { triggerEl.textContent = orig; }, 2000);
+    }
+  }
+
+  /* ── FAQ accordion ──────────────────────────────────────────── */
+  document.querySelectorAll('.sf-faq-item').forEach(function (item) {
+    item.addEventListener('click', function (e) {
+      if (!e.target.closest('summary')) return;
+      e.preventDefault();
+      if (item.open) {
+        item.classList.add('is-closing');
+        item.addEventListener('transitionend', function h() {
+          item.open = false;
+          item.classList.remove('is-closing');
+          item.removeEventListener('transitionend', h);
+        }, { once: true });
+      } else {
+        item.open = true;
+        item.getBoundingClientRect();
+      }
+    });
+  });
+
+  /* ── Utilities ──────────────────────────────────────────────── */
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function serumSVG() {
+    return '<svg width="60" height="60" viewBox="0 0 60 60" fill="none" aria-hidden="true"><rect x="22" y="8" width="16" height="6" rx="3" fill="rgba(73,114,74,0.3)"/><rect x="18" y="12" width="24" height="38" rx="8" fill="rgba(73,114,74,0.2)"/><rect x="20" y="26" width="20" height="2" rx="1" fill="rgba(73,114,74,0.4)"/><rect x="20" y="31" width="14" height="1.5" rx="0.75" fill="rgba(73,114,74,0.25)"/></svg>';
+  }
+
+  function serumSVGSmall() {
+    return '<svg width="36" height="36" viewBox="0 0 60 60" fill="none" aria-hidden="true"><rect x="22" y="8" width="16" height="6" rx="3" fill="rgba(73,114,74,0.3)"/><rect x="18" y="12" width="24" height="38" rx="8" fill="rgba(73,114,74,0.2)"/></svg>';
+  }
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Serum Finder",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Eyebrow", "default": "Velour Skin" },
+    { "type": "text", "id": "hero_heading", "label": "Heading", "default": "Find your serum in under 60 seconds" },
+    { "type": "textarea", "id": "hero_body", "label": "Body text", "default": "Answer a few simple questions and we'll suggest a routine tailored to your skin goals." },
+    { "type": "text", "id": "hero_cta", "label": "CTA label", "default": "Start Quiz" },
+    { "type": "header", "content": "Quiz question labels" },
+    { "type": "text", "id": "q1_label", "label": "Question 1", "default": "What is your main skin goal?" },
+    { "type": "text", "id": "q2_label", "label": "Question 2", "default": "What is your skin type?" },
+    { "type": "text", "id": "q3_label", "label": "Question 3", "default": "What texture do you prefer?" },
+    { "type": "text", "id": "q4_label", "label": "Question 4", "default": "When do you want to use it?" },
+    { "type": "text", "id": "q5_label", "label": "Question 5", "default": "How experienced are you with active ingredients?" },
+    { "type": "header", "content": "Ingredient guide" },
+    { "type": "text", "id": "ing_eyebrow", "label": "Eyebrow", "default": "The science" },
+    { "type": "text", "id": "ing_title", "label": "Title", "default": "Key ingredients, explained" },
+    { "type": "header", "content": "Still unsure? CTA" },
+    { "type": "text", "id": "contact_eyebrow", "label": "Eyebrow", "default": "Still unsure?" },
+    { "type": "text", "id": "contact_heading", "label": "Heading", "default": "Not sure which serum is right for you? Our skin specialists are here to help." },
+    { "type": "text", "id": "contact_cta_label", "label": "CTA label", "default": "Get in touch" },
+    { "type": "url", "id": "contact_url", "label": "CTA URL" },
+    { "type": "header", "content": "FAQ" },
+    { "type": "text", "id": "faq_eyebrow", "label": "Eyebrow", "default": "Questions" },
+    { "type": "text", "id": "faq_title", "label": "Title", "default": "FAQ" }
+  ],
+  "blocks": [
+    {
+      "type": "serum_result",
+      "name": "Serum product",
+      "settings": [
+        { "type": "select", "id": "serum_id", "label": "Serum ID", "options": [
+            { "value": "serum-01", "label": "Serum 01 — Hydra-Boost" },
+            { "value": "serum-02", "label": "Serum 02 — Bright-C" },
+            { "value": "serum-03", "label": "Serum 03 — Barrier Repair" },
+            { "value": "serum-04", "label": "Serum 04 — Clear Skin" },
+            { "value": "serum-05", "label": "Serum 05 — Smooth Resurfacing" },
+            { "value": "serum-06", "label": "Serum 06 — Calm" },
+            { "value": "serum-07", "label": "Serum 07 — Age-Defy" },
+            { "value": "serum-08", "label": "Serum 08 — Glow Elixir" }
+          ], "default": "serum-01" },
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "fallback_name", "label": "Fallback name (if no product)" },
+        { "type": "text", "id": "benefit", "label": "One-line benefit" },
+        { "type": "textarea", "id": "why", "label": "Why we recommend this (results page)" },
+        { "type": "text", "id": "texture", "label": "Texture label", "default": "Lightweight fluid" },
+        { "type": "text", "id": "timing", "label": "Use timing", "default": "AM + PM" }
+      ]
+    },
+    {
+      "type": "support_product",
+      "name": "Support product",
+      "settings": [
+        { "type": "select", "id": "support_id", "label": "Support ID", "options": [
+            { "value": "support-cream", "label": "Barrier Cream" },
+            { "value": "support-spray", "label": "Facial Spray" }
+          ], "default": "support-cream" },
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "fallback_name", "label": "Fallback name" },
+        { "type": "text", "id": "label", "label": "Card label", "default": "Complete your routine" },
+        { "type": "text", "id": "show_for", "label": "Show for goals/skin types (comma-separated, or 'always')", "default": "always" }
+      ]
+    },
+    {
+      "type": "ingredient_card",
+      "name": "Ingredient card",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Ingredient name" },
+        { "type": "text", "id": "percentage", "label": "Percentage / concentration" },
+        { "type": "text", "id": "benefit", "label": "Benefit (short, uppercase)" },
+        { "type": "textarea", "id": "description", "label": "Description" },
+        { "type": "text", "id": "serums", "label": "Found in (comma-separated serum names)" }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "textarea", "id": "answer", "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Serum Finder Quiz" }
+  ]
+}
+{% endschema %}

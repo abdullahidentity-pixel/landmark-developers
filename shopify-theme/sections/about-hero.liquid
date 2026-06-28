@@ -1,0 +1,189 @@
+<section class="about-hero">
+  <div class="about-hero__media">
+    {%- if section.settings.image != blank -%}
+      {{- section.settings.image | image_url: width: 2000 | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '768, 1200, 2000',
+          sizes: '100vw'
+      -}}
+    {%- else -%}
+      <div style="width:100%;height:100%;background:linear-gradient(160deg, #142b1b, #2c4f31);"></div>
+    {%- endif -%}
+  </div>
+  <div class="about-hero__overlay"></div>
+  <div class="about-hero__content">
+    <p class="t-label--white reveal">{{ section.settings.label | default: 'Our Story' }}</p>
+    <h1 class="about-hero__title reveal reveal-delay-1">
+      {{ section.settings.heading_before }}
+      {%- if section.settings.heading_emphasis != blank -%}
+        <em>{{ section.settings.heading_emphasis }}</em>
+      {%- endif -%}
+      {{ section.settings.heading_after }}
+    </h1>
+  </div>
+</section>
+
+<section class="brand-story">
+  <div class="container">
+    <div class="brand-story__grid">
+      <div class="brand-story__content">
+        <h2>
+          {{ section.settings.story_heading_before }}
+          <em>{{ section.settings.story_heading_emphasis }}</em>
+          {{ section.settings.story_heading_after }}
+        </h2>
+        <p>{{ section.settings.story_para_1 }}</p>
+        <p>{{ section.settings.story_para_2 }}</p>
+        {%- if section.settings.story_cta_label != blank -%}
+          <a href="{{ section.settings.story_cta_url | default: '/pages/ingredients' }}" class="btn btn--outline" style="margin-top: 1rem;">
+            {{ section.settings.story_cta_label }}
+          </a>
+        {%- endif -%}
+      </div>
+      <div class="brand-story__image">
+        {%- if section.settings.story_image != blank -%}
+          {{- section.settings.story_image | image_url: width: 900 | image_tag:
+              loading: 'lazy',
+              widths: '480, 700, 900',
+              sizes: '(max-width: 768px) 100vw, 50vw'
+          -}}
+        {%- else -%}
+          <div style="width:100%;height:100%;background:linear-gradient(160deg, #cde8c9, #add9a8);"></div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="brand-values">
+  <div class="container">
+    <div class="text-center">
+      <p class="t-label reveal">What we stand for</p>
+      <h2 class="t-h2 reveal reveal-delay-1" style="margin-top: 1rem; color: var(--c-forest);">
+        Principles, not promises.
+      </h2>
+    </div>
+    <div class="brand-values__grid">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'value' -%}
+            <div class="value-card reveal reveal-delay-{{ forloop.index }}" {{ block.shopify_attributes }}>
+              <p class="value-card__number">{{ forloop.index }}</p>
+              <p class="value-card__title">{{ block.settings.title }}</p>
+              <p class="value-card__desc">{{ block.settings.description }}</p>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Hero label",
+      "default": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "heading_before",
+      "label": "Heading — before emphasis",
+      "default": "Born from a belief that skin"
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis",
+      "label": "Heading — emphasis (mint italic)",
+      "default": "deserves better."
+    },
+    {
+      "type": "text",
+      "id": "heading_after",
+      "label": "Heading — after emphasis"
+    },
+    {
+      "type": "header",
+      "content": "Brand Story"
+    },
+    {
+      "type": "text",
+      "id": "story_heading_before",
+      "label": "Story heading — before",
+      "default": "We started asking"
+    },
+    {
+      "type": "text",
+      "id": "story_heading_emphasis",
+      "label": "Story heading — emphasis",
+      "default": "why not better?"
+    },
+    {
+      "type": "text",
+      "id": "story_heading_after",
+      "label": "Story heading — after"
+    },
+    {
+      "type": "textarea",
+      "id": "story_para_1",
+      "label": "Story paragraph 1",
+      "default": "Velour Skin was founded in 2021 after our founder spent years frustrated by the gap between what skincare promised and what it delivered. Most products were either clinically effective but harsh, or gentle but useless."
+    },
+    {
+      "type": "textarea",
+      "id": "story_para_2",
+      "label": "Story paragraph 2",
+      "default": "We spent two years with a team of cosmetic chemists, dermatologists, and botanists before formulating our first serum. Every ingredient has a reason. Every concentration has been tested. No filler. No fragrance. No compromise."
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Story image"
+    },
+    {
+      "type": "text",
+      "id": "story_cta_label",
+      "label": "Story CTA label",
+      "default": "Our Ingredients"
+    },
+    {
+      "type": "url",
+      "id": "story_cta_url",
+      "label": "Story CTA URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Brand Value",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Transparency" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "We publish full INCI ingredient lists, concentration ranges, and clinical study data for every formula." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About",
+      "blocks": [
+        { "type": "value", "settings": { "title": "Transparency", "description": "We publish full INCI ingredient lists, concentration ranges, and clinical study data for every formula." } },
+        { "type": "value", "settings": { "title": "Efficacy first", "description": "Every ingredient earns its place by demonstrated clinical effect, not cost, trend, or marketing value." } },
+        { "type": "value", "settings": { "title": "Sustainability", "description": "Recyclable glass packaging, carbon-neutral shipping, and certified sustainable sourcing across our supply chain." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

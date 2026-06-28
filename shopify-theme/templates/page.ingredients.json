@@ -1,0 +1,339 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-ingredients",
+      "settings": {
+        "hero_eyebrow": "The Science",
+        "hero_heading": "Formulas with purpose.",
+        "hero_intro": "We don't add ingredients to look good on a label. Every active has a peer-reviewed reason for being there, at a concentration that actually works.",
+        "hero_cta_label": "Explore ingredients",
+
+        "library_eyebrow": "Active ingredient library",
+        "library_heading": "Every active we use — and why.",
+        "library_intro": "Every ingredient listed below is present at or above the minimum effective dose established in peer-reviewed literature. Full study references are available on request.",
+
+        "avoid_eyebrow": "What we leave out",
+        "avoid_heading": "Ingredients you will never find in our formulas.",
+        "avoid_body": "Our formulation brief starts with a 'never list'. If an ingredient has a poor safety profile, limited evidence, or serves only a marketing function — it doesn't make the cut.",
+
+        "formulation_eyebrow": "How we formulate",
+        "formulation_heading": "A rigorous process before anything reaches your skin.",
+        "formulation_intro": "Our formulation process is built around a single question: does this actually work, and is it safe? Every step exists to answer that honestly.",
+
+        "barrier_eyebrow": "Barrier health",
+        "barrier_heading": "Why your skin barrier is the foundation of everything.",
+        "barrier_body_1": "The skin barrier is a thin but critical structure that regulates moisture, blocks environmental irritants, and prevents pathogens from entering. When it's functioning well, your skin can tolerate active ingredients, retain hydration, and resist sensitivity.",
+        "barrier_body_2": "When it's compromised — through over-exfoliation, harsh cleansers, or environmental stress — redness, breakouts, dehydration, and sensitivity follow. Most skin concerns have a barrier component. That's why every formula we make either supports or actively repairs barrier function.",
+
+        "actives_eyebrow": "Your guide",
+        "actives_heading": "AM, PM, and layering rules.",
+        "actives_intro": "Not all actives can be used at the same time of day or in the same routine. This guide tells you when to apply each ingredient and what combinations to avoid.",
+
+        "faq_eyebrow": "Questions",
+        "faq_title": "Ingredient FAQ",
+
+        "cta_eyebrow": "Ready to apply the science?",
+        "cta_heading": "Find the formula your skin needs.",
+        "cta_body": "Take our 60-second quiz and we'll match you to the right serum based on your skin goals, type, and experience with active ingredients.",
+        "cta_primary_label": "Take the Quiz",
+        "cta_primary_url": "/pages/serum-finder",
+        "cta_secondary_label": "Shop Serums",
+        "cta_secondary_url": "/collections/serums"
+      },
+      "blocks": {
+        "ing-ha": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Hyaluronic Acid",
+            "inci": "Sodium Hyaluronate",
+            "category": "Hydration",
+            "benefit": "Triple-weight humectant delivering 72-hour hydration across all skin layers. Clinically validated at 2% combined concentration."
+          }
+        },
+        "ing-vc": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Vitamin C",
+            "inci": "Ascorbic Acid",
+            "category": "Brightening",
+            "benefit": "Stable 15% L-ascorbic acid inhibits melanogenesis and stimulates Type I collagen synthesis. Stability tested in-house to 18 months."
+          }
+        },
+        "ing-ret": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Retinol",
+            "inci": "Retinol",
+            "category": "Anti-aging",
+            "benefit": "0.3% encapsulated retinol for skin tolerance. Clinically demonstrated to reduce fine line depth by 34% at 12 weeks."
+          }
+        },
+        "ing-nia": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Niacinamide",
+            "inci": "Niacinamide",
+            "category": "Multi-benefit",
+            "benefit": "10% niacinamide reduces sebum production, minimises pore appearance, and brightens post-inflammatory hyperpigmentation."
+          }
+        },
+        "ing-ca": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Centella Asiatica",
+            "inci": "Centella Asiatica Extract",
+            "category": "Calming",
+            "benefit": "Clinically demonstrated to accelerate wound healing, reduce TEWL by 41%, and calm inflammatory cytokines. Well tolerated on sensitive skin."
+          }
+        },
+        "ing-pep": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Peptide Complex",
+            "inci": "Palmitoyl Tripeptide-1 & Tetrapeptide-7",
+            "category": "Anti-aging",
+            "benefit": "Signal peptides that instruct fibroblasts to produce collagen and elastin. Evidence-based at 5ppm combined concentration."
+          }
+        },
+        "ing-cer": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Ceramide NP",
+            "inci": "Ceramide NP",
+            "category": "Barrier",
+            "benefit": "Matches the skin's natural lipid bilayer to restore and maintain the epidermal moisture barrier. Reduces TEWL and sensitivity."
+          }
+        },
+        "ing-az": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Azelaic Acid",
+            "inci": "Azelaic Acid",
+            "category": "Clarifying",
+            "benefit": "10% azelaic acid targets rosacea, hyperpigmentation, and comedonal acne without the drying effect of alternatives. Safe for sensitive skin."
+          }
+        },
+        "ing-sa": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Salicylic Acid",
+            "inci": "Salicylic Acid",
+            "category": "Clarifying",
+            "benefit": "2% BHA penetrates the pore lining to dissolve congestion at the source. Lipophilic structure allows it to work inside the sebaceous follicle."
+          }
+        },
+        "ing-bak": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Bakuchiol",
+            "inci": "Bakuchiol",
+            "category": "Anti-aging",
+            "benefit": "1% plant-derived retinol alternative. Delivers equivalent cell renewal and collagen stimulation without photosensitivity. Suitable AM and PM."
+          }
+        },
+        "avoid-1": {
+          "type": "avoid_item",
+          "settings": {
+            "name": "Synthetic Fragrance (Parfum)",
+            "reason": "A documented sensitiser linked to contact dermatitis and allergic reactions. Serves no functional benefit to the skin. Banned across our entire range."
+          }
+        },
+        "avoid-2": {
+          "type": "avoid_item",
+          "settings": {
+            "name": "Essential Oils",
+            "reason": "Despite a natural origin, many essential oils (lavender, citrus, peppermint) are potent irritants with high sensitisation potential. We exclude all of them."
+          }
+        },
+        "avoid-3": {
+          "type": "avoid_item",
+          "settings": {
+            "name": "Parabens",
+            "reason": "While low-risk in isolation, we've replaced them with equally effective, better-tolerated preservation systems given growing consumer concern."
+          }
+        },
+        "avoid-4": {
+          "type": "avoid_item",
+          "settings": {
+            "name": "Sulphates (SLS/SLES)",
+            "reason": "High-foaming sulphates disrupt the skin's natural pH and lipid balance, contributing to barrier compromise and chronic dehydration."
+          }
+        },
+        "avoid-5": {
+          "type": "avoid_item",
+          "settings": {
+            "name": "Silicone Fillers",
+            "reason": "Used in mass-market formulas to create a temporary smooth feel. They don't treat skin — they mask it. We don't use ingredients that mimic results."
+          }
+        },
+        "avoid-6": {
+          "type": "avoid_item",
+          "settings": {
+            "name": "Mineral Oil",
+            "reason": "A petroleum-derived occlusive that sits on the skin surface without delivering meaningful benefit. Replaced by Squalane and plant-derived alternatives."
+          }
+        },
+        "step-1": {
+          "type": "formulation_step",
+          "settings": {
+            "title": "Evidence review",
+            "description": "Every candidate ingredient is reviewed against published clinical literature. We look at study design, subject population, concentration used, and outcome measures — not marketing summaries."
+          }
+        },
+        "step-2": {
+          "type": "formulation_step",
+          "settings": {
+            "title": "Concentration benchmarking",
+            "description": "We identify the minimum effective dose from the clinical literature and formulate at or above that level. No token amounts included for label value."
+          }
+        },
+        "step-3": {
+          "type": "formulation_step",
+          "settings": {
+            "title": "Compatibility testing",
+            "description": "Active ingredients are tested in combination to verify stability, pH compatibility, and absence of antagonistic interactions across the full shelf life of the product."
+          }
+        },
+        "step-4": {
+          "type": "formulation_step",
+          "settings": {
+            "title": "Dermatologist review",
+            "description": "Each formula is reviewed by a board-certified dermatologist before moving to clinical testing. Safety is assessed for sensitive, reactive, and compromised skin types."
+          }
+        },
+        "step-5": {
+          "type": "formulation_step",
+          "settings": {
+            "title": "Clinical efficacy study",
+            "description": "We conduct 8–12 week clinical studies on diverse skin type cohorts, measuring outcomes against placebo controls using standardised dermatological assessment methods."
+          }
+        },
+        "step-6": {
+          "type": "formulation_step",
+          "settings": {
+            "title": "Stability and shelf-life validation",
+            "description": "Accelerated stability testing is conducted at multiple temperature and humidity conditions. No formula is released with a shelf life shorter than 18 months post-opening."
+          }
+        },
+        "pillar-1": {
+          "type": "barrier_pillar",
+          "settings": {
+            "title": "Moisture retention",
+            "description": "A healthy barrier prevents transepidermal water loss, keeping skin plump and resistant to dehydration."
+          }
+        },
+        "pillar-2": {
+          "type": "barrier_pillar",
+          "settings": {
+            "title": "Irritant protection",
+            "description": "A functioning barrier blocks environmental pollutants, allergens, and bacteria from penetrating the dermis."
+          }
+        },
+        "pillar-3": {
+          "type": "barrier_pillar",
+          "settings": {
+            "title": "Active tolerance",
+            "description": "Barrier-compromised skin reacts to ingredients that healthy skin tolerates easily. Repair first — then introduce actives."
+          }
+        },
+        "act-1": {
+          "type": "active_row",
+          "settings": {
+            "name": "Retinol 0.3%",
+            "function": "Cell turnover, collagen stimulation",
+            "timing": "PM",
+            "pairs_with": "Peptides, Ceramides, Bakuchiol",
+            "avoid_with": "AHAs, BHAs, Vitamin C (same session)"
+          }
+        },
+        "act-2": {
+          "type": "active_row",
+          "settings": {
+            "name": "Vitamin C 15%",
+            "function": "Brightening, antioxidant protection",
+            "timing": "AM",
+            "pairs_with": "Ferulic Acid, Niacinamide (low %), SPF",
+            "avoid_with": "Retinol, AHAs (same session)"
+          }
+        },
+        "act-3": {
+          "type": "active_row",
+          "settings": {
+            "name": "AHA 10% / BHA 2%",
+            "function": "Exfoliation, pore clarifying",
+            "timing": "PM",
+            "pairs_with": "Hyaluronic Acid (after), Ceramides",
+            "avoid_with": "Retinol, Niacinamide (high %), Vitamin C"
+          }
+        },
+        "act-4": {
+          "type": "active_row",
+          "settings": {
+            "name": "Niacinamide 10%",
+            "function": "Sebum control, brightening, barrier support",
+            "timing": "AM + PM",
+            "pairs_with": "Hyaluronic Acid, Ceramides, Zinc",
+            "avoid_with": "High-dose Vitamin C (may reduce efficacy)"
+          }
+        },
+        "act-5": {
+          "type": "active_row",
+          "settings": {
+            "name": "Hyaluronic Acid 2%",
+            "function": "Deep hydration, plumping",
+            "timing": "AM + PM",
+            "pairs_with": "Everything — apply on damp skin",
+            "avoid_with": "None — universally compatible"
+          }
+        },
+        "act-6": {
+          "type": "active_row",
+          "settings": {
+            "name": "Azelaic Acid 10%",
+            "function": "Redness reduction, hyperpigmentation, clarifying",
+            "timing": "AM + PM",
+            "pairs_with": "Niacinamide, Ceramides, Centella",
+            "avoid_with": "None identified at 10% concentration"
+          }
+        },
+        "faq-ing-1": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I use multiple actives in the same routine?",
+            "answer": "Yes — many actives are compatible and work synergistically. The main combinations to avoid are: Retinol with AHAs/BHAs (use on alternate evenings), and high-concentration Vitamin C with Retinol in the same session. As a rule, apply from lightest to richest texture, allow each product to absorb, and introduce new actives gradually."
+          }
+        },
+        "faq-ing-2": {
+          "type": "faq",
+          "settings": {
+            "question": "Why does the concentration of an ingredient matter?",
+            "answer": "The clinical evidence for an ingredient is always at a specific concentration. Below that threshold, the ingredient may do very little. We formulate at or above the minimum effective dose established in peer-reviewed studies — which is why you'll see precise percentages on all our products."
+          }
+        },
+        "faq-ing-3": {
+          "type": "faq",
+          "settings": {
+            "question": "Are your formulas suitable for sensitive skin?",
+            "answer": "Most are, yes. Every formula is dermatologist-reviewed and tested on sensitive skin types. Our Barrier Repair Serum and Calm Serum are specifically designed for reactive and sensitive skin. Beginners and sensitive skin types should avoid our Smooth Resurfacing Serum and start at lower Retinol frequency."
+          }
+        },
+        "faq-ing-4": {
+          "type": "faq",
+          "settings": {
+            "question": "Are all formulas fragrance-free?",
+            "answer": "Yes — 100% fragrance-free, including essential oils and parfum derivatives. Fragrance is the leading cause of cosmetic sensitisation and serves no therapeutic purpose. It is banned across our entire range."
+          }
+        }
+      },
+      "blocks_order": [
+        "ing-ha", "ing-vc", "ing-ret", "ing-nia", "ing-ca", "ing-pep", "ing-cer", "ing-az", "ing-sa", "ing-bak",
+        "avoid-1", "avoid-2", "avoid-3", "avoid-4", "avoid-5", "avoid-6",
+        "step-1", "step-2", "step-3", "step-4", "step-5", "step-6",
+        "pillar-1", "pillar-2", "pillar-3",
+        "act-1", "act-2", "act-3", "act-4", "act-5", "act-6",
+        "faq-ing-1", "faq-ing-2", "faq-ing-3", "faq-ing-4"
+      ]
+    }
+  },
+  "order": ["main"]
+}

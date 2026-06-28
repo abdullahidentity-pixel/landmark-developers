@@ -1,0 +1,64 @@
+{%- liquid
+  assign am_list = am_steps | split: ','
+  assign pm_list = pm_steps | split: ','
+  assign am_desc_list = am_descs | split: '|'
+  assign pm_desc_list = pm_descs | split: '|'
+-%}
+
+<!-- AM Routine -->
+<div style="margin-bottom: 3rem;">
+  <h3 class="t-label" style="margin-bottom: 1.5rem; color: var(--c-sage);">☀️ Morning Routine</h3>
+  <div class="routine-timeline">
+    {%- for step in am_list -%}
+      <div class="routine-timeline-item reveal reveal-delay-{{ forloop.index }}">
+        <div class="routine-step-num">{{ forloop.index }}</div>
+        <div class="routine-step-card">
+          <div>
+            <p class="routine-step-card__title">Step {{ forloop.index }}</p>
+            <p class="routine-step-card__product">{{ step | strip }}</p>
+            <p class="routine-step-card__desc">{{ am_desc_list[forloop.index0] | strip }}</p>
+            <p class="routine-step-card__time">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3v3.5l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Apply 2–3 drops to clean skin
+            </p>
+            <a href="/products/{{ step | strip | handleize }}" class="btn btn--outline btn--sm" style="margin-top: 1rem; display:inline-flex;">Shop →</a>
+          </div>
+          <div class="routine-step-card__image" style="background: linear-gradient(160deg, #cde8c9, #add9a8);">
+            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:2rem;">✦</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+<!-- PM Routine -->
+<div>
+  <h3 class="t-label" style="margin-bottom: 1.5rem; color: var(--c-sage);">🌙 Evening Routine</h3>
+  <div class="routine-timeline">
+    {%- for step in pm_list -%}
+      <div class="routine-timeline-item reveal reveal-delay-{{ forloop.index }}">
+        <div class="routine-step-num">{{ forloop.index }}</div>
+        <div class="routine-step-card">
+          <div>
+            <p class="routine-step-card__title">Step {{ forloop.index }}</p>
+            <p class="routine-step-card__product">{{ step | strip }}</p>
+            <p class="routine-step-card__desc">{{ pm_desc_list[forloop.index0] | strip }}</p>
+            <p class="routine-step-card__time">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3v3.5l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Apply to clean skin before bed
+            </p>
+            <a href="/products/{{ step | strip | handleize }}" class="btn btn--outline btn--sm" style="margin-top: 1rem; display:inline-flex;">Shop →</a>
+          </div>
+          <div class="routine-step-card__image" style="background: linear-gradient(160deg, #142b1b, #2c4f31);">
+            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:2rem; color:#cde8c9;">✦</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>

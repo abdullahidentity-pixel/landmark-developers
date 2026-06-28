@@ -1,0 +1,735 @@
+{{ 'collection-page.css' | asset_url | stylesheet_tag }}
+
+<div class="cl-page" data-section-id="{{ section.id }}">
+
+  {%- comment -%}══════════════════════════════════════════
+    1. HERO
+  ══════════════════════════════════════════{%- endcomment -%}
+  <section class="cl-hero">
+    <div class="cl-hero__inner">
+      <div class="cl-hero__left">
+        {%- if section.settings.hero_eyebrow != blank -%}
+          <p class="cl-hero__eyebrow">{{ section.settings.hero_eyebrow }}</p>
+        {%- endif -%}
+        <h1 class="cl-hero__heading">{{ section.settings.hero_heading }}</h1>
+      </div>
+      <div class="cl-hero__right">
+        {%- if section.settings.hero_body != blank -%}
+          <p class="cl-hero__body">{{ section.settings.hero_body }}</p>
+        {%- endif -%}
+        <div class="cl-hero__meta">
+          <span class="cl-hero__stat">{{ collection.products_count }} products</span>
+          {%- if section.settings.hero_stat_2 != blank -%}
+            <span class="cl-hero__stat-dot"></span>
+            <span class="cl-hero__stat">{{ section.settings.hero_stat_2 }}</span>
+          {%- endif -%}
+          {%- if section.settings.hero_stat_3 != blank -%}
+            <span class="cl-hero__stat-dot"></span>
+            <span class="cl-hero__stat">{{ section.settings.hero_stat_3 }}</span>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%}══════════════════════════════════════════
+    2. FILTER BY CONCERN
+  ══════════════════════════════════════════{%- endcomment -%}
+  <div class="cl-filter" id="cl-filter" aria-label="Filter by skin concern">
+    <div class="cl-filter__inner">
+      <span class="cl-filter__label">Filter</span>
+      <button class="cl-filter__pill is-active" data-concern="all" aria-pressed="true">All</button>
+      {%- assign filter_concerns = 'Hydration,Brightening,Barrier,Acne Support,Texture,Glow,Age Support,Sensitive Skin' | split: ',' -%}
+      {%- for concern in filter_concerns -%}
+        {%- assign concern_slug = concern | strip | handle -%}
+        <button class="cl-filter__pill" data-concern="{{ concern_slug }}" aria-pressed="false">{{ concern | strip }}</button>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- comment -%}══════════════════════════════════════════
+    3. PRODUCT GRID
+  ══════════════════════════════════════════{%- endcomment -%}
+  <section class="cl-grid" id="cl-grid">
+    <div class="cl-grid__inner">
+
+      <div class="cl-grid__top">
+        <p class="cl-grid__count" id="cl-product-count">
+          <span id="cl-count-num">{{ collection.products_count }}</span> products
+        </p>
+      </div>
+
+      {%- paginate collection.products by 50 -%}
+      <div class="cl-grid__products" id="cl-products">
+
+        {%- for product in collection.products -%}
+
+          {%- comment -%} Build concern string from product tags {%- endcomment -%}
+          {%- assign card_concerns = '' -%}
+          {%- for tag in product.tags -%}
+            {%- if tag contains 'concern:' -%}
+              {%- assign concern_val = tag | remove: 'concern:' | strip | handle -%}
+              {%- assign card_concerns = card_concerns | append: concern_val | append: ' ' -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- assign benefit_text = product.metafields.custom.benefit.value -%}
+          {%- assign ingredient_text = product.metafields.custom.ingredient_highlight.value -%}
+          {%- assign is_bestseller = false -%}
+          {%- for tag in product.tags -%}
+            {%- if tag == 'bestseller' -%}{%- assign is_bestseller = true -%}{%- endif -%}
+          {%- endfor -%}
+          {%- assign current_variant = product.selected_or_first_available_variant -%}
+
+          <article class="cl-card" data-concerns="{{ card_concerns | strip }}">
+
+            <a class="cl-card__image-wrap" href="{{ product.url | within: collection }}" aria-label="{{ product.title | escape }}">
+              {%- if product.featured_image -%}
+                <img
+                  class="cl-card__image"
+                  src="{{ product.featured_image | image_url: width: 600 }}"
+                  alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                  width="600"
+                  height="750"
+                  loading="lazy"
+                >
+              {%- else -%}
+                <div class="cl-card__image-placeholder">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                    <rect x="18" y="8" width="12" height="4" rx="2" fill="rgba(73,114,74,0.3)"/>
+                    <rect x="14" y="10" width="20" height="30" rx="6" fill="rgba(73,114,74,0.2)"/>
+                    <rect x="16" y="20" width="16" height="2" rx="1" fill="rgba(73,114,74,0.4)"/>
+                    <rect x="16" y="24" width="10" height="1.5" rx="0.75" fill="rgba(73,114,74,0.25)"/>
+                  </svg>
+                </div>
+              {%- endif -%}
+
+              {%- if is_bestseller -%}
+                <span class="cl-card__badge">Bestseller</span>
+              {%- endif -%}
+              {%- if product.type != blank -%}
+                <span class="cl-card__type-badge">{{ product.type }}</span>
+              {%- endif -%}
+            </a>
+
+            <div class="cl-card__body">
+              <h2 class="cl-card__name">
+                <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+              </h2>
+              {%- if benefit_text != blank -%}
+                <p class="cl-card__benefit">{{ benefit_text }}</p>
+              {%- elsif product.description != blank -%}
+                <p class="cl-card__benefit">{{ product.description | strip_html | truncate: 72 }}</p>
+              {%- endif -%}
+              {%- if ingredient_text != blank -%}
+                <p class="cl-card__ingredient">{{ ingredient_text }}</p>
+              {%- endif -%}
+
+              <div class="cl-card__footer">
+                <div>
+                  <span class="cl-card__price">{{ current_variant.price | money }}</span>
+                  {%- if current_variant.compare_at_price > current_variant.price -%}
+                    <span class="cl-card__price-compare">{{ current_variant.compare_at_price | money }}</span>
+                  {%- endif -%}
+                </div>
+                <button
+                  class="cl-card__quick-add"
+                  data-variant-id="{{ current_variant.id }}"
+                  data-product-title="{{ product.title | escape }}"
+                  {%- unless current_variant.available -%}disabled{%- endunless -%}
+                  aria-label="Add {{ product.title | escape }} to bag"
+                >
+                  {%- if current_variant.available -%}Add{%- else -%}Sold out{%- endif -%}
+                </button>
+              </div>
+            </div>
+
+          </article>
+
+        {%- else -%}
+          <div class="cl-grid__empty is-visible">
+            <p>No products available in this collection.</p>
+          </div>
+        {%- endfor -%}
+
+      </div><!-- /cl-products -->
+
+      <div class="cl-grid__empty" id="cl-empty" aria-live="polite">
+        No products match this concern. Try a different filter.
+      </div>
+
+      {%- endpaginate -%}
+    </div>
+  </section>
+
+  {%- comment -%} Reassurance badges strip {%- endcomment -%}
+  {%- render 'reassurance-badges', variant: 'strip' -%}
+
+  {%- comment -%} Quiz CTA banner {%- endcomment -%}
+  {%- render 'quiz-cta-banner' -%}
+
+  {%- comment -%}══════════════════════════════════════════
+    4. EDITORIAL STRIP
+  ══════════════════════════════════════════{%- endcomment -%}
+  <section class="cl-editorial">
+    <div class="cl-editorial__inner">
+      <div class="cl-editorial__content">
+        {%- if section.settings.editorial_eyebrow != blank -%}
+          <p class="cl-editorial__eyebrow">{{ section.settings.editorial_eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="cl-editorial__heading">{{ section.settings.editorial_heading }}</h2>
+      </div>
+      {%- if section.settings.editorial_cta_label != blank -%}
+        <a class="cl-editorial__cta" href="{{ section.settings.editorial_cta_url | default: '#' }}">
+          {{ section.settings.editorial_cta_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </section>
+
+  {%- comment -%}══════════════════════════════════════════
+    5. COMPARE SERUMS TABLE
+  ══════════════════════════════════════════{%- endcomment -%}
+  {%- assign compare_rows = section.blocks | where: 'type', 'compare_row' -%}
+  {%- if compare_rows.size > 0 -%}
+  <section class="cl-compare">
+    <div class="cl-compare__inner">
+      <div class="cl-compare__header">
+        {%- if section.settings.compare_eyebrow != blank -%}
+          <p class="cl-compare__eyebrow">{{ section.settings.compare_eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="cl-compare__title">{{ section.settings.compare_title }}</h2>
+      </div>
+
+      <div class="cl-compare__scroll">
+        <table class="cl-compare__table" role="table">
+          <thead>
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Best For</th>
+              <th scope="col">Key Ingredients</th>
+              <th scope="col">Texture</th>
+              <th scope="col">AM / PM</th>
+              <th scope="col">Skin Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for block in compare_rows -%}
+              <tr {{ block.shopify_attributes }}>
+                <td>
+                  <span class="cl-compare__product-name">
+                    {%- if block.settings.product_url != blank -%}
+                      <a class="cl-compare__product-link" href="{{ block.settings.product_url }}">{{ block.settings.product_name }}</a>
+                    {%- else -%}
+                      {{ block.settings.product_name }}
+                    {%- endif -%}
+                  </span>
+                </td>
+                <td>{{ block.settings.best_for }}</td>
+                <td>
+                  {%- assign ings = block.settings.key_ingredients | split: ',' -%}
+                  {%- for ing in ings -%}
+                    <span class="cl-compare__tag">{{ ing | strip }}</span>
+                  {%- endfor -%}
+                </td>
+                <td>{{ block.settings.texture }}</td>
+                <td>
+                  <div class="cl-compare__ampm">
+                    {%- if block.settings.use_am -%}
+                      <span class="cl-compare__time cl-compare__time--am">AM</span>
+                    {%- endif -%}
+                    {%- if block.settings.use_pm -%}
+                      <span class="cl-compare__time cl-compare__time--pm">PM</span>
+                    {%- endif -%}
+                  </div>
+                </td>
+                <td>{{ block.settings.skin_type }}</td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  {%- endif -%}
+
+  {%- comment -%}══════════════════════════════════════════
+    6. ROUTINE BUNDLES
+  ══════════════════════════════════════════{%- endcomment -%}
+  {%- assign bundle_blocks = section.blocks | where: 'type', 'bundle' -%}
+  {%- if bundle_blocks.size > 0 -%}
+  <section class="cl-bundles">
+    <div class="cl-bundles__inner">
+      <div class="cl-bundles__header">
+        <div>
+          {%- if section.settings.bundles_eyebrow != blank -%}
+            <p class="cl-bundles__eyebrow">{{ section.settings.bundles_eyebrow }}</p>
+          {%- endif -%}
+          <h2 class="cl-bundles__title">{{ section.settings.bundles_title }}</h2>
+          {%- if section.settings.bundles_body != blank -%}
+            <p class="cl-bundles__body">{{ section.settings.bundles_body }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="cl-bundles__grid">
+        {%- for block in bundle_blocks -%}
+          <article class="cl-bundle-card" {{ block.shopify_attributes }}>
+
+            <div class="cl-bundle-card__image-wrap" style="background: {{ block.settings.accent_color | default: '#cde8c9' }};">
+              {%- if block.settings.image != blank -%}
+                <img
+                  class="cl-bundle-card__image"
+                  src="{{ block.settings.image | image_url: width: 700 }}"
+                  alt="{{ block.settings.name | escape }}"
+                  width="700"
+                  height="525"
+                  loading="lazy"
+                >
+              {%- else -%}
+                <div class="cl-bundle-card__image-placeholder">
+                  <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
+                    <rect x="16" y="8" width="10" height="4" rx="2" fill="rgba(44,79,49,0.3)"/>
+                    <rect x="12" y="11" width="18" height="28" rx="5" fill="rgba(44,79,49,0.2)"/>
+                    <rect x="30" y="10" width="10" height="3" rx="1.5" fill="rgba(44,79,49,0.25)"/>
+                    <rect x="28" y="12" width="16" height="24" rx="4" fill="rgba(44,79,49,0.15)"/>
+                  </svg>
+                </div>
+              {%- endif -%}
+            </div>
+
+            <div class="cl-bundle-card__body">
+              {%- if block.settings.label != blank -%}
+                <p class="cl-bundle-card__label">{{ block.settings.label }}</p>
+              {%- endif -%}
+              <h3 class="cl-bundle-card__name">{{ block.settings.name }}</h3>
+              {%- if block.settings.desc != blank -%}
+                <p class="cl-bundle-card__desc">{{ block.settings.desc }}</p>
+              {%- endif -%}
+
+              <ul class="cl-bundle-card__products">
+                {%- if block.settings.product_1 != blank -%}<li>{{ block.settings.product_1 }}</li>{%- endif -%}
+                {%- if block.settings.product_2 != blank -%}<li>{{ block.settings.product_2 }}</li>{%- endif -%}
+                {%- if block.settings.product_3 != blank -%}<li>{{ block.settings.product_3 }}</li>{%- endif -%}
+              </ul>
+
+              <div class="cl-bundle-card__footer">
+                <div class="cl-bundle-card__pricing">
+                  {%- if block.settings.price != blank -%}
+                    <span class="cl-bundle-card__price">{{ block.settings.price }}</span>
+                  {%- endif -%}
+                  {%- if block.settings.price_note != blank -%}
+                    <span class="cl-bundle-card__price-note">{{ block.settings.price_note }}</span>
+                  {%- endif -%}
+                </div>
+                <a class="cl-bundle-card__cta" href="{{ block.settings.url | default: '#' }}">
+                  {{ block.settings.cta_label | default: 'Shop bundle' }}
+                </a>
+              </div>
+            </div>
+
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+  {%- endif -%}
+
+  {%- comment -%}══════════════════════════════════════════
+    7. EDUCATION
+  ══════════════════════════════════════════{%- endcomment -%}
+  {%- assign edu_blocks = section.blocks | where: 'type', 'education_card' -%}
+  {%- if edu_blocks.size > 0 -%}
+  <section class="cl-education">
+    <div class="cl-education__inner">
+      <div class="cl-education__header">
+        {%- if section.settings.edu_eyebrow != blank -%}
+          <p class="cl-education__eyebrow">{{ section.settings.edu_eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="cl-education__title">{{ section.settings.edu_title }}</h2>
+      </div>
+
+      <div class="cl-education__grid">
+        {%- for block in edu_blocks -%}
+          <div class="cl-edu-card" {{ block.shopify_attributes }}>
+            <p class="cl-edu-card__number">0{{ forloop.index }}</p>
+            <div class="cl-edu-card__icon" aria-hidden="true">
+              {%- case forloop.index -%}
+                {%- when 1 -%}
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                {%- when 2 -%}
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
+                {%- when 3 -%}
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                {%- when 4 -%}
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                {%- else -%}
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+              {%- endcase -%}
+            </div>
+            <h3 class="cl-edu-card__title">{{ block.settings.title }}</h3>
+            <p class="cl-edu-card__body">{{ block.settings.body }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+  {%- endif -%}
+
+  {%- comment -%}══════════════════════════════════════════
+    8. REVIEWS
+  ══════════════════════════════════════════{%- endcomment -%}
+  {%- assign review_blocks = section.blocks | where: 'type', 'review' -%}
+  {%- if review_blocks.size > 0 -%}
+  <section class="cl-reviews">
+    <div class="cl-reviews__inner">
+      <div class="cl-reviews__header">
+        <div>
+          {%- if section.settings.reviews_eyebrow != blank -%}
+            <p class="cl-reviews__eyebrow">{{ section.settings.reviews_eyebrow }}</p>
+          {%- endif -%}
+          <h2 class="cl-reviews__title">{{ section.settings.reviews_title }}</h2>
+        </div>
+        {%- if section.settings.reviews_score != blank -%}
+          <div class="cl-reviews__aggregate">
+            <div class="cl-reviews__score">{{ section.settings.reviews_score }}</div>
+            <div class="cl-reviews__score-stars" aria-hidden="true">
+              {%- for i in (1..5) -%}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              {%- endfor -%}
+            </div>
+            {%- if section.settings.reviews_count != blank -%}
+              <p class="cl-reviews__score-label">{{ section.settings.reviews_count }} verified reviews</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="cl-reviews__grid">
+        {%- for block in review_blocks -%}
+          {%- assign rating = block.settings.rating | default: 5 -%}
+          <article class="cl-review-card" {{ block.shopify_attributes }}>
+            <div class="cl-review-card__stars" aria-label="{{ rating }} out of 5 stars">
+              {%- for i in (1..5) -%}
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="{% if i <= rating %}currentColor{% else %}none{% endif %}" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              {%- endfor -%}
+            </div>
+            <blockquote class="cl-review-card__quote">&ldquo;{{ block.settings.quote }}&rdquo;</blockquote>
+            <div class="cl-review-card__footer">
+              <div class="cl-review-card__avatar" aria-hidden="true">{{ block.settings.initials | default: 'VS' }}</div>
+              <div class="cl-review-card__meta">
+                <span class="cl-review-card__name">{{ block.settings.author }}</span>
+                {%- if block.settings.product_name != blank -%}
+                  <span class="cl-review-card__product">{{ block.settings.product_name }}</span>
+                {%- endif -%}
+              </div>
+              <span class="cl-review-card__verified" aria-label="Verified purchase">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Verified
+              </span>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+  {%- endif -%}
+
+  {%- comment -%}══════════════════════════════════════════
+    9. FAQ
+  ══════════════════════════════════════════{%- endcomment -%}
+  {%- assign faq_blocks = section.blocks | where: 'type', 'faq' -%}
+  {%- if faq_blocks.size > 0 -%}
+  <section class="cl-faq">
+    <div class="cl-faq__inner">
+      <div class="cl-faq__label-col">
+        {%- if section.settings.faq_eyebrow != blank -%}
+          <p class="cl-faq__eyebrow">{{ section.settings.faq_eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="cl-faq__title">{{ section.settings.faq_title }}</h2>
+      </div>
+
+      <div class="cl-faq__content-col">
+        <div class="cl-faq-list">
+          {%- for block in faq_blocks -%}
+            <details class="cl-faq-item" {{ block.shopify_attributes }}>
+              <summary class="cl-faq-item__summary">
+                <span class="cl-faq-item__question">{{ block.settings.question }}</span>
+                <span class="cl-faq-item__icon" aria-hidden="true">
+                  <svg class="cl-faq-icon cl-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  <svg class="cl-faq-icon cl-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </span>
+              </summary>
+              <div class="cl-faq-item__body-wrap">
+                <div class="cl-faq-item__body-inner">
+                  <p class="cl-faq-item__answer">{{ block.settings.answer }}</p>
+                </div>
+              </div>
+            </details>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </section>
+  {%- endif -%}
+
+  {%- comment -%}══════════════════════════════════════════
+    10. NEWSLETTER
+  ══════════════════════════════════════════{%- endcomment -%}
+  <section class="cl-newsletter">
+    <div class="cl-newsletter__inner">
+      <div class="cl-newsletter__content">
+        {%- if section.settings.newsletter_eyebrow != blank -%}
+          <p class="cl-newsletter__eyebrow">{{ section.settings.newsletter_eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="cl-newsletter__title">{{ section.settings.newsletter_title }}</h2>
+        {%- if section.settings.newsletter_body != blank -%}
+          <p class="cl-newsletter__body">{{ section.settings.newsletter_body }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="cl-newsletter__form-wrap">
+        {%- form 'customer', id: 'cl-newsletter-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter,collection-signup">
+          <div class="cl-newsletter__form">
+            <div class="cl-newsletter__field-row">
+              <input
+                class="cl-newsletter__input"
+                type="email"
+                name="contact[email]"
+                id="cl-newsletter-email"
+                placeholder="{{ section.settings.newsletter_placeholder | default: 'Enter your email' }}"
+                autocomplete="email"
+                required
+                aria-label="Email address"
+              >
+              <button class="cl-newsletter__submit" type="submit">
+                {{ section.settings.newsletter_btn | default: 'Subscribe' }}
+              </button>
+            </div>
+            {%- if section.settings.newsletter_disclaimer != blank -%}
+              <p class="cl-newsletter__disclaimer">{{ section.settings.newsletter_disclaimer }}</p>
+            {%- endif -%}
+          </div>
+          {%- if form.posted_successfully? -%}
+            <div class="cl-newsletter__success is-visible" role="alert">
+              {{ section.settings.newsletter_success | default: 'You&rsquo;re in. Welcome to Velour Skin.' }}
+            </div>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <div style="margin-top:0.75rem;font-size:0.8125rem;color:#c0392b;" role="alert">{{ form.errors | default_errors }}</div>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+    </div>
+  </section>
+
+</div><!-- /cl-page -->
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Filter pills ─────────────────────────────────────────── */
+  var pills   = document.querySelectorAll('.cl-filter__pill[data-concern]');
+  var cards   = document.querySelectorAll('.cl-card');
+  var empty   = document.getElementById('cl-empty');
+  var countEl = document.getElementById('cl-count-num');
+
+  pills.forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      pills.forEach(function (p) {
+        p.classList.remove('is-active');
+        p.setAttribute('aria-pressed', 'false');
+      });
+      pill.classList.add('is-active');
+      pill.setAttribute('aria-pressed', 'true');
+
+      var concern = pill.dataset.concern;
+      var visible = 0;
+
+      cards.forEach(function (card) {
+        if (concern === 'all') {
+          card.removeAttribute('data-hidden');
+          visible++;
+        } else {
+          var concerns = (card.dataset.concerns || '').split(' ');
+          if (concerns.indexOf(concern) !== -1) {
+            card.removeAttribute('data-hidden');
+            visible++;
+          } else {
+            card.setAttribute('data-hidden', '');
+          }
+        }
+      });
+
+      if (countEl) countEl.textContent = visible;
+      if (empty) empty.classList.toggle('is-visible', visible === 0);
+    });
+  });
+
+  /* ── Quick-add ────────────────────────────────────────────── */
+  document.querySelectorAll('.cl-card__quick-add').forEach(function (btn) {
+    btn.addEventListener('click', async function () {
+      var variantId = btn.dataset.variantId;
+      if (!variantId || btn.disabled || btn.classList.contains('is-loading')) return;
+
+      var original = btn.textContent;
+      btn.classList.add('is-loading');
+      btn.textContent = '…';
+
+      try {
+        var res = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ id: parseInt(variantId, 10), quantity: 1 })
+        });
+        if (!res.ok) throw new Error('Cart error');
+        btn.classList.remove('is-loading');
+        btn.classList.add('is-added');
+        btn.textContent = 'Added';
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        document.dispatchEvent(new CustomEvent('cart:open'));
+        setTimeout(function () {
+          btn.classList.remove('is-added');
+          btn.textContent = original;
+        }, 2200);
+      } catch (e) {
+        btn.classList.remove('is-loading');
+        btn.textContent = 'Error';
+        setTimeout(function () { btn.textContent = original; }, 2000);
+      }
+    });
+  });
+
+  /* ── FAQ accordion ────────────────────────────────────────── */
+  document.querySelectorAll('.cl-faq-item').forEach(function (item) {
+    item.addEventListener('click', function (e) {
+      if (!e.target.closest('summary')) return;
+      e.preventDefault();
+
+      if (item.open) {
+        item.classList.add('is-closing');
+        item.addEventListener('transitionend', function handler() {
+          item.open = false;
+          item.classList.remove('is-closing');
+          item.removeEventListener('transitionend', handler);
+        }, { once: true });
+      } else {
+        item.open = true;
+        item.getBoundingClientRect(); /* force reflow */
+      }
+    });
+  });
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Collection Page",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Eyebrow", "default": "Velour Skin" },
+    { "type": "text", "id": "hero_heading", "label": "Heading", "default": "Targeted skincare, simplified" },
+    { "type": "textarea", "id": "hero_body", "label": "Body text", "default": "Each formula is built around a single skin goal — choose by concern, not confusion. Every serum is designed to work standalone or layer seamlessly with others." },
+    { "type": "text", "id": "hero_stat_2", "label": "Stat 2", "default": "Clinically formulated" },
+    { "type": "text", "id": "hero_stat_3", "label": "Stat 3", "default": "Fragrance-free" },
+    { "type": "header", "content": "Editorial strip" },
+    { "type": "text", "id": "editorial_eyebrow", "label": "Eyebrow", "default": "The Velour Method" },
+    { "type": "text", "id": "editorial_heading", "label": "Heading", "default": "Build a routine that does more with less" },
+    { "type": "text", "id": "editorial_cta_label", "label": "CTA label", "default": "Take the Skin Quiz" },
+    { "type": "url", "id": "editorial_cta_url", "label": "CTA URL" },
+    { "type": "header", "content": "Compare serums" },
+    { "type": "text", "id": "compare_eyebrow", "label": "Eyebrow", "default": "Find your formula" },
+    { "type": "text", "id": "compare_title", "label": "Title", "default": "Compare serums" },
+    { "type": "header", "content": "Routine bundles" },
+    { "type": "text", "id": "bundles_eyebrow", "label": "Eyebrow", "default": "Ready-made routines" },
+    { "type": "text", "id": "bundles_title", "label": "Title", "default": "Shop curated bundles" },
+    { "type": "textarea", "id": "bundles_body", "label": "Body text", "default": "Three products, one clear goal. Bundled to save and designed to work together." },
+    { "type": "header", "content": "Education" },
+    { "type": "text", "id": "edu_eyebrow", "label": "Eyebrow", "default": "How to choose" },
+    { "type": "text", "id": "edu_title", "label": "Title", "default": "Choosing the right serum for your skin" },
+    { "type": "header", "content": "Reviews" },
+    { "type": "text", "id": "reviews_eyebrow", "label": "Eyebrow", "default": "What our customers say" },
+    { "type": "text", "id": "reviews_title", "label": "Title", "default": "Trusted by thousands" },
+    { "type": "text", "id": "reviews_score", "label": "Overall score", "default": "4.8" },
+    { "type": "text", "id": "reviews_count", "label": "Review count", "default": "1,247" },
+    { "type": "header", "content": "FAQ" },
+    { "type": "text", "id": "faq_eyebrow", "label": "Eyebrow", "default": "Questions" },
+    { "type": "text", "id": "faq_title", "label": "Title", "default": "FAQ" },
+    { "type": "header", "content": "Newsletter" },
+    { "type": "text", "id": "newsletter_eyebrow", "label": "Eyebrow", "default": "Stay in the loop" },
+    { "type": "text", "id": "newsletter_title", "label": "Title", "default": "Skin intel, delivered" },
+    { "type": "textarea", "id": "newsletter_body", "label": "Body text", "default": "New formulas, routine guides, and members-only offers — straight to your inbox." },
+    { "type": "text", "id": "newsletter_placeholder", "label": "Input placeholder", "default": "Enter your email" },
+    { "type": "text", "id": "newsletter_btn", "label": "Button label", "default": "Subscribe" },
+    { "type": "text", "id": "newsletter_disclaimer", "label": "Disclaimer", "default": "No spam, ever. Unsubscribe at any time." },
+    { "type": "text", "id": "newsletter_success", "label": "Success message", "default": "You're in. Welcome to Velour Skin." }
+  ],
+  "blocks": [
+    {
+      "type": "compare_row",
+      "name": "Compare row",
+      "settings": [
+        { "type": "text", "id": "product_name", "label": "Product name" },
+        { "type": "url", "id": "product_url", "label": "Product URL" },
+        { "type": "text", "id": "best_for", "label": "Best for" },
+        { "type": "text", "id": "key_ingredients", "label": "Key ingredients (comma-separated)" },
+        { "type": "text", "id": "texture", "label": "Texture" },
+        { "type": "checkbox", "id": "use_am", "label": "AM use", "default": true },
+        { "type": "checkbox", "id": "use_pm", "label": "PM use", "default": true },
+        { "type": "text", "id": "skin_type", "label": "Skin type" }
+      ]
+    },
+    {
+      "type": "bundle",
+      "name": "Routine bundle",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "color", "id": "accent_color", "label": "Background colour", "default": "#cde8c9" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Bundle" },
+        { "type": "text", "id": "name", "label": "Bundle name" },
+        { "type": "textarea", "id": "desc", "label": "Description" },
+        { "type": "text", "id": "product_1", "label": "Product 1" },
+        { "type": "text", "id": "product_2", "label": "Product 2" },
+        { "type": "text", "id": "product_3", "label": "Product 3" },
+        { "type": "text", "id": "price", "label": "Bundle price" },
+        { "type": "text", "id": "price_note", "label": "Price note", "default": "Save 15%" },
+        { "type": "url", "id": "url", "label": "URL" },
+        { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop bundle" }
+      ]
+    },
+    {
+      "type": "education_card",
+      "name": "Education card",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "body", "label": "Body" }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "range", "id": "rating", "min": 1, "max": 5, "step": 1, "label": "Rating", "default": 5 },
+        { "type": "textarea", "id": "quote", "label": "Quote" },
+        { "type": "text", "id": "author", "label": "Author name" },
+        { "type": "text", "id": "initials", "label": "Initials (2 chars)", "default": "VS" },
+        { "type": "text", "id": "product_name", "label": "Product purchased" }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "textarea", "id": "answer", "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Collection Page" }
+  ]
+}
+{% endschema %}

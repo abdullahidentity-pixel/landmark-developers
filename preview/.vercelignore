@@ -1,0 +1,8 @@
+# Local dev server (not used on Vercel — files are served statically)
+serve.js
+serve.cjs
+.claude/
+
+# Internal founder docs — keep out of the public deploy
+SIT-README.md
+SIT-LAUNCH-AUDIT.md
