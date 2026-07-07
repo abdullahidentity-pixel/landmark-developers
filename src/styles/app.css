@@ -1228,7 +1228,7 @@ section { position: relative; z-index: 2; }
   border: 1px solid var(--line);
 }
 .mcta-wa { color: #6ff09b; background: rgba(37, 211, 102, 0.14); border: 1px solid rgba(37, 211, 102, 0.3); }
-.mcta-book { color: #1c1305; background: var(--gold-grad); }
+.mcta-book { color: #1c1305; background: var(--gold-grad); border: none; cursor: pointer; font-family: inherit; }
 
 /* ============ Floating WhatsApp ============ */
 .fab-whatsapp {

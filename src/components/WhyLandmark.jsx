@@ -1,8 +1,10 @@
 import { RevealGroup, RevealItem } from './Reveal.jsx';
 import MagneticButton from './MagneticButton.jsx';
+import { useLeadModal } from '../context/LeadModalContext.jsx';
 import { WHY } from '../data/site.js';
 
 export default function WhyLandmark() {
+  const { openTour } = useLeadModal();
   return (
     <section className="why" id="why">
       <div className="container">
@@ -25,7 +27,7 @@ export default function WhyLandmark() {
           <RevealItem as="article" className="why-card why-cta-card" y={44}>
             <h3 className="why-title">See the numbers for yourself</h3>
             <p className="why-body">Get availability, pricing and projected returns in one call.</p>
-            <MagneticButton href="#contact" variant="primary" className="btn-sm">
+            <MagneticButton as="button" variant="primary" className="btn-sm" onClick={() => openTour()}>
               Book Free Consultation
             </MagneticButton>
           </RevealItem>

@@ -1,6 +1,7 @@
 import { RevealGroup, RevealItem } from '../Reveal.jsx';
 import { AmenityIcon } from '../Icons.jsx';
 import MagneticButton from '../MagneticButton.jsx';
+import { useLeadModal } from '../../context/LeadModalContext.jsx';
 
 const AMENITY_LABELS = {
   pool: 'Swimming Pool',
@@ -14,6 +15,7 @@ const AMENITY_LABELS = {
 };
 
 export default function ProjAmenities({ project }) {
+  const { openTour } = useLeadModal();
   const items = (project.amenities || []).map((key) => ({
     key,
     label: AMENITY_LABELS[key] || key,
@@ -44,7 +46,7 @@ export default function ProjAmenities({ project }) {
         </RevealGroup>
 
         <div className="pj-amenities-cta">
-          <MagneticButton href="#pj-contact" variant="primary">
+          <MagneticButton as="button" variant="primary" onClick={() => openTour(project.name)}>
             Ask About Amenities
           </MagneticButton>
         </div>

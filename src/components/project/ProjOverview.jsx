@@ -2,10 +2,12 @@ import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Reveal, RevealGroup, RevealItem } from '../Reveal.jsx';
 import MagneticButton from '../MagneticButton.jsx';
+import { useLeadModal } from '../../context/LeadModalContext.jsx';
 
 const EASE = [0.22, 1, 0.36, 1];
 
 export default function ProjOverview({ project }) {
+  const { openTour } = useLeadModal();
   return (
     <section className="pj-overview" id="overview" aria-labelledby="overview-title">
       <div className="container pj-overview-inner">
@@ -37,7 +39,7 @@ export default function ProjOverview({ project }) {
             </li>
           </ul>
 
-          <MagneticButton href="#pj-contact" variant="primary">
+          <MagneticButton as="button" variant="primary" onClick={() => openTour(project.name)}>
             Get Project Details
           </MagneticButton>
         </Reveal>

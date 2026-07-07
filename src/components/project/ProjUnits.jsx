@@ -1,5 +1,6 @@
 import { RevealGroup, RevealItem } from '../Reveal.jsx';
 import MagneticButton from '../MagneticButton.jsx';
+import { useLeadModal } from '../../context/LeadModalContext.jsx';
 
 // Unit type icons (compact SVG)
 function UnitIcon({ type }) {
@@ -20,6 +21,7 @@ function UnitIcon({ type }) {
 }
 
 export default function ProjUnits({ project }) {
+  const { openTour } = useLeadModal();
   return (
     <section className="pj-units" id="units" aria-labelledby="units-title">
       <div className="container">
@@ -44,10 +46,10 @@ export default function ProjUnits({ project }) {
               </div>
               <h3 className="pj-unit-type">{u.type}</h3>
               <p className="pj-unit-detail">{u.detail}</p>
-              <a href="#pj-contact" className="pj-unit-cta">
+              <button className="pj-unit-cta" onClick={() => openTour(project.name)}>
                 Enquire about availability
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
+              </button>
             </RevealItem>
           ))}
         </RevealGroup>
@@ -56,7 +58,7 @@ export default function ProjUnits({ project }) {
           <p>
             Pricing, availability, and floor plans are subject to confirmation from Landmark Developers.
           </p>
-          <MagneticButton href="#pj-contact" variant="primary">
+          <MagneticButton as="button" variant="primary" onClick={() => openTour(project.name)}>
             Send Me Project Details
           </MagneticButton>
         </div>

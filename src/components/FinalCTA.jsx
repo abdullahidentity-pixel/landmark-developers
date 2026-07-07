@@ -1,9 +1,11 @@
 import { RevealGroup, RevealItem } from './Reveal.jsx';
 import MagneticButton from './MagneticButton.jsx';
 import { WhatsAppIcon } from './Icons.jsx';
+import { useLeadModal } from '../context/LeadModalContext.jsx';
 import { CONTACT } from '../data/site.js';
 
 export default function FinalCTA() {
+  const { openTour } = useLeadModal();
   return (
     <section className="final-cta" id="book">
       <span className="section-watermark center" aria-hidden="true">
@@ -18,7 +20,7 @@ export default function FinalCTA() {
           and investment options.
         </RevealItem>
         <RevealItem className="cta-actions">
-          <MagneticButton href="#contact" variant="primary" className="btn-lg">
+          <MagneticButton as="button" variant="primary" className="btn-lg" onClick={() => openTour()}>
             Book Free Consultation
           </MagneticButton>
           <a

@@ -1,8 +1,10 @@
 import { PhoneIcon, WhatsAppIcon } from './Icons.jsx';
+import { useLeadModal } from '../context/LeadModalContext.jsx';
 import { CONTACT } from '../data/site.js';
 
 /** Sticky bottom Call / WhatsApp / Book bar — mobile only (CSS-gated). */
 export default function MobileCTABar() {
+  const { openTour } = useLeadModal();
   return (
     <div className="mobile-cta-bar" role="region" aria-label="Quick contact">
       <a className="mcta mcta-call" href={CONTACT.phoneHref}>
@@ -18,9 +20,9 @@ export default function MobileCTABar() {
         <WhatsAppIcon width="19" height="19" />
         WhatsApp
       </a>
-      <a className="mcta mcta-book" href="#contact">
+      <button className="mcta mcta-book" onClick={() => openTour()}>
         Book
-      </a>
+      </button>
     </div>
   );
 }

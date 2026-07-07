@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useLayoutEffect, useRef, useState } from 're
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import MagneticButton from './MagneticButton.jsx';
+import { useLeadModal } from '../context/LeadModalContext.jsx';
 import { HERO_CARDS, STATS } from '../data/site.js';
 
 // Three.js is the heaviest dependency — keep it out of the initial bundle and
@@ -11,6 +12,7 @@ const Scene3D = lazy(() => import('./Scene3D.jsx'));
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
+  const { openTour } = useLeadModal();
   const root = useRef(null);
   const introPlayed = useRef(false);
   const [show3D, setShow3D] = useState(false);
@@ -138,7 +140,7 @@ export default function Hero() {
         </p>
 
         <div className="hero-cta">
-          <MagneticButton href="#contact" variant="primary" className="btn-lg">
+          <MagneticButton as="button" variant="primary" className="btn-lg" onClick={() => openTour()}>
             Book Free Consultation
           </MagneticButton>
           <MagneticButton href="#projects" variant="glass" className="btn-lg">

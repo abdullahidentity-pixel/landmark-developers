@@ -1,7 +1,9 @@
 import { Reveal } from '../Reveal.jsx';
 import MagneticButton from '../MagneticButton.jsx';
+import { useLeadModal } from '../../context/LeadModalContext.jsx';
 
 export default function ProjConstruction({ project }) {
+  const { openTour } = useLeadModal();
   return (
     <section className="pj-construction" id="construction" aria-labelledby="construction-title">
       <div className="container">
@@ -38,7 +40,7 @@ export default function ProjConstruction({ project }) {
           </div>
 
           <div className="pj-construction-actions">
-            <MagneticButton href="#pj-contact" variant="primary">
+            <MagneticButton as="button" variant="primary" onClick={() => openTour(project.name)}>
               Ask for Latest Update
             </MagneticButton>
             <a
