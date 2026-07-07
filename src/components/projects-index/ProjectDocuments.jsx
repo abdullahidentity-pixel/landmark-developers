@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom';
 import { Reveal, RevealGroup, RevealItem } from '../Reveal.jsx';
 import MagneticButton from '../MagneticButton.jsx';
 import { WhatsAppIcon } from '../Icons.jsx';
+import { useLeadModal } from '../../context/LeadModalContext.jsx';
 import { PROJECTS_DATA, PROJECT_INDEX_META } from '../../data/projects.js';
 import { CONTACT } from '../../data/site.js';
 
 function DocCard({ project }) {
+  const { openDownload } = useLeadModal();
   const meta = PROJECT_INDEX_META[project.slug] || {};
   const { brochureUrl, paymentPlanUrl, commercialPaymentPlanUrl } = meta.documents || {};
   const hasDocuments = brochureUrl || paymentPlanUrl;
@@ -37,46 +39,37 @@ function DocCard({ project }) {
           /* ── Documents available ── */
           <div className="pjidx-doc-actions">
             {brochureUrl && (
-              <a
+              <button
                 className="btn btn-glass btn-sm pjidx-doc-btn"
-                href={brochureUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                download
+                onClick={() => openDownload(brochureUrl, `${project.name} Brochure`, project.name)}
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
                 </svg>
                 Download Brochure
-              </a>
+              </button>
             )}
             {paymentPlanUrl && (
-              <a
+              <button
                 className="btn btn-primary btn-sm pjidx-doc-btn"
-                href={paymentPlanUrl}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={() => openDownload(paymentPlanUrl, `${project.name} ${commercialPaymentPlanUrl ? 'Residential Plan' : 'Payment Plan'}`, project.name)}
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
                 </svg>
                 {commercialPaymentPlanUrl ? 'Residential Plan' : 'Payment Plan'}
-              </a>
+              </button>
             )}
             {commercialPaymentPlanUrl && (
-              <a
+              <button
                 className="btn btn-glass btn-sm pjidx-doc-btn"
-                href={commercialPaymentPlanUrl}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={() => openDownload(commercialPaymentPlanUrl, `${project.name} Commercial Plan`, project.name)}
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
                 </svg>
                 Commercial Plan
-              </a>
+              </button>
             )}
           </div>
         ) : (

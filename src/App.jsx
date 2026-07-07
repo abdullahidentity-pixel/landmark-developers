@@ -8,10 +8,14 @@ import ContactPage from './pages/ContactPage.jsx';
 import BlogsPage from './pages/BlogsPage.jsx';
 import BlogPostPage from './pages/BlogPostPage.jsx';
 import { PROJECTS_DATA } from './data/projects.js';
+import { LeadModalProvider } from './context/LeadModalContext.jsx';
+import LeadModal from './components/LeadModal.jsx';
 import './styles/app.css';
 
 export default function App() {
   return (
+    <LeadModalProvider>
+      <LeadModal />
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -31,5 +35,6 @@ export default function App() {
         <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
+    </LeadModalProvider>
   );
 }

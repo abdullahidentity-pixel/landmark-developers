@@ -930,8 +930,12 @@
   background: rgba(217, 184, 120, 0.04);
   text-decoration: none;
   color: var(--fg);
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
   transition: border-color 0.25s, background 0.25s, transform 0.2s;
   cursor: pointer;
+  width: 100%;
 }
 
 .pj-payment-doc-item:hover {

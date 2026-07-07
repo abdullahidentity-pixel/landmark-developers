@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../Logo.jsx';
 import MagneticButton from '../MagneticButton.jsx';
 import ProjectsNavDropdown from '../ProjectsNavDropdown.jsx';
+import { useLeadModal } from '../../context/LeadModalContext.jsx';
 import { PROJECTS_DATA } from '../../data/projects.js';
 import { CONTACT } from '../../data/site.js';
 import '../../styles/nav-dropdown.css';
@@ -28,6 +29,7 @@ const NAV_MOBILE = [
 export default function ProjHeader({ project }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { openTour } = useLeadModal();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -70,7 +72,7 @@ export default function ProjHeader({ project }) {
         </nav>
 
         <div className="header-actions">
-          <MagneticButton href="#pj-contact" variant="primary" className="btn-sm header-cta">
+          <MagneticButton as="button" variant="primary" className="btn-sm header-cta" onClick={() => openTour(project.name)}>
             Register Interest
           </MagneticButton>
           <button
@@ -127,9 +129,9 @@ export default function ProjHeader({ project }) {
           ))}
         </nav>
         <div className="mobile-menu-foot">
-          <a className="btn btn-primary" href="#pj-contact" onClick={() => setOpen(false)}>
+          <button className="btn btn-primary" onClick={() => { setOpen(false); openTour(project.name); }}>
             Register Interest
-          </a>
+          </button>
           <a
             className="btn btn-glass"
             href={CONTACT.whatsappHref}

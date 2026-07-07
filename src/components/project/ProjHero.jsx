@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import MagneticButton from '../MagneticButton.jsx';
 import { WhatsAppIcon } from '../Icons.jsx';
+import { useLeadModal } from '../../context/LeadModalContext.jsx';
 import { CONTACT } from '../../data/site.js';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -122,6 +123,7 @@ export default function ProjHero({ project }) {
     return () => timer.kill();
   }, []);
 
+  const { openTour } = useLeadModal();
   const whatsappText =
     `New project enquiry%0AProject: ${project.displayName}%0APlease send me details.`;
 
@@ -171,7 +173,7 @@ export default function ProjHero({ project }) {
         </div>
 
         <div className="pj-hero-actions">
-          <MagneticButton href="#pj-contact" variant="primary" className="btn-lg">
+          <MagneticButton as="button" variant="primary" className="btn-lg" onClick={() => openTour(project.name)}>
             Register Your Interest
           </MagneticButton>
           <a
