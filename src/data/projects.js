@@ -357,8 +357,8 @@ export const PROJECT_INDEX_META = {
     bestFor: ['Retail investors', 'Hospitality yield', 'Commercial footfall', 'Studio & 1-bed buyers'],
     offeringTypes: ['Studio', '1 Bed', 'Commercial'],
     documents: {
-      brochureUrl: null,      // e.g. '/docs/grand-x-brochure.pdf'
-      paymentPlanUrl: null,   // e.g. '/docs/grand-x-payment-plan.jpg'
+      brochureUrl: null,
+      paymentPlanUrl: '/docs/grand-x-payment-plan.pdf',
     },
     accent: '#d9b878',
   },
@@ -367,8 +367,8 @@ export const PROJECT_INDEX_META = {
     bestFor: ['Midway commercial visibility', 'Central Bahria access', 'Boulevard-facing retail', 'Studio buyers'],
     offeringTypes: ['Studio', '1 Bed', 'Commercial'],
     documents: {
-      brochureUrl: null,
-      paymentPlanUrl: null,
+      brochureUrl: '/docs/grand-11-floor-plans.pdf',
+      paymentPlanUrl: '/docs/grand-11-payment-plan.pdf',
     },
     accent: '#b8923f',
   },
@@ -377,8 +377,8 @@ export const PROJECT_INDEX_META = {
     bestFor: ['Islamabad business district', 'Corporate offices', 'Hotel yield investors', 'Capital gains'],
     offeringTypes: ['Studio', '1 Bed', 'Commercial', 'Office', 'Hotel Suite'],
     documents: {
-      brochureUrl: null,
-      paymentPlanUrl: null,
+      brochureUrl: '/docs/grand-12-brochure.pdf',
+      paymentPlanUrl: '/docs/grand-12-payment-plan.pdf',
     },
     accent: '#c9a96e',
   },
@@ -387,8 +387,8 @@ export const PROJECT_INDEX_META = {
     bestFor: ['Serviced apartment lifestyle', 'Park & fountain views', 'Commercial hub investors', 'Family buyers'],
     offeringTypes: ['1 Bed', '2 Bed', 'Commercial'],
     documents: {
-      brochureUrl: null,
-      paymentPlanUrl: null,
+      brochureUrl: '/docs/grand-14-floor-plan.pdf',
+      paymentPlanUrl: '/docs/grand-14-payment-plan.pdf',
     },
     accent: '#f0d49b',
   },
@@ -397,8 +397,9 @@ export const PROJECT_INDEX_META = {
     bestFor: ['Luxury lifestyle', 'Private terrace buyers', 'Branded commercial hub', 'High-return investors'],
     offeringTypes: ['1 Bed', '2 Bed', 'Commercial'],
     documents: {
-      brochureUrl: null,
-      paymentPlanUrl: null,
+      brochureUrl: '/docs/grand-15-layout-plan.pdf',
+      paymentPlanUrl: '/docs/grand-15-signature-payment-plan.pdf',
+      commercialPaymentPlanUrl: '/docs/grand-15-commercial-payment-plan.pdf',
     },
     accent: '#f0d49b',
   },

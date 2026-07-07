@@ -7,7 +7,7 @@ import { CONTACT } from '../../data/site.js';
 
 function DocCard({ project }) {
   const meta = PROJECT_INDEX_META[project.slug] || {};
-  const { brochureUrl, paymentPlanUrl } = meta.documents || {};
+  const { brochureUrl, paymentPlanUrl, commercialPaymentPlanUrl } = meta.documents || {};
   const hasDocuments = brochureUrl || paymentPlanUrl;
 
   const waText = `Payment plan enquiry%0AProject: ${project.displayName}%0APlease share the latest payment plan and brochure.`;
@@ -54,13 +54,28 @@ function DocCard({ project }) {
               <a
                 className="btn btn-primary btn-sm pjidx-doc-btn"
                 href={paymentPlanUrl}
+                download
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
                 </svg>
-                View Payment Plan
+                {commercialPaymentPlanUrl ? 'Residential Plan' : 'Payment Plan'}
+              </a>
+            )}
+            {commercialPaymentPlanUrl && (
+              <a
+                className="btn btn-glass btn-sm pjidx-doc-btn"
+                href={commercialPaymentPlanUrl}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+                Commercial Plan
               </a>
             )}
           </div>
