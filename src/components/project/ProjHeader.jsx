@@ -1,9 +1,74 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../Logo.jsx';
 import MagneticButton from '../MagneticButton.jsx';
 import { PROJECTS_DATA } from '../../data/projects.js';
 import { CONTACT } from '../../data/site.js';
+
+function ProjectsSwitcher({ currentSlug }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  return (
+    <div className="pj-switcher" ref={ref}>
+      <button
+        className="nav-link pj-switcher-btn"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-haspopup="true"
+      >
+        All Projects
+        <svg
+          className={`pj-switcher-chevron ${open ? 'is-open' : ''}`}
+          width="12" height="12" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
+          aria-hidden="true"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+
+      {open && (
+        <div className="pj-switcher-drop" role="menu">
+          <p className="pj-switcher-label">Switch Project</p>
+          {PROJECTS_DATA.map((p) => (
+            <Link
+              key={p.slug}
+              to={`/${p.slug}`}
+              className={`pj-switcher-item ${p.slug === currentSlug ? 'is-active' : ''}`}
+              role="menuitem"
+              onClick={() => setOpen(false)}
+            >
+              <img
+                src={p.heroImage || p.localHero}
+                alt={p.name}
+                className="pj-switcher-thumb"
+                onError={(e) => { e.target.style.display = 'none'; }}
+              />
+              <span className="pj-switcher-info">
+                <span className="pj-switcher-name">{p.name}</span>
+                <span className="pj-switcher-status">{p.status}</span>
+              </span>
+              {p.slug === currentSlug && (
+                <span className="pj-switcher-current" aria-label="Current project">●</span>
+              )}
+            </Link>
+          ))}
+          <Link to="/projects" className="pj-switcher-all" onClick={() => setOpen(false)}>
+            View all projects →
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function ProjHeader({ project }) {
   const [scrolled, setScrolled] = useState(false);
@@ -36,6 +101,7 @@ export default function ProjHeader({ project }) {
           <a href="#units" className="nav-link">Units</a>
           <a href="#gallery" className="nav-link">Gallery</a>
           <a href="#pj-contact" className="nav-link">Contact</a>
+          <ProjectsSwitcher currentSlug={project.slug} />
         </nav>
 
         <div className="header-actions">

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RevealGroup, RevealItem } from './Reveal.jsx';
 import { useTilt } from '../hooks/useTilt.js';
 import { WhatsAppIcon } from './Icons.jsx';
@@ -20,6 +20,7 @@ const UNIT_MAP = {
 
 function ProjectCard({ project, index }) {
   const tilt = useTilt();
+  const navigate = useNavigate();
   const units = UNIT_MAP[project.slug] || [];
   const isFeatured = project.slug === 'grand-15';
   const tone = ['gold', 'pearl', 'bronze', 'gold', 'pearl'][index % 5];
@@ -31,6 +32,11 @@ function ProjectCard({ project, index }) {
         ref={tilt.ref}
         onMouseMove={tilt.onMouseMove}
         onMouseLeave={tilt.onMouseLeave}
+        onClick={() => navigate(`/${project.slug}`)}
+        style={{ cursor: 'pointer' }}
+        role="link"
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') navigate(`/${project.slug}`); }}
       >
         <div className="project-glare" aria-hidden="true" />
         <div className="project-card-inner">
@@ -66,7 +72,7 @@ function ProjectCard({ project, index }) {
           </ul>
 
           <div className="project-actions">
-            <Link className="btn btn-primary btn-sm" to={`/${project.slug}`}>
+            <Link className="btn btn-primary btn-sm" to={`/${project.slug}`} onClick={(e) => e.stopPropagation()}>
               Explore {project.name}
             </Link>
             <a
@@ -75,6 +81,7 @@ function ProjectCard({ project, index }) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`WhatsApp about ${project.name}`}
+              onClick={(e) => e.stopPropagation()}
             >
               <WhatsAppIcon width="18" height="18" /> WhatsApp Now
             </a>
