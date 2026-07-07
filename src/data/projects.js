@@ -284,9 +284,9 @@ export const PROJECTS_DATA = [
     location: 'Bahria Downtown Lahore',
     locationDetail: 'Bahria Downtown, Main Boulevard Lahore',
     status: 'Flagship Launch',
-    heroImage: '/images/grand-15-1.png',
-    cardImage: '/images/grand-15-render.png',
-    localHero: '/images/grand-15-1.png',
+    heroImage: '/images/grand-15-2.png',
+    cardImage: '/images/grand-15-2.png',
+    localHero: '/images/grand-15-2.png',
     officialPage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/grand-15/',
     description:
       'Luxury apartments with private terraces, branded commercial outlets, rooftop garden, hotel-style amenities, and views of the fountains, park, and Eiffel Tower replica.',
@@ -321,8 +321,8 @@ export const PROJECTS_DATA = [
       { type: 'Commercial Brand Outlets', detail: 'Flagship retail in Bahria Downtown\'s prime strip' },
     ],
     galleryImages: [
-      '/images/grand-15-1.png',
       '/images/grand-15-2.png',
+      '/images/grand-15-1.png',
       '/images/grand-15-3.png',
       '/images/grand-15-4.png',
       '/images/grand-15-5.png',
@@ -337,7 +337,7 @@ export const PROJECTS_DATA = [
       title: 'Grand 15 | Luxury Residences Bahria Downtown Lahore — Landmark Developers',
       description:
         'The Grand Lifestyle Grand 15 by Landmark Developers — luxury apartments with private terraces, rooftop garden, Eiffel Tower views, and branded commercial outlets in Bahria Downtown Lahore.',
-      ogImage: '/images/grand-15-1.png',
+      ogImage: '/images/grand-15-2.png',
     },
   },
 ];
