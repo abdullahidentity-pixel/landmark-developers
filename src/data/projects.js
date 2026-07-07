@@ -285,7 +285,7 @@ export const PROJECTS_DATA = [
     locationDetail: 'Bahria Downtown, Main Boulevard Lahore',
     status: 'Flagship Launch',
     heroImage: '/images/grand-15-2.png',
-    cardImage: '/images/grand-15-2.png',
+    cardImage: '/images/grand-15.jpg',
     localHero: '/images/grand-15-2.png',
     officialPage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/grand-15/',
     description:
