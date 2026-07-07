@@ -4,10 +4,12 @@ import Logo from '../Logo.jsx';
 import MagneticButton from '../MagneticButton.jsx';
 import { PROJECTS_DATA } from '../../data/projects.js';
 import { CONTACT } from '../../data/site.js';
+import { useLeadModal } from '../../context/LeadModalContext.jsx';
 
 export default function ProjectsHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { openTour } = useLeadModal();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -37,7 +39,7 @@ export default function ProjectsHeader() {
         </nav>
 
         <div className="header-actions">
-          <MagneticButton href="#enquire" variant="primary" className="btn-sm header-cta">
+          <MagneticButton as="button" variant="primary" className="btn-sm header-cta" onClick={() => openTour()}>
             Get Recommendations
           </MagneticButton>
           <button
@@ -70,9 +72,9 @@ export default function ProjectsHeader() {
           ))}
         </nav>
         <div className="mobile-menu-foot">
-          <a className="btn btn-primary" href="#enquire" onClick={() => setOpen(false)}>
+          <button className="btn btn-primary" onClick={() => { setOpen(false); openTour(); }}>
             Get Recommendations
-          </a>
+          </button>
           <a className="btn btn-glass" href={CONTACT.whatsappHref}
             target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>
             WhatsApp Us
