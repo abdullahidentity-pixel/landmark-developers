@@ -14,9 +14,9 @@ export const PROJECTS_DATA = [
     location: 'Bahria Town Lahore',
     locationDetail: 'Theme Park Facing, Bahria Town Lahore',
     status: 'Now Selling',
-    heroImage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2026/05/About-section-image.jpg',
+    heroImage: '/images/grand-x-1.png',
     cardImage: '/images/grand-x-render.png',
-    localHero: '/images/grand-x.jpg',
+    localHero: '/images/grand-x-1.png',
     officialPage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/grand-x/',
     description:
       'A mixed-use development in Bahria Town Lahore featuring a premium shopping mall, 4-star hotel apartments, and the first and largest food court, designed as a lifestyle and entertainment destination.',
@@ -51,8 +51,12 @@ export const PROJECTS_DATA = [
       { type: 'Commercial Brand Outlets', detail: 'Prime retail facing the theme park boulevard' },
     ],
     galleryImages: [
-      'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2026/05/About-section-image.jpg',
-      '/images/grand-x.jpg',
+      '/images/grand-x-1.png',
+      '/images/grand-x-2.png',
+      '/images/grand-x-3.png',
+      '/images/grand-x-4.png',
+      '/images/grand-x-5.png',
+      '/images/grand-x-6.png',
     ],
     stats: [
       { value: '5,000+', label: 'Daily Footfall' },
@@ -63,7 +67,7 @@ export const PROJECTS_DATA = [
       title: 'Grand X | Theme Park Facing Mixed-Use Development — Landmark Developers',
       description:
         'Grand X by Landmark Developers — a premier mixed-use development facing Bahria Town\'s iconic theme park. Studio & 1-bed apartments, commercial brand outlets, premium shopping mall.',
-      ogImage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2026/05/About-section-image.jpg',
+      ogImage: '/images/grand-x-1.png',
     },
   },
 
@@ -77,9 +81,9 @@ export const PROJECTS_DATA = [
     location: 'Midway Commercial, Bahria Town Lahore',
     locationDetail: 'Near Talwar Chowk, Midway Commercial, Bahria Town Lahore',
     status: 'Completed',
-    heroImage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2026/06/project-section-image.jpg',
+    heroImage: '/images/grand-11-1.png',
     cardImage: '/images/grand-11-render.png',
-    localHero: '/images/grand-x.jpg',
+    localHero: '/images/grand-11-1.png',
     officialPage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/grand-11/',
     description:
       'A prominent commercial and residential development in Midway Commercial, strategically located near Talwar Chowk and Bahria Town\'s main entrance.',
@@ -114,7 +118,12 @@ export const PROJECTS_DATA = [
       { type: 'Commercial Brand Outlets', detail: 'Boulevard-facing retail with maximum visibility' },
     ],
     galleryImages: [
-      'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2026/06/project-section-image.jpg',
+      '/images/grand-11-1.png',
+      '/images/grand-11-2.png',
+      '/images/grand-11-3.png',
+      '/images/grand-11-4.png',
+      '/images/grand-11-5.png',
+      '/images/grand-11-6.png',
     ],
     stats: [
       { value: 'Tallest', label: 'in Midway Commercial' },
@@ -125,7 +134,7 @@ export const PROJECTS_DATA = [
       title: 'Grand 11 | Tallest Building Midway Commercial — Landmark Developers',
       description:
         'Grand 11 by Landmark Developers — the tallest building in Midway Commercial, Bahria Town Lahore. Studio & 1-bed apartments, commercial outlets near Talwar Chowk.',
-      ogImage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2026/06/project-section-image.jpg',
+      ogImage: '/images/grand-11-1.png',
     },
   },
 
@@ -139,9 +148,9 @@ export const PROJECTS_DATA = [
     location: 'Phase 8, Bahria Town Islamabad',
     locationDetail: 'Business District, near Statue of Liberty, Phase 8 Bahria Town Islamabad',
     status: 'Completed',
-    heroImage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2026/06/About-section-image-.jpg',
+    heroImage: '/images/grand-12-1.png',
     cardImage: '/images/grand-12-render.png',
-    localHero: '/images/the-view.jpg',
+    localHero: '/images/grand-12-1.png',
     officialPage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/grand-12/',
     description:
       'A premium mixed-use development offering commercial spaces, corporate offices, apartments, and furnished hotel apartments near the Statue of Liberty in Phase 8 Bahria Town Islamabad.',
@@ -178,8 +187,12 @@ export const PROJECTS_DATA = [
       { type: 'Furnished Hotel Apartments', detail: 'Hotel-managed suites for hospitality yield' },
     ],
     galleryImages: [
-      'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2026/06/About-section-image-.jpg',
-      '/images/the-view.jpg',
+      '/images/grand-12-1.png',
+      '/images/grand-12-2.png',
+      '/images/grand-12-3.png',
+      '/images/grand-12-4.png',
+      '/images/grand-12-5.png',
+      '/images/grand-12-6.png',
     ],
     stats: [
       { value: 'Phase 8', label: 'Bahria Town Islamabad' },
@@ -190,7 +203,7 @@ export const PROJECTS_DATA = [
       title: 'The View Grand 12 | Business District Bahria Islamabad — Landmark Developers',
       description:
         'The View by Landmark Developers — premium mixed-use high-rise in Phase 8 Bahria Town Islamabad. Apartments, commercial outlets, corporate offices, and furnished hotel apartments.',
-      ogImage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2026/06/About-section-image-.jpg',
+      ogImage: '/images/grand-12-1.png',
     },
   },
 
@@ -204,9 +217,9 @@ export const PROJECTS_DATA = [
     location: 'Bahria Town Lahore',
     locationDetail: 'Main Boulevard, Bahria Town Lahore',
     status: 'Now Selling',
-    heroImage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2026/05/About-section-image-1.jpg',
+    heroImage: '/images/grand-14-1.png',
     cardImage: '/images/grand-14-render.png',
-    localHero: '/images/grand-14.jpg',
+    localHero: '/images/grand-14-1.png',
     officialPage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/grand-14/',
     description:
       'A flagship development in Bahria Town Lahore combining serviced apartments, private terraces, commercial spaces, premium amenities, and distinctive views of the park, fountain and the Eiffel Tower landmark.',
@@ -241,8 +254,12 @@ export const PROJECTS_DATA = [
       { type: 'Commercial Brand Outlets', detail: 'Premium boulevard retail with high footfall' },
     ],
     galleryImages: [
-      '/images/grand-14.jpg',
-      '/images/grand-14.jpg',
+      '/images/grand-14-1.png',
+      '/images/grand-14-2.png',
+      '/images/grand-14-3.png',
+      '/images/grand-14-4.png',
+      '/images/grand-14-5.png',
+      '/images/grand-14-6.png',
     ],
     stats: [
       { value: 'Dual', label: 'Iconic Views' },
@@ -253,7 +270,7 @@ export const PROJECTS_DATA = [
       title: 'The Oasis Grand 14 | Serviced Apartments Bahria Lahore — Landmark Developers',
       description:
         'The Oasis Grand 14 — flagship serviced apartments with private terraces, park and Eiffel Tower views in Bahria Town Lahore. 1 & 2 bed units and commercial outlets.',
-      ogImage: '/images/grand-14.jpg',
+      ogImage: '/images/grand-14-1.png',
     },
   },
 
@@ -267,9 +284,9 @@ export const PROJECTS_DATA = [
     location: 'Bahria Downtown Lahore',
     locationDetail: 'Bahria Downtown, Main Boulevard Lahore',
     status: 'Flagship Launch',
-    heroImage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2026/04/project-section-image.jpg',
+    heroImage: '/images/grand-15-1.png',
     cardImage: '/images/grand-15-render.png',
-    localHero: '/images/grand-15.jpg',
+    localHero: '/images/grand-15-1.png',
     officialPage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/grand-15/',
     description:
       'Luxury apartments with private terraces, branded commercial outlets, rooftop garden, hotel-style amenities, and views of the fountains, park, and Eiffel Tower replica.',
@@ -304,8 +321,12 @@ export const PROJECTS_DATA = [
       { type: 'Commercial Brand Outlets', detail: 'Flagship retail in Bahria Downtown\'s prime strip' },
     ],
     galleryImages: [
-      'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2026/04/project-section-image.jpg',
-      '/images/grand-15.jpg',
+      '/images/grand-15-1.png',
+      '/images/grand-15-2.png',
+      '/images/grand-15-3.png',
+      '/images/grand-15-4.png',
+      '/images/grand-15-5.png',
+      '/images/grand-15-6.png',
     ],
     stats: [
       { value: 'Flagship', label: 'Launch' },
@@ -316,7 +337,7 @@ export const PROJECTS_DATA = [
       title: 'Grand 15 | Luxury Residences Bahria Downtown Lahore — Landmark Developers',
       description:
         'The Grand Lifestyle Grand 15 by Landmark Developers — luxury apartments with private terraces, rooftop garden, Eiffel Tower views, and branded commercial outlets in Bahria Downtown Lahore.',
-      ogImage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2026/04/project-section-image.jpg',
+      ogImage: '/images/grand-15-1.png',
     },
   },
 ];
