@@ -590,15 +590,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3rem clamp(2rem, 5vw, 5rem);
+  padding: 2rem clamp(1rem, 3vw, 3rem);
   background: radial-gradient(ellipse 90% 90% at 50% 50%,
     oklch(0.13 0.03 58 / 0.6), transparent);
 }
 
 /* The visible "window" that clips the strip */
 .pss-img-frame {
-  width: 55%;
-  height: 80vh;
+  width: 82%;
+  height: 88vh;
   border-radius: 1.5rem;
   overflow: hidden;
   position: relative;
