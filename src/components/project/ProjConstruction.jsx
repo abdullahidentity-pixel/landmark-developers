@@ -43,14 +43,6 @@ export default function ProjConstruction({ project }) {
             <MagneticButton as="button" variant="primary" onClick={() => openTour(project.name)}>
               Ask for Latest Update
             </MagneticButton>
-            <a
-              className="btn btn-glass"
-              href={project.officialPage}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Visit Official Page
-            </a>
           </div>
         </Reveal>
       </div>
