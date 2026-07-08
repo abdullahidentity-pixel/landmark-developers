@@ -14,11 +14,12 @@ import { LeadModalProvider } from './context/LeadModalContext.jsx';
 import LeadModal from './components/LeadModal.jsx';
 import './styles/app.css';
 
-/* Scroll every route change back to top instantly */
+/* Scroll every route change back to top and clear any overflow lock */
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
+    document.body.style.overflow = '';   // clear mobile-menu overflow lock on navigation
   }, [pathname]);
   return null;
 }
