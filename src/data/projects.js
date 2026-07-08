@@ -82,7 +82,7 @@ export const PROJECTS_DATA = [
     locationDetail: 'Near Talwar Chowk, Midway Commercial, Bahria Town Lahore',
     status: 'Completed',
     heroImage: '/images/grand-11-1.png',
-    cardImage: '/images/grand-15.jpg',
+    cardImage: '/images/grand-11-1.png',
     localHero: '/images/grand-11-1.png',
     officialPage: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/grand-11/',
     description:
