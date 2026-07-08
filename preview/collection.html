@@ -85,9 +85,10 @@ img { display: block; max-width: 100%; }
 .cl-card:hover { box-shadow: 0 8px 32px rgba(3,7,6,0.07); transform: translateY(-2px); }
 .cl-card[data-hidden] { display: none; }
 .cl-card__image-wrap { aspect-ratio: 4/5; position: relative; overflow: hidden; display: block; text-decoration: none; }
+.cl-card__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; z-index: 1; }
 .cl-card__image-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-.cl-card__badge { position: absolute; top: 0.875rem; left: 0.875rem; height: 22px; padding: 0 0.625rem; background: var(--c-black); color: var(--c-white); border-radius: 100px; font-size: 0.5625rem; letter-spacing: 0.09em; text-transform: uppercase; display: flex; align-items: center; }
-.cl-card__type-badge { position: absolute; top: 0.875rem; right: 0.875rem; height: 22px; padding: 0 0.625rem; background: rgba(255,255,255,0.92); color: var(--c-green-mid); border-radius: 100px; font-size: 0.5625rem; letter-spacing: 0.09em; text-transform: uppercase; display: flex; align-items: center; border: 1px solid rgba(129,157,124,0.3); }
+.cl-card__badge { position: absolute; top: 0.875rem; left: 0.875rem; height: 22px; padding: 0 0.625rem; background: var(--c-black); color: var(--c-white); border-radius: 100px; font-size: 0.5625rem; letter-spacing: 0.09em; text-transform: uppercase; display: flex; align-items: center; z-index: 2; }
+.cl-card__type-badge { position: absolute; top: 0.875rem; right: 0.875rem; height: 22px; padding: 0 0.625rem; background: rgba(255,255,255,0.92); color: var(--c-green-mid); border-radius: 100px; font-size: 0.5625rem; letter-spacing: 0.09em; text-transform: uppercase; display: flex; align-items: center; border: 1px solid rgba(129,157,124,0.3); z-index: 2; }
 .cl-card__body { padding: 1.125rem 1.25rem; flex: 1; display: flex; flex-direction: column; }
 .cl-card__name { font-size: 1rem; font-weight: 400; color: var(--c-black); margin-bottom: 0.3rem; letter-spacing: -0.01em; line-height: 1.25; }
 .cl-card__name a { text-decoration: none; color: inherit; }
@@ -427,7 +428,8 @@ img { display: block; max-width: 100%; }
 
       <!-- Card 1 — Glow + Marks (hero, 18–35) -->
       <article class="cl-card reveal" data-concerns="brightening glow">
-        <a class="cl-card__image-wrap" href="product.html" style="background: linear-gradient(145deg, #fff9e6, #fde9c8);">
+        <a class="cl-card__image-wrap" href="product.html" style="background: #daded0;">
+          <img class="cl-card__photo" src="serum-glow.jpg" onerror="this.style.display='none'" alt="Glow + Marks Serum bottle">
           <svg width="52" height="52" viewBox="0 0 48 48" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="18" y="8" width="12" height="4" rx="2" fill="rgba(138,108,0,0.22)"/><rect x="14" y="10" width="20" height="30" rx="6" fill="rgba(138,108,0,0.14)"/><rect x="16" y="20" width="16" height="2" rx="1" fill="rgba(138,108,0,0.3)"/></svg>
           <span class="cl-card__badge">Bestseller</span>
           <span class="cl-card__type-badge">Serum</span>
@@ -445,7 +447,8 @@ img { display: block; max-width: 100%; }
 
       <!-- Card 2 — Peptide Repair (hero, 25–45) -->
       <article class="cl-card reveal" data-concerns="barrier sensitive-skin hydration">
-        <a class="cl-card__image-wrap" href="product.html" style="background: linear-gradient(145deg, #e8f4e8, #cfe6cf);">
+        <a class="cl-card__image-wrap" href="product.html" style="background: #d0d1bf;">
+          <img class="cl-card__photo" src="serum-barrier.jpg" onerror="this.style.display='none'" alt="Peptide Repair Barrier Serum bottle">
           <svg width="52" height="52" viewBox="0 0 48 48" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="18" y="8" width="12" height="4" rx="2" fill="rgba(44,79,49,0.25)"/><rect x="14" y="10" width="20" height="30" rx="6" fill="rgba(44,79,49,0.15)"/></svg>
           <span class="cl-card__type-badge">Serum</span>
         </a>
@@ -462,13 +465,14 @@ img { display: block; max-width: 100%; }
 
       <!-- Card 3 — Caviar Lift (flagship, 35+) -->
       <article class="cl-card reveal" data-concerns="age-support glow firming">
-        <a class="cl-card__image-wrap" href="product.html" style="background: linear-gradient(145deg, #1c2b22, #2c4f31);">
+        <a class="cl-card__image-wrap" href="caviar-lift.html" style="background: #2f3930;">
+          <img class="cl-card__photo" src="serum-caviar.jpg" onerror="this.style.display='none'" alt="Caviar Lift Serum bottle">
           <svg width="52" height="52" viewBox="0 0 48 48" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="18" y="8" width="12" height="4" rx="2" fill="rgba(205,232,201,0.35)"/><rect x="14" y="10" width="20" height="30" rx="6" fill="rgba(205,232,201,0.18)"/></svg>
           <span class="cl-card__badge">Flagship</span>
           <span class="cl-card__type-badge">Serum</span>
         </a>
         <div class="cl-card__body">
-          <h2 class="cl-card__name"><a href="product.html">Caviar Lift Serum</a></h2>
+          <h2 class="cl-card__name"><a href="caviar-lift.html">Caviar Lift Serum</a></h2>
           <p class="cl-card__benefit">An instant 30-minute lifted look, with peptides and caviar for firmness over time</p>
           <p class="cl-card__ingredient">Pullulan · Peptide Blend · Caviar Extract · Microalgae</p>
           <div class="cl-card__footer">
@@ -480,13 +484,14 @@ img { display: block; max-width: 100%; }
 
       <!-- Card 4 — Exosome PDRN Repair (20–40) -->
       <article class="cl-card reveal" data-concerns="repair sensitive-skin barrier">
-        <a class="cl-card__image-wrap" href="product.html" style="background: linear-gradient(145deg, #eaf3ff, #d3e6fb);">
+        <a class="cl-card__image-wrap" href="exosome-pdrn.html" style="background: #cbd5be;">
+          <img class="cl-card__photo" src="serum-exosome.jpg" onerror="this.style.display='none'" alt="Exosome PDRN Repair Serum bottle">
           <svg width="52" height="52" viewBox="0 0 48 48" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="18" y="8" width="12" height="4" rx="2" fill="rgba(40,80,140,0.25)"/><rect x="14" y="10" width="20" height="30" rx="6" fill="rgba(40,80,140,0.14)"/><circle cx="24" cy="26" r="4" fill="rgba(40,80,140,0.25)"/></svg>
           <span class="cl-card__badge">New</span>
           <span class="cl-card__type-badge">Serum</span>
         </a>
         <div class="cl-card__body">
-          <h2 class="cl-card__name"><a href="product.html">Exosome PDRN Repair Serum</a></h2>
+          <h2 class="cl-card__name"><a href="exosome-pdrn.html">Exosome PDRN Repair Serum</a></h2>
           <p class="cl-card__benefit">Korean clinic-style repair for redness, post-blemish recovery and a glass-skin glow</p>
           <p class="cl-card__ingredient">Vegan Exosome Complex · PDRN · Centella · Madecassoside</p>
           <div class="cl-card__footer">
@@ -498,7 +503,8 @@ img { display: block; max-width: 100%; }
 
       <!-- Card 5 — Retinal Bio-Lift Night (25–45) -->
       <article class="cl-card reveal" data-concerns="renewal age-support">
-        <a class="cl-card__image-wrap" href="product.html" style="background: linear-gradient(145deg, #2a2438, #423a5c);">
+        <a class="cl-card__image-wrap" href="product.html" style="background: #565a4b;">
+          <img class="cl-card__photo" src="serum-retinal.jpg" onerror="this.style.display='none'" alt="Retinal Bio-Lift Night Serum bottle">
           <svg width="52" height="52" viewBox="0 0 48 48" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="18" y="8" width="12" height="4" rx="2" fill="rgba(220,210,250,0.35)"/><rect x="14" y="10" width="20" height="30" rx="6" fill="rgba(220,210,250,0.16)"/><path d="M30 16a7 7 0 1 0 0 12 9 9 0 0 1 0-12z" fill="rgba(220,210,250,0.4)"/></svg>
           <span class="cl-card__badge">Night</span>
           <span class="cl-card__type-badge">Serum</span>
@@ -516,7 +522,8 @@ img { display: block; max-width: 100%; }
 
       <!-- Card 6 — Neuro Peptide Eye & Smile Line (22–45) -->
       <article class="cl-card reveal" data-concerns="eyes age-support">
-        <a class="cl-card__image-wrap" href="product.html" style="background: linear-gradient(145deg, #fdeef2, #f6d8e2);">
+        <a class="cl-card__image-wrap" href="product.html" style="background: #dddfd1;">
+          <img class="cl-card__photo" src="serum-neuro.jpg" onerror="this.style.display='none'" alt="Neuro Peptide Eye &amp; Smile Line Serum bottle">
           <svg width="52" height="52" viewBox="0 0 48 48" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="18" y="9" width="12" height="4" rx="2" fill="rgba(150,60,90,0.22)"/><rect x="15" y="11" width="18" height="26" rx="6" fill="rgba(150,60,90,0.13)"/><path d="M17 24c3-3 11-3 14 0-3 3-11 3-14 0z" fill="rgba(150,60,90,0.3)"/></svg>
           <span class="cl-card__type-badge">Eye Serum</span>
         </a>
@@ -625,7 +632,7 @@ img { display: block; max-width: 100%; }
             <td>Normal, Dry, Mature · best 35+</td>
           </tr>
           <tr>
-            <td><span class="cl-compare__product-name"><a class="cl-compare__product-link" href="product.html">Exosome PDRN Repair Serum</a></span></td>
+            <td><span class="cl-compare__product-name"><a class="cl-compare__product-link" href="exosome-pdrn.html">Exosome PDRN Repair Serum</a></span></td>
             <td>Redness, post-blemish recovery, glass skin</td>
             <td><span class="cl-compare__tag">Exosome Complex</span><span class="cl-compare__tag">PDRN</span><span class="cl-compare__tag">Centella</span></td>
             <td>Lightweight watery essence</td>

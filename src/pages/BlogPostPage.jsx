@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { useSmoothScroll } from '../hooks/useSmoothScroll.js';
 import Header from '../components/Header.jsx';
@@ -7,6 +8,7 @@ import MobileCTABar from '../components/MobileCTABar.jsx';
 import CursorGlow from '../components/CursorGlow.jsx';
 import { RevealItem } from '../components/Reveal.jsx';
 import { getBlogPost, BLOG_POSTS } from '../data/blog.js';
+import { useLeadModal } from '../context/LeadModalContext.jsx';
 
 /* Minimal rich content per post — keyed by slug */
 const POST_CONTENT = {
@@ -41,6 +43,14 @@ export default function BlogPostPage() {
   useSmoothScroll();
   const { slug } = useParams();
   const post = getBlogPost(slug);
+  const { openTour } = useLeadModal();
+
+  useEffect(() => {
+    if (post) {
+      document.title = `${post.title} | Landmark Developers`;
+    }
+    return () => { document.title = 'Landmark Developers — Premium Living in Bahria Town Lahore'; };
+  }, [slug, post]);
 
   if (!post) return <Navigate to="/blog" replace />;
 
@@ -101,7 +111,7 @@ export default function BlogPostPage() {
             <RevealItem y={20} className="blog-post-cta-box">
               <div className="blog-post-cta-inner">
                 <p className="blog-post-cta-label">Interested in investing with Landmark?</p>
-                <a href="/#contact" className="btn btn-primary btn-sm">Book a Free Consultation</a>
+                <button className="btn btn-primary btn-sm" onClick={() => openTour()}>Book a Free Consultation</button>
               </div>
             </RevealItem>
           </div>

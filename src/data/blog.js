@@ -55,7 +55,7 @@ export const BLOG_POSTS = [
     category: 'Investment',
     date: 'May 19, 2026',
     readTime: '5 min read',
-    coverImage: '/images/grand-11-render.png',
+    coverImage: '/images/grand-11-1.png',
     coverAccent: '#d9d478',
     featured: false,
   },

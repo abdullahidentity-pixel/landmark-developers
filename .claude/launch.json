@@ -2,6 +2,18 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "charity-canvas",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd '/Users/macbookpro/Desktop/charity-canvas' && exec '/Users/macbookpro/Documents/Codex/2026-05-12/hello/.tools/pnpm/bin/node' node_modules/tsx/dist/cli.mjs server/index.ts"],
+      "port": 5001
+    },
+    {
+      "name": "nura-dev",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-lc", "cd /Users/macbookpro/Desktop/nura-clinic && exec node node_modules/next/dist/bin/next dev -p 3100"],
+      "port": 3100
+    },
+    {
       "name": "aurora",
       "runtimeExecutable": "/Users/macbookpro/Documents/Codex/2026-05-12/hello/.tools/pnpm/bin/node",
       "runtimeArgs": ["node_modules/vite/bin/vite.js", "--port", "5174"],

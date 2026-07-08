@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sebble — Caviar Lift Serum</title>
+<style>
+/* DESIGN TOKENS */
+:root {
+  --c-black: #030706; --c-forest: #142b1b; --c-green-rich: #2c4f31;
+  --c-green-nat: #49724a; --c-sage: #819d7c; --c-grey-green: #a4b09e;
+  --c-fresh: #add9a8; --c-mint: #cde8c9; --c-grey: #dddcdc;
+  --c-white: #ffffff; --c-off-white: #f8f7f5; --c-cream: #faf9f6;
+  --font-sans: 'DM Sans', -apple-system, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --container: 1280px; --header-h: 72px; --pad-x: clamp(1.25rem, 4vw, 2.5rem);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-sans); background: var(--c-cream); color: var(--c-black); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+.container { max-width: var(--container); margin-inline: auto; padding-inline: var(--pad-x); }
+
+/* HEADER */
+.site-header {
+  position: sticky; top: 0; z-index: 100; height: var(--header-h);
+  background: rgba(250,249,246,0.92); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--c-grey); display: flex; align-items: center;
+}
+.site-header .container { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+.header-logo { display: inline-flex; text-decoration: none; flex-shrink: 0; overflow: hidden; height: 40px; }
+.header-logo__img { height: 148px; width: auto; margin-top: -46px; display: block; mix-blend-mode: multiply; }
+.header-nav { display: flex; gap: 2rem; }
+.header-nav a { font-size: 0.8125rem; color: var(--c-green-rich); }
+.header-cart-btn { padding: 0.5rem 1.125rem; background: var(--c-black); color: var(--c-white); border-radius: 100px; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; border: none; cursor: pointer; font-family: var(--font-sans); }
+
+/* BREADCRUMB */
+.pd-breadcrumb { background: var(--c-white); border-bottom: 1px solid var(--c-grey); padding: 0.875rem 0; }
+.pd-breadcrumb__inner { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--c-sage); }
+.pd-breadcrumb__sep { color: var(--c-grey); }
+
+/* SECTION LABEL */
+.pd-section-label { display: inline-block; font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-sage); margin-bottom: 1.25rem; }
+
+/* §1 HERO */
+.pd-hero { background: var(--c-cream); padding-block: clamp(2.5rem, 4vw, 4rem); }
+.pd-hero__inner { display: grid; grid-template-columns: 1fr 480px; gap: 5rem; align-items: start; }
+
+/* Gallery */
+.pd-gallery { position: sticky; top: calc(var(--header-h) + 2rem); display: flex; flex-direction: column; gap: 1rem; }
+.pd-gallery__main { border-radius: 24px; overflow: hidden; background: var(--c-off-white); aspect-ratio: 4/5; position: relative; display: flex; align-items: center; justify-content: center; }
+.pd-gallery__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; z-index: 1; transition: opacity 0.2s, transform 0.2s cubic-bezier(0.16,1,0.3,1); }
+.pd-gallery__img.is-missing { display: none; }
+.pd-gallery__img--placeholder { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--c-mint) 0%, var(--c-fresh) 60%); display: flex; align-items: center; justify-content: center; font-size: 5rem; color: rgba(20,43,27,0.28); }
+.pd-gallery__badge { position: absolute; top: 1.25rem; left: 1.25rem; font-size: 0.625rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.35rem 0.875rem; border-radius: 100px; background: var(--c-forest); color: var(--c-mint); z-index: 2; }
+.pd-gallery__thumbs { display: flex; gap: 0.625rem; }
+.pd-gallery__thumb { position: relative; width: 68px; height: 82px; border-radius: 10px; overflow: hidden; border: 1.5px solid transparent; cursor: pointer; padding: 0; background: var(--c-off-white); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: border-color 0.2s; }
+.pd-gallery__thumb.is-active { border-color: var(--c-forest); }
+.pd-gallery__thumb:hover:not(.is-active) { border-color: var(--c-grey-green); }
+.pd-gallery__thumb-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+.pd-gallery__thumb-img.is-missing { display: none; }
+.pd-gallery__thumb-inner { width: 100%; height: 100%; background: linear-gradient(135deg, var(--c-mint), var(--c-fresh)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+
+/* Purchase panel */
+.pd-purchase { position: sticky; top: calc(var(--header-h) + 2rem); }
+.pd-purchase__eyebrow { display: inline-block; font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-sage); margin-bottom: 1rem; }
+.pd-purchase__title { font-family: var(--font-serif); font-size: clamp(1.75rem, 2.5vw, 2.5rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; color: var(--c-black); margin-bottom: 0.875rem; }
+.pd-purchase__tagline { font-size: 1.0625rem; color: var(--c-green-rich); line-height: 1.65; margin-bottom: 1.25rem; max-width: 40ch; }
+.pd-purchase__reviews { display: flex; align-items: center; gap: 0.625rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--c-grey); }
+.pd-stars { display: flex; gap: 2px; color: var(--c-green-nat); }
+.pd-purchase__review-count { font-size: 0.8125rem; color: var(--c-sage); }
+.pd-purchase__price-row { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1.75rem; }
+.pd-purchase__price { font-size: 1.625rem; font-weight: 500; letter-spacing: -0.02em; }
+.pd-purchase__save-badge { font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.625rem; background: var(--c-mint); color: var(--c-forest); border-radius: 100px; }
+.pd-purchase__controls { display: grid; grid-template-columns: auto 1fr; gap: 0.75rem; align-items: center; margin-bottom: 0.875rem; }
+.pd-qty { display: flex; align-items: center; border: 1.5px solid var(--c-grey); border-radius: 100px; overflow: hidden; height: 52px; }
+.pd-qty__btn { display: flex; align-items: center; justify-content: center; width: 44px; height: 100%; background: transparent; border: none; cursor: pointer; color: var(--c-black); transition: background 0.15s; }
+.pd-qty__btn:hover { background: var(--c-off-white); }
+.pd-qty__input { width: 40px; height: 100%; border: none; text-align: center; font-size: 0.9375rem; font-weight: 500; font-family: var(--font-sans); color: var(--c-black); background: transparent; outline: none; -moz-appearance: textfield; }
+.pd-qty__input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.pd-atc-btn { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; width: 100%; height: 52px; padding-inline: 1.75rem; background: var(--c-black); color: var(--c-white); border: none; border-radius: 100px; font-size: 0.9375rem; font-weight: 500; font-family: var(--font-sans); letter-spacing: 0.03em; cursor: pointer; transition: background 0.25s cubic-bezier(0.16,1,0.3,1), transform 0.2s cubic-bezier(0.16,1,0.3,1); }
+.pd-atc-btn:hover { background: var(--c-forest); transform: translateY(-1px); }
+.pd-atc-btn:active { transform: scale(0.98); }
+.pd-atc-btn__price { font-weight: 400; opacity: 0.7; font-size: 0.875rem; }
+.pd-purchase__trust { display: flex; flex-direction: column; gap: 0.625rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--c-grey); }
+.pd-trust-item { display: flex; align-items: center; gap: 0.625rem; font-size: 0.8125rem; color: var(--c-sage); }
+.pd-trust-item svg { color: var(--c-green-nat); flex-shrink: 0; }
+
+/* §2 BENEFIT TAGS */
+.pd-benefits { background: var(--c-white); padding-block: 1.75rem; border-bottom: 1px solid var(--c-grey); }
+.pd-benefits__inner { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+.pd-benefits__wrap { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.pd-benefit-tag { display: inline-flex; align-items: center; padding: 0.375rem 1rem; border: 1px solid var(--c-grey); border-radius: 100px; font-size: 0.75rem; color: var(--c-green-rich); background: var(--c-cream); transition: border-color 0.2s, background 0.2s; white-space: nowrap; }
+.pd-benefit-tag:hover { border-color: var(--c-green-nat); background: var(--c-mint); }
+
+/* §3 DESCRIPTION */
+.pd-description { background: var(--c-white); padding-block: clamp(4rem,7vw,6rem); border-bottom: 1px solid var(--c-grey); }
+.pd-description__inner { display: grid; grid-template-columns: 240px 1fr; gap: 8rem; align-items: start; }
+.pd-description__label-col { position: sticky; top: calc(var(--header-h) + 2rem); }
+.pd-description__accent { display: block; width: 28px; height: 1.5px; background: var(--c-fresh); margin-top: 1rem; }
+.pd-description__body { font-size: 1.0625rem; color: var(--c-green-rich); line-height: 1.8; max-width: 64ch; }
+.pd-description__body p { margin-bottom: 1.25rem; }
+
+/* §4 INGREDIENTS */
+.pd-ingredients { background: var(--c-cream); padding-block: clamp(4rem,7vw,6rem); }
+.pd-ingredients__header { margin-bottom: 2.5rem; }
+.pd-ingredients__title { font-family: var(--font-serif); font-size: clamp(1.75rem,2.5vw,2.5rem); font-weight: 400; letter-spacing: -0.02em; color: var(--c-black); }
+.pd-ingredients__grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1px; background: var(--c-grey); border: 1px solid var(--c-grey); border-radius: 20px; overflow: hidden; }
+.pd-ingredient-card { background: var(--c-white); padding: 2rem; display: flex; flex-direction: column; gap: 0.375rem; transition: background 0.25s; }
+.pd-ingredient-card:hover { background: var(--c-off-white); }
+.pd-ingredient-card__pct { font-size: 2rem; font-weight: 300; letter-spacing: -0.04em; color: var(--c-mint); line-height: 1; margin-bottom: 0.5rem; }
+.pd-ingredient-card__name { font-size: 1rem; font-weight: 500; color: var(--c-black); }
+.pd-ingredient-card__benefit { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-green-nat); margin-bottom: 0.5rem; }
+.pd-ingredient-card__detail { font-size: 0.875rem; color: var(--c-sage); line-height: 1.6; }
+
+/* §5 HOW TO USE */
+.pd-how-to { background: var(--c-white); padding-block: clamp(4rem,7vw,6rem); border-top: 1px solid var(--c-grey); border-bottom: 1px solid var(--c-grey); }
+.pd-how-to__inner { display: grid; grid-template-columns: 240px 1fr; gap: 8rem; align-items: start; }
+.pd-how-to__label-col { position: sticky; top: calc(var(--header-h) + 2rem); }
+.pd-how-to__title { font-family: var(--font-serif); font-size: clamp(1.5rem,2.5vw,2.125rem); font-weight: 400; letter-spacing: -0.02em; color: var(--c-black); margin-bottom: 2.25rem; }
+.pd-how-to__steps { list-style: none; }
+.pd-step { display: grid; grid-template-columns: 56px 1fr; gap: 1.25rem; padding-block: 1.5rem; border-top: 1px solid var(--c-grey); align-items: center; }
+.pd-step__num { font-size: 0.625rem; font-weight: 600; letter-spacing: 0.2em; color: var(--c-grey-green); }
+.pd-step__content { display: flex; flex-direction: column; gap: 0.25rem; }
+.pd-step__title { font-size: 1rem; font-weight: 500; color: var(--c-black); }
+.pd-step__detail { font-size: 0.875rem; color: var(--c-sage); line-height: 1.55; }
+
+/* §6 SKIN TYPES */
+.pd-skin-types { background: var(--c-off-white); padding-block: clamp(4rem,7vw,6rem); }
+.pd-skin-types__header { margin-bottom: 2.5rem; }
+.pd-skin-types__title { font-family: var(--font-serif); font-size: clamp(1.5rem,2.5vw,2rem); font-weight: 400; letter-spacing: -0.02em; color: var(--c-black); }
+.pd-skin-types__grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 1px; background: var(--c-grey); border: 1px solid var(--c-grey); border-radius: 16px; overflow: hidden; }
+.pd-skin-cell { background: var(--c-white); padding: 1.75rem 1.25rem; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; text-align: center; transition: background 0.2s; }
+.pd-skin-cell:hover { background: var(--c-cream); }
+.pd-skin-cell__indicator { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--c-grey); display: flex; align-items: center; justify-content: center; color: var(--c-grey-green); transition: all 0.2s; }
+.pd-skin-cell.is-suitable .pd-skin-cell__indicator { border-color: var(--c-green-nat); background: var(--c-mint); color: var(--c-forest); }
+.pd-skin-cell__name { font-size: 0.8125rem; font-weight: 500; color: var(--c-black); }
+.pd-skin-cell.is-suitable .pd-skin-cell__name { color: var(--c-forest); }
+
+/* §7 TEXTURE */
+.pd-texture { background: var(--c-white); overflow: hidden; }
+.pd-texture__inner { display: grid; grid-template-columns: 1fr 1fr; min-height: 560px; }
+.pd-texture__image-col { background: linear-gradient(135deg, var(--c-mint) 0%, var(--c-fresh) 50%, #8ec98a 100%); display: flex; align-items: center; justify-content: center; font-size: 7rem; color: rgba(73,114,74,0.2); overflow: hidden; }
+.pd-texture__content-col { padding: clamp(3rem,5vw,5rem); display: flex; flex-direction: column; justify-content: center; }
+.pd-texture__headline { font-size: clamp(1.5rem,2.5vw,2.25rem); font-weight: 300; letter-spacing: -0.025em; line-height: 1.15; color: var(--c-black); margin-bottom: 1.25rem; }
+.pd-texture__body { font-size: 1.0625rem; color: var(--c-green-rich); line-height: 1.75; margin-bottom: 2.5rem; max-width: 48ch; }
+.pd-texture__specs { border-top: 1px solid var(--c-grey); }
+.pd-texture__spec { display: grid; grid-template-columns: 120px 1fr; gap: 1rem; padding-block: 1.125rem; border-bottom: 1px solid var(--c-grey); align-items: baseline; }
+.pd-texture__spec-label { font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--c-grey-green); }
+.pd-texture__spec-value { font-size: 0.9375rem; color: var(--c-black); }
+
+/* §8 ROUTINE PAIRING */
+.pd-pairing { background: var(--c-cream); padding-block: clamp(4rem,7vw,6rem); }
+.pd-pairing__header { margin-bottom: 2.5rem; }
+.pd-pairing__title { font-family: var(--font-serif); font-size: clamp(1.75rem,2.5vw,2.5rem); font-weight: 400; letter-spacing: -0.02em; color: var(--c-black); }
+.pd-pairing__grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem; }
+.pd-pair-card { background: var(--c-white); border: 1px solid var(--c-grey); border-radius: 20px; overflow: hidden; display: grid; grid-template-columns: 160px 1fr; align-items: center; transition: box-shadow 0.3s cubic-bezier(0.16,1,0.3,1), transform 0.3s cubic-bezier(0.16,1,0.3,1); }
+.pd-pair-card:hover { box-shadow: 0 12px 40px rgba(3,7,6,0.10); transform: translateY(-3px); }
+.pd-pair-card__image-wrap { aspect-ratio: 3/4; background: var(--c-mint); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; overflow: hidden; }
+.pd-pair-card__body { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.375rem; }
+.pd-pair-card__type { font-size: 0.625rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-sage); }
+.pd-pair-card__name { font-size: 1rem; font-weight: 500; color: var(--c-black); letter-spacing: -0.01em; margin-bottom: 0.25rem; }
+.pd-pair-card__price { font-size: 1rem; font-weight: 500; color: var(--c-black); }
+.pd-pair-card__link { margin-top: 0.875rem; font-size: 0.8125rem; color: var(--c-green-rich); border-bottom: 1px solid var(--c-fresh); padding-bottom: 1px; align-self: flex-start; transition: color 0.2s, border-color 0.2s; }
+.pd-pair-card__link:hover { color: var(--c-black); border-color: var(--c-black); }
+
+/* §9 REASSURANCE */
+.pd-reassurance { background: var(--c-forest); padding-block: clamp(3rem,5vw,4.5rem); }
+.pd-reassurance__inner { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; }
+.pd-reassurance-item { padding: 2rem 1.75rem; display: flex; flex-direction: column; gap: 0.625rem; transition: background 0.25s; }
+.pd-reassurance-item:hover { background: rgba(255,255,255,0.04); }
+.pd-reassurance-item__icon-wrap { color: var(--c-fresh); width: 28px; margin-bottom: 0.25rem; }
+.pd-reassurance-item__label { font-size: 0.9375rem; font-weight: 500; color: var(--c-white); line-height: 1.3; }
+.pd-reassurance-item__sublabel { font-size: 0.8125rem; color: rgba(205,232,201,0.6); line-height: 1.5; }
+
+/* §10 FAQ */
+.pd-faq { background: var(--c-white); padding-block: clamp(4rem,7vw,6rem); border-top: 1px solid var(--c-grey); }
+.pd-faq__inner { display: grid; grid-template-columns: 240px 1fr; gap: 8rem; align-items: start; }
+.pd-faq__label-col { position: sticky; top: calc(var(--header-h) + 2rem); }
+.pd-faq__title { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 400; letter-spacing: -0.025em; color: var(--c-black); margin-top: 0.5rem; }
+.pd-faq__items-col { display: flex; flex-direction: column; }
+.pd-faq-item { border-top: 1px solid var(--c-grey); overflow: hidden; }
+.pd-faq-item:last-child { border-bottom: 1px solid var(--c-grey); }
+.pd-faq-item__summary { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding-block: 1.375rem; cursor: pointer; list-style: none; -webkit-tap-highlight-color: transparent; }
+.pd-faq-item__summary::-webkit-details-marker { display: none; }
+.pd-faq-item__question { font-size: 1rem; font-weight: 500; color: var(--c-black); letter-spacing: -0.01em; line-height: 1.4; }
+.pd-faq-item__summary:hover .pd-faq-item__question { color: var(--c-green-rich); }
+.pd-faq-item__icon { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--c-grey); display: flex; align-items: center; justify-content: center; color: var(--c-black); transition: all 0.3s cubic-bezier(0.16,1,0.3,1); position: relative; }
+.pd-faq-item[open] .pd-faq-item__icon { border-color: var(--c-black); background: var(--c-black); color: var(--c-white); }
+.pd-faq-icon { position: absolute; transition: opacity 0.2s; }
+.pd-faq-icon--minus { opacity: 0; }
+.pd-faq-item[open] .pd-faq-icon--plus { opacity: 0; }
+.pd-faq-item[open] .pd-faq-icon--minus { opacity: 1; }
+.pd-faq-item__body-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s cubic-bezier(0.16,1,0.3,1); }
+.pd-faq-item[open] .pd-faq-item__body-wrap,
+.pd-faq-item.force-open .pd-faq-item__body-wrap { grid-template-rows: 1fr; }
+.pd-faq-item.is-closing .pd-faq-item__body-wrap { grid-template-rows: 0fr; }
+.pd-faq-item__body-inner { overflow: hidden; }
+.pd-faq-item__answer { font-size: 0.9375rem; color: var(--c-sage); line-height: 1.75; padding-bottom: 1.5rem; max-width: 64ch; }
+
+/* MOBILE STICKY */
+.pd-sticky-mobile { position: fixed; bottom: 0; left: 0; right: 0; z-index: 80; background: rgba(250,249,246,0.95); backdrop-filter: blur(20px); border-top: 1px solid var(--c-grey); padding: 0.875rem 1.25rem; transform: translateY(110%); transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); display: none; }
+.pd-sticky-mobile.is-visible { transform: translateY(0); }
+.pd-sticky-mobile__inner { display: flex; align-items: center; gap: 1rem; }
+.pd-sticky-mobile__info { flex: 1; }
+.pd-sticky-mobile__name { display: block; font-size: 0.875rem; font-weight: 500; color: var(--c-black); }
+.pd-sticky-mobile__price { display: block; font-size: 0.875rem; color: var(--c-sage); }
+.pd-sticky-mobile__btn { padding: 0.8125rem 1.75rem; background: var(--c-black); color: var(--c-white); border: none; border-radius: 100px; font-size: 0.875rem; font-weight: 500; font-family: var(--font-sans); cursor: pointer; }
+
+/* FOOTER */
+.site-footer { background: var(--c-black); padding-block: 3rem; text-align: center; }
+.site-footer p { font-size: 0.75rem; color: rgba(173,217,168,0.4); letter-spacing: 0.08em; }
+
+@media (max-width: 1024px) {
+  .pd-hero__inner { grid-template-columns: 1fr; gap: 2rem; }
+  .pd-gallery, .pd-purchase { position: static; }
+  .pd-description__inner, .pd-how-to__inner, .pd-faq__inner { grid-template-columns: 1fr; gap: 2rem; }
+  .pd-texture__inner { grid-template-columns: 1fr; }
+  .pd-reassurance__inner { grid-template-columns: repeat(2,1fr); }
+  .pd-sticky-mobile { display: block; }
+}
+@media (max-width: 768px) {
+  .pd-skin-types__grid { grid-template-columns: repeat(3,1fr); }
+  .pd-pairing__grid { grid-template-columns: 1fr; }
+  .pd-reassurance__inner { grid-template-columns: 1fr 1fr; }
+  .pd-ingredients__grid { grid-template-columns: 1fr; }
+  .header-nav { display: none; }
+}
+
+/* ── BAG DRAWER ── */
+.bag-overlay { position: fixed; inset: 0; background: rgba(3,7,6,0.45); z-index: 900; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.bag-overlay.is-open { opacity: 1; pointer-events: all; }
+.bag-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100vw); background: #faf9f6; z-index: 901; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); display: flex; flex-direction: column; }
+.bag-drawer.is-open { transform: translateX(0); }
+.bag-drawer__header { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 1.75rem; border-bottom: 1px solid #dddcdc; }
+.bag-drawer__title { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #030706; }
+.bag-drawer__count { font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #819d7c; margin-top: 0.125rem; }
+.bag-drawer__close { background: none; border: none; cursor: pointer; padding: 0.5rem; color: #030706; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s; }
+.bag-drawer__close:hover { background: #dddcdc; }
+.bag-drawer__body { flex: 1; overflow-y: auto; display: flex; align-items: center; justify-content: center; }
+.bag-drawer__empty { text-align: center; padding: 3rem 2rem; }
+.bag-drawer__empty-icon { width: 56px; height: 56px; margin: 0 auto 1.5rem; opacity: 0.25; }
+.bag-drawer__empty-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.375rem; font-weight: 400; color: #030706; margin-bottom: 0.625rem; }
+.bag-drawer__empty-sub { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: #819d7c; line-height: 1.6; margin-bottom: 1.75rem; }
+.bag-drawer__cta { display: inline-flex; align-items: center; padding: 0.875rem 2rem; background: #030706; color: #ffffff; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.05em; text-decoration: none; transition: background 0.2s; }
+.bag-drawer__cta:hover { background: #142b1b; }
+.bag-drawer__footer { padding: 1.5rem 1.75rem; border-top: 1px solid #dddcdc; }
+.bag-drawer__subtotal { display: flex; justify-content: space-between; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: #030706; margin-bottom: 1rem; }
+.bag-drawer__checkout { display: block; width: 100%; padding: 1rem; background: #142b1b; color: #ffffff; border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.06em; cursor: pointer; text-align: center; transition: background 0.2s; }
+.bag-drawer__checkout:hover { background: #2c4f31; }
+
+/* ── ACCOUNT DROPDOWN ── */
+.acct-wrap { position: relative; }
+.acct-dropdown { position: absolute; top: calc(100% + 0.75rem); right: 0; width: 200px; background: #faf9f6; border: 1px solid #dddcdc; border-radius: 12px; box-shadow: 0 8px 32px rgba(3,7,6,0.10); overflow: hidden; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.2s, transform 0.2s; z-index: 200; }
+.acct-wrap.is-open .acct-dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
+.acct-dropdown a { display: block; padding: 0.75rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; color: #030706; text-decoration: none; transition: background 0.15s; border-bottom: 1px solid #dddcdc; }
+.acct-dropdown a:last-child { border-bottom: none; }
+.acct-dropdown a:hover { background: #cde8c9; }
+
+/* ── GLOBAL FOOTER ── */
+.site-footer-global { background: var(--c-black, #030706); padding: 6rem clamp(1.5rem,4vw,3rem) 2.75rem; }
+.sfg-inner { max-width: 1320px; margin-inline: auto; display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-bottom: 4rem; }
+.sfg-logo { display: inline-flex; overflow: hidden; height: 42px; margin-bottom: 1.5rem; }
+.sfg-logo__img { height: 172px; width: auto; margin-top: -66px; display: block; filter: brightness(0) invert(1); opacity: 0.9; }
+.sfg-tagline { font-family: 'DM Sans', sans-serif; font-size: 0.9688rem; line-height: 1.75; color: rgba(173,217,168,0.55); }
+.sfg-nav { display: grid; grid-template-columns: repeat(3,1fr); gap: 2.5rem; }
+.sfg-col { display: flex; flex-direction: column; gap: 1rem; }
+.sfg-col-head { font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 0.25rem; }
+.sfg-col a { font-family: 'DM Sans', sans-serif; font-size: 0.9688rem; color: rgba(173,217,168,0.65); text-decoration: none; transition: color 0.2s; }
+.sfg-col a:hover { color: #add9a8; }
+.sfg-bottom { max-width: 1320px; margin-inline: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.08); }
+.sfg-bottom p { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: rgba(173,217,168,0.3); letter-spacing: 0.06em; }
+.sfg-bottom-links { display: flex; gap: 1.75rem; }
+.sfg-bottom-links a { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: rgba(173,217,168,0.6); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+.sfg-bottom-links a:hover { color: #add9a8; }
+@media (max-width: 768px) {
+  .sfg-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .sfg-nav { grid-template-columns: 1fr 1fr; }
+  .sfg-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 1s cubic-bezier(0.22,1,0.36,1),transform 1s cubic-bezier(0.22,1,0.36,1),filter 1s cubic-bezier(0.22,1,0.36,1);will-change:opacity,transform;}
+.reveal[data-anim="fade-left"]{transform:translateX(-22px);}
+.reveal[data-anim="fade-right"]{transform:translateX(22px);}
+.reveal[data-anim="scale"]{transform:scale(0.96);}
+.reveal[data-anim="blur"]{transform:translateY(12px);filter:blur(5px);}
+.reveal[data-anim="fade-in"]{transform:none;}
+.reveal.is-visible{opacity:1;transform:none;filter:none;}
+.reveal-group .reveal:nth-child(1){transition-delay:calc(var(--stagger,65ms)*0);}
+.reveal-group .reveal:nth-child(2){transition-delay:calc(var(--stagger,65ms)*1);}
+.reveal-group .reveal:nth-child(3){transition-delay:calc(var(--stagger,65ms)*2);}
+.reveal-group .reveal:nth-child(4){transition-delay:calc(var(--stagger,65ms)*3);}
+.reveal-group .reveal:nth-child(5){transition-delay:calc(var(--stagger,65ms)*4);}
+.reveal-group .reveal:nth-child(6){transition-delay:calc(var(--stagger,65ms)*5);}
+.reveal-group .reveal:nth-child(n+7){transition-delay:calc(var(--stagger,65ms)*6);}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="header-logo"><img src="sebble-logo.png" alt="Sebble" class="header-logo__img"></a>
+    <nav class="header-nav">
+      <a href="collection.html">Shop</a>
+      <a href="routine.html">Routine</a>
+      <a href="ingredients.html">Ingredients</a>
+      <a href="about.html">About</a>
+      <a href="sit.html" class="header-nav__sit" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;"><span style="width:6px;height:6px;border-radius:50%;background:#49724a;display:inline-block;"></span>Skin Consultant</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div style="display:flex;gap:1rem;align-items:center;">
+      <a href="#" style="font-size:0.8125rem;color:var(--c-green-rich);">Account</a>
+      <button class="header-cart-btn">Bag (0)</button>
+    </div>
+  </div>
+</header>
+
+<!-- BREADCRUMB -->
+<div class="pd-breadcrumb">
+  <div class="pd-breadcrumb__inner container">
+    <a href="index.html" style="color:var(--c-grey-green);">Home</a>
+    <span class="pd-breadcrumb__sep">/</span>
+    <a href="collection.html" style="color:var(--c-grey-green);">Shop</a>
+    <span class="pd-breadcrumb__sep">/</span>
+    <span>Caviar Lift Serum</span>
+  </div>
+</div>
+
+<!-- §1 HERO -->
+<section class="pd-hero">
+  <div class="pd-hero__inner container">
+    <!-- Gallery -->
+    <div class="pd-gallery">
+      <div class="pd-gallery__main">
+        <img class="pd-gallery__img" id="pd-main-img" src="caviar-lift-1.jpg" alt="Caviar Lift Serum" onerror="this.classList.add('is-missing');">
+        <div class="pd-gallery__img--placeholder" aria-hidden="true">&#10023;</div>
+        <span class="pd-gallery__badge">Flagship</span>
+      </div>
+      <div class="pd-gallery__thumbs">
+        <button class="pd-gallery__thumb is-active" data-img="caviar-lift-1.jpg" aria-label="View image 1"><img class="pd-gallery__thumb-img" src="caviar-lift-1.jpg" alt="" onerror="this.classList.add('is-missing');"><span class="pd-gallery__thumb-inner" style="background:linear-gradient(135deg,var(--c-mint),var(--c-fresh));"></span></button>
+        <button class="pd-gallery__thumb" data-img="caviar-lift-2.jpg" aria-label="View image 2"><img class="pd-gallery__thumb-img" src="caviar-lift-2.jpg" alt="" onerror="this.classList.add('is-missing');"><span class="pd-gallery__thumb-inner" style="background:linear-gradient(135deg,#e8f0e8,var(--c-mint));"></span></button>
+        <button class="pd-gallery__thumb" data-img="caviar-lift-3.jpg" aria-label="View image 3"><img class="pd-gallery__thumb-img" src="caviar-lift-3.jpg" alt="" onerror="this.classList.add('is-missing');"><span class="pd-gallery__thumb-inner" style="background:linear-gradient(135deg,var(--c-fresh),var(--c-green-nat));opacity:0.4;"></span></button>
+        <button class="pd-gallery__thumb" data-img="caviar-lift-4.jpg" aria-label="View image 4"><img class="pd-gallery__thumb-img" src="caviar-lift-4.jpg" alt="" onerror="this.classList.add('is-missing');"><span class="pd-gallery__thumb-inner" style="background:linear-gradient(135deg,var(--c-off-white),var(--c-mint));"></span></button>
+      </div>
+    </div>
+    <!-- Purchase panel -->
+    <div class="pd-purchase">
+      <span class="pd-purchase__eyebrow reveal" data-anim="fade-in">Luxury Serum · 35+</span>
+      <h1 class="pd-purchase__title reveal">Caviar Lift Serum</h1>
+      <p class="pd-purchase__tagline reveal">Our flagship. Instant-tightening polymers create a visible 30-minute lifted, plumped finish, while a peptide, caviar and marine complex supports firmer, well-conditioned-looking skin over time.</p>
+      <div class="pd-purchase__reviews">
+        <div class="pd-stars">
+          <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor" opacity=".3"/></svg>
+        </div>
+        <span class="pd-purchase__review-count">4.9 &middot; 86 reviews</span>
+      </div>
+      <div class="pd-purchase__price-row">
+        <span class="pd-purchase__price">£88</span>
+        <span class="pd-purchase__save-badge">30ml</span>
+      </div>
+      <div class="pd-purchase__controls">
+        <div class="pd-qty">
+          <button class="pd-qty__btn" id="qm">
+            <svg width="12" height="2" viewBox="0 0 12 2" fill="none"><line x1="1" y1="1" x2="11" y2="1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+          <input type="number" class="pd-qty__input" id="qty" value="1" min="1">
+          <button class="pd-qty__btn" id="qp">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <button class="pd-atc-btn" id="atc-btn">
+          <span class="pd-atc-btn__text">Add to Bag</span>
+          <span class="pd-atc-btn__price">£88</span>
+        </button>
+        <a href="sit.html?sit=quick" class="pd-sit-link" style="display:inline-flex;align-items:center;gap:7px;margin-top:0.875rem;font-size:0.8125rem;color:var(--c-green-nat,#49724a);text-decoration:none;font-weight:500;">
+          <span style="width:6px;height:6px;border-radius:50%;background:#49724a;display:inline-block;"></span>
+          Not sure this is right for your skin? Ask the Skin Consultant
+        </a>
+      </div>
+      <div class="pd-purchase__trust">
+        <div class="pd-trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          <span>Zero synthetic fragrance</span>
+        </div>
+        <div class="pd-trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Dermatologist-reviewed</span>
+        </div>
+        <div class="pd-trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          <span>Retinol-free formula</span>
+        </div>
+        <div class="pd-trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 4v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <span>Free delivery over £60</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- §2 BENEFIT TAGS -->
+<section class="pd-benefits">
+  <div class="pd-benefits__inner container">
+    <span class="pd-section-label">What it does</span>
+    <div class="pd-benefits__wrap">
+      <span class="pd-benefit-tag">Instant Lift</span>
+      <span class="pd-benefit-tag">Firmness</span>
+      <span class="pd-benefit-tag">Plumping</span>
+      <span class="pd-benefit-tag">Fine Lines</span>
+      <span class="pd-benefit-tag">Retinol-Free</span>
+      <span class="pd-benefit-tag">Glow</span>
+      <span class="pd-benefit-tag">AM &amp; PM</span>
+    </div>
+  </div>
+</section>
+
+<!-- §3 DESCRIPTION -->
+<section class="pd-description">
+  <div class="pd-description__inner container">
+    <div class="pd-description__label-col">
+      <span class="pd-section-label">About this Serum</span>
+      <span class="pd-description__accent"></span>
+    </div>
+    <div class="pd-description__body">
+      <p>Caviar Lift is our premium flagship — the luxury choice for skin 35+. Instant-tightening polymers such as Pullulan create a visible 30-minute smoothing, lifted, plumped finish, while a peptide blend, Caviar Extract, Marine DNA, and Microalgae Extract support firmer, well-conditioned-looking skin over time.</p>
+      <p>A silky, cushioning texture layers beautifully under makeup and melts into skin without heaviness. Niacinamide, Glycerin, multi-weight Hyaluronic Acid, Ceramides, and Panthenol keep skin comfortable and hydrated through the day.</p>
+      <p>This formula is retinol-free, so it is gentle enough for daytime, special occasions, and nightly use alike. Best suited to normal, dry, and combination skin; if your skin is very sensitive, patch test first or speak with the Skin Consultant.</p>
+    </div>
+  </div>
+</section>
+
+<!-- §4 INGREDIENTS -->
+<section class="pd-ingredients">
+  <div class="container">
+    <div class="pd-ingredients__header">
+      <span class="pd-section-label">Key Actives</span>
+      <h2 class="pd-ingredients__title">What's inside</h2>
+    </div>
+    <div class="pd-ingredients__grid reveal-group" style="--stagger:75ms">
+      <div class="pd-ingredient-card reveal"><span class="pd-ingredient-card__pct">1–3%</span><h3 class="pd-ingredient-card__name">Pullulan Polymer</h3><span class="pd-ingredient-card__benefit">Instant tightening</span><p class="pd-ingredient-card__detail">A plant-derived tightening polymer that creates a visible 30-minute smoothing, lifted, plumped finish on the skin's surface.</p></div>
+      <div class="pd-ingredient-card reveal"><span class="pd-ingredient-card__pct">2–5%</span><h3 class="pd-ingredient-card__name">Peptide Blend</h3><span class="pd-ingredient-card__benefit">Firmness support</span><p class="pd-ingredient-card__detail">Signal peptides that support firmer, well-conditioned-looking skin and help soften the look of fine lines over time.</p></div>
+      <div class="pd-ingredient-card reveal"><span class="pd-ingredient-card__pct">0.5–2%</span><h3 class="pd-ingredient-card__name">Caviar Extract</h3><span class="pd-ingredient-card__benefit">Nutrient-rich conditioning</span><p class="pd-ingredient-card__detail">A luxurious marine extract rich in amino acids and minerals that conditions and nourishes for a supple, cared-for look.</p></div>
+      <div class="pd-ingredient-card reveal"><span class="pd-ingredient-card__pct">2–4%</span><h3 class="pd-ingredient-card__name">Niacinamide</h3><span class="pd-ingredient-card__benefit">Tone & comfort</span><p class="pd-ingredient-card__detail">Supports a more even, radiant-looking tone and works with ceramides and multi-weight HA to keep skin cushioned.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- §5 HOW TO USE -->
+<section class="pd-how-to">
+  <div class="pd-how-to__inner container">
+    <div class="pd-how-to__label-col">
+      <span class="pd-section-label">How to Use</span>
+      <span class="pd-description__accent"></span>
+    </div>
+    <div>
+      <h2 class="pd-how-to__title reveal">Your daily ritual</h2>
+      <ol class="pd-how-to__steps reveal-group" style="--stagger:80ms">
+        <li class="pd-step reveal"><span class="pd-step__num">01</span><div class="pd-step__content"><strong class="pd-step__title">Apply after cleansing</strong><span class="pd-step__detail">Begin with clean, dry or slightly damp skin</span></div></li>
+        <li class="pd-step reveal"><span class="pd-step__num">02</span><div class="pd-step__content"><strong class="pd-step__title">Use 2–3 drops</strong><span class="pd-step__detail">Warm between fingertips and press gently into skin — do not rub</span></div></li>
+        <li class="pd-step reveal"><span class="pd-step__num">03</span><div class="pd-step__content"><strong class="pd-step__title">Follow with cream</strong><span class="pd-step__detail">Seal active ingredients in with a barrier moisturiser</span></div></li>
+        <li class="pd-step reveal"><span class="pd-step__num">04</span><div class="pd-step__content"><strong class="pd-step__title">Apply SPF in the morning</strong><span class="pd-step__detail">Always finish your AM routine with broad-spectrum SPF 30+</span></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- §6 SKIN TYPES -->
+<section class="pd-skin-types">
+  <div class="container">
+    <div class="pd-skin-types__header">
+      <span class="pd-section-label">Skin Compatibility</span>
+      <h2 class="pd-skin-types__title">Suitable for</h2>
+    </div>
+    <div class="pd-skin-types__grid reveal-group" style="--stagger:60ms">
+      <div class="pd-skin-cell is-suitable reveal"><div class="pd-skin-cell__indicator"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span class="pd-skin-cell__name">Dry</span></div>
+      <div class="pd-skin-cell is-suitable reveal"><div class="pd-skin-cell__indicator"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span class="pd-skin-cell__name">Oily</span></div>
+      <div class="pd-skin-cell is-suitable reveal"><div class="pd-skin-cell__indicator"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span class="pd-skin-cell__name">Combination</span></div>
+      <div class="pd-skin-cell reveal"><div class="pd-skin-cell__indicator"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></div><span class="pd-skin-cell__name">Very Sensitive</span></div>
+      <div class="pd-skin-cell is-suitable reveal"><div class="pd-skin-cell__indicator"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span class="pd-skin-cell__name">Normal</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- §7 TEXTURE -->
+<section class="pd-texture">
+  <div class="pd-texture__inner container">
+    <div class="pd-texture__image-col">&#x1F30A;</div>
+    <div class="pd-texture__content-col">
+      <span class="pd-section-label">Texture &amp; Feel</span>
+      <h2 class="pd-texture__headline">Silky. Cushioning. A luxurious lifted finish.</h2>
+      <p class="pd-texture__body">A silky, cushioning serum that melts into skin and leaves a smooth, plumped, lifted feel. Layers beautifully under makeup with no pilling or tackiness — indulgent enough for special occasions, gentle enough for every day.</p>
+      <dl class="pd-texture__specs">
+        <div class="pd-texture__spec"><dt class="pd-texture__spec-label">Finish</dt><dd class="pd-texture__spec-value">Silky, cushioned, luminous</dd></div>
+        <div class="pd-texture__spec"><dt class="pd-texture__spec-label">Visible lift</dt><dd class="pd-texture__spec-value">Within 30 minutes</dd></div>
+        <div class="pd-texture__spec"><dt class="pd-texture__spec-label">Layering</dt><dd class="pd-texture__spec-value">Compatible with all Sebble formulas</dd></div>
+        <div class="pd-texture__spec"><dt class="pd-texture__spec-label">Volume</dt><dd class="pd-texture__spec-value">30ml / 1.0 fl oz</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- §8 ROUTINE PAIRING -->
+<section class="pd-pairing">
+  <div class="container">
+    <div class="pd-pairing__header">
+      <span class="pd-section-label">Complete the Ritual</span>
+      <h2 class="pd-pairing__title">Pair it with</h2>
+    </div>
+    <div class="pd-pairing__grid reveal-group" style="--stagger:100ms">
+      <div class="pd-pair-card reveal">
+        <div class="pd-pair-card__image-wrap" style="background:linear-gradient(135deg,var(--c-mint),var(--c-fresh));">&#x1F9F4;</div>
+        <div class="pd-pair-card__body"><span class="pd-pair-card__type">Moisturiser</span><h3 class="pd-pair-card__name">Sebble Barrier Cream</h3><p class="pd-pair-card__price">£48</p><a href="#" class="pd-pair-card__link">View product &rarr;</a></div>
+      </div>
+      <div class="pd-pair-card reveal">
+        <div class="pd-pair-card__image-wrap" style="background:linear-gradient(135deg,#e8f4e8,var(--c-mint));">&#x1F4A7;</div>
+        <div class="pd-pair-card__body"><span class="pd-pair-card__type">Setting Mist</span><h3 class="pd-pair-card__name">Sebble Facial Spray</h3><p class="pd-pair-card__price">£32</p><a href="#" class="pd-pair-card__link">View product &rarr;</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- §9 REASSURANCE -->
+<section class="pd-reassurance">
+  <div class="container">
+    <div class="pd-reassurance__inner reveal-group" style="--stagger:70ms">
+      <div class="pd-reassurance-item reveal"><div class="pd-reassurance-item__icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><span class="pd-reassurance-item__label">Dermatologist-informed</span><span class="pd-reassurance-item__sublabel">Formula reviewed by skin specialists</span></div>
+      <div class="pd-reassurance-item reveal"><div class="pd-reassurance-item__icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></div><span class="pd-reassurance-item__label">Fragrance-conscious</span><span class="pd-reassurance-item__sublabel">Zero synthetic fragrance added</span></div>
+      <div class="pd-reassurance-item reveal"><div class="pd-reassurance-item__icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></div><span class="pd-reassurance-item__label">Silky texture</span><span class="pd-reassurance-item__sublabel">Cushioning, non-tacky finish</span></div>
+      <div class="pd-reassurance-item reveal"><div class="pd-reassurance-item__icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><span class="pd-reassurance-item__label">Designed for daily routines</span><span class="pd-reassurance-item__sublabel">Morning and evening compatible</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- §10 FAQ -->
+<section class="pd-faq">
+  <div class="pd-faq__inner container">
+    <div class="pd-faq__label-col">
+      <span class="pd-section-label">Questions</span>
+      <h2 class="pd-faq__title">FAQ</h2>
+    </div>
+    <div class="pd-faq__items-col reveal-group" style="--stagger:70ms">
+      <details class="pd-faq-item reveal">
+        <summary class="pd-faq-item__summary"><span class="pd-faq-item__question">How do I layer this with other serums?</span><span class="pd-faq-item__icon"><svg class="pd-faq-icon pd-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg class="pd-faq-icon pd-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <div class="pd-faq-item__body-wrap"><div class="pd-faq-item__body-inner"><p class="pd-faq-item__answer">Apply lighter, water-based serums first, followed by thicker textures. If using multiple Sebble serums, allow 60 seconds between each for full absorption before layering the next.</p></div></div>
+      </details>
+      <details class="pd-faq-item reveal">
+        <summary class="pd-faq-item__summary"><span class="pd-faq-item__question">Can I use this morning and evening?</span><span class="pd-faq-item__icon"><svg class="pd-faq-icon pd-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg class="pd-faq-icon pd-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <div class="pd-faq-item__body-wrap"><div class="pd-faq-item__body-inner"><p class="pd-faq-item__answer">Yes — this formula is designed for AM and PM use. Always finish your morning routine with a broad-spectrum SPF 30+ to protect against UV exposure.</p></div></div>
+      </details>
+      <details class="pd-faq-item reveal">
+        <summary class="pd-faq-item__summary"><span class="pd-faq-item__question">Is this suitable for sensitive skin?</span><span class="pd-faq-item__icon"><svg class="pd-faq-icon pd-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg class="pd-faq-icon pd-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <div class="pd-faq-item__body-wrap"><div class="pd-faq-item__body-inner"><p class="pd-faq-item__answer">Caviar Lift is retinol-free and generally well tolerated, but it is best suited to normal, dry, and combination skin. If your skin is very sensitive or reactive, we suggest starting with our Peptide Repair Barrier serum, or asking the Skin Consultant first. Always patch test for 24 hours before full facial use.</p></div></div>
+      </details>
+      <details class="pd-faq-item reveal">
+        <summary class="pd-faq-item__summary"><span class="pd-faq-item__question">Is this safe to use during pregnancy?</span><span class="pd-faq-item__icon"><svg class="pd-faq-icon pd-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg class="pd-faq-icon pd-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <div class="pd-faq-item__body-wrap"><div class="pd-faq-item__body-inner"><p class="pd-faq-item__answer">We recommend consulting your healthcare provider or midwife before introducing new products during pregnancy or while breastfeeding.</p></div></div>
+      </details>
+      <details class="pd-faq-item reveal">
+        <summary class="pd-faq-item__summary"><span class="pd-faq-item__question">How should I patch test?</span><span class="pd-faq-item__icon"><svg class="pd-faq-icon pd-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg class="pd-faq-icon pd-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <div class="pd-faq-item__body-wrap"><div class="pd-faq-item__body-inner"><p class="pd-faq-item__answer">Apply a small amount to the inner forearm or behind the ear. Leave unwashed for 24 hours. If no reaction occurs, proceed with regular facial use.</p></div></div>
+      </details>
+      <details class="pd-faq-item reveal">
+        <summary class="pd-faq-item__summary"><span class="pd-faq-item__question">How long will a 30ml bottle last?</span><span class="pd-faq-item__icon"><svg class="pd-faq-icon pd-faq-icon--plus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg class="pd-faq-icon pd-faq-icon--minus" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <div class="pd-faq-item__body-wrap"><div class="pd-faq-item__body-inner"><p class="pd-faq-item__answer">Using 2–3 drops twice daily, a 30ml bottle typically lasts 6–8 weeks with consistent use.</p></div></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer"><p>© 2026 Sebble. All rights reserved.</p></footer>
+
+<script>
+// Qty
+const qty = document.getElementById('qty');
+document.getElementById('qm').addEventListener('click', () => { if (parseInt(qty.value) > 1) qty.value = parseInt(qty.value) - 1; });
+document.getElementById('qp').addEventListener('click', () => { qty.value = parseInt(qty.value) + 1; });
+
+// ATC demo
+const btn = document.getElementById('atc-btn');
+btn.addEventListener('click', () => {
+  const txt = btn.querySelector('.pd-atc-btn__text');
+  txt.textContent = 'Adding…';
+  btn.style.background = 'linear-gradient(90deg,#030706 0%,#2c4f31 50%,#030706 100%)';
+  setTimeout(() => {
+    txt.textContent = 'Added to Bag';
+    btn.style.background = '#49724a';
+    setTimeout(() => { txt.textContent = 'Add to Bag'; btn.style.background = ''; }, 2200);
+  }, 700);
+});
+
+// Gallery thumb switching
+(function () {
+  var main = document.getElementById('pd-main-img');
+  document.querySelectorAll('.pd-gallery__thumb').forEach(function (t) {
+    t.addEventListener('click', function () {
+      document.querySelectorAll('.pd-gallery__thumb').forEach(function (x) { x.classList.remove('is-active'); });
+      t.classList.add('is-active');
+      var src = t.getAttribute('data-img');
+      if (!main || !src) return;
+      main.classList.remove('is-missing');
+      main.onerror = function () { main.classList.add('is-missing'); };
+      main.src = src;
+    });
+  });
+})();
+
+// FAQ accordion
+document.querySelectorAll('.pd-faq-item').forEach(d => {
+  d.querySelector('summary').addEventListener('click', e => {
+    e.preventDefault();
+    if (d.open) {
+      d.classList.add('is-closing');
+      setTimeout(() => { d.open = false; d.classList.remove('is-closing'); }, 400);
+    } else {
+      document.querySelectorAll('.pd-faq-item[open]').forEach(o => {
+        o.classList.add('is-closing');
+        setTimeout(() => { o.open = false; o.classList.remove('is-closing'); }, 400);
+      });
+      d.open = true;
+    }
+  });
+});
+</script>
+
+<!-- BAG OVERLAY + DRAWER -->
+<div class="bag-overlay" id="bag-overlay"></div>
+<div class="bag-drawer" id="bag-drawer" role="dialog" aria-label="Shopping bag" aria-hidden="true">
+  <div class="bag-drawer__header">
+    <div>
+      <p class="bag-drawer__title">Your Ritual</p>
+      <p class="bag-drawer__count">0 items</p>
+    </div>
+    <button class="bag-drawer__close" id="bag-close" aria-label="Close bag">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 1l14 14M15 1L1 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="bag-drawer__body">
+    <div class="bag-drawer__empty">
+      <svg class="bag-drawer__empty-icon" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 20h28l-3.5 21H17.5L14 20z" stroke="#030706" stroke-width="1.5" stroke-linejoin="round"/><path d="M21 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#030706" stroke-width="1.5"/></svg>
+      <h3 class="bag-drawer__empty-title">Your ritual awaits.</h3>
+      <p class="bag-drawer__empty-sub">Add a serum to get started.<br>Free delivery on orders over £60.</p>
+      <a href="collection.html" class="bag-drawer__cta" id="bag-explore">Explore Serums</a>
+    </div>
+  </div>
+  <div class="bag-drawer__footer" style="display:none">
+    <div class="bag-drawer__subtotal"><span>Subtotal</span><span>£0.00</span></div>
+    <button class="bag-drawer__checkout">Proceed to Checkout</button>
+  </div>
+</div>
+<script>
+// ── BAG + ACCOUNT ─────────────────────────
+(function() {
+  var overlay  = document.getElementById('bag-overlay');
+  var drawer   = document.getElementById('bag-drawer');
+  var closeBtn = document.getElementById('bag-close');
+  var cartBtns = document.querySelectorAll('.header-cart-btn');
+  var acctWrap = document.querySelector('.acct-wrap');
+
+  function openBag() {
+    drawer.classList.add('is-open');
+    overlay.classList.add('is-open');
+    drawer.setAttribute('aria-hidden','false');
+  }
+  function closeBag() {
+    drawer.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden','true');
+  }
+
+  cartBtns.forEach(function(b){ b.addEventListener('click', openBag); });
+  if (closeBtn) closeBtn.addEventListener('click', closeBag);
+  if (overlay)  overlay.addEventListener('click', closeBag);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeBag(); });
+
+  // Wrap "Account" link in .acct-wrap if not already
+  var acctLinks = document.querySelectorAll('.header-actions a');
+  acctLinks.forEach(function(a) {
+    if (a.textContent.trim() === 'Account') {
+      var wrap = document.createElement('div');
+      wrap.className = 'acct-wrap';
+      var dd = document.createElement('div');
+      dd.className = 'acct-dropdown';
+      dd.innerHTML = '<a href="#">Sign In</a><a href="#">Create Account</a><a href="#">Order History</a>';
+      a.parentNode.insertBefore(wrap, a);
+      wrap.appendChild(a);
+      wrap.appendChild(dd);
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        wrap.classList.toggle('is-open');
+      });
+      document.addEventListener('click', function(e) {
+        if (!wrap.contains(e.target)) wrap.classList.remove('is-open');
+      });
+    }
+  });
+})();
+</script>
+
+<!-- SITE FOOTER -->
+<footer class="site-footer-global">
+  <div class="sfg-inner">
+    <div class="sfg-brand">
+      <a href="index.html" class="sfg-logo"><img src="sebble-logo.png" alt="Sebble" class="sfg-logo__img"></a>
+      <p class="sfg-tagline">Formulated with clinical-grade actives,<br>designed for your daily ritual.</p>
+    </div>
+    <nav class="sfg-nav">
+      <div class="sfg-col">
+        <span class="sfg-col-head">Shop</span>
+        <a href="collection.html">All Serums</a>
+        <a href="serum-finder.html">Find My Serum</a>
+        <a href="routine.html">Build a Routine</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Learn</span>
+        <a href="ingredients.html">Ingredients</a>
+        <a href="about.html">Our Story</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <div class="sfg-col">
+        <span class="sfg-col-head">Policies</span>
+        <a href="#">Shipping & Delivery</a>
+        <a href="#">Returns & Refunds</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </nav>
+  </div>
+  <div class="sfg-bottom">
+    <p>© 2026 Sebble. All rights reserved.</p>
+    <nav class="sfg-bottom-links"><a href="ingredients.html">Ingredients</a><a href="contact.html">Contact</a></nav>
+    <p>Cruelty-free · Fragrance-free · EU compliant</p>
+  </div>
+</footer>
+<script>
+(function(){
+  var s={threshold:0.08,rootMargin:'0px 0px -4% 0px'};
+  var g={threshold:0.05,rootMargin:'0px 0px -2% 0px'};
+  var solo=new IntersectionObserver(function(en){en.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add('is-visible');solo.unobserve(e.target);});},s);
+  var grp=new IntersectionObserver(function(en){en.forEach(function(e){if(!e.isIntersecting)return;e.target.querySelectorAll('.reveal').forEach(function(c){c.classList.add('is-visible');solo.unobserve(c);});grp.unobserve(e.target);});},g);
+  document.querySelectorAll('.reveal').forEach(function(el){if(!el.closest('.reveal-group'))solo.observe(el);});
+  document.querySelectorAll('.reveal-group').forEach(function(g){grp.observe(g);});
+})();
+</script>
+<script src="sit-knowledge.js"></script>
+<script src="sit-widget.js"></script>
+</body>
+</html>

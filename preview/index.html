@@ -329,6 +329,10 @@ a { color: inherit; text-decoration: none; }
   text-align: center; color: var(--c-green-rich); opacity: 0.4;
   font-size: 5rem; user-select: none;
 }
+.hp-hero__image-photo {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 1;
+}
 .hp-hero__float-card {
   position: absolute; bottom: 1.75rem; right: -1.5rem; width: 220px;
   background: rgba(255,255,255,0.92); backdrop-filter: blur(20px) saturate(160%);
@@ -382,6 +386,7 @@ a { color: inherit; text-decoration: none; }
 .hp-product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 56px rgba(3,7,6,0.10); border-color: transparent; }
 .hp-product-card__media { position: relative; aspect-ratio: 3/4; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
 .hp-product-card__media-bg { position: absolute; inset: 0; }
+.hp-product-card__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; z-index: 1; }
 .hp-product-card__badge { position: absolute; top: 0.75rem; left: 0.75rem; font-size: 0.625rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.25rem 0.625rem; border-radius: 100px; background: var(--c-forest); color: var(--c-mint); z-index: 2; }
 .hp-product-card__add { position: absolute; bottom: 0.75rem; left: 0.75rem; right: 0.75rem; padding: 0.75rem; background: rgba(3,7,6,0.88); color: var(--c-white); border: none; border-radius: 12px; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; cursor: pointer; text-align: center; opacity: 0; transform: translateY(6px); transition: opacity 0.25s, transform 0.25s; z-index: 2; }
 .hp-product-card:hover .hp-product-card__add { opacity: 1; transform: translateY(0); }
@@ -1004,6 +1009,7 @@ a { color: inherit; text-decoration: none; }
     <div class="hp-hero__image-col">
       <div class="hp-hero__image-frame">
         <div class="hero-placeholder-inner">🌿</div>
+        <img class="hp-hero__image-photo" src="hero-serum.jpg" onerror="this.style.display='none'" alt="Sebble Exosome PDRN Repair Serum">
       </div>
       <div class="hp-hero__float-card reveal">
         <div class="hp-hero__float-thumb">🧴</div>
@@ -1079,9 +1085,9 @@ a { color: inherit; text-decoration: none; }
     <div class="hp-bestsellers__grid reveal-group" style="--stagger:110ms">
       <!-- Card 1 -->
       <a href="product.html" class="hp-product-card reveal" style="display:block;text-decoration:none;color:inherit;">
-        <div class="hp-product-card__media" style="background:linear-gradient(135deg,#cde8c9,#add9a8);">
+        <div class="hp-product-card__media" style="background:#daded0;">
           <div class="hp-product-card__media-bg"></div>
-          <span style="font-size:3.5rem;position:relative;z-index:1;">🧴</span>
+          <img class="hp-product-card__photo" src="serum-glow.jpg" onerror="this.style.display='none'" alt="Glow + Marks Serum bottle">
           <span class="hp-product-card__badge">Bestseller</span>
           <button class="hp-product-card__add">+ Add to Bag</button>
         </div>
@@ -1096,8 +1102,8 @@ a { color: inherit; text-decoration: none; }
       </a>
       <!-- Card 2 -->
       <a href="product.html" class="hp-product-card reveal" style="display:block;text-decoration:none;color:inherit;">
-        <div class="hp-product-card__media" style="background:linear-gradient(135deg,#e8f0e8,#cde8c9);">
-          <span style="font-size:3.5rem;position:relative;z-index:1;">✨</span>
+        <div class="hp-product-card__media" style="background:#d0d1bf;">
+          <img class="hp-product-card__photo" src="serum-barrier.jpg" onerror="this.style.display='none'" alt="Peptide Repair Barrier Serum bottle">
           <button class="hp-product-card__add">+ Add to Bag</button>
         </div>
         <div class="hp-product-card__body">
@@ -1111,8 +1117,8 @@ a { color: inherit; text-decoration: none; }
       </a>
       <!-- Card 3 -->
       <a href="product.html" class="hp-product-card reveal" style="display:block;text-decoration:none;color:inherit;">
-        <div class="hp-product-card__media" style="background:linear-gradient(135deg,#d4e8d0,#b8d4b4);">
-          <span style="font-size:3.5rem;position:relative;z-index:1;">🛡️</span>
+        <div class="hp-product-card__media" style="background:#2f3930;">
+          <img class="hp-product-card__photo" src="serum-caviar.jpg" onerror="this.style.display='none'" alt="Caviar Lift Serum bottle">
           <button class="hp-product-card__add">+ Add to Bag</button>
         </div>
         <div class="hp-product-card__body">
@@ -1126,8 +1132,8 @@ a { color: inherit; text-decoration: none; }
       </a>
       <!-- Card 4 -->
       <a href="product.html" class="hp-product-card reveal" style="display:block;text-decoration:none;color:inherit;">
-        <div class="hp-product-card__media" style="background:linear-gradient(135deg,#d8ece8,#b4d8d4);">
-          <span style="font-size:3.5rem;position:relative;z-index:1;">💧</span>
+        <div class="hp-product-card__media" style="background:#cbd5be;">
+          <img class="hp-product-card__photo" src="serum-exosome.jpg" onerror="this.style.display='none'" alt="Exosome PDRN Repair Serum bottle">
           <button class="hp-product-card__add">+ Add to Bag</button>
         </div>
         <div class="hp-product-card__body">
@@ -1141,8 +1147,8 @@ a { color: inherit; text-decoration: none; }
       </a>
       <!-- Card 5 -->
       <a href="product.html" class="hp-product-card reveal" style="display:block;text-decoration:none;color:inherit;">
-        <div class="hp-product-card__media" style="background:linear-gradient(135deg,#cdd0e8,#a8acd9);">
-          <span style="font-size:3.5rem;position:relative;z-index:1;">🌙</span>
+        <div class="hp-product-card__media" style="background:#565a4b;">
+          <img class="hp-product-card__photo" src="serum-retinal.jpg" onerror="this.style.display='none'" alt="Retinal Bio-Lift Night Serum bottle">
           <span class="hp-product-card__badge">PM only</span>
           <button class="hp-product-card__add">+ Add to Bag</button>
         </div>
@@ -1157,8 +1163,8 @@ a { color: inherit; text-decoration: none; }
       </a>
       <!-- Card 6 -->
       <a href="product.html" class="hp-product-card reveal" style="display:block;text-decoration:none;color:inherit;">
-        <div class="hp-product-card__media" style="background:linear-gradient(135deg,#e8dce8,#d4b8d0);">
-          <span style="font-size:3.5rem;position:relative;z-index:1;">👁️</span>
+        <div class="hp-product-card__media" style="background:#dddfd1;">
+          <img class="hp-product-card__photo" src="serum-neuro.jpg" onerror="this.style.display='none'" alt="Neuro Peptide Eye &amp; Smile Line Serum bottle">
           <button class="hp-product-card__add">+ Add to Bag</button>
         </div>
         <div class="hp-product-card__body">

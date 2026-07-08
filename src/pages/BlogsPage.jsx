@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSmoothScroll } from '../hooks/useSmoothScroll.js';
 import Header from '../components/Header.jsx';
@@ -47,6 +47,15 @@ function BlogCard({ post, featured }) {
 export default function BlogsPage() {
   useSmoothScroll();
   const [activeCategory, setActiveCategory] = useState('All');
+
+  useEffect(() => {
+    document.title = 'Landmark Insights — Real Estate Blog | Landmark Developers';
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute('content',
+      'Investment guides, project news and market analysis for Pakistan real estate investors. Written by the Landmark Developers team.'
+    );
+    return () => { document.title = 'Landmark Developers — Premium Living in Bahria Town Lahore'; };
+  }, []);
 
   const filtered = activeCategory === 'All'
     ? BLOG_POSTS
