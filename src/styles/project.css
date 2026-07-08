@@ -701,6 +701,11 @@
   font-weight: 600;
   color: var(--gold);
   margin-top: 8px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
   transition: gap 0.3s var(--ease);
 }
 .pj-unit-cta:hover { gap: 10px; }
