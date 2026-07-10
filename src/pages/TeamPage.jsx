@@ -9,78 +9,41 @@ import { Reveal, RevealGroup, RevealItem } from '../components/Reveal.jsx';
 import { CONTACT } from '../data/site.js';
 import '../styles/inner-pages.css';
 
-/* ── Data ─────────────────────────────────────────────────── */
+/* ── Team data ──────────────────────────────────────────────── */
 
-const VALUES = [
+const LEADERSHIP = [
   {
-    title: 'Trust',
-    body: 'Every commitment we make — on delivery, pricing, and quality — is one we intend to keep.',
-    icon: (
-      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-    ),
+    name: 'Ali Ubaid',
+    title: 'Founder & Chairman',
+    photo: '/team/ali-ubaid.png',
+    bio: 'Founded Landmark Developers with a vision to redefine real estate standards in Pakistan. His leadership has driven 9+ years of on-time delivery and quality construction across Bahria Town Lahore and Islamabad.',
   },
   {
-    title: 'Transparency',
-    body: 'Open communication with every buyer, investor, and partner — no hidden terms, no fine print surprises.',
-    icon: (
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
-    ),
-  },
-  {
-    title: 'Execution',
-    body: '15 projects delivered. A culture built on doing what we say, when we say it, to the standard promised.',
-    icon: (
-      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg>
-    ),
-  },
-  {
-    title: 'Client-First',
-    body: 'Our consultation team guides every buyer from first enquiry to handover — with patience and expertise.',
-    icon: (
-      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
-    ),
+    name: 'Hussain Jamil',
+    title: 'Chief Executive Officer',
+    photo: '/team/hussain-jamil.png',
+    bio: 'Leads Landmark\'s overall business strategy, project development pipeline, and investor relations. Hussain brings a client-first philosophy that has defined the company\'s growth and reputation.',
   },
 ];
 
-const DEPARTMENTS = [
+const MANAGEMENT = [
   {
-    name: 'Leadership Team',
-    label: 'Executive',
-    desc: 'Guides the company vision, strategy, and long-term growth across all Landmark developments and markets.',
-    count: 3,
-  },
-  {
-    name: 'Sales & Consultation Team',
-    label: 'Client-Facing',
-    desc: 'Expert investment advisors who guide buyers through project selection, pricing, and payment plans.',
-    count: 4,
-  },
-  {
-    name: 'Project Development Team',
-    label: 'Technical',
-    desc: 'Architects, engineers, and site managers ensuring every project is delivered on time and on quality.',
-    count: 4,
-  },
-  {
-    name: 'Client Support Team',
-    label: 'Post-Sale',
-    desc: 'Dedicated post-handover support — addressing maintenance, documentation, and owner relations.',
-    count: 3,
+    name: 'Nadeem Lone',
+    title: 'General Manager — Sales',
+    photo: '/team/nadeem-lone.png',
+    bio: 'Oversees the complete sales function across all active projects, ensuring every buyer receives expert guidance from first enquiry to handover.',
   },
 ];
 
-/* ── Silhouette SVG ─────────────────────────────────────────── */
-
-function Silhouette() {
-  return (
-    <div className="team-silhouette" aria-hidden="true">
-      <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="28" cy="19" r="13" />
-        <path d="M4 56c0-13.255 10.745-24 24-24s24 10.745 24 24z" />
-      </svg>
-    </div>
-  );
-}
+const SALES_TEAM = [
+  { name: 'Ahmad Jamil',     title: 'Director Sales', photo: '/team/ahmad-jamil.png' },
+  { name: 'Ali Hamza',       title: 'Director Sales', photo: '/team/ali-hamza.png' },
+  { name: 'Anas Jamil',      title: 'Sales Director', photo: '/team/anas-jamil.png' },
+  { name: 'Muhammad Naeem',  title: 'Director Sales', photo: '/team/muhammad-naeem.png' },
+  { name: 'Muhammad Waqas',  title: 'Director Sales', photo: '/team/muhammad-waqas.png' },
+  { name: 'Iqra',            title: 'Director Sales', photo: '/team/iqra.png' },
+  { name: 'Zahid',           title: 'Director Sales', photo: '/team/zahid.png' },
+];
 
 /* ── Page ─────────────────────────────────────────────────── */
 
@@ -92,7 +55,7 @@ export default function TeamPage() {
     document.title = 'Our Team | Landmark Developers — Bahria Town Lahore';
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content',
-      'Meet the people behind Landmark Developers — a team built on trust, execution, and client-first service across all projects in Bahria Town Lahore and Islamabad.'
+      'Meet the leadership and sales team behind Landmark Developers — the people who have delivered 500+ units across Bahria Town Lahore and Islamabad.'
     );
     return () => { document.title = 'Landmark Developers — Premium Living in Bahria Town Lahore'; };
   }, []);
@@ -121,72 +84,114 @@ export default function TeamPage() {
             </Reveal>
             <Reveal delay={0.14}>
               <p className="ip-hero-sub">
-                Every project is backed by a dedicated team of advisors, engineers, and client partners
-                focused on one thing — delivering what we promised.
+                From our chairman's founding vision to our sales directors' daily commitment —
+                every member of the Landmark team is focused on one thing: delivering what we promised.
               </p>
             </Reveal>
           </div>
         </section>
 
-        {/* ── Team Values ── */}
+        {/* ── Leadership ── */}
         <section className="ip-section">
           <div className="container">
-            <Reveal><p className="ip-label">What Drives Us</p></Reveal>
+            <Reveal><p className="ip-label">Founders & Leadership</p></Reveal>
             <Reveal delay={0.07}>
               <h2 className="ip-section-h2">
-                Principles we<br />
-                <span className="gold-word">operate by.</span>
+                Vision at the<br />
+                <span className="gold-word">top.</span>
               </h2>
             </Reveal>
-            <RevealGroup className="team-values-grid" stagger={0.1}>
-              {VALUES.map((v) => (
-                <RevealItem key={v.title} className="team-val-card">
-                  <div className="team-val-icon">{v.icon}</div>
-                  <h3 className="team-val-title">{v.title}</h3>
-                  <p className="team-val-body">{v.body}</p>
+
+            <RevealGroup className="team-leadership-grid" stagger={0.1}>
+              {LEADERSHIP.map((m) => (
+                <RevealItem key={m.name} className="team-leader-card">
+                  <div className="team-leader-photo-wrap">
+                    <img
+                      src={m.photo}
+                      alt={m.name}
+                      className="team-leader-photo"
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
+                  </div>
+                  <div className="team-leader-info">
+                    <h3 className="team-leader-name">{m.name}</h3>
+                    <p className="team-leader-title">{m.title}</p>
+                    <p className="team-leader-bio">{m.bio}</p>
+                  </div>
                 </RevealItem>
               ))}
             </RevealGroup>
           </div>
         </section>
 
-        {/* ── Departments ── */}
+        {/* ── Management ── */}
         <section className="ip-section">
           <div className="container">
-            <Reveal><p className="ip-label">Our Departments</p></Reveal>
+            <Reveal><p className="ip-label">Senior Management</p></Reveal>
             <Reveal delay={0.07}>
               <h2 className="ip-section-h2">
-                Four teams.<br />
-                <span className="gold-word">One standard.</span>
+                Running the<br />
+                <span className="gold-word">operation.</span>
               </h2>
             </Reveal>
 
-            <RevealGroup className="team-dept-grid" stagger={0.1}>
-              {DEPARTMENTS.map((dept) => (
-                <RevealItem key={dept.name} className="team-dept-card">
-                  <div className="team-dept-avatars">
-                    {Array.from({ length: dept.count }).map((_, i) => (
-                      <Silhouette key={i} />
-                    ))}
+            <RevealGroup className="team-mgmt-grid" stagger={0.1}>
+              {MANAGEMENT.map((m) => (
+                <RevealItem key={m.name} className="team-leader-card">
+                  <div className="team-leader-photo-wrap">
+                    <img
+                      src={m.photo}
+                      alt={m.name}
+                      className="team-leader-photo"
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
                   </div>
-                  <div className="team-dept-info">
-                    <p className="team-dept-label">{dept.label}</p>
-                    <h3 className="team-dept-name">{dept.name}</h3>
-                    <p className="team-dept-desc">{dept.desc}</p>
+                  <div className="team-leader-info">
+                    <h3 className="team-leader-name">{m.name}</h3>
+                    <p className="team-leader-title">{m.title}</p>
+                    <p className="team-leader-bio">{m.bio}</p>
                   </div>
                 </RevealItem>
               ))}
             </RevealGroup>
+          </div>
+        </section>
 
-            <Reveal delay={0.1}>
-              <div className="team-profiles-note">
-                <p>
-                  <strong>Note:</strong> Individual team profiles will be published once official names
-                  and photos are confirmed. For now, reach our consultation team directly via
-                  WhatsApp or phone.
-                </p>
-              </div>
+        {/* ── Sales Team ── */}
+        <section className="ip-section">
+          <div className="container">
+            <Reveal><p className="ip-label">Sales & Consultation</p></Reveal>
+            <Reveal delay={0.07}>
+              <h2 className="ip-section-h2">
+                Your investment<br />
+                <span className="gold-word">advisors.</span>
+              </h2>
             </Reveal>
+            <Reveal delay={0.1}>
+              <p className="ip-section-sub">
+                Our directors of sales guide every buyer from initial enquiry through payment plan selection,
+                unit choice, and final handover — with honest, transparent advice at every step.
+              </p>
+            </Reveal>
+
+            <RevealGroup className="team-sales-grid" stagger={0.08}>
+              {SALES_TEAM.map((m) => (
+                <RevealItem key={m.name} className="team-sales-card">
+                  <div className="team-sales-photo-wrap">
+                    <img
+                      src={m.photo}
+                      alt={m.name}
+                      className="team-sales-photo"
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
+                  </div>
+                  <div className="team-sales-info">
+                    <h3 className="team-sales-name">{m.name}</h3>
+                    <p className="team-sales-title">{m.title}</p>
+                  </div>
+                </RevealItem>
+              ))}
+            </RevealGroup>
           </div>
         </section>
 
