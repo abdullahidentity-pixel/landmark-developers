@@ -5,9 +5,9 @@ export const BRAND = {
   name: 'Landmark Developers',
   short: 'Landmark',
   tagline: 'Premium living in Bahria Town Lahore',
-  website: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/',
-  logo: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2025/11/Landmark-Website-Logo-scaled.png',
-  logoAlt: 'https://landmarkdevelopers.landmarkdevelopers.com.pk/wp-content/uploads/2025/11/logo-1-1.png',
+  website: 'https://www.landmarkdevelopers.com.pk/',
+  logo: '/images/logo.png',
+  logoAlt: '/images/logo-alt.png',
 };
 
 const RAW_PHONE = '+92 321 000 4000';
@@ -18,8 +18,8 @@ export const CONTACT = {
   phoneHref: `tel:+${DIGITS}`,
   whatsappHref: `https://wa.me/${DIGITS}`,
   office: 'Plaza no. 39 AA Commercial, Main Boulevard, Bahria Town, Lahore',
-  timing: 'Mon–Sat · 10:00 AM – 8:00 PM',
-  timingNote: 'Sunday closed',
+  timing: 'Sat–Thu · 10:00 AM – 8:00 PM',
+  timingNote: 'Friday closed',
   mapsHref:
     'https://www.google.com/maps/search/?api=1&query=' +
     encodeURIComponent('Bahria Town Main Boulevard, Lahore'),
@@ -99,10 +99,10 @@ export const AMENITIES = [
   { label: 'Gaming Zone', icon: 'game' },
   { label: 'Gym', icon: 'gym' },
   { label: 'High-Speed Lifts', icon: 'lift' },
-  { label: 'Rooftop Terrace', icon: 'rooftop' },
+  { label: 'Rooftop Garden', icon: 'rooftop' },
   { label: 'Spa', icon: 'spa' },
   { label: 'Swimming Pool', icon: 'pool' },
-  { label: 'Commercial Outlets', icon: 'shop' },
+  { label: 'Housekeeping Services', icon: 'shop' },
 ];
 
 export const PROJECT_OPTIONS = ['Grand 15', 'Grand 14', 'Grand X', 'Grand 11', 'Grand 12'];
