@@ -67,12 +67,14 @@ export default function ProjHero({ project }) {
     return () => tl.kill();
   }, []);
 
-  /* ── Scroll parallax ── */
+  /* ── Scroll parallax — desktop only ── */
   useEffect(() => {
     const el = root.current;
     if (!el) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) return;
+    // Skip parallax on touch/mobile devices — causes layout gaps
+    if (window.matchMedia('(max-width: 860px)').matches) return;
 
     const ctx = gsap.context(() => {
       gsap.to('.pj-hero-img', {
@@ -148,6 +150,7 @@ export default function ProjHero({ project }) {
           loading="eager"
           decoding="async"
           onError={(e) => { e.currentTarget.src = project.localHero; }}
+          onLoad={() => ScrollTrigger.refresh()}
         />
         <div className="pj-hero-overlay" />
         <div className="pj-hero-vignette" />
@@ -185,15 +188,6 @@ export default function ProjHero({ project }) {
           >
             <WhatsAppIcon width="20" height="20" /> WhatsApp Now
           </a>
-          <MagneticButton
-            href={project.officialPage}
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="glass"
-            className="btn-lg"
-          >
-            Official Page
-          </MagneticButton>
         </div>
 
         {/* Animated stat pills */}
