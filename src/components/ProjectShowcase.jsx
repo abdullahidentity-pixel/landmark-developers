@@ -24,17 +24,17 @@ const SECTIONS = [
   },
   {
     id: 'grand-11',
-    background: '/images/grand-11-render.png',
+    background: '/images/grand 11.png',
     leftLabel: 'Midway Commercial, BTL',
     title: 'Grand 11',
-    rightLabel: 'Delivered',
+    rightLabel: 'Now Selling',
   },
   {
     id: 'grand-12',
     background: '/images/grand-12-render.png',
     leftLabel: 'Phase 8, Islamabad',
     title: 'Grand 12',
-    rightLabel: 'Delivered',
+    rightLabel: 'Now Selling',
   },
 ];
 

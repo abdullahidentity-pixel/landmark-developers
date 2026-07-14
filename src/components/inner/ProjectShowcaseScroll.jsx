@@ -4,13 +4,14 @@ import { PROJECTS_DATA } from '../../data/projects.js';
 
 /* ── Slide data pulled from the shared PROJECTS_DATA source ── */
 const SLIDES = PROJECTS_DATA.map((p) => ({
-  slug:     p.slug,
-  name:     p.displayName || p.name,
-  tagline:  p.tagline,
-  badge:    p.badge,
-  status:   p.status,
-  location: p.locationDetail || p.location,
-  image:    p.heroImage || p.localHero,
+  slug:        p.slug,
+  name:        p.displayName || p.name,
+  tagline:     p.tagline,
+  badge:       p.badge,
+  status:      p.status,
+  location:    p.locationDetail || p.location,
+  description: p.description,
+  image:       p.heroImage || p.localHero,
 }));
 
 const N = SLIDES.length;
@@ -103,6 +104,9 @@ export default function ProjectShowcaseScroll() {
                   <span className="pss-slide-badge">{slide.badge}</span>
                   <h3 className="pss-slide-name">{slide.name}</h3>
                   <p className="pss-slide-tagline">{slide.tagline}</p>
+                  {slide.description && (
+                    <p className="pss-slide-desc">{slide.description}</p>
+                  )}
                   <p className="pss-slide-loc">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">

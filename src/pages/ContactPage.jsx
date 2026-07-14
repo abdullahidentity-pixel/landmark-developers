@@ -72,7 +72,8 @@ const INFO_CARDS = [
 export default function ContactPage() {
   useSmoothScroll();
 
-  const [form, setForm] = useState({ name: '', phone: '', project: '', message: '' });
+  const [form, setForm]     = useState({ name: '', phone: '', project: '', message: '' });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -84,10 +85,18 @@ export default function ContactPage() {
     return () => { document.title = 'Landmark Developers — Premium Living in Bahria Town Lahore'; };
   }, []);
 
-  const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  const handleChange = (e) => {
+    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+    if (errors[e.target.name]) setErrors((er) => ({ ...er, [e.target.name]: '' }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const errs = {};
+    if (!form.name.trim())  errs.name  = 'Please enter your name';
+    if (!form.phone.trim()) errs.phone = 'Phone number is required';
+    else if (form.phone.replace(/\D/g, '').length < 10) errs.phone = 'Enter a valid phone number';
+    if (Object.keys(errs).length) { setErrors(errs); return; }
     const msg =
       `*New Enquiry — Landmark Developers Website*\n\n` +
       `Name: ${form.name}\n` +
@@ -187,11 +196,12 @@ export default function ContactPage() {
                           placeholder="Full name"
                           value={form.name}
                           onChange={handleChange}
-                          required
+                          style={errors.name ? { borderColor: '#e05c5c' } : {}}
                         />
+                        {errors.name && <span style={{ fontSize: '0.75rem', color: '#e05c5c', marginTop: '4px', display: 'block' }}>{errors.name}</span>}
                       </div>
                       <div className="ip-field">
-                        <label htmlFor="c-phone">Phone Number</label>
+                        <label htmlFor="c-phone">Phone Number *</label>
                         <input
                           id="c-phone"
                           name="phone"
@@ -199,8 +209,9 @@ export default function ContactPage() {
                           placeholder="+92 3XX XXXXXXX"
                           value={form.phone}
                           onChange={handleChange}
-                          required
+                          style={errors.phone ? { borderColor: '#e05c5c' } : {}}
                         />
+                        {errors.phone && <span style={{ fontSize: '0.75rem', color: '#e05c5c', marginTop: '4px', display: 'block' }}>{errors.phone}</span>}
                       </div>
                     </div>
 

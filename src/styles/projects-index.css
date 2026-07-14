@@ -275,9 +275,30 @@
   letter-spacing: -0.03em;
   line-height: 1.05;
   color: var(--fg);
+  /* Titles are data-driven (site.js) and vary a lot in length — "The Grand
+     Lifestyle — Grand 15" is much longer than "Grand X". Without this, a
+     long title at a fixed small-viewport font size (see the featured clamp's
+     2rem floor below) can overflow the card's padded content box sideways
+     instead of wrapping, since overflow-wrap defaults to "normal" (only
+     breaks at existing whitespace, not mid-word) and the card itself clips
+     via `overflow:hidden` — the overflow is silently cropped, not visible
+     as a wrap. break-word guarantees it always wraps to fit. */
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .pjidx-card--featured .pjidx-card-name {
   font-size: clamp(2rem, 4.5vw, 3.8rem);
+}
+@media (max-width: 480px) {
+  /* At narrow phone widths the featured clamp's 4.5vw preferred value is
+     tiny (e.g. ~16px at 360px wide) so clamp falls back to its 2rem (32px)
+     floor regardless of viewport — that's too large for the longest title
+     ("The Grand Lifestyle — Grand 15", 31 chars) to comfortably fit even
+     wrapped across 2 lines inside the card's ~420px min-height. Lower the
+     floor specifically at this breakpoint. */
+  .pjidx-card--featured .pjidx-card-name {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+  }
 }
 .pjidx-card-tagline {
   font-size: 14px;
@@ -681,6 +702,13 @@
   .pjidx-hero-title { font-size: clamp(2.4rem, 8vw, 3.6rem); }
   .pjidx-card--featured { aspect-ratio: 4 / 3; }
   .pjidx-cards-grid { grid-template-columns: 1fr; }
+
+  /* Fix: preserve-3d breaks absolute-positioned images on Android/iOS WebKit */
+  .pjidx-card {
+    transform-style: flat;
+    transform: none !important;
+  }
+  .pjidx-card-glare { display: none; }
   .pjidx-compare-head,
   .pjidx-compare-row { grid-template-columns: 1.8fr 1.8fr 2fr 1.8fr 1.2fr 0.6fr; padding: 14px 16px; gap: 10px; }
   .pjidx-docs-grid { grid-template-columns: 1fr; }

@@ -13,7 +13,8 @@ gsap.registerPlugin(ScrollTrigger);
 export function useSmoothScroll() {
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return;
+    const coarse = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    if (reduce || coarse) return;
 
     const lenis = new Lenis({
       duration: 1.1,

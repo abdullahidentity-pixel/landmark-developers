@@ -13,36 +13,31 @@ import '../styles/inner-pages.css';
 
 const LEADERSHIP = [
   {
-    name: 'Ali Ubaid',
-    title: 'Founder & Chairman',
+    name: 'Ali Obaid',
+    title: 'Chairman & Founder',
     photo: '/team/ali-ubaid.png',
     bio: 'Founded Landmark Developers with a vision to redefine real estate standards in Pakistan. His leadership has driven 9+ years of on-time delivery and quality construction across Bahria Town Lahore and Islamabad.',
   },
   {
-    name: 'Hussain Jamil',
+    name: 'Hassnain Jamil',
     title: 'Chief Executive Officer',
     photo: '/team/hussain-jamil.png',
-    bio: 'Leads Landmark\'s overall business strategy, project development pipeline, and investor relations. Hussain brings a client-first philosophy that has defined the company\'s growth and reputation.',
-  },
-];
-
-const MANAGEMENT = [
-  {
-    name: 'Nadeem Lone',
-    title: 'General Manager — Sales',
-    photo: '/team/nadeem-lone.png',
-    bio: 'Oversees the complete sales function across all active projects, ensuring every buyer receives expert guidance from first enquiry to handover.',
+    bio: 'Leads Landmark\'s overall business strategy, project development pipeline, and investor relations. Hassnain brings a client-first philosophy that has defined the company\'s growth and reputation.',
   },
 ];
 
 const SALES_TEAM = [
-  { name: 'Ahmad Jamil',     title: 'Director Sales', photo: '/team/ahmad-jamil.png' },
-  { name: 'Ali Hamza',       title: 'Director Sales', photo: '/team/ali-hamza.png' },
-  { name: 'Anas Jamil',      title: 'Sales Director', photo: '/team/anas-jamil.png' },
-  { name: 'Muhammad Naeem',  title: 'Director Sales', photo: '/team/muhammad-naeem.png' },
-  { name: 'Muhammad Waqas',  title: 'Director Sales', photo: '/team/muhammad-waqas.png' },
-  { name: 'Iqra',            title: 'Director Sales', photo: '/team/iqra.png' },
-  { name: 'Zahid',           title: 'Director Sales', photo: '/team/zahid.png' },
+  { name: 'Naeem Ahson',        title: 'Director Sales',                     photo: '/team/muhammad-naeem.png' },
+  { name: 'Sheikh Zahid',       title: 'Director Sales',                     photo: '/team/zahid.png' },
+  { name: 'Ans Jamil',          title: 'Director Sales',                     photo: '/team/anas-jamil.png' },
+  { name: 'Waqas Ayub',         title: 'Director Sales',                     photo: '/team/muhammad-waqas.png' },
+  { name: 'Ali Hamza',          title: 'Director Sales, Islamabad Projects', photo: '/team/ali-hamza.png' },
+  { name: 'Khawaja Nadeem Lone', title: 'GM — Sales',                        photo: '/team/nadeem-lone.png' },
+  { name: 'Iqra Nadeem',        title: 'Director Sales & Relationships',     photo: '/team/iqra.png' },
+];
+
+const CONSTRUCTION_TEAM = [
+  { name: 'Ahmad Jamil', title: 'Director Construction', photo: '/team/ahmad-jamil.png' },
 ];
 
 /* ── Page ─────────────────────────────────────────────────── */
@@ -102,54 +97,22 @@ export default function TeamPage() {
               </h2>
             </Reveal>
 
-            <RevealGroup className="team-leadership-grid" stagger={0.1}>
+            <RevealGroup className="team-hero-grid" stagger={0.1}>
               {LEADERSHIP.map((m) => (
-                <RevealItem key={m.name} className="team-leader-card">
-                  <div className="team-leader-photo-wrap">
+                <RevealItem key={m.name} className="team-hero-card">
+                  <div className="team-hero-photo-wrap">
                     <img
                       src={m.photo}
                       alt={m.name}
-                      className="team-leader-photo"
+                      className="team-hero-photo"
                       onError={(e) => { e.target.style.display = 'none'; }}
                     />
+                    <div className="team-hero-photo-overlay" aria-hidden="true" />
                   </div>
-                  <div className="team-leader-info">
-                    <h3 className="team-leader-name">{m.name}</h3>
-                    <p className="team-leader-title">{m.title}</p>
-                    <p className="team-leader-bio">{m.bio}</p>
-                  </div>
-                </RevealItem>
-              ))}
-            </RevealGroup>
-          </div>
-        </section>
-
-        {/* ── Management ── */}
-        <section className="ip-section">
-          <div className="container">
-            <Reveal><p className="ip-label">Senior Management</p></Reveal>
-            <Reveal delay={0.07}>
-              <h2 className="ip-section-h2">
-                Running the<br />
-                <span className="gold-word">operation.</span>
-              </h2>
-            </Reveal>
-
-            <RevealGroup className="team-mgmt-grid" stagger={0.1}>
-              {MANAGEMENT.map((m) => (
-                <RevealItem key={m.name} className="team-leader-card">
-                  <div className="team-leader-photo-wrap">
-                    <img
-                      src={m.photo}
-                      alt={m.name}
-                      className="team-leader-photo"
-                      onError={(e) => { e.target.style.display = 'none'; }}
-                    />
-                  </div>
-                  <div className="team-leader-info">
-                    <h3 className="team-leader-name">{m.name}</h3>
-                    <p className="team-leader-title">{m.title}</p>
-                    <p className="team-leader-bio">{m.bio}</p>
+                  <div className="team-hero-info">
+                    <p className="team-hero-title">{m.title}</p>
+                    <h3 className="team-hero-name">{m.name}</h3>
+                    <p className="team-hero-bio">{m.bio}</p>
                   </div>
                 </RevealItem>
               ))}
@@ -188,6 +151,38 @@ export default function TeamPage() {
                   <div className="team-sales-info">
                     <h3 className="team-sales-name">{m.name}</h3>
                     <p className="team-sales-title">{m.title}</p>
+                  </div>
+                </RevealItem>
+              ))}
+            </RevealGroup>
+          </div>
+        </section>
+
+        {/* ── Construction Team ── */}
+        <section className="ip-section">
+          <div className="container">
+            <Reveal><p className="ip-label">Construction & Delivery</p></Reveal>
+            <Reveal delay={0.07}>
+              <h2 className="ip-section-h2">
+                Building what<br />
+                <span className="gold-word">we promise.</span>
+              </h2>
+            </Reveal>
+
+            <RevealGroup className="team-mgmt-grid" stagger={0.1}>
+              {CONSTRUCTION_TEAM.map((m) => (
+                <RevealItem key={m.name} className="team-leader-card">
+                  <div className="team-leader-photo-wrap">
+                    <img
+                      src={m.photo}
+                      alt={m.name}
+                      className="team-leader-photo"
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
+                  </div>
+                  <div className="team-leader-info">
+                    <h3 className="team-leader-name">{m.name}</h3>
+                    <p className="team-leader-title">{m.title}</p>
                   </div>
                 </RevealItem>
               ))}

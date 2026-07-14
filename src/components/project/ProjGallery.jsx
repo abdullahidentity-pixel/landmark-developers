@@ -112,28 +112,38 @@ export default function ProjGallery({ project }) {
           </div>
         ) : null}
 
-        {/* Render footage placeholder */}
-        <Reveal className="pj-footage-placeholder" y={24}>
-          <div className="pj-footage-card">
-            <div className="pj-footage-icon" aria-hidden="true">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="5 3 19 12 5 21 5 3"/>
-              </svg>
+        {/* 3D Renders & Video Walkthrough */}
+        {project.videoUrl ? (
+          <Reveal className="pj-video-block" y={24}>
+            <div className="pj-video-head">
+              <p className="pj-video-eyebrow">3D Walkthrough</p>
+              <p className="pj-video-title">Render footage &amp; video tour</p>
             </div>
-            <p className="pj-footage-title">Render Footage</p>
-            <p className="pj-footage-sub">
-              Contact Landmark Developers for the latest 3D walkthroughs and render videos of {project.displayName}.
-            </p>
-            <a
-              href={project.officialPage}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-glass"
-            >
-              Visit Official Page
-            </a>
-          </div>
-        </Reveal>
+            <div className="pj-video-frame">
+              <iframe
+                src={project.videoUrl}
+                title={`${project.displayName} — 3D render video tour`}
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </Reveal>
+        ) : (
+          <Reveal className="pj-footage-placeholder" y={24}>
+            <div className="pj-footage-card">
+              <div className="pj-footage-icon" aria-hidden="true">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+              </div>
+              <p className="pj-footage-title">Render Footage</p>
+              <p className="pj-footage-sub">
+                Contact Landmark Developers for the latest 3D walkthroughs and render videos of {project.displayName}.
+              </p>
+            </div>
+          </Reveal>
+        )}
       </div>
 
       {lbIndex !== null && (

@@ -291,6 +291,14 @@ button.btn { font-family: inherit; cursor: pointer; }
   border-radius: 12px;
   background: var(--glass);
   position: relative;
+  z-index: 101; /* stay above the mobile-menu overlay so the close affordance is always reachable/visible */
+  transition: background 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+/* Clearly readable close state — the plain bar-morph-to-X was too low-contrast
+   against the drawer's near-black backdrop to register as a "close" button. */
+.menu-toggle.is-open {
+  background: rgba(217, 184, 120, 0.12);
+  border-color: var(--gold);
 }
 .menu-toggle span {
   position: absolute;
@@ -299,8 +307,9 @@ button.btn { font-family: inherit; cursor: pointer; }
   height: 1.6px;
   background: var(--fg);
   border-radius: 2px;
-  transition: transform 0.35s var(--ease), opacity 0.25s var(--ease);
+  transition: transform 0.35s var(--ease), opacity 0.25s var(--ease), background 0.25s var(--ease);
 }
+.menu-toggle.is-open span { background: var(--gold); height: 2px; }
 .menu-toggle span:nth-child(1) { top: 16px; }
 .menu-toggle span:nth-child(2) { bottom: 16px; }
 .menu-toggle.is-open span:nth-child(1) { transform: translateY(5px) rotate(45deg); }
@@ -312,7 +321,6 @@ button.btn { font-family: inherit; cursor: pointer; }
   inset: 0;
   z-index: 99;
   background: rgba(8, 6, 4, 0.94);
-  backdrop-filter: blur(24px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -321,7 +329,14 @@ button.btn { font-family: inherit; cursor: pointer; }
   visibility: hidden;
   pointer-events: none;
   transform: translateY(-8px);
-  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), visibility 0.4s;
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0.3s;
+  overflow-y: auto;
+  touch-action: pan-y;
+}
+/* Heavy full-viewport blur is a common source of animation jank on mobile GPUs;
+   the near-opaque background is already legible without it. */
+@media (hover: hover) and (pointer: fine) {
+  .mobile-menu { backdrop-filter: blur(24px); }
 }
 .mobile-menu.is-open {
   opacity: 1;
@@ -971,7 +986,7 @@ section { position: relative; z-index: 2; }
 .field textarea {
   width: 100%;
   font-family: inherit;
-  font-size: 15px;
+  font-size: 16px;
   color: var(--fg);
   padding: 13px 15px;
   border-radius: 12px;
@@ -1329,9 +1344,18 @@ section { position: relative; z-index: 2; }
   .amenity-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-@media (max-width: 860px) {
+/* Was 860px — left a gap between here and the next real breakpoint (1024px)
+   where the full desktop nav had to squeeze into a narrower row with no wrap
+   guard, causing overlap/glitching on tablet widths (e.g. Samsung Tab
+   portrait, iPad Air/Mini). Raised to close that gap; InnerHeader (used on
+   About/inner pages) has one extra link + a longer CTA label so it needs the
+   hamburger even earlier than the homepage header. */
+@media (max-width: 1024px) {
   .nav, .header-cta { display: none; }
   .menu-toggle { display: block; }
+}
+
+@media (max-width: 860px) {
   .lead-inner { grid-template-columns: 1fr; }
   .lead-intro { position: static; }
   .location-inner { grid-template-columns: 1fr; }

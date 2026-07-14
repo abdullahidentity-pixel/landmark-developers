@@ -37,11 +37,10 @@ const YtIcon = () => (
 );
 
 const SOCIALS = [
-  { title: 'Facebook',  href: 'https://facebook.com',  from: '#1877F2', to: '#4fa3ff', Icon: FbIcon },
-  { title: 'Instagram', href: 'https://instagram.com', from: '#833AB4', to: '#E1306C', Icon: IgIcon },
-  { title: 'LinkedIn',  href: 'https://linkedin.com',  from: '#0A66C2', to: '#0099E5', Icon: LiIcon },
-  { title: 'TikTok',   href: 'https://tiktok.com',    from: '#69C9D0', to: '#EE1D52', Icon: TtIcon },
-  { title: 'YouTube',  href: 'https://youtube.com',   from: '#FF0000', to: '#ff6b6b', Icon: YtIcon },
+  { title: 'Facebook',  href: 'https://www.facebook.com/LandmarkDevelopersWorld',                                                                from: '#1877F2', to: '#4fa3ff', Icon: FbIcon },
+  { title: 'Instagram', href: 'https://www.instagram.com/landmarkdevelopersworld?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',   from: '#833AB4', to: '#E1306C', Icon: IgIcon },
+  { title: 'TikTok',   href: 'https://www.tiktok.com/@landmarkdevelopersworld?_r=1&_t=ZS-97wZhGPseQ8',                                          from: '#69C9D0', to: '#EE1D52', Icon: TtIcon },
+  { title: 'YouTube',  href: 'https://www.youtube.com/@LandmarkDevelopersWorld',                                                                 from: '#FF0000', to: '#ff6b6b', Icon: YtIcon },
 ];
 
 function SocialPills() {
@@ -100,15 +99,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Explore</h4>
             <ul>
-              {NAV_LINKS.map((l) => (
-                <li key={l.href}>
-                  {isHome ? (
-                    <a href={l.href}>{l.label}</a>
-                  ) : (
-                    <Link to={`/${l.href}`}>{l.label}</Link>
-                  )}
-                </li>
-              ))}
+              <li><Link to="/">Home</Link></li>
               <li><Link to="/projects">All Projects</Link></li>
               <li><Link to="/about">About Us</Link></li>
               <li><Link to="/team">Our Team</Link></li>

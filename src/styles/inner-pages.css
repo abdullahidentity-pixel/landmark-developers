@@ -157,7 +157,7 @@
   border: 1px solid var(--line);
   border-radius: 0.75rem;
   padding: 0.9rem 1.125rem;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   color: var(--fg);
   font-family: inherit;
   transition: border-color 0.25s, background 0.25s;
@@ -398,6 +398,7 @@
 .pss-wrap {
   /* height set via --pss-n custom property */
   height: calc(var(--pss-n, 5) * 100vh);
+  height: calc(var(--pss-n, 5) * 100dvh);
   position: relative;
 }
 
@@ -406,6 +407,7 @@
   position: sticky;
   top: 0;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background: var(--bg);
   border-top: 1px solid var(--line);
@@ -492,7 +494,7 @@
 /* Slides container — fixed height, holds absolutely-positioned slides */
 .pss-slides {
   position: relative;
-  height: clamp(260px, 36vh, 340px);
+  height: clamp(320px, 44vh, 420px);
   margin-bottom: 0;
   flex-shrink: 0;
 }
@@ -538,6 +540,14 @@
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.52);
   max-width: 42ch;
+  margin: 0;
+}
+
+.pss-slide-desc {
+  font-size: 0.875rem;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.4);
+  max-width: 46ch;
   margin: 0;
 }
 
@@ -649,7 +659,7 @@
   .pss-right { display: none; }   /* hide image column on narrow screens */
   .pss-left  { padding: 2rem 1.5rem 2rem; border-right: none; }
   .pss-top-bar { left: 1.5rem; right: 1.5rem; }
-  .pss-slides  { height: clamp(230px, 42vh, 300px); }
+  .pss-slides  { height: clamp(300px, 52vh, 400px); }
 }
 
 /* ============================================================
@@ -725,6 +735,93 @@
   margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
 }
 
+/* ── Leadership hero grid ── */
+.team-hero-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.team-hero-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(217, 184, 120, 0.2);
+  border-radius: 1.75rem;
+  overflow: hidden;
+  transition: border-color 0.35s var(--ease), transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  box-shadow: 0 0 0 0 rgba(217, 184, 120, 0);
+}
+
+.team-hero-card:hover {
+  border-color: rgba(217, 184, 120, 0.5);
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(217, 184, 120, 0.12);
+}
+
+.team-hero-photo-wrap {
+  position: relative;
+  width: 100%;
+  height: clamp(340px, 42vw, 520px);
+  overflow: hidden;
+  background: oklch(0.11 0.025 58);
+}
+
+.team-hero-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.6s var(--ease);
+}
+
+.team-hero-card:hover .team-hero-photo {
+  transform: scale(1.04);
+}
+
+.team-hero-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 45%,
+    rgba(10, 8, 5, 0.7) 100%
+  );
+  pointer-events: none;
+}
+
+.team-hero-info {
+  padding: 1.75rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.team-hero-title {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0;
+}
+
+.team-hero-name {
+  font-size: clamp(1.625rem, 2.5vw, 2.25rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+}
+
+.team-hero-bio {
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.52);
+  margin: 0;
+  max-width: 48ch;
+}
+
 /* ── Leadership grid ── */
 .team-leadership-grid {
   display: grid;
@@ -742,7 +839,7 @@
 .team-leader-card {
   display: flex;
   gap: 2rem;
-  align-items: flex-start;
+  align-items: center;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--line);
   border-radius: 1.5rem;
@@ -758,8 +855,8 @@
 
 .team-leader-photo-wrap {
   flex-shrink: 0;
-  width: 120px;
-  height: 140px;
+  width: 160px;
+  height: 195px;
   border-radius: 1rem;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.06);
@@ -827,7 +924,7 @@
 
 .team-sales-photo-wrap {
   width: 100%;
-  aspect-ratio: 3/3.5;
+  aspect-ratio: 3/3.8;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.05);
 }
@@ -1452,16 +1549,30 @@
 
   .team-dept-grid { grid-template-columns: 1fr; }
 
+  .team-hero-grid { grid-template-columns: 1fr; }
+  .team-hero-photo-wrap { height: clamp(280px, 70vw, 400px); }
+
   .team-leadership-grid { grid-template-columns: 1fr; }
 
   .team-leader-card {
-    flex-direction: row;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+    overflow: hidden;
   }
 
   .team-leader-photo-wrap {
-    width: 90px;
-    height: 108px;
+    width: 100%;
+    height: 260px;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid rgba(217, 184, 120, 0.18);
+    flex-shrink: 0;
+  }
+
+  .team-leader-info {
+    padding: 1.5rem;
+    justify-content: center;
   }
 }
 

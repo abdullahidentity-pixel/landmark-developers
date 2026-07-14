@@ -83,6 +83,18 @@ const FullScreenScrollFX = forwardRef(function FullScreenScrollFX(
   }, []);
   const motionOff = reduceMotion ?? prefersReduced;
 
+  // Touch/coarse-pointer devices (phones, tablets) already get the "pinned"
+  // visual for free from `.fx-fixed { position: sticky }` in fx.css. Letting
+  // GSAP's `pin` option ALSO take over — which replaces sticky with a JS-managed
+  // `position: fixed` recalculated every scroll tick — is what caused the
+  // stutter/"stuck" feeling while scrolling on mobile. So on coarse pointers we
+  // skip the GSAP pin (native sticky handles the visual) and just use
+  // ScrollTrigger as a lightweight progress reader to drive the crossfade.
+  const isCoarsePointer = useMemo(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches;
+  }, []);
+
   const tempWordBucket = useRef([]);
   const splitWords = (text) => {
     const words = text.split(/\s+/).filter(Boolean);
@@ -291,8 +303,8 @@ const FullScreenScrollFX = forwardRef(function FullScreenScrollFX(
       trigger: fs,
       start: 'top top',
       end: 'bottom bottom',
-      pin: fixed,
-      pinSpacing: true,
+      pin: isCoarsePointer ? false : fixed,
+      pinSpacing: !isCoarsePointer,
       onUpdate: (self) => {
         if (motionOff || isSnappingRef.current) return;
         const prog = self.progress;
@@ -327,7 +339,7 @@ const FullScreenScrollFX = forwardRef(function FullScreenScrollFX(
       stRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [total, initialIndex, motionOff, bgTransition, parallaxAmount]);
+  }, [total, initialIndex, motionOff, bgTransition, parallaxAmount, isCoarsePointer]);
 
   const next = () => goTo(index + 1);
   const prev = () => goTo(index - 1);

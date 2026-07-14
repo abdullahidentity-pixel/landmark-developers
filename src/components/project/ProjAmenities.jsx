@@ -7,9 +7,9 @@ const AMENITY_LABELS = {
   pool: 'Swimming Pool',
   spa: 'Spa',
   gym: 'Gymnasium',
-  rooftop: 'Rooftop Terrace',
+  rooftop: 'Rooftop Garden',
   lift: 'High-Speed Lifts',
-  shop: 'Commercial Outlets',
+  shop: 'Housekeeping Services',
   daycare: 'Daycare',
   game: 'Gaming Zone',
 };

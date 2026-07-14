@@ -25,9 +25,28 @@ export default function InnerHeader() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Locking scroll with `overflow: hidden` alone doesn't reliably stop
+  // touch-scroll/rubber-banding on iOS Safari — the page can still creep,
+  // which reads as the drawer being "stuck" mid-way while the user scrolls.
+  // Pinning body to a fixed position (and restoring the exact scroll offset
+  // on close) blocks background scroll completely on every mobile browser.
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    if (!open) return;
+    const scrollY = window.scrollY;
+    const { style } = document.body;
+    style.position = 'fixed';
+    style.top = `-${scrollY}px`;
+    style.left = '0';
+    style.right = '0';
+    style.overflow = 'hidden';
+    return () => {
+      style.position = '';
+      style.top = '';
+      style.left = '';
+      style.right = '';
+      style.overflow = '';
+      window.scrollTo(0, scrollY);
+    };
   }, [open]);
 
   return (
