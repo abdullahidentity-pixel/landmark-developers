@@ -6,7 +6,13 @@ const EASE = [0.22, 1, 0.36, 1];
 // Positive bottom margin pre-triggers the reveal while the section is still
 // below the fold, so content has finished animating in by the time the user
 // actually scrolls to it — instead of appearing to "pop in" or go missing.
-const VIEWPORT = { once: true, margin: '0px 0px 180px 0px' };
+// `once: false` is deliberate self-healing: on some real-world setups (smooth-scroll
+// libraries driving native scroll position, first-paint jank, slow asset load) the
+// IntersectionObserver can miss its very first check and whileInView never fires,
+// leaving content stuck at opacity:0 until a manual refresh. With `once: false`, any
+// later scroll that re-intersects the element re-checks and reveals it — the content
+// self-corrects instead of staying permanently invisible.
+const VIEWPORT = { once: false, margin: '0px 0px 180px 0px' };
 
 /**
  * Single element that fades + rises into view on scroll. Falls back to a plain,
