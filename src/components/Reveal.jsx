@@ -3,7 +3,10 @@ import { motion, useReducedMotion } from 'framer-motion';
 
 // Apple-style easing — long, soft settle.
 const EASE = [0.22, 1, 0.36, 1];
-const VIEWPORT = { once: true, margin: '0px 0px -12% 0px' };
+// Positive bottom margin pre-triggers the reveal while the section is still
+// below the fold, so content has finished animating in by the time the user
+// actually scrolls to it — instead of appearing to "pop in" or go missing.
+const VIEWPORT = { once: true, margin: '0px 0px 180px 0px' };
 
 /**
  * Single element that fades + rises into view on scroll. Falls back to a plain,
@@ -43,7 +46,7 @@ export const Reveal = forwardRef(function Reveal(
  * The children inherit the "hidden"/"show" variant state by name.
  */
 export const RevealGroup = forwardRef(function RevealGroup(
-  { as = 'div', stagger = 0.1, delayChildren = 0.04, className, children, ...rest },
+  { as = 'div', stagger = 0.06, delayChildren = 0.02, className, children, ...rest },
   ref
 ) {
   const reduce = useReducedMotion();
