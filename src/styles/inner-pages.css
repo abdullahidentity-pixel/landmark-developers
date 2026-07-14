@@ -657,7 +657,19 @@
     grid-template-columns: 1fr;
   }
   .pss-right { display: none; }   /* hide image column on narrow screens */
-  .pss-left  { padding: 2rem 1.5rem 2rem; border-right: none; }
+  .pss-left  {
+    padding: 2rem 1.5rem 2rem;
+    border-right: none;
+    /* Desktop uses `justify-content: flex-end` because the hidden .pss-right
+       image column visually balances the layout, so pinning slide content to
+       the bottom reads fine. On mobile .pss-right is gone and .pss-slides'
+       content height (~300-400px) is far shorter than the 100vh sticky
+       panel, so flex-end left a large dead gap at the TOP of the panel
+       (below the absolutely-positioned .pss-top-bar, which doesn't reserve
+       flow space) before any text appeared. Centering keeps the slide
+       vertically balanced in the panel regardless of content height. */
+    justify-content: center;
+  }
   .pss-top-bar { left: 1.5rem; right: 1.5rem; }
   .pss-slides  { height: clamp(300px, 52vh, 400px); }
 }
