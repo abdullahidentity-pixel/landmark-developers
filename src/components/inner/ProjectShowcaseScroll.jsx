@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PROJECTS_DATA } from '../../data/projects.js';
+
+gsap.registerPlugin(ScrollTrigger);
 
 /* ── Slide data pulled from the shared PROJECTS_DATA source ── */
 const SLIDES = PROJECTS_DATA.map((p) => ({
@@ -18,31 +22,46 @@ const N = SLIDES.length;
 
 export default function ProjectShowcaseScroll() {
   const [active, setActive] = useState(0);
-  const wrapRef = useRef(null);
+  const wrapRef   = useRef(null);
+  const stickyRef = useRef(null);
+  const activeRef = useRef(0);
 
-  /* ── Scroll listener: maps window.scrollY → active slide index ── */
+  /* ── GSAP ScrollTrigger pin (same mechanism as the homepage showcase) ──
+     Plain CSS `position: sticky` was being disabled on mobile by an ancestor
+     scroll container, so the panel scrolled away leaving huge empty gaps.
+     GSAP pins with `position: fixed`, which is immune to ancestor overflow,
+     so it holds the panel and crossfades image + text on every device. */
   useEffect(() => {
-    const handleScroll = () => {
-      const el = wrapRef.current;
-      if (!el) return;
+    const wrap   = wrapRef.current;
+    const sticky = stickyRef.current;
+    if (!wrap || !sticky) return;
 
-      const scrolled = -el.getBoundingClientRect().top;
-      const totalH   = el.offsetHeight - window.innerHeight;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      if (scrolled <= 0)       { setActive(0);     return; }
-      if (scrolled >= totalH)  { setActive(N - 1); return; }
+    const st = ScrollTrigger.create({
+      trigger: wrap,
+      start: 'top top',
+      end: 'bottom bottom',
+      pin: reduce ? false : sticky,
+      pinSpacing: false,          /* the tall .pss-wrap already provides the scroll length */
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        const i = Math.max(0, Math.min(N - 1, Math.floor(self.progress * N)));
+        if (i !== activeRef.current) {
+          activeRef.current = i;
+          setActive(i);
+        }
+      },
+    });
 
-      setActive(Math.min(N - 1, Math.floor((scrolled / totalH) * N)));
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    /* Also hook into Lenis if present */
-    if (window.__lenis) window.__lenis.on('scroll', handleScroll);
+    /* Recompute once images/fonts settle so start/end line up exactly. */
+    const refresh = () => ScrollTrigger.refresh();
+    window.addEventListener('load', refresh);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (window.__lenis) window.__lenis.off('scroll', handleScroll);
+      window.removeEventListener('load', refresh);
+      st.kill();
     };
   }, []);
 
@@ -53,7 +72,7 @@ export default function ProjectShowcaseScroll() {
 
     const totalH  = el.offsetHeight - window.innerHeight;
     const stepH   = totalH / N;
-    const targetY = el.offsetTop + stepH * i + 1;
+    const targetY = el.offsetTop + stepH * i + 2;
 
     if (window.__lenis) {
       window.__lenis.scrollTo(targetY, { duration: 1.2 });
@@ -65,7 +84,7 @@ export default function ProjectShowcaseScroll() {
   return (
     /* outer div creates the scroll canvas; CSS var drives height */
     <div ref={wrapRef} className="pss-wrap" style={{ '--pss-n': N }}>
-      <div className="pss-sticky">
+      <div className="pss-sticky" ref={stickyRef}>
         <div className="pss-grid">
 
           {/* ────────────── LEFT — text ────────────── */}

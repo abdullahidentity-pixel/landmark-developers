@@ -402,9 +402,12 @@
   position: relative;
 }
 
-/* Sticky inner panel */
+/* Pinned inner panel. GSAP ScrollTrigger pins this via position:fixed at
+   runtime (see ProjectShowcaseScroll.jsx); we intentionally do NOT use CSS
+   `position: sticky` here because ancestor scroll containers on mobile
+   disable it. Starts in normal flow at the top of the tall .pss-wrap. */
 .pss-sticky {
-  position: sticky;
+  position: relative;
   top: 0;
   height: 100vh;
   height: 100dvh;
