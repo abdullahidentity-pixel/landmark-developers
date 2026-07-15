@@ -1366,8 +1366,13 @@ section { position: relative; z-index: 2; }
 }
 
 @media (max-width: 600px) {
-  /* Prevent any horizontal overflow */
-  html, body { overflow-x: hidden; max-width: 100%; }
+  /* Prevent any horizontal overflow. Use `clip`, NOT `hidden`: `overflow-x:
+     hidden` forces the other axis to compute as `overflow-y: auto`, turning
+     html/body into a scroll container, which disables `position: sticky` for
+     descendants (breaking the About-page .pss scroll showcase pin on mobile).
+     `overflow-x: clip` clips horizontally without establishing a scroll
+     container, so sticky keeps working. */
+  html, body { overflow-x: clip; max-width: 100%; }
 
   .project-grid { grid-template-columns: 1fr; }
   .project-cell--1,
