@@ -666,7 +666,8 @@
     position: relative;
   }
 
-  /* Image column → full-bleed background layer */
+  /* Image column → full-bleed background layer. Dulled with a brightness
+     filter so it reads as a backdrop rather than competing with the text. */
   .pss-right {
     display: block;
     position: absolute;
@@ -674,6 +675,7 @@
     padding: 0;
     background: none;
     z-index: 0;
+    filter: brightness(0.5) saturate(1.02);
   }
   .pss-img-frame {
     width: 100%;
@@ -683,8 +685,8 @@
     box-shadow: none;
   }
 
-  /* Text column → sits above the image, content pinned to the bottom, with a
-     dark gradient scrim so the text stays legible over the render. */
+  /* Text column → sits above the image, content pinned to the bottom, over a
+     strong dark scrim (top + bottom) so every line stays clearly legible. */
   .pss-left {
     position: relative;
     z-index: 1;
@@ -692,10 +694,11 @@
     border-right: none;
     justify-content: flex-end;
     background: linear-gradient(180deg,
-      rgba(6,5,4,0.55) 0%,
-      rgba(6,5,4,0.15) 32%,
-      rgba(6,5,4,0.72) 70%,
-      rgba(6,5,4,0.92) 100%);
+      rgba(6,5,4,0.78) 0%,
+      rgba(6,5,4,0.45) 30%,
+      rgba(6,5,4,0.58) 55%,
+      rgba(6,5,4,0.9) 78%,
+      rgba(6,5,4,0.97) 100%);
   }
   .pss-top-bar { left: 1.5rem; right: 1.5rem; }
   .pss-slides  { height: clamp(300px, 46vh, 400px); }

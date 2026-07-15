@@ -262,7 +262,13 @@
   gap: 4px;
   font-size: 11px;
   color: rgba(246,241,233,0.6);
+  /* Allow the label to shrink and right-align instead of overflowing off the
+     card edge on narrow screens (the location was clipped on the featured card). */
+  min-width: 0;
+  flex-shrink: 1;
+  text-align: right;
 }
+.pjidx-card-location svg { flex-shrink: 0; }
 
 .pjidx-card-bottom {
   display: flex;
