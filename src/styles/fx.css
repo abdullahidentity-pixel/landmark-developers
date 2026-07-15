@@ -248,7 +248,11 @@
      resolves to the CROSS (horizontal) axis and shoves the eyebrow hard left.
      Re-center it, and trim the top clearance so it sits closer to the title. */
   .fx-header { padding-top: calc(70px + 1.5vh); flex: 0 0 auto; align-self: center; }
-  .fx-footer { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px) + 3vh); flex: 0 0 auto; }
+  /* Base `.fx-footer { align-self: end }` means "bottom" in the desktop grid, but
+     in this mobile flex-COLUMN it resolves to the horizontal cross axis and pins
+     the (content-width) footer to the RIGHT edge. Re-center it — same fix as the
+     header above. */
+  .fx-footer { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px) + 3vh); flex: 0 0 auto; align-self: center; text-align: center; }
 
   /* .fx-content is `position:absolute; inset:0` on desktop, which deliberately
      overlaps the header/footer's own box so the 3-col row can vertically center
