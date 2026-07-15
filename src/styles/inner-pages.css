@@ -653,25 +653,49 @@
 
 /* ── Responsive ── */
 @media (max-width: 860px) {
+  /* On mobile the two-column grid collapses. Previously .pss-right (the image)
+     was simply hidden, which (a) removed the imagery entirely and (b) left the
+     short text block floating in a tall, mostly-empty 100vh panel. Instead we
+     overlay the two children: the image column becomes a full-bleed background
+     and the text column sits on top of it, pinned to the bottom over a scrim. */
   .pss-grid {
     grid-template-columns: 1fr;
+    position: relative;
   }
-  .pss-right { display: none; }   /* hide image column on narrow screens */
-  .pss-left  {
-    padding: 2rem 1.5rem 2rem;
+
+  /* Image column → full-bleed background layer */
+  .pss-right {
+    display: block;
+    position: absolute;
+    inset: 0;
+    padding: 0;
+    background: none;
+    z-index: 0;
+  }
+  .pss-img-frame {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  /* Text column → sits above the image, content pinned to the bottom, with a
+     dark gradient scrim so the text stays legible over the render. */
+  .pss-left {
+    position: relative;
+    z-index: 1;
+    padding: 2rem 1.5rem 2.5rem;
     border-right: none;
-    /* Desktop uses `justify-content: flex-end` because the hidden .pss-right
-       image column visually balances the layout, so pinning slide content to
-       the bottom reads fine. On mobile .pss-right is gone and .pss-slides'
-       content height (~300-400px) is far shorter than the 100vh sticky
-       panel, so flex-end left a large dead gap at the TOP of the panel
-       (below the absolutely-positioned .pss-top-bar, which doesn't reserve
-       flow space) before any text appeared. Centering keeps the slide
-       vertically balanced in the panel regardless of content height. */
-    justify-content: center;
+    justify-content: flex-end;
+    background: linear-gradient(180deg,
+      rgba(6,5,4,0.55) 0%,
+      rgba(6,5,4,0.15) 32%,
+      rgba(6,5,4,0.72) 70%,
+      rgba(6,5,4,0.92) 100%);
   }
   .pss-top-bar { left: 1.5rem; right: 1.5rem; }
-  .pss-slides  { height: clamp(300px, 52vh, 400px); }
+  .pss-slides  { height: clamp(300px, 46vh, 400px); }
 }
 
 /* ============================================================
