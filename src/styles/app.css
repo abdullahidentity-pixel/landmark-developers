@@ -2307,8 +2307,36 @@ section { position: relative; z-index: 2; }
   background: rgba(217,184,120,0.08);
 }
 
+/* Embedded JotForm */
+.lm-embed {
+  margin-top: 4px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.lm-embed iframe { color-scheme: light; }
+
+.lm-download-fallback {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(217, 184, 120, 0.4);
+  background: rgba(217, 184, 120, 0.1);
+  color: var(--fg);
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.lm-download-fallback:hover {
+  background: rgba(217, 184, 120, 0.18);
+  border-color: rgba(217, 184, 120, 0.6);
+}
+
 /* Head */
-.lm-head { margin-bottom: 28px; }
+.lm-head { margin-bottom: 24px; }
 
 .lm-logo {
   margin-bottom: 20px;

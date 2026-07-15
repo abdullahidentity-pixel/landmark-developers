@@ -23,6 +23,11 @@ export const CONTACT = {
   mapsHref:
     'https://www.google.com/maps/search/?api=1&query=' +
     encodeURIComponent('Bahria Town Main Boulevard, Lahore'),
+  // JotForm "Landmark Developers Lead Capture" — submissions route to
+  // landmarkdevelopersworld@gmail.com via JotForm's own email notification.
+  // Every "Book" CTA opens this form inside the LeadModal.
+  bookingFormId: '261956599311064',
+  bookingFormHref: 'https://form.jotform.com/261956599311064',
 };
 
 export const NAV_LINKS = [

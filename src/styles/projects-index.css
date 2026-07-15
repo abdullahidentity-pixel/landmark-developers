@@ -706,7 +706,15 @@
 
 @media (max-width: 860px) {
   .pjidx-hero-title { font-size: clamp(2.4rem, 8vw, 3.6rem); }
-  .pjidx-card--featured { aspect-ratio: 4 / 3; }
+  /* On mobile every card stacks in one column, so the flagship should be the
+     SAME size as the rest — not the wide 21/8, 420px-tall desktop hero. The base
+     min-height:420px was still forcing it taller than its 4/3 siblings and
+     cropping the "Grand 15" content. Reset it to match. */
+  .pjidx-card--featured { aspect-ratio: 4 / 3; min-height: 0; }
+  /* Match the flagship's typography to the regular cards too, so the whole
+     stack reads as one consistent set on mobile. */
+  .pjidx-card--featured .pjidx-card-name { font-size: clamp(1.4rem, 2.5vw, 2rem); }
+  .pjidx-card--featured .pjidx-card-tagline { font-size: 14px; }
   .pjidx-cards-grid { grid-template-columns: 1fr; }
 
   /* Fix: preserve-3d breaks absolute-positioned images on Android/iOS WebKit */
