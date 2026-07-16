@@ -27,7 +27,7 @@ const LEADERSHIP = [
 ];
 
 const SALES_TEAM = [
-  { name: 'Naeem Ahson',        title: 'Director Sales',                     photo: '/team/muhammad-naeem.png' },
+  { name: 'Naeem Ahsan',        title: 'Director Sales',                     photo: '/team/muhammad-naeem.png' },
   { name: 'Sheikh Zahid',       title: 'Director Sales',                     photo: '/team/zahid.png' },
   { name: 'Ans Jamil',          title: 'Director Sales',                     photo: '/team/anas-jamil.png' },
   { name: 'Waqas Ayub',         title: 'Director Sales',                     photo: '/team/muhammad-waqas.png' },

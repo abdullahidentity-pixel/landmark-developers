@@ -7,6 +7,7 @@ import Footer from '../components/Footer.jsx';
 import InnerHeader from '../components/inner/InnerHeader.jsx';
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal.jsx';
 import { CONTACT } from '../data/site.js';
+import { deliverLead } from '../lib/leadDelivery.js';
 import '../styles/inner-pages.css';
 
 /* ── Data ─────────────────────────────────────────────────── */
@@ -95,14 +96,17 @@ export default function CareerPage() {
     if (!form.phone.trim()) errs.phone = 'Phone number is required';
     else if (form.phone.replace(/\D/g, '').length < 10) errs.phone = 'Enter a valid phone number';
     if (Object.keys(errs).length) { setErrors(errs); return; }
-    const msg =
-      `*Career Application — Landmark Developers*\n\n` +
-      `Name: ${form.name}\n` +
-      `Phone: ${form.phone}\n` +
-      `Email: ${form.email}\n` +
-      `Position: ${form.position || 'Open'}\n` +
-      `Message: ${form.message || '—'}`;
-    window.open(`https://wa.me/923210004000?text=${encodeURIComponent(msg)}`, '_blank');
+    // Deliver through BOTH channels: WhatsApp opens instantly + email to inbox.
+    deliverLead({
+      subject: 'Career Application',
+      from_name: 'Landmark Developers Website',
+      source: 'Careers page',
+      name: form.name.trim(),
+      phone: form.phone.trim(),
+      email: (form.email || '').trim(),
+      interest: form.position || 'Open position',
+      message: (form.message || '').trim(),
+    });
   };
 
   return (

@@ -37,6 +37,13 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Keep in-page anchor jumps (#contact, #projects, etc.) and any programmatic
+   scrollIntoView from landing under the 70px fixed header — the target heading
+   would otherwise be hidden beneath it. */
+html {
+  scroll-padding-top: 84px;
+}
+
 body {
   overflow-x: hidden;
 }

@@ -187,6 +187,10 @@
   transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition: transform 0.5s var(--ease), border-color 0.4s var(--ease), box-shadow 0.5s var(--ease);
   cursor: pointer;
+  /* Skip render/decode work for offscreen cards. Heavy hero renders were all
+     kept on live GPU layers, so iOS evicted them on scroll-up → blank screen. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 420px;
 }
 .pjidx-card:hover {
   border-color: rgba(240,212,155,0.3);
@@ -203,9 +207,13 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.8s var(--ease);
+}
+/* Only promote to a GPU layer during the hover zoom (desktop) — a permanent
+   will-change kept every heavy image layered, exhausting iOS layer memory. */
+.pjidx-card:hover .pjidx-card-bg img {
+  transform: scale(1.04);
   will-change: transform;
 }
-.pjidx-card:hover .pjidx-card-bg img { transform: scale(1.04); }
 .pjidx-card-overlay {
   position: absolute;
   inset: 0;

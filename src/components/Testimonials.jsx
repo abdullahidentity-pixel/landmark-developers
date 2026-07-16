@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { TESTIMONIALS } from '../data/testimonials.js';
 
 /* ── Gold Google-style verify badge ── */
@@ -69,8 +69,51 @@ export default function Testimonials() {
   const r1 = row1.length ? row1 : TESTIMONIALS;
   const r2 = row2.length ? row2 : TESTIMONIALS;
 
+  // The two marquee rows are continuously-animating composited layers. On iOS
+  // a running CSS animation competes with the scroll compositor, so scrolling
+  // *through* this section felt slow, and left running for the whole page they
+  // added drag everywhere else too. Rule: only animate when the section is on
+  // screen AND the user isn't actively scrolling. The marquee resumes ~180ms
+  // after scrolling settles, so the effect is fully visible at rest but never
+  // fights a scroll gesture. Disabled entirely under reduced-motion.
+  const sectionRef = useRef(null);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const tracks = el.querySelectorAll('.testi-m-track');
+    const setState = (s) => tracks.forEach((t) => { t.style.animationPlayState = s; });
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setState('paused');
+    if (reduce) return;
+
+    let visible = false;
+    let scrolling = false;
+    let scrollTimer = 0;
+    const apply = () => setState(visible && !scrolling ? 'running' : 'paused');
+
+    const io = new IntersectionObserver(
+      ([entry]) => { visible = entry.isIntersecting; apply(); },
+      { rootMargin: '100px 0px' }
+    );
+    io.observe(el);
+
+    const onScroll = () => {
+      if (!scrolling) { scrolling = true; apply(); }
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => { scrolling = false; apply(); }, 180);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      io.disconnect();
+      window.removeEventListener('scroll', onScroll);
+      clearTimeout(scrollTimer);
+    };
+  }, []);
+
   return (
-    <section className="testimonials" id="testimonials">
+    <section className="testimonials" id="testimonials" ref={sectionRef}>
       <div className="container">
         <div className="section-head">
           <p className="eyebrow">Client Stories</p>

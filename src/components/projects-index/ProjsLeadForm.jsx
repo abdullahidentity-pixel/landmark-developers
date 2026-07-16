@@ -3,6 +3,7 @@ import { Reveal, RevealGroup, RevealItem } from '../Reveal.jsx';
 import MagneticButton from '../MagneticButton.jsx';
 import { PhoneIcon, WhatsAppIcon } from '../Icons.jsx';
 import { CONTACT } from '../../data/site.js';
+import { deliverLead } from '../../lib/leadDelivery.js';
 import { PROJECTS_DATA } from '../../data/projects.js';
 
 const INTEREST_OPTIONS = [
@@ -42,13 +43,17 @@ export default function ProjsLeadForm() {
       ev.currentTarget.querySelector(`[name="${Object.keys(e)[0]}"]`)?.focus();
       return;
     }
-    const text =
-      `Project recommendation request%0A` +
-      `Name: ${values.name}%0APhone: ${values.phone}%0A` +
-      `Preferred project: ${values.project || 'Not specified'}%0A` +
-      `Investment interest: ${values.interest || 'Not specified'}%0A` +
-      `Message: ${values.message || '—'}`;
-    window.open(`${CONTACT.whatsappHref}?text=${text}`, '_blank', 'noopener');
+    // Deliver through BOTH channels: WhatsApp opens instantly + email to inbox.
+    deliverLead({
+      subject: 'Project Recommendation Request',
+      from_name: 'Landmark Developers Website',
+      source: 'All Projects — recommendation',
+      name: values.name.trim(),
+      phone: values.phone.trim(),
+      project: values.project || 'Not specified',
+      interest: values.interest || 'Not specified',
+      message: values.message.trim(),
+    });
     setSent(true);
     setValues(EMPTY);
   };

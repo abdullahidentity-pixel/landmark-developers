@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Reveal, RevealGroup, RevealItem } from './Reveal.jsx';
 import { PhoneIcon, WhatsAppIcon } from './Icons.jsx';
 import { CONTACT, PROJECT_OPTIONS, UNIT_OPTIONS } from '../data/site.js';
+import { deliverLead } from '../lib/leadDelivery.js';
 
 const EMPTY = { name: '', phone: '', project: '', unit: '', message: '' };
 
@@ -34,15 +35,17 @@ export default function LeadForm() {
       first?.focus();
       return;
     }
-    // No backend in this build — hand the qualified lead straight to WhatsApp.
-    const text =
-      `New investment enquiry%0A` +
-      `Name: ${values.name}%0A` +
-      `Phone: ${values.phone}%0A` +
-      `Project: ${values.project}%0A` +
-      `Unit: ${values.unit || '—'}%0A` +
-      `Message: ${values.message || '—'}`;
-    window.open(`${CONTACT.whatsappHref}?text=${text}`, '_blank', 'noopener');
+    // Deliver through BOTH channels: WhatsApp opens instantly + email to inbox.
+    deliverLead({
+      subject: 'New Investment Enquiry',
+      from_name: 'Landmark Developers Website',
+      source: 'Contact section',
+      name: values.name.trim(),
+      phone: values.phone.trim(),
+      project: values.project,
+      unit: values.unit,
+      message: values.message.trim(),
+    });
     setSent(true);
     setValues(EMPTY);
   };

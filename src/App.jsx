@@ -24,11 +24,38 @@ function ScrollToTop() {
   return null;
 }
 
+/* While a form control is focused (soft keyboard open on mobile), flag the body
+   so the fixed bottom CTA bar can slide out of the way — otherwise it covers the
+   inputs and the submit button. Pure focus tracking: no body scroll lock, no
+   manual scroll repositioning, so opening/closing the keyboard doesn't jump the
+   page to another section. */
+function KeyboardAwareChrome() {
+  useEffect(() => {
+    const isField = (el) =>
+      el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT');
+    const onFocusIn = (e) => {
+      if (isField(e.target)) document.body.classList.add('kb-open');
+    };
+    const onFocusOut = (e) => {
+      if (isField(e.target)) document.body.classList.remove('kb-open');
+    };
+    document.addEventListener('focusin', onFocusIn);
+    document.addEventListener('focusout', onFocusOut);
+    return () => {
+      document.removeEventListener('focusin', onFocusIn);
+      document.removeEventListener('focusout', onFocusOut);
+      document.body.classList.remove('kb-open');
+    };
+  }, []);
+  return null;
+}
+
 export default function App() {
   return (
     <LeadModalProvider>
       <BrowserRouter>
         <ScrollToTop />
+        <KeyboardAwareChrome />
         <LeadModal />
         <Routes>
           <Route path="/"            element={<Home />} />

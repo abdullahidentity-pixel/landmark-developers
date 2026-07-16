@@ -7,6 +7,7 @@ import Footer from '../components/Footer.jsx';
 import InnerHeader from '../components/inner/InnerHeader.jsx';
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal.jsx';
 import { CONTACT } from '../data/site.js';
+import { deliverLead } from '../lib/leadDelivery.js';
 import '../styles/inner-pages.css';
 
 const PROJECT_OPTIONS = [
@@ -97,13 +98,16 @@ export default function ContactPage() {
     if (!form.phone.trim()) errs.phone = 'Phone number is required';
     else if (form.phone.replace(/\D/g, '').length < 10) errs.phone = 'Enter a valid phone number';
     if (Object.keys(errs).length) { setErrors(errs); return; }
-    const msg =
-      `*New Enquiry — Landmark Developers Website*\n\n` +
-      `Name: ${form.name}\n` +
-      `Phone: ${form.phone}\n` +
-      `Interested In: ${form.project || 'Not specified'}\n` +
-      `Message: ${form.message || '—'}`;
-    window.open(`https://wa.me/923210004000?text=${encodeURIComponent(msg)}`, '_blank');
+    // Deliver through BOTH channels: WhatsApp opens instantly + email to inbox.
+    deliverLead({
+      subject: 'New Enquiry',
+      from_name: 'Landmark Developers Website',
+      source: 'Contact page',
+      name: form.name.trim(),
+      phone: form.phone.trim(),
+      project: form.project || 'Not specified',
+      message: (form.message || '').trim(),
+    });
   };
 
   return (

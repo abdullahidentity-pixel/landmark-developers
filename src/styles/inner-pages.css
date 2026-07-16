@@ -675,7 +675,10 @@
     padding: 0;
     background: none;
     z-index: 0;
-    filter: brightness(0.5) saturate(1.02);
+    /* Was brightness(0.5) — so dark it made the upper half of the panel read as
+       an empty black screen. Lift it so the render fills that space as real
+       atmosphere; the text scrim below still guarantees legibility. */
+    filter: brightness(0.66) saturate(1.04);
   }
   .pss-img-frame {
     width: 100%;
@@ -692,16 +695,33 @@
     z-index: 1;
     padding: 2rem 1.5rem 2.5rem;
     border-right: none;
-    justify-content: flex-end;
+    /* Center the text block in the panel instead of pinning it hard to the
+       bottom. Pinned-to-bottom left one tall dead band between the top counter
+       and the text; centering splits that space and — with the lighter scrim +
+       backdrop below — the leftover reads as image, not emptiness. */
+    justify-content: center;
+    /* Lighter at the top so the render shows through the upper band (no more
+       black void), still opaque toward the bottom where the CTA/location sit. */
     background: linear-gradient(180deg,
-      rgba(6,5,4,0.78) 0%,
-      rgba(6,5,4,0.45) 30%,
-      rgba(6,5,4,0.58) 55%,
-      rgba(6,5,4,0.9) 78%,
-      rgba(6,5,4,0.97) 100%);
+      rgba(6,5,4,0.30) 0%,
+      rgba(6,5,4,0.22) 26%,
+      rgba(6,5,4,0.42) 52%,
+      rgba(6,5,4,0.86) 82%,
+      rgba(6,5,4,0.95) 100%);
   }
   .pss-top-bar { left: 1.5rem; right: 1.5rem; }
   .pss-slides  { height: clamp(300px, 46vh, 400px); }
+
+  /* On desktop this text sits on a solid dark column, so the dimmed greys
+     (40–52% white) read fine. On mobile it sits over the render, where those
+     greys wash out and become hard to read. Force white and add a soft shadow
+     so every line stays legible over any part of the image. */
+  .pss-slide-name    { color: #fff; text-shadow: 0 2px 18px rgba(0,0,0,0.65); }
+  .pss-slide-tagline { color: rgba(255,255,255,0.92); text-shadow: 0 1px 12px rgba(0,0,0,0.6); }
+  .pss-slide-desc    { color: rgba(255,255,255,0.86); text-shadow: 0 1px 12px rgba(0,0,0,0.6); }
+  .pss-slide-loc     { color: rgba(255,255,255,0.85); text-shadow: 0 1px 10px rgba(0,0,0,0.6); }
+  .pss-slide-badge   { opacity: 1; text-shadow: 0 1px 10px rgba(0,0,0,0.6); }
+  .pss-bottom-label  { color: rgba(255,255,255,0.55); }
 }
 
 /* ============================================================
@@ -1222,6 +1242,13 @@
   aspect-ratio: 4/3.2;
   position: relative;
   background: rgba(255, 255, 255, 0.03);
+  /* iOS Safari won't clip the <iframe> to these rounded corners while scrolling,
+     so the map overlaps the form above it. A solid mask (no fade) + an isolated
+     stacking context makes Safari respect the rounded clip. */
+  -webkit-mask-image: -webkit-linear-gradient(#fff, #fff);
+  mask-image: linear-gradient(#fff, #fff);
+  isolation: isolate;
+  transform: translateZ(0);
 }
 
 .contact-map-frame iframe {
@@ -1571,6 +1598,23 @@
   }
   .about-tl-item--left::after { display: none; }
   .about-tl-item--right { padding-right: 0; padding-top: clamp(2.5rem, 5vw, 4rem); }
+
+  /* ── Phone spacing: the inner pages use desktop-scale whitespace (80px+
+     section padding, 48–72px item padding, big heading margins). On a phone
+     that stacks into tall, mostly-empty bands — the "empty screen" reported on
+     iOS. Compact it so each section reads as a tight, full block. ── */
+  .ip-section { padding: clamp(3rem, 9vw, 4.5rem) 0; }
+  .ip-section-h2 { margin-bottom: clamp(1.75rem, 6vw, 2.5rem); }
+  .ip-hero {
+    min-height: 56vh;
+    min-height: 56dvh;
+    padding-top: clamp(7rem, 20vw, 9rem);
+    padding-bottom: clamp(2.5rem, 8vw, 4rem);
+  }
+  /* Timeline entries were ~357px tall holding ~120px of text. Compact them. */
+  .about-tl-item { padding: 1.25rem 0; gap: 0.75rem; }
+  .about-tl-item--left { padding-top: 0; padding-bottom: 1.75rem; }
+  .about-tl-item--right { padding-bottom: 0; }
 
   .about-stats-grid {
     grid-template-columns: repeat(2, 1fr);

@@ -23,11 +23,13 @@ export const CONTACT = {
   mapsHref:
     'https://www.google.com/maps/search/?api=1&query=' +
     encodeURIComponent('Bahria Town Main Boulevard, Lahore'),
-  // JotForm "Landmark Developers Lead Capture" — submissions route to
-  // landmarkdevelopersworld@gmail.com via JotForm's own email notification.
-  // Every "Book" CTA opens this form inside the LeadModal.
-  bookingFormId: '261956599311064',
-  bookingFormHref: 'https://form.jotform.com/261956599311064',
+  // Lead email — every booking / download form submission is emailed here.
+  leadEmail: 'landmarkdevelopersworld@gmail.com',
+  // Web3Forms access key — free service that emails each lead straight to the
+  // inbox above. Get a key at https://web3forms.com (enter that Gmail address;
+  // the key arrives in that inbox), then paste it below. Until it's a real key,
+  // the form falls back to opening WhatsApp with the lead's details prefilled.
+  web3formsKey: '34644f5a-6910-4fd7-9cee-b95a8215d06d',
 };
 
 export const NAV_LINKS = [

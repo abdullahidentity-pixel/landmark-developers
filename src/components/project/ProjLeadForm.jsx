@@ -3,6 +3,7 @@ import { Reveal, RevealGroup, RevealItem } from '../Reveal.jsx';
 import MagneticButton from '../MagneticButton.jsx';
 import { PhoneIcon, WhatsAppIcon } from '../Icons.jsx';
 import { CONTACT, UNIT_OPTIONS } from '../../data/site.js';
+import { deliverLead } from '../../lib/leadDelivery.js';
 
 const EMPTY = { name: '', phone: '', unit: '', message: '' };
 
@@ -33,11 +34,17 @@ export default function ProjLeadForm({ project }) {
       ev.currentTarget.querySelector(`[name="${Object.keys(e)[0]}"]`)?.focus();
       return;
     }
-    const text =
-      `Investment enquiry%0AProject: ${project.displayName}%0A` +
-      `Name: ${values.name}%0APhone: ${values.phone}%0A` +
-      `Unit: ${values.unit || '—'}%0AMessage: ${values.message || '—'}`;
-    window.open(`${CONTACT.whatsappHref}?text=${text}`, '_blank', 'noopener');
+    // Deliver through BOTH channels: WhatsApp opens instantly + email to inbox.
+    deliverLead({
+      subject: `Project Enquiry — ${project.displayName}`,
+      from_name: 'Landmark Developers Website',
+      source: `Project page: ${project.displayName}`,
+      name: values.name.trim(),
+      phone: values.phone.trim(),
+      project: project.displayName,
+      unit: values.unit,
+      message: values.message.trim(),
+    });
     setSent(true);
     setValues(EMPTY);
   };

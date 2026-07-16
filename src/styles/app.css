@@ -1015,6 +1015,13 @@ section { position: relative; z-index: 2; }
 
 /* ============ Location ============ */
 .location {
+  position: relative;
+  /* Clip the oversized decorative .section-watermark to this section. It is
+     absolutely positioned and 19vw wide with white-space:nowrap, so without a
+     positioned + clipped host it escapes to the viewport and causes horizontal
+     overflow on mobile. `clip` contains it without creating a scroll container
+     (so sticky descendants keep working). */
+  overflow: clip;
   padding: clamp(80px, 13vw, 150px) 0;
   background: #050403;
 }
@@ -1043,6 +1050,13 @@ section { position: relative; z-index: 2; }
   overflow: hidden;
   border: 1px solid var(--line);
   background: #0d0a07;
+  /* iOS Safari doesn't clip an <iframe> to a rounded, overflow:hidden box while
+     scrolling — the map bleeds over the form/section above it. A solid mask (no
+     fade) + an isolated stacking context makes Safari respect the rounded clip. */
+  -webkit-mask-image: -webkit-linear-gradient(#fff, #fff);
+  mask-image: linear-gradient(#fff, #fff);
+  isolation: isolate;
+  transform: translateZ(0);
 }
 .location-map-iframe {
   position: absolute;
@@ -1052,6 +1066,13 @@ section { position: relative; z-index: 2; }
   border: none;
   display: block;
   filter: grayscale(0.3) contrast(0.95);
+}
+/* On ANY touch device (phones + tablets), the live map must not capture the
+   scroll gesture — otherwise dragging over it pans the map and the page feels
+   stuck. Desktop (fine pointer) keeps the interactive map. Interaction on touch
+   is via the "Open in Google Maps" tag / "Get Directions" button. */
+@media (pointer: coarse) {
+  .location-map-iframe { pointer-events: none; }
 }
 .map-tag {
   position: absolute;
@@ -1076,6 +1097,9 @@ section { position: relative; z-index: 2; }
 
 /* ============ Final CTA ============ */
 .final-cta {
+  position: relative;
+  /* Contain the centered .section-watermark (see .location note). */
+  overflow: clip;
   padding: clamp(100px, 16vw, 200px) 0;
   text-align: center;
   background: radial-gradient(120% 90% at 50% 110%, #2a1d0a 0%, #0c0805 55%, #050403 100%);
@@ -1228,9 +1252,17 @@ section { position: relative; z-index: 2; }
   display: none;
   gap: 10px;
   padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
-  background: rgba(8, 6, 4, 0.86);
-  backdrop-filter: blur(18px);
+  /* Opaque, not glass: a fixed backdrop-filter re-blurs the entire scrolling
+     page behind it on every frame on iOS — page-wide scroll jank. Solid bar
+     looks the same over dark content and lets scrolling stay smooth. */
+  background: #0a0705;
   border-top: 1px solid var(--line);
+  transition: transform 0.28s var(--ease);
+}
+/* When a form field is focused (soft keyboard up), slide the bar off-screen so
+   it never covers the active input or the submit button. Restores on blur. */
+body.kb-open .mobile-cta-bar {
+  transform: translateY(120%);
 }
 .mcta {
   flex: 1;
@@ -1389,12 +1421,44 @@ section { position: relative; z-index: 2; }
   .hero-cta .btn, .cta-actions .btn, .amenities-cta .btn { width: 100%; }
   .mobile-cta-bar { display: flex; }
   .fab-whatsapp { display: none; }
+  /* Hero decorative layers: the aurora carries a 26px blur AND a never-ending
+     drift animation, so iOS re-composites a full-screen blurred layer every
+     frame even at rest — a constant drain that makes the top of the page heavy
+     to scroll. The radial gradients are already soft, so drop the blur and stop
+     the animation on phones. */
+  .hero-mesh { filter: none; }
+  .hero-aurora { filter: none; animation: none; opacity: 0.7; }
+  /* CTA "breathing" glow animates box-shadow, which forces a full repaint of
+     each primary button every frame. There are ~12 primary buttons across the
+     page (lead form, project cards, final CTA), so on iOS every scroll frame
+     repaints a stack of large blurred shadows — the page feels heavy and
+     "won't go down", and the pulsing reads as a flicker/flashback near the
+     lead form and final CTA. Keep the static shadow, drop the animation on
+     phones. Desktop keeps the breathing glow. */
+  .btn-primary { animation: none; }
   /* Lift fixed bars clear of the sticky CTA bar */
   main { padding-bottom: 0; }
   .footer { padding-bottom: calc(50px + 76px + env(safe-area-inset-bottom)); }
+  /* Sticky header: opaque instead of glass on mobile. A fixed backdrop-filter
+     re-blurs the whole page behind it every scroll frame on iOS — jank right
+     "from the beginning" at the top. Desktop keeps the glass look. */
+  .site-header.is-scrolled {
+    background: rgba(10, 8, 6, 0.96);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
   /* Neutralise pointer tilt on touch */
   .project-card { transform: none !important; }
   .project-card-inner { transform: none; }
+  /* The "NOW SELLING" badge used backdrop-filter over the project image; iOS
+     re-rasterises that live blur on every momentum-scroll frame (×5 cards),
+     which is what makes the Projects section stutter/stop while scrolling.
+     Its background is already ~opaque, so drop the blur — no visual change. */
+  .project-status-badge {
+    background: rgba(8, 6, 4, 0.92);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 
   /* ── Hero stats: force 3-column grid so no wrapping ── */
   .hero-stats {
@@ -1409,12 +1473,38 @@ section { position: relative; z-index: 2; }
 
   /* ── Hero cards: keep 2-col layout ── */
   .hero-cards { gap: 8px; margin-top: 14px; }
-  .hero-card { min-width: 0; flex: 1 1 calc(50% - 8px); }
+  /* The translucent dark cards used `backdrop-filter: blur()`, which iOS
+     re-rasterises every scroll frame during momentum — the source of the
+     "stutter at the top that clears once past" on iPhone. Make them opaque
+     so there's nothing live to blur. */
+  .hero-card {
+    min-width: 0;
+    flex: 1 1 calc(50% - 8px);
+    background: #14100a;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 
   /* ── Location map: tighter height on mobile ── */
   .location-map { height: 240px; border-radius: 18px; }
   .location-timing { font-size: 13px; }
   .location-address { font-size: 15px; }
+  /* A CSS filter on an <iframe> forces iOS to re-composite the map's contents
+     every scroll frame, and a live backdrop-blur over it compounds it — the
+     "screen breaks near the map" while scrolling up/down. Drop both on mobile;
+     the map just renders in full colour, which is fine. */
+  .location-map-iframe { filter: none; }
+  /* The live Google Maps embed captures touch: a finger dragging over it pans
+     the map instead of scrolling the page, so the page feels "stuck" at the
+     map. Make the iframe non-interactive on touch devices — it still shows the
+     location, and users open the interactive map via the "Open in Google Maps"
+     tag or the "Get Directions" button (both sit outside the iframe). */
+  .location-map-iframe { pointer-events: none; }
+  .map-tag {
+    background: rgba(10, 8, 6, 0.94);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 /* ------- Pinned project showcase (FullScreenScrollFX) ------- */
@@ -1446,6 +1536,7 @@ section { position: relative; z-index: 2; }
   height: 44vh;
   margin-top: 6vh;
 }
+
 
 /* Inactive labels — clean white at low opacity */
 .showcase .fx-item {
@@ -2186,6 +2277,11 @@ section { position: relative; z-index: 2; }
   .testi-m-role { font-size: 0.67rem; }
   .testi-m-quote { font-size: 0.79rem; -webkit-line-clamp: 4; }
   .testi-m-stars svg { width: 10px; height: 10px; }
+  /* Promote the moving track to its own compositor layer so iOS animates it on
+     the GPU instead of repainting the (2400px-wide) strip of cards on the main
+     thread every scroll frame. Keeps the marquee effect, removes the drag it
+     otherwise puts on scrolling through the testimonials. */
+  .testi-m-track { will-change: transform; transform: translateZ(0); backface-visibility: hidden; }
   .testi-marquee { gap: 8px; margin-top: 28px; }
   .testi-bottom { margin-top: 32px; }
   .testi-agg-score { font-size: 1.6rem; }
@@ -2452,7 +2548,7 @@ section { position: relative; z-index: 2; }
   gap: 8px;
   width: 100%;
   padding: 14px 24px;
-  margin-top: 4px;
+  margin-top: 8px;
   background: var(--gold);
   color: oklch(10% 0.02 60);
   border: none;
@@ -2462,6 +2558,14 @@ section { position: relative; z-index: 2; }
   font-family: inherit;
   cursor: pointer;
   transition: background 0.22s, transform 0.15s, opacity 0.2s;
+  /* Keep the primary action pinned in view while the long form scrolls
+     inside the modal — the panel-coloured band masks fields behind it. */
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  box-shadow:
+    0 0 0 8px oklch(11% 0.012 60),
+    0 -18px 22px 14px oklch(11% 0.012 60);
 }
 .lm-submit:hover:not(:disabled) {
   background: var(--gold-bright, #f0d49b);

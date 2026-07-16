@@ -13,6 +13,13 @@ import '../styles/fx.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// iOS Safari shows/hides its address bar as you scroll, which changes the
+// dvh-based stage height. Left unchecked, ScrollTrigger treats every toolbar
+// toggle as a resize and refreshes mid-scroll — the pinned stage (and the
+// form / map / testimonials after it) visibly jump ("screen breaks"). Telling
+// ScrollTrigger to ignore the mobile resize keeps the pin stable while scrolling.
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 
 /**
@@ -287,6 +294,12 @@ const FullScreenScrollFX = forwardRef(function FullScreenScrollFX(
     computePositions();
     measureAndCenterLists(index, false);
 
+    // NOTE: intentionally NO ScrollTrigger `snap` here. On iOS the momentum
+    // (rubber-band) scroll keeps decelerating after the finger lifts; a snap
+    // tween tries to seize the scroll position mid-momentum and the two fight
+    // each other — the "mixing with speed / not controlling" jitter, in both
+    // directions. Letting native scroll own the motion (with the crossfade in
+    // onUpdate riding along) is what actually feels smooth and controlled.
     const st = ScrollTrigger.create({
       trigger: fs,
       start: 'top top',
@@ -314,10 +327,19 @@ const FullScreenScrollFX = forwardRef(function FullScreenScrollFX(
       requestAnimationFrame(() => goTo(initialIndex, false));
     }
 
+    // Only a WIDTH change is a real layout change worth a ScrollTrigger.refresh().
+    // A height-only change on mobile is almost always the address bar toggling
+    // during scroll; refreshing then is exactly what makes the pinned section
+    // jump. Recompute the cheap track positions always, but gate the refresh.
+    let lastW = typeof window !== 'undefined' ? window.innerWidth : 0;
     const ro = new ResizeObserver(() => {
       computePositions();
       measureAndCenterLists(lastIndexRef.current, false);
-      ScrollTrigger.refresh();
+      const w = window.innerWidth;
+      if (w !== lastW) {
+        lastW = w;
+        ScrollTrigger.refresh();
+      }
     });
     ro.observe(fs);
 
@@ -380,7 +402,8 @@ const FullScreenScrollFX = forwardRef(function FullScreenScrollFX(
     '--fx-gap': `${gap}rem`,
     '--fx-grid-px': `${gridPaddingX}rem`,
     '--fx-row-gap': '10px',
-    '--fx-stage-h': Math.max(1, total + 1) * 100,
+    // One viewport of scroll per section — no extra trailing empty screen.
+    '--fx-stage-h': Math.max(1, total) * 100,
   };
 
   return (
@@ -411,6 +434,8 @@ const FullScreenScrollFX = forwardRef(function FullScreenScrollFX(
                         src={s.background}
                         alt=""
                         className="fx-bg-img"
+                        decoding="async"
+                        fetchpriority={i === 0 ? 'high' : 'low'}
                       />
                       <div className="fx-bg-overlay" />
                     </>

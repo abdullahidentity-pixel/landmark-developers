@@ -32,7 +32,7 @@ export default function Hero() {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) return;
 
-    gsap.set(['.hero-kicker', '.hero-sub'], { opacity: 0, y: 24 });
+    gsap.set('.hero-sub', { opacity: 0, y: 24 });
     gsap.set('.hero-line span', { opacity: 0, yPercent: 120 });
     gsap.set('.hero-cta > *', { opacity: 0, y: 20 });
     gsap.set('.hero-stat', { opacity: 0, y: 18 });
@@ -43,17 +43,23 @@ export default function Hero() {
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
     tl.to('.hero-watermark', { opacity: 1, duration: 1.6 })
       .to('.scene-wrap', { opacity: 1, scale: 1, duration: 1.4 }, '-=1.4')
-      .to('.hero-kicker', { opacity: 1, y: 0, duration: 0.8 }, '-=1.1')
-      .to('.hero-line span', { opacity: 1, yPercent: 0, duration: 1.1, stagger: 0.12 }, '-=0.6')
+      .to('.hero-line span', { opacity: 1, yPercent: 0, duration: 1.1, stagger: 0.12 }, '-=1.1')
       .to('.hero-sub', { opacity: 1, y: 0, duration: 0.9 }, '-=0.7')
       .to('.hero-cta > *', { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 }, '-=0.6')
       .to('.hero-card', { opacity: 1, y: 0, rotateX: 0, duration: 0.9, stagger: 0.12 }, '-=0.7')
       .to('.hero-stat', { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 }, '-=0.6');
   }, []);
 
-  // Scroll-driven parallax in a revertable context.
+  // Scroll-driven parallax in a revertable context. Desktop only: `scrub` ties
+  // the tween to scroll position, but iOS delivers momentum scroll in bursts,
+  // so the parallax lurches instead of tracking — a visible stutter at the top
+  // of the page. Desktop (Lenis) feeds a smooth continuous signal, so it's fine
+  // there. On touch we simply leave the hero static.
   useEffect(() => {
     const el = root.current;
+    const fine = window.matchMedia('(min-width: 861px) and (pointer: fine)').matches;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!fine || reduce) return;
     const ctx = gsap.context(() => {
       gsap.to('.hero-content', {
         yPercent: -14,

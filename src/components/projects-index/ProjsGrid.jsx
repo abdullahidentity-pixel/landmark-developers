@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTilt } from '../../hooks/useTilt.js';
 import { Reveal, RevealGroup, RevealItem } from '../Reveal.jsx';
@@ -8,7 +8,9 @@ const EASE = [0.22, 1, 0.36, 1];
 
 function ProjectCard({ project, featured = false }) {
   const tilt = useTilt({ max: featured ? 6 : 9 });
+  const navigate = useNavigate();
   const meta = PROJECT_INDEX_META[project.slug] || {};
+  const go = () => navigate(`/${project.slug}`);
 
   return (
     <article
@@ -17,7 +19,12 @@ function ProjectCard({ project, featured = false }) {
       ref={tilt.ref}
       onMouseMove={tilt.onMouseMove}
       onMouseLeave={tilt.onMouseLeave}
-      style={{ '--card-accent': meta.accent || 'var(--gold)' }}
+      onClick={go}
+      role="link"
+      tabIndex={0}
+      aria-label={`View ${project.displayName}`}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } }}
+      style={{ '--card-accent': meta.accent || 'var(--gold)', cursor: 'pointer' }}
     >
       {/* Background image */}
       <div className="pjidx-card-bg">
@@ -64,6 +71,7 @@ function ProjectCard({ project, featured = false }) {
               to={`/${project.slug}`}
               className="pjidx-card-cta"
               aria-label={`View ${project.displayName}`}
+              onClick={(e) => e.stopPropagation()}
             >
               View {project.name}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">

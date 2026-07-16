@@ -6,13 +6,15 @@ const EASE = [0.22, 1, 0.36, 1];
 // Positive bottom margin pre-triggers the reveal while the section is still
 // below the fold, so content has finished animating in by the time the user
 // actually scrolls to it — instead of appearing to "pop in" or go missing.
-// `once: false` is deliberate self-healing: on some real-world setups (smooth-scroll
-// libraries driving native scroll position, first-paint jank, slow asset load) the
-// IntersectionObserver can miss its very first check and whileInView never fires,
-// leaving content stuck at opacity:0 until a manual refresh. With `once: false`, any
-// later scroll that re-intersects the element re-checks and reveals it — the content
-// self-corrects instead of staying permanently invisible.
-const VIEWPORT = { once: false, margin: '0px 0px 180px 0px' };
+// `once: true` is deliberate: with `once: false` every time an element left and
+// re-entered the viewport Framer re-ran the entrance, re-applying `transform:
+// translateY` + a fresh opacity fade on each scroll pass. During fast mobile
+// scrolling that reads as content repositioning, the contact layout appearing
+// to flip, and a "flashback" flicker. Revealing once and then leaving the
+// element alone keeps every section stable after it has appeared. The generous
+// pre-trigger margin means the observer fires well before the element is on
+// screen, so the earlier "missed first check" concern no longer applies.
+const VIEWPORT = { once: true, margin: '0px 0px 180px 0px' };
 
 /**
  * Single element that fades + rises into view on scroll. Falls back to a plain,

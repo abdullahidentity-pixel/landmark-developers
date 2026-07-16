@@ -1,10 +1,17 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLeadModal } from '../context/LeadModalContext.jsx';
-import { CONTACT } from '../data/site.js';
+import { PROJECT_OPTIONS, UNIT_OPTIONS } from '../data/site.js';
+import { deliverLead } from '../lib/leadDelivery.js';
 import Logo from './Logo.jsx';
 
 const EASE = [0.22, 1, 0.36, 1];
+
+const TIME_SLOTS = [
+  '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
+  '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM',
+  '05:00 PM', '06:00 PM',
+];
 
 function triggerDownload(url) {
   const a = document.createElement('a');
@@ -20,28 +27,34 @@ function triggerDownload(url) {
  * Booking / lead-capture modal.
  *
  * Every "Book" CTA on the site funnels through `openTour()` / `openDownload()`,
- * so embedding the JotForm here wires it to ALL of them at once. Submissions are
- * handled by JotForm, which emails the lead to landmarkdevelopersworld@gmail.com
- * (configured inside JotForm itself). We listen to JotForm's postMessage events
- * to (a) auto-size the iframe to its content — no nested scrollbar — and
- * (b) release the gated PDF once a download-mode form is submitted.
+ * so this one custom form serves ALL of them. On submit the lead is sent through
+ * BOTH channels at once: it opens WhatsApp with the details prefilled AND emails
+ * the same lead straight to landmarkdevelopersworld@gmail.com via Web3Forms.
+ * (If the Web3Forms key isn't set yet, only the WhatsApp channel fires — so a
+ * lead is never lost.)
  */
 export default function LeadModal() {
-  const { open, mode, downloadUrl, downloadLabel, close } = useLeadModal();
+  const { open, mode, project, downloadUrl, downloadLabel, close } = useLeadModal();
 
-  const [frameHeight, setFrameHeight] = useState(640);
-  const [submitted, setSubmitted]     = useState(false);
-  const iframeRef = useRef(null);
+  const [form, setForm] = useState({
+    name: '', phone: '', email: '', project: '', unit: '', date: '', time: '', message: '',
+  });
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState('idle'); // idle | submitting | success
+  const firstInput = useRef(null);
 
+  const isTour     = mode === 'tour';
   const isDownload = mode === 'download';
 
-  // Reset per-open state
+  // Pre-fill project when modal opens + reset transient state
   useEffect(() => {
     if (open) {
-      setSubmitted(false);
-      setFrameHeight(640);
+      setForm((f) => ({ ...f, project: project || '' }));
+      setStatus('idle');
+      setErrors({});
+      setTimeout(() => firstInput.current?.focus(), 120);
     }
-  }, [open]);
+  }, [open, project]);
 
   // Close on Escape
   useEffect(() => {
@@ -50,36 +63,59 @@ export default function LeadModal() {
     return () => document.removeEventListener('keydown', handler);
   }, [open, close]);
 
-  // Listen to JotForm's iframe messages: auto-resize + submit completion.
-  useEffect(() => {
-    if (!open) return;
+  const set = useCallback((field) => (e) => {
+    setForm((f) => ({ ...f, [field]: e.target.value }));
+    setErrors((er) => ({ ...er, [field]: '' }));
+  }, []);
 
-    const onMessage = (e) => {
-      if (typeof e.origin === 'string' && !e.origin.includes('jotform')) return;
-      const data = e.data;
+  const validate = () => {
+    const e = {};
+    if (!form.name.trim()) e.name = 'Full name is required';
+    const digits = form.phone.replace(/\D/g, '');
+    if (!form.phone.trim()) e.phone = 'Phone number is required';
+    else if (digits.length < 10 || digits.length > 13) e.phone = 'Enter a valid phone number';
+    if (form.email.trim() && !/^\S+@\S+\.\S+$/.test(form.email.trim())) e.email = 'Enter a valid email';
+    if (isTour && !form.date) e.date = 'Please pick a preferred date';
+    return e;
+  };
 
-      // Resize — JotForm posts "setHeight:<px>:<formID>"
-      if (typeof data === 'string') {
-        if (data.startsWith('setHeight:')) {
-          const h = parseInt(data.split(':')[1], 10);
-          if (!Number.isNaN(h) && h > 0) setFrameHeight(h);
-        }
-        if (data.includes('submission-completed')) {
-          setSubmitted(true);
-          if (isDownload && downloadUrl) triggerDownload(downloadUrl);
-        }
-      } else if (data && typeof data === 'object') {
-        if (data.type === 'setHeight' && data.height) setFrameHeight(data.height);
-        if (data.action === 'submission-completed') {
-          setSubmitted(true);
-          if (isDownload && downloadUrl) triggerDownload(downloadUrl);
-        }
-      }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+
+    setStatus('submitting');
+
+    const subject = isDownload
+      ? `Download request: ${downloadLabel || 'Document'}`
+      : 'New Tour Booking';
+
+    const fields = {
+      subject: `Landmark Lead — ${subject}`,
+      from_name: 'Landmark Developers Website',
+      name:    form.name.trim(),
+      phone:   form.phone.trim(),
+      email:   form.email.trim(),
+      project: form.project || project,
+      unit:    form.unit,
+      source:  isDownload ? `Download: ${downloadLabel}` : 'Book a Tour',
+      ...(isTour && {
+        preferred_date: form.date,
+        preferred_time: form.time,
+      }),
+      message: form.message.trim(),
     };
 
-    window.addEventListener('message', onMessage);
-    return () => window.removeEventListener('message', onMessage);
-  }, [open, isDownload, downloadUrl]);
+    // Fire BOTH channels together (WhatsApp opens instantly, email sends in the
+    // background) via the shared lead-delivery pipeline.
+    await deliverLead(fields);
+
+    if (isDownload && downloadUrl) triggerDownload(downloadUrl);
+
+    setStatus('success');
+    setForm({ name: '', phone: '', email: '', project: '', unit: '', date: '', time: '', message: '' });
+    setTimeout(() => close(), 3000);
+  };
 
   return (
     <AnimatePresence>
@@ -114,58 +150,199 @@ export default function LeadModal() {
               </svg>
             </button>
 
-            <div className="lm-head">
-              <div className="lm-logo" aria-hidden="true"><Logo /></div>
-              <p className="lm-eyebrow">
-                {isDownload ? 'One quick step' : 'Book a Tour'}
-              </p>
-              <h2 id="lm-title" className="lm-title">
-                {isDownload
-                  ? `Get your ${downloadLabel || 'document'}`
-                  : 'Schedule a private viewing'}
-              </h2>
-              <p className="lm-sub">
-                {isDownload
-                  ? 'Share your details below and your document link opens right after.'
-                  : 'Fill in your details and our team will confirm your visit within 24 hours.'}
-              </p>
-            </div>
-
-            {/* Embedded JotForm — routes submissions to Landmark Developers' inbox */}
-            <div className="lm-embed">
-              <iframe
-                ref={iframeRef}
-                title="Landmark Developers Lead Capture"
-                src={CONTACT.bookingFormHref}
-                scrolling="no"
-                allow="geolocation; microphone; camera; fullscreen; payment"
-                style={{
-                  width: '100%',
-                  height: frameHeight,
-                  minHeight: 520,
-                  border: 'none',
-                  borderRadius: 12,
-                  background: 'transparent',
-                  display: 'block',
-                }}
-              />
-            </div>
-
-            {/* Download fallback — always reachable even if the postMessage
-                submit signal is blocked by the browser. */}
-            {isDownload && downloadUrl && (
-              <button
-                type="button"
-                className="lm-download-fallback"
-                onClick={() => triggerDownload(downloadUrl)}
+            {status === 'success' ? (
+              /* ── Success state ── */
+              <motion.div
+                className="lm-success"
+                initial={{ opacity: 0, scale: 0.94 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, ease: EASE }}
               >
-                {submitted ? 'Download started — tap to retry' : `Download ${downloadLabel || 'document'}`}
-              </button>
-            )}
+                <div className="lm-success-icon" aria-hidden="true">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 6L9 17l-5-5"/>
+                  </svg>
+                </div>
+                <h3 className="lm-success-title">
+                  {isDownload ? 'Downloading now…' : 'Tour request received!'}
+                </h3>
+                <p className="lm-success-body">
+                  {isDownload
+                    ? 'Your download has started. Our team will be in touch shortly.'
+                    : 'Our team will confirm your booking within 24 hours. Check your WhatsApp or email.'}
+                </p>
+              </motion.div>
+            ) : (
+              /* ── Form ── */
+              <>
+                <div className="lm-head">
+                  <div className="lm-logo" aria-hidden="true"><Logo /></div>
+                  <p className="lm-eyebrow">
+                    {isDownload ? 'One quick step' : 'Book a Tour'}
+                  </p>
+                  <h2 id="lm-title" className="lm-title">
+                    {isDownload
+                      ? `Get your ${downloadLabel || 'document'}`
+                      : 'Schedule a private viewing'}
+                  </h2>
+                  <p className="lm-sub">
+                    {isDownload
+                      ? 'Leave your details and the PDF will download instantly.'
+                      : 'Fill in your details and we\'ll confirm your tour within 24 hours.'}
+                  </p>
+                </div>
 
-            <p className="lm-privacy">
-              Your information is private and will only be used by Landmark Developers to process your request.
-            </p>
+                <form className="lm-form" onSubmit={handleSubmit} noValidate>
+                  {/* Name */}
+                  <div className={`lm-field ${errors.name ? 'has-error' : ''}`}>
+                    <label className="lm-label" htmlFor="lm-name">Full Name *</label>
+                    <input
+                      ref={firstInput}
+                      id="lm-name"
+                      className="lm-input"
+                      type="text"
+                      placeholder="Your full name"
+                      value={form.name}
+                      onChange={set('name')}
+                      autoComplete="name"
+                    />
+                    {errors.name && <span className="lm-error">{errors.name}</span>}
+                  </div>
+
+                  {/* Phone */}
+                  <div className={`lm-field ${errors.phone ? 'has-error' : ''}`}>
+                    <label className="lm-label" htmlFor="lm-phone">Phone Number *</label>
+                    <input
+                      id="lm-phone"
+                      className="lm-input"
+                      type="tel"
+                      placeholder="+92 300 0000000"
+                      value={form.phone}
+                      onChange={set('phone')}
+                      autoComplete="tel"
+                    />
+                    {errors.phone && <span className="lm-error">{errors.phone}</span>}
+                  </div>
+
+                  {/* Email */}
+                  <div className={`lm-field ${errors.email ? 'has-error' : ''}`}>
+                    <label className="lm-label" htmlFor="lm-email">Email Address <span className="lm-optional">(optional)</span></label>
+                    <input
+                      id="lm-email"
+                      className="lm-input"
+                      type="email"
+                      placeholder="your@email.com"
+                      value={form.email}
+                      onChange={set('email')}
+                      autoComplete="email"
+                    />
+                    {errors.email && <span className="lm-error">{errors.email}</span>}
+                  </div>
+
+                  {/* Project + Unit */}
+                  <div className="lm-row">
+                    <div className="lm-field">
+                      <label className="lm-label" htmlFor="lm-project">Project of Interest</label>
+                      <select
+                        id="lm-project"
+                        className="lm-input lm-select"
+                        value={form.project}
+                        onChange={set('project')}
+                      >
+                        <option value="">Select a project…</option>
+                        {PROJECT_OPTIONS.map((p) => (
+                          <option key={p} value={p}>{p}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="lm-field">
+                      <label className="lm-label" htmlFor="lm-unit">Unit Type</label>
+                      <select
+                        id="lm-unit"
+                        className="lm-input lm-select"
+                        value={form.unit}
+                        onChange={set('unit')}
+                      >
+                        <option value="">Any unit</option>
+                        {UNIT_OPTIONS.map((u) => (
+                          <option key={u} value={u}>{u}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Tour-only: date + time */}
+                  {isTour && (
+                    <div className="lm-row">
+                      <div className={`lm-field ${errors.date ? 'has-error' : ''}`}>
+                        <label className="lm-label" htmlFor="lm-date">Preferred Date *</label>
+                        <input
+                          id="lm-date"
+                          className="lm-input"
+                          type="date"
+                          min={new Date().toISOString().split('T')[0]}
+                          value={form.date}
+                          onChange={set('date')}
+                        />
+                        {errors.date && <span className="lm-error">{errors.date}</span>}
+                      </div>
+                      <div className="lm-field">
+                        <label className="lm-label" htmlFor="lm-time">Preferred Time</label>
+                        <select
+                          id="lm-time"
+                          className="lm-input lm-select"
+                          value={form.time}
+                          onChange={set('time')}
+                        >
+                          <option value="">Any time</option>
+                          {TIME_SLOTS.map((t) => (
+                            <option key={t} value={t}>{t}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Message */}
+                  <div className="lm-field">
+                    <label className="lm-label" htmlFor="lm-msg">Message <span className="lm-optional">(optional)</span></label>
+                    <textarea
+                      id="lm-msg"
+                      className="lm-input lm-textarea"
+                      placeholder="Any specific questions or requests…"
+                      rows={3}
+                      value={form.message}
+                      onChange={set('message')}
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="lm-submit"
+                    disabled={status === 'submitting'}
+                  >
+                    {status === 'submitting' ? (
+                      <span className="lm-spinner" aria-hidden="true" />
+                    ) : isDownload ? (
+                      <>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                          <polyline points="7 10 12 15 17 10"/>
+                          <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Download Now
+                      </>
+                    ) : (
+                      'Confirm Tour Request'
+                    )}
+                  </button>
+
+                  <p className="lm-privacy">
+                    Your information is private and will only be used by Landmark Developers to process your request.
+                  </p>
+                </form>
+              </>
+            )}
           </motion.div>
         </>
       )}

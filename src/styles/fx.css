@@ -61,7 +61,7 @@
   width: 100%;
   height: 120%;
   object-fit: cover;
-  filter: brightness(0.8);
+  filter: brightness(0.95);
   opacity: 0;
   will-change: transform, opacity;
 }
@@ -314,5 +314,13 @@
     width: 100%;
     height: 18vh;
     max-height: 100%;
+  }
+
+  /* The 40vh (`~325px`) page-bg spacer that sits AFTER the pinned showcase and
+     BEFORE the lead form reads as a big empty black screen on phones — the
+     "gap right above the form." The lead form already has its own top padding,
+     so a small release is plenty here. */
+  .fx-end {
+    height: 6vh;
   }
 }
