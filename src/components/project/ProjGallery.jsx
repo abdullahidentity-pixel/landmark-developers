@@ -1,10 +1,33 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Reveal } from '../Reveal.jsx';
 
 const EASE = [0.22, 1, 0.36, 1];
 
 function Lightbox({ images, index, onClose, onPrev, onNext }) {
+  // Touch-swipe navigation: on phones, dragging the image left/right is the
+  // natural gesture, so the side arrows no longer have to be the only way to
+  // move between shots. A >45px horizontal travel counts as a swipe; anything
+  // smaller is treated as a tap and left alone.
+  const startX = useRef(null);
+  const startY = useRef(null);
+  const onTouchStart = (e) => {
+    startX.current = e.touches[0].clientX;
+    startY.current = e.touches[0].clientY;
+  };
+  const onTouchEnd = (e) => {
+    if (startX.current == null) return;
+    const dx = e.changedTouches[0].clientX - startX.current;
+    const dy = e.changedTouches[0].clientY - startY.current;
+    // Only a clearly-horizontal swipe navigates (ignore vertical scrolls).
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0) onNext();
+      else onPrev();
+    }
+    startX.current = null;
+    startY.current = null;
+  };
+
   return (
     <AnimatePresence>
       <motion.div
@@ -14,6 +37,8 @@ function Lightbox({ images, index, onClose, onPrev, onNext }) {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
         onClick={onClose}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
         role="dialog"
         aria-modal="true"
         aria-label="Image lightbox"

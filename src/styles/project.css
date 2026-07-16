@@ -1266,6 +1266,31 @@
   .pj-construction-card { padding: 28px 20px; }
   .pj-construction-actions { flex-direction: column; }
 
+  /* ── Lightbox: phone-friendly controls ──
+     On phones the image is nearly full-width, so the side arrows sat on top of
+     it — cluttered and easy to mis-tap. Move both arrows into a bottom bar that
+     flanks the counter, so the image reads on its own with clear controls
+     beneath it. Swiping the image left/right also navigates (see ProjGallery). */
+  .pj-lb-img { max-width: 94vw; max-height: 72vh; }
+  .pj-lb-prev, .pj-lb-next {
+    top: auto;
+    bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+    transform: none;
+    width: 48px;
+    height: 48px;
+  }
+  .pj-lb-prev { left: calc(50% - 84px); right: auto; }
+  .pj-lb-next { right: calc(50% - 84px); left: auto; }
+  .pj-lb-counter {
+    bottom: calc(37px + env(safe-area-inset-bottom, 0px));
+    font-size: 14px;
+    color: var(--fg);
+  }
+  .pj-lb-close {
+    top: calc(16px + env(safe-area-inset-top, 0px));
+    right: 16px;
+  }
+
   /* ── Hero ── */
   .pj-hero-content { padding-top: 86px; padding-bottom: 36px; }
   .pj-hero-badge {

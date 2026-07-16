@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Landmark Developers">
+  <defs>
+    <linearGradient id="lm-gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f0d49b"/>
+      <stop offset="0.5" stop-color="#d9b878"/>
+      <stop offset="1" stop-color="#b8923f"/>
+    </linearGradient>
+  </defs>
+  <!-- Brand dark tile so the mark stays visible on light browser chrome -->
+  <rect x="1" y="1" width="62" height="62" rx="13" fill="#060504"/>
+  <rect x="1.75" y="1.75" width="60.5" height="60.5" rx="12.25" fill="none" stroke="#d9b878" stroke-opacity="0.55" stroke-width="1.5"/>
+  <!-- "L" monogram — bold and legible down to 16px -->
+  <path fill="url(#lm-gold)" d="M20 16 h10.5 v25 h15.5 v5.8 H20 Z"/>
+</svg>
