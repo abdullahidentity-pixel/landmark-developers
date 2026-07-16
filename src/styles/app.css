@@ -2524,6 +2524,26 @@ body.kb-open .mobile-cta-bar {
 }
 .lm-select option { background: oklch(14% 0.01 60); color: var(--fg); }
 
+/* Phone row: country dial-code selector sits inline before the number input.
+   The selector is width-capped so the flag + dial code stay visible while the
+   number field takes the remaining space. */
+.lm-phone-group {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+.lm-phone-group .lm-dial {
+  flex: 0 0 auto;
+  width: 118px;
+  padding-right: 30px;
+  padding-left: 12px;
+  background-position: right 10px center;
+}
+.lm-phone-group input[type="tel"] {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .lm-textarea { resize: vertical; min-height: 80px; }
 
 /* Date input color fix on dark */

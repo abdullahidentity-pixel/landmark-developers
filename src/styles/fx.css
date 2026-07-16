@@ -21,15 +21,21 @@
 }
 
 .fx-fixed-section {
+  /* Deliberately a STABLE viewport unit (vh = the large/retracted-toolbar
+     height on iOS, and it does NOT change as the address bar shows/hides).
+     dvh was wrong here: the pin freezes in pixels (ScrollTrigger with
+     ignoreMobileResize), so a dvh height that grows/shrinks with the toolbar
+     leaves the pin math stale — every toolbar toggle shifted all content
+     below the pin (the "jumps a bit up/down when you stop" on the
+     form / map / testimonials) and opened an inconsistent gap after it.
+     A constant height keeps the whole lower page perfectly still. */
   height: calc(var(--fx-stage-h, 200) * 1vh);
-  height: calc(var(--fx-stage-h, 200) * 1dvh);
   position: relative;
 }
 .fx-fixed {
   position: sticky;
   top: 0;
   height: 100vh;
-  height: 100dvh;
   width: 100%;
   overflow: hidden;
   background: var(--fx-page-bg);
@@ -318,9 +324,10 @@
 
   /* The 40vh (`~325px`) page-bg spacer that sits AFTER the pinned showcase and
      BEFORE the lead form reads as a big empty black screen on phones — the
-     "gap right above the form." The lead form already has its own top padding,
-     so a small release is plenty here. */
+     "gap right above the form." The lead form already carries its own top
+     padding, so on phones we drop this release entirely: the showcase now
+     hands straight off to the form with no empty screen in between. */
   .fx-end {
-    height: 6vh;
+    height: 0;
   }
 }

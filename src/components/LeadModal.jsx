@@ -2,16 +2,11 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLeadModal } from '../context/LeadModalContext.jsx';
 import { PROJECT_OPTIONS, UNIT_OPTIONS } from '../data/site.js';
+import { COUNTRIES, DEFAULT_COUNTRY, dialOf } from '../data/countries.js';
 import { deliverLead } from '../lib/leadDelivery.js';
 import Logo from './Logo.jsx';
 
 const EASE = [0.22, 1, 0.36, 1];
-
-const TIME_SLOTS = [
-  '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
-  '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM',
-  '05:00 PM', '06:00 PM',
-];
 
 function triggerDownload(url) {
   const a = document.createElement('a');
@@ -37,13 +32,12 @@ export default function LeadModal() {
   const { open, mode, project, downloadUrl, downloadLabel, close } = useLeadModal();
 
   const [form, setForm] = useState({
-    name: '', phone: '', email: '', project: '', unit: '', date: '', time: '', message: '',
+    name: '', country: DEFAULT_COUNTRY, phone: '', email: '', project: '', unit: '', message: '',
   });
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle'); // idle | submitting | success
   const firstInput = useRef(null);
 
-  const isTour     = mode === 'tour';
   const isDownload = mode === 'download';
 
   // Pre-fill project when modal opens + reset transient state
@@ -75,7 +69,6 @@ export default function LeadModal() {
     if (!form.phone.trim()) e.phone = 'Phone number is required';
     else if (digits.length < 10 || digits.length > 13) e.phone = 'Enter a valid phone number';
     if (form.email.trim() && !/^\S+@\S+\.\S+$/.test(form.email.trim())) e.email = 'Enter a valid email';
-    if (isTour && !form.date) e.date = 'Please pick a preferred date';
     return e;
   };
 
@@ -94,15 +87,11 @@ export default function LeadModal() {
       subject: `Landmark Lead — ${subject}`,
       from_name: 'Landmark Developers Website',
       name:    form.name.trim(),
-      phone:   form.phone.trim(),
+      phone:   `${dialOf(form.country)} ${form.phone.trim()}`.trim(),
       email:   form.email.trim(),
       project: form.project || project,
       unit:    form.unit,
       source:  isDownload ? `Download: ${downloadLabel}` : 'Book a Tour',
-      ...(isTour && {
-        preferred_date: form.date,
-        preferred_time: form.time,
-      }),
       message: form.message.trim(),
     };
 
@@ -113,7 +102,7 @@ export default function LeadModal() {
     if (isDownload && downloadUrl) triggerDownload(downloadUrl);
 
     setStatus('success');
-    setForm({ name: '', phone: '', email: '', project: '', unit: '', date: '', time: '', message: '' });
+    setForm({ name: '', country: DEFAULT_COUNTRY, phone: '', email: '', project: '', unit: '', message: '' });
     setTimeout(() => close(), 3000);
   };
 
@@ -209,18 +198,33 @@ export default function LeadModal() {
                     {errors.name && <span className="lm-error">{errors.name}</span>}
                   </div>
 
-                  {/* Phone */}
+                  {/* Phone — country dial-code selector + local number */}
                   <div className={`lm-field ${errors.phone ? 'has-error' : ''}`}>
                     <label className="lm-label" htmlFor="lm-phone">Phone Number *</label>
-                    <input
-                      id="lm-phone"
-                      className="lm-input"
-                      type="tel"
-                      placeholder="+92 300 0000000"
-                      value={form.phone}
-                      onChange={set('phone')}
-                      autoComplete="tel"
-                    />
+                    <div className="lm-phone-group">
+                      <select
+                        id="lm-country"
+                        className="lm-input lm-select lm-dial"
+                        value={form.country}
+                        onChange={set('country')}
+                        aria-label="Country dialing code"
+                      >
+                        {COUNTRIES.map((c) => (
+                          <option key={c.iso} value={c.iso}>
+                            {c.flag} {c.dial} {c.name}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        id="lm-phone"
+                        className="lm-input"
+                        type="tel"
+                        placeholder="300 0000000"
+                        value={form.phone}
+                        onChange={set('phone')}
+                        autoComplete="tel-national"
+                      />
+                    </div>
                     {errors.phone && <span className="lm-error">{errors.phone}</span>}
                   </div>
 
@@ -271,38 +275,6 @@ export default function LeadModal() {
                     </div>
                   </div>
 
-                  {/* Tour-only: date + time */}
-                  {isTour && (
-                    <div className="lm-row">
-                      <div className={`lm-field ${errors.date ? 'has-error' : ''}`}>
-                        <label className="lm-label" htmlFor="lm-date">Preferred Date *</label>
-                        <input
-                          id="lm-date"
-                          className="lm-input"
-                          type="date"
-                          min={new Date().toISOString().split('T')[0]}
-                          value={form.date}
-                          onChange={set('date')}
-                        />
-                        {errors.date && <span className="lm-error">{errors.date}</span>}
-                      </div>
-                      <div className="lm-field">
-                        <label className="lm-label" htmlFor="lm-time">Preferred Time</label>
-                        <select
-                          id="lm-time"
-                          className="lm-input lm-select"
-                          value={form.time}
-                          onChange={set('time')}
-                        >
-                          <option value="">Any time</option>
-                          {TIME_SLOTS.map((t) => (
-                            <option key={t} value={t}>{t}</option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                  )}
-
                   {/* Message */}
                   <div className="lm-field">
                     <label className="lm-label" htmlFor="lm-msg">Message <span className="lm-optional">(optional)</span></label>
@@ -333,7 +305,7 @@ export default function LeadModal() {
                         Download Now
                       </>
                     ) : (
-                      'Confirm Tour Request'
+                      'Confirm Your Request'
                     )}
                   </button>
 

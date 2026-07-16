@@ -87,7 +87,7 @@ export default function LeadForm() {
           </p>
         </Reveal>
 
-        <RevealGroup as="form" className="lead-form" stagger={0.07} onSubmit={onSubmit} noValidate>
+        <RevealGroup as="form" className="lead-form" stagger={0.07} onSubmit={onSubmit} noValidate autoComplete="off">
           {sent && (
             <p className="lead-success" role="status">
               Thanks! We’ve opened WhatsApp with your details — send it to reach our team instantly.
@@ -100,7 +100,7 @@ export default function LeadForm() {
               id="lf-name"
               name="name"
               type="text"
-              autoComplete="name"
+              autoComplete="off"
               placeholder="Your full name"
               value={values.name}
               onChange={update('name')}
@@ -115,7 +115,7 @@ export default function LeadForm() {
               id="lf-phone"
               name="phone"
               type="tel"
-              autoComplete="tel"
+              autoComplete="off"
               placeholder="+92 3XX XXXXXXX"
               value={values.phone}
               onChange={update('phone')}
