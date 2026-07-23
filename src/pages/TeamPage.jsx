@@ -46,7 +46,7 @@ export default function TeamPage() {
   useSmoothScroll();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    // Scroll position handled globally by <ScrollToTop> in App.jsx — SEO only here.
     document.title = 'Our Team | Landmark Developers — Bahria Town Lahore';
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content',

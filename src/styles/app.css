@@ -2277,11 +2277,15 @@ body.kb-open .mobile-cta-bar {
   .testi-m-role { font-size: 0.67rem; }
   .testi-m-quote { font-size: 0.79rem; -webkit-line-clamp: 4; }
   .testi-m-stars svg { width: 10px; height: 10px; }
-  /* Promote the moving track to its own compositor layer so iOS animates it on
-     the GPU instead of repainting the (2400px-wide) strip of cards on the main
-     thread every scroll frame. Keeps the marquee effect, removes the drag it
-     otherwise puts on scrolling through the testimonials. */
-  .testi-m-track { will-change: transform; transform: translateZ(0); backface-visibility: hidden; }
+  /* Let the marquee auto-promote to a GPU layer ONLY while its animation is
+     actually running (at rest). We deliberately do NOT pin it with a permanent
+     will-change/translateZ: on iOS that kept two ~2400px-wide layers alive
+     across the whole touch-scroll gesture, stealing compositor headroom from
+     inertial (momentum) scrolling — which is what made the last sections drift
+     and not stop where you lift your finger. The section's scroll listener
+     already pauses the animation while scrolling, so the tracks de-promote for
+     the duration of the gesture and momentum stays clean; they re-promote and
+     resume once scrolling settles. Visual result is identical. */
   .testi-marquee { gap: 8px; margin-top: 28px; }
   .testi-bottom { margin-top: 32px; }
   .testi-agg-score { font-size: 1.6rem; }
@@ -2540,6 +2544,29 @@ body.kb-open .mobile-cta-bar {
   background-position: right 10px center;
 }
 .lm-phone-group input[type="tel"] {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Shared country-code + number layout used by <PhoneField/> across every
+   lead/contact form (homepage lead form, project & projects-index forms,
+   Contact and Career pages). The inner <select>/<input> inherit each form's
+   own field styling; this only handles the row layout + dial-select width.
+   `.phone-group .phone-dial` (specificity 0,2,0) intentionally out-ranks the
+   inner-page `.ip-field select { width:100% }` rule so the dial stays compact. */
+.phone-group {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+.phone-group .phone-dial {
+  flex: 0 0 auto;
+  width: 116px;
+  min-width: 116px;
+  padding-right: 28px;
+  background-position: right 10px center;
+}
+.phone-group > input {
   flex: 1 1 auto;
   min-width: 0;
 }

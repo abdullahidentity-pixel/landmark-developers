@@ -17,7 +17,9 @@ export default function ProjectsIndex() {
   useSmoothScroll();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    // Scroll position is handled globally by <ScrollToTop> in App.jsx (which also
+    // resolves #section anchors like #brochures / #compare) — this effect only
+    // owns the SEO title/meta so it doesn't fight the global scroll logic.
     document.title = 'All Projects | Landmark Developers — Bahria Town Lahore & Islamabad';
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content',

@@ -33,6 +33,7 @@ export default function InnerHeader() {
   useEffect(() => {
     if (!open) return;
     const scrollY = window.scrollY;
+    const startPath = window.location.pathname;
     const { style } = document.body;
     style.position = 'fixed';
     style.top = `-${scrollY}px`;
@@ -45,7 +46,13 @@ export default function InnerHeader() {
       style.left = '';
       style.right = '';
       style.overflow = '';
-      window.scrollTo(0, scrollY);
+      // Only restore the previous scroll offset if the drawer was closed WITHOUT
+      // navigating (e.g. tapping the X). If a nav link changed the route, the new
+      // page must start at its hero — ScrollToTop already moved us there, and
+      // restoring the old offset would drop the fresh page mid-section.
+      if (window.location.pathname === startPath) {
+        window.scrollTo(0, scrollY);
+      }
     };
   }, [open]);
 

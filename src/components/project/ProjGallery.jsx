@@ -1,4 +1,5 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Reveal } from '../Reveal.jsx';
 
@@ -28,7 +29,12 @@ function Lightbox({ images, index, onClose, onPrev, onNext }) {
     startY.current = null;
   };
 
-  return (
+  // Render into <body> via a portal so the overlay escapes the
+  // `.pj-gallery { position:relative; z-index:2 }` stacking context. Without
+  // this, the lightbox's z-index:9999 is scoped *inside* that z-2 context and
+  // loses to the fixed site header (root z-index:100), which painted over the
+  // top-right close button and made it look like there was no way to close.
+  return createPortal(
     <AnimatePresence>
       <motion.div
         className="pj-lightbox"
@@ -79,7 +85,8 @@ function Lightbox({ images, index, onClose, onPrev, onNext }) {
           {index + 1} / {images.length}
         </span>
       </motion.div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
 
@@ -92,16 +99,22 @@ export default function ProjGallery({ project }) {
   const prevImg = useCallback(() => setLbIndex((i) => (i - 1 + images.length) % images.length), [images.length]);
   const nextImg = useCallback(() => setLbIndex((i) => (i + 1) % images.length), [images.length]);
 
-  // Keyboard nav for lightbox
-  const onKey = useCallback((e) => {
+  // Keyboard nav for the lightbox. Bound to window (not the section) because the
+  // lightbox is portaled to <body>, so key events no longer bubble through the
+  // gallery section. Only active while the lightbox is open.
+  useEffect(() => {
     if (lbIndex === null) return;
-    if (e.key === 'ArrowLeft') prevImg();
-    if (e.key === 'ArrowRight') nextImg();
-    if (e.key === 'Escape') closeLb();
+    const onKey = (e) => {
+      if (e.key === 'ArrowLeft') prevImg();
+      else if (e.key === 'ArrowRight') nextImg();
+      else if (e.key === 'Escape') closeLb();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
   }, [lbIndex, prevImg, nextImg, closeLb]);
 
   return (
-    <section className="pj-gallery" id="gallery" aria-labelledby="gallery-title" onKeyDown={onKey}>
+    <section className="pj-gallery" id="gallery" aria-labelledby="gallery-title">
       <div className="container">
         <div className="pj-section-head">
           <p className="eyebrow">Visual Tour</p>

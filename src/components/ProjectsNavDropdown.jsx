@@ -8,10 +8,11 @@ import { ChevronDown, ArrowUpRight, LayoutGrid, FileText, Phone } from 'lucide-r
 import { Link } from 'react-router-dom';
 import { PROJECTS_DATA } from '../data/projects.js';
 
-/* Quick-action footer links */
+/* Quick-action footer links — all router links so they navigate within the SPA
+   (a plain <a> would full-reload the page and jump mid-section). */
 const QUICK = [
-  { label: 'Compare Projects', href: '/projects#compare', Icon: LayoutGrid },
-  { label: 'Brochures & Plans', href: '/projects#brochures', Icon: FileText },
+  { label: 'Compare Projects', to: '/projects#compare', Icon: LayoutGrid },
+  { label: 'Brochures & Plans', to: '/projects#brochures', Icon: FileText },
   { label: 'Contact Team', to: '/contact', Icon: Phone },
 ];
 

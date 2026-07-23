@@ -7,6 +7,8 @@ import Footer from '../components/Footer.jsx';
 import InnerHeader from '../components/inner/InnerHeader.jsx';
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal.jsx';
 import { CONTACT } from '../data/site.js';
+import { DEFAULT_COUNTRY, dialOf } from '../data/countries.js';
+import PhoneField from '../components/PhoneField.jsx';
 import { deliverLead } from '../lib/leadDelivery.js';
 import '../styles/inner-pages.css';
 
@@ -73,11 +75,11 @@ const INFO_CARDS = [
 export default function ContactPage() {
   useSmoothScroll();
 
-  const [form, setForm]     = useState({ name: '', phone: '', project: '', message: '' });
+  const [form, setForm]     = useState({ name: '', country: DEFAULT_COUNTRY, phone: '', project: '', message: '' });
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    // Scroll position handled globally by <ScrollToTop> in App.jsx — SEO only here.
     document.title = 'Contact Landmark Developers | Bahria Town Lahore';
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content',
@@ -104,7 +106,7 @@ export default function ContactPage() {
       from_name: 'Landmark Developers Website',
       source: 'Contact page',
       name: form.name.trim(),
-      phone: form.phone.trim(),
+      phone: `${dialOf(form.country)} ${form.phone.trim()}`.trim(),
       project: form.project || 'Not specified',
       message: (form.message || '').trim(),
     });
@@ -206,14 +208,14 @@ export default function ContactPage() {
                       </div>
                       <div className="ip-field">
                         <label htmlFor="c-phone">Phone Number *</label>
-                        <input
+                        <PhoneField
                           id="c-phone"
-                          name="phone"
-                          type="tel"
-                          placeholder="+92 3XX XXXXXXX"
-                          value={form.phone}
-                          onChange={handleChange}
-                          style={errors.phone ? { borderColor: '#e05c5c' } : {}}
+                          country={form.country}
+                          phone={form.phone}
+                          onCountry={(e) => setForm((f) => ({ ...f, country: e.target.value }))}
+                          onPhone={handleChange}
+                          ariaInvalid={!!errors.phone}
+                          errorStyle={errors.phone ? { borderColor: '#e05c5c' } : undefined}
                         />
                         {errors.phone && <span style={{ fontSize: '0.75rem', color: '#e05c5c', marginTop: '4px', display: 'block' }}>{errors.phone}</span>}
                       </div>
@@ -256,7 +258,7 @@ export default function ContactPage() {
                   <div className="contact-map-frame">
                     <iframe
                       title="Landmark Developers Office Location"
-                      src="https://maps.google.com/maps?q=Bahria+Town+Main+Boulevard+Lahore&output=embed"
+                      src={CONTACT.mapsEmbed}
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
                     />

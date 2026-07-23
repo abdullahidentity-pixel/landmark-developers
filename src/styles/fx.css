@@ -185,12 +185,27 @@
   opacity: 1;
   visibility: visible;
 }
+.fx-featured {
+  grid-auto-flow: row;
+  align-content: center;
+  gap: clamp(0.5rem, 1.4vw, 1rem);
+}
 .fx-featured-title {
   margin: 0;
   color: var(--fx-text);
   font-weight: 900;
   letter-spacing: -0.01em;
   font-size: clamp(2rem, 7.5vw, 6rem);
+}
+.fx-featured-sub {
+  margin: 0;
+  max-width: 26ch;
+  color: var(--fx-text);
+  opacity: 0.72;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  font-size: clamp(0.9rem, 1.8vw, 1.15rem);
 }
 .fx-word-mask {
   display: inline-block;

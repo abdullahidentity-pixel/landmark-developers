@@ -20,9 +20,13 @@ export const CONTACT = {
   office: 'Plaza no. 39 AA Commercial, Main Boulevard, Bahria Town, Lahore',
   timing: 'Sat–Thu · 10:00 AM – 8:00 PM',
   timingNote: 'Friday closed',
+  // Exact Landmark Developers office pin (from Google Maps place listing).
   mapsHref:
-    'https://www.google.com/maps/search/?api=1&query=' +
-    encodeURIComponent('Bahria Town Main Boulevard, Lahore'),
+    'https://www.google.com/maps/place/Landmark+Developers/@31.3770799,74.1742469,17z/' +
+    'data=!4m6!3m5!1s0x3918ff0035943a0b:0xb433c10ec20e3240!8m2!3d31.3770799!4d74.1742469!16s%2Fg%2F11whfh2rps',
+  // Embed URL for the contact-page iframe — a labeled marker at the exact coords.
+  mapsEmbed:
+    'https://maps.google.com/maps?q=31.3770799,74.1742469(Landmark+Developers)&z=16&output=embed',
   // Lead email — every booking / download form submission is emailed here.
   leadEmail: 'landmarkdevelopersworld@gmail.com',
   // Web3Forms access key — free service that emails each lead straight to the

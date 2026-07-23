@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useSmoothScroll } from '../hooks/useSmoothScroll.js';
 import ProjSEO from '../components/project/ProjSEO.jsx';
 import ProjHeader from '../components/project/ProjHeader.jsx';
@@ -21,10 +20,8 @@ import '../styles/project.css';
 export default function ProjectPage({ project }) {
   useSmoothScroll();
 
-  // Scroll to top on project change
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [project.slug]);
+  // Scroll position (top on navigation, or a #section anchor like #payment-plan)
+  // is handled globally by <ScrollToTop> in App.jsx.
 
   return (
     <div className="pj-page">

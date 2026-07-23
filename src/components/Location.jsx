@@ -31,7 +31,7 @@ export default function Location() {
         <RevealItem className="location-map" y={40}>
           <iframe
             className="location-map-iframe"
-            src="https://maps.google.com/maps?q=Bahria+Town+Main+Boulevard+Lahore&output=embed"
+            src={CONTACT.mapsEmbed}
             title="Landmark Developers office location"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"

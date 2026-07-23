@@ -95,11 +95,18 @@ export default function LeadModal() {
       message: form.message.trim(),
     };
 
-    // Fire BOTH channels together (WhatsApp opens instantly, email sends in the
-    // background) via the shared lead-delivery pipeline.
-    await deliverLead(fields);
+    // Send the lead to the inbox. For a document download we DON'T open WhatsApp:
+    // the visitor just wants the PDF, and on mobile an app-switch would background
+    // the page and interrupt both the email and the download. For a tour booking we
+    // still hand off to WhatsApp. Either way the email is fired first with keepalive
+    // so it always reaches the inbox.
+    const delivery = deliverLead(fields, { whatsapp: !isDownload });
 
+    // Start the download right away, still within the user gesture, so the PDF
+    // opens instantly instead of waiting on the network round-trip.
     if (isDownload && downloadUrl) triggerDownload(downloadUrl);
+
+    await delivery;
 
     setStatus('success');
     setForm({ name: '', country: DEFAULT_COUNTRY, phone: '', email: '', project: '', unit: '', message: '' });

@@ -24,7 +24,11 @@ export function useSmoothScroll() {
     });
 
     lenis.on('scroll', ScrollTrigger.update);
-    if (import.meta.env.DEV) window.__lenis = lenis;
+    // Expose the active Lenis instance globally (not just in DEV) so the
+    // route-change ScrollToTop can force the smooth-scroll position back to the
+    // top — window.scrollTo alone doesn't reset Lenis's internal target, which
+    // is why navigating used to land mid-page.
+    window.__lenis = lenis;
 
     const onTick = (time) => lenis.raf(time * 1000);
     gsap.ticker.add(onTick);
@@ -33,6 +37,7 @@ export function useSmoothScroll() {
     return () => {
       gsap.ticker.remove(onTick);
       lenis.destroy();
+      if (window.__lenis === lenis) window.__lenis = null;
     };
   }, []);
 }

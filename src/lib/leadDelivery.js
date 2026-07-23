@@ -30,15 +30,39 @@ const WA_LABELS = {
   message: 'Message',
 };
 
-/** Email the lead to the Landmark inbox via Web3Forms. Returns true on success. */
+const isFile = (v) => typeof File !== 'undefined' && v instanceof File;
+
+/** Email the lead to the Landmark inbox via Web3Forms. Returns true on success.
+ *  If any field value is a File (e.g. a CV upload), the whole payload is sent as
+ *  multipart/form-data so Web3Forms attaches the file to the email — a JSON body
+ *  can't carry a file. Otherwise we keep the lighter JSON path. */
 export async function emailLead(fields) {
   if (!WEB3FORMS_ARMED) return false;
   try {
-    const res = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({ access_key: CONTACT.web3formsKey, ...fields }),
-    });
+    const hasFile = Object.values(fields).some(isFile);
+    let res;
+    if (hasFile) {
+      const fd = new FormData();
+      fd.append('access_key', CONTACT.web3formsKey);
+      for (const [key, val] of Object.entries(fields)) {
+        if (val == null || val === '') continue;
+        fd.append(key, val);            // File objects append as real attachments
+      }
+      res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
+    } else {
+      res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ access_key: CONTACT.web3formsKey, ...fields }),
+        // On mobile, opening WhatsApp or navigating a PDF download backgrounds the
+        // page, which normally cancels an in-flight fetch — the lead would silently
+        // never reach the inbox. `keepalive` tells the browser to finish sending
+        // this request even after the page is backgrounded or unloaded. (It caps the
+        // body at ~64KB, which is fine for a JSON lead; the CV-upload multipart path
+        // above deliberately doesn't use it because file bodies exceed that limit.)
+        keepalive: true,
+      });
+    }
     const data = await res.json();
     return !!data.success;
   } catch {
@@ -57,11 +81,19 @@ export function openWhatsAppLead(fields) {
 }
 
 /**
- * Deliver a lead through BOTH channels.
- * Call from a submit handler (a real user gesture). WhatsApp opens immediately;
- * the returned promise resolves to whether the email was accepted.
+ * Deliver a lead.
+ * Call from a submit handler (a real user gesture). The email request is started
+ * FIRST (with keepalive) so it's guaranteed to reach the inbox even if the page
+ * is then backgrounded by WhatsApp opening or a PDF download starting. WhatsApp
+ * is opened afterwards, still inside the same gesture.
+ *
+ * `whatsapp` defaults to true (tour bookings expect a WhatsApp hand-off). Pass
+ * `{ whatsapp: false }` for flows like a brochure/document download, where the
+ * only goal is to capture the lead in the inbox and let the file download — with
+ * no jarring app switch on mobile.
  */
-export async function deliverLead(fields) {
-  openWhatsAppLead(fields);
-  return emailLead(fields);
+export async function deliverLead(fields, { whatsapp = true } = {}) {
+  const emailPromise = emailLead(fields); // start email first — keepalive protects it
+  if (whatsapp) openWhatsAppLead(fields);
+  return emailPromise;
 }

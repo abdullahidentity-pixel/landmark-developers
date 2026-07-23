@@ -3,6 +3,8 @@ import { Reveal, RevealGroup, RevealItem } from '../Reveal.jsx';
 import MagneticButton from '../MagneticButton.jsx';
 import { PhoneIcon, WhatsAppIcon } from '../Icons.jsx';
 import { CONTACT } from '../../data/site.js';
+import { DEFAULT_COUNTRY, dialOf } from '../../data/countries.js';
+import PhoneField from '../PhoneField.jsx';
 import { deliverLead } from '../../lib/leadDelivery.js';
 import { PROJECTS_DATA } from '../../data/projects.js';
 
@@ -14,7 +16,7 @@ const INTEREST_OPTIONS = [
   'Not Sure — Need Advice',
 ];
 
-const EMPTY = { name: '', phone: '', project: '', interest: '', message: '' };
+const EMPTY = { name: '', country: DEFAULT_COUNTRY, phone: '', project: '', interest: '', message: '' };
 
 function validate(v) {
   const e = {};
@@ -49,7 +51,7 @@ export default function ProjsLeadForm() {
       from_name: 'Landmark Developers Website',
       source: 'All Projects — recommendation',
       name: values.name.trim(),
-      phone: values.phone.trim(),
+      phone: `${dialOf(values.country)} ${values.phone.trim()}`.trim(),
       project: values.project || 'Not specified',
       interest: values.interest || 'Not specified',
       message: values.message.trim(),
@@ -105,9 +107,14 @@ export default function ProjsLeadForm() {
 
           <RevealItem className={`field ${errors.phone ? 'has-error' : ''}`} y={24}>
             <label htmlFor="pjidx-phone">Phone Number</label>
-            <input id="pjidx-phone" name="phone" type="tel" autoComplete="tel"
-              placeholder="+92 3XX XXXXXXX" value={values.phone} onChange={update('phone')}
-              aria-invalid={!!errors.phone} />
+            <PhoneField
+              id="pjidx-phone"
+              country={values.country}
+              phone={values.phone}
+              onCountry={update('country')}
+              onPhone={update('phone')}
+              ariaInvalid={!!errors.phone}
+            />
             {errors.phone && <span className="field-error">{errors.phone}</span>}
           </RevealItem>
 

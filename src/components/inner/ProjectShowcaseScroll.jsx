@@ -6,6 +6,15 @@ import { PROJECTS_DATA } from '../../data/projects.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// iOS Safari shows/hides its address bar while scrolling, which changes the
+// dvh-based height of the pinned panel. Left unchecked, ScrollTrigger treats
+// every toolbar toggle as a resize and refreshes mid-scroll — the pinned
+// showcase and the CTA + footer after it visibly jump and overlap ("mixing").
+// The homepage's FullScreenScrollFX sets this same flag; the About page never
+// imports that module, so its pin ran without the guard and drifted on mobile.
+// This is a global ScrollTrigger setting, applied as soon as this page loads.
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 /* ── Slide data pulled from the shared PROJECTS_DATA source ── */
 const SLIDES = PROJECTS_DATA.map((p) => ({
   slug:        p.slug,

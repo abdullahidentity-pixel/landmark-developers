@@ -8,6 +8,7 @@
 .inner-page {
   background: var(--bg);
   min-height: 100vh;
+  min-height: 100dvh;   /* match the *visible* viewport on iOS (address-bar aware) */
 }
 
 /* Small gold label above section headings */
@@ -202,6 +203,65 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+}
+
+/* ── CV upload dropzone ── */
+.cv-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cv-dropzone {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 1.1rem;
+  border: 1px dashed rgba(217, 184, 120, 0.35);
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, color 0.25s;
+}
+
+.cv-dropzone:hover {
+  border-color: rgba(217, 184, 120, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.cv-dropzone.has-file {
+  border-style: solid;
+  border-color: rgba(217, 184, 120, 0.55);
+  color: #f0e4cc;
+}
+
+.cv-dropzone .cv-icon {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cv-dropzone .cv-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cv-dropzone .cv-size {
+  flex: none;
+  font-size: 0.75rem;
+  opacity: 0.7;
 }
 
 .ip-submit {
@@ -628,7 +688,9 @@
   /* Each image fills the frame; strip = N × frame height */
   height: calc(var(--pss-n, 5) * 100%);
   transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
+  /* No permanent `will-change: transform`. The strip only transforms on a
+     discrete slide change, so holding a compositor layer for it the whole time
+     just starves iOS momentum scroll and adds to the drift on this panel. */
 }
 
 .pss-img-item {
@@ -1457,6 +1519,155 @@
 }
 
 /* ── Open positions ── */
+.career-openings-lead {
+  max-width: 60ch;
+  margin-top: 1.25rem;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ── Open-position listings ── */
+.career-jobs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.career-job {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  transition: border-color 0.4s ease, transform 0.4s ease, background 0.4s ease;
+}
+
+.career-job:hover {
+  border-color: rgba(217, 184, 120, 0.4);
+  background: rgba(217, 184, 120, 0.03);
+  transform: translateY(-4px);
+}
+
+.career-job-dept {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.65rem;
+}
+
+.career-job-title {
+  font-size: clamp(1.35rem, 2.4vw, 1.6rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  line-height: 1.2;
+}
+
+.career-job-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-top: 0.85rem;
+}
+
+.career-job-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.career-job-meta svg {
+  width: 15px;
+  height: 15px;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: 0 0 auto;
+}
+
+.career-job-blurb {
+  font-size: 0.925rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.career-job-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+}
+
+.career-job-list li {
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.career-job-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.career-job-apply {
+  margin-top: auto;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(217, 184, 120, 0.45);
+  background: transparent;
+  color: var(--gold-bright, #f0d49b);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+
+.career-job-apply svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.35s ease;
+}
+
+.career-job-apply:hover {
+  background: var(--gold-grad);
+  border-color: transparent;
+  color: #1a1206;
+}
+
+.career-job-apply:hover svg {
+  transform: translateX(3px);
+}
+
 .career-openings-card {
   border: 1.5px dashed rgba(217, 184, 120, 0.2);
   border-radius: 1.5rem;

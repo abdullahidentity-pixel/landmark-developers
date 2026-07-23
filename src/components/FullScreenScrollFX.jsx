@@ -478,6 +478,7 @@ const FullScreenScrollFX = forwardRef(function FullScreenScrollFX(
                         <h3 className="fx-featured-title">
                           {isString ? splitWords(s.title) : s.title}
                         </h3>
+                        {s.subtitle && <p className="fx-featured-sub">{s.subtitle}</p>}
                         <WordsCollector
                           onReady={() => {
                             if (tempWordBucket.current.length) {

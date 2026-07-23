@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Reveal, RevealGroup, RevealItem } from './Reveal.jsx';
 import { PhoneIcon, WhatsAppIcon } from './Icons.jsx';
 import { CONTACT, PROJECT_OPTIONS, UNIT_OPTIONS } from '../data/site.js';
+import { DEFAULT_COUNTRY, dialOf } from '../data/countries.js';
+import PhoneField from './PhoneField.jsx';
 import { deliverLead } from '../lib/leadDelivery.js';
 
-const EMPTY = { name: '', phone: '', project: '', unit: '', message: '' };
+const EMPTY = { name: '', country: DEFAULT_COUNTRY, phone: '', project: '', unit: '', message: '' };
 
 function validate(values) {
   const e = {};
@@ -41,7 +43,7 @@ export default function LeadForm() {
       from_name: 'Landmark Developers Website',
       source: 'Contact section',
       name: values.name.trim(),
-      phone: values.phone.trim(),
+      phone: `${dialOf(values.country)} ${values.phone.trim()}`.trim(),
       project: values.project,
       unit: values.unit,
       message: values.message.trim(),
@@ -111,15 +113,13 @@ export default function LeadForm() {
 
           <RevealItem className={`field ${errors.phone ? 'has-error' : ''}`} y={24}>
             <label htmlFor="lf-phone">Phone</label>
-            <input
+            <PhoneField
               id="lf-phone"
-              name="phone"
-              type="tel"
-              autoComplete="off"
-              placeholder="+92 3XX XXXXXXX"
-              value={values.phone}
-              onChange={update('phone')}
-              aria-invalid={!!errors.phone}
+              country={values.country}
+              phone={values.phone}
+              onCountry={update('country')}
+              onPhone={update('phone')}
+              ariaInvalid={!!errors.phone}
             />
             {errors.phone && <span className="field-error">{errors.phone}</span>}
           </RevealItem>

@@ -7,6 +7,8 @@ import Footer from '../components/Footer.jsx';
 import InnerHeader from '../components/inner/InnerHeader.jsx';
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal.jsx';
 import { CONTACT } from '../data/site.js';
+import { DEFAULT_COUNTRY, dialOf } from '../data/countries.js';
+import PhoneField from '../components/PhoneField.jsx';
 import { deliverLead } from '../lib/leadDelivery.js';
 import '../styles/inner-pages.css';
 
@@ -55,7 +57,38 @@ const PILLARS = [
   },
 ];
 
+const JOB_OPENINGS = [
+  {
+    title: 'Business Development Representative',
+    department: 'Sales & Marketing',
+    type: 'Full-time',
+    location: 'Bahria Town, Lahore',
+    blurb:
+      'Generate qualified leads, build relationships with prospective buyers and investors, and represent Landmark’s portfolio across calls, walk-ins, and site visits.',
+    highlights: [
+      '1–3 years in sales, real estate, or business development',
+      'Confident communicator, fluent in Urdu & English',
+      'Comfortable with CRM tools and daily follow-ups',
+    ],
+  },
+  {
+    title: 'Manager Sales',
+    department: 'Sales & Marketing',
+    type: 'Full-time',
+    location: 'Bahria Town, Lahore',
+    blurb:
+      'Lead and mentor the sales team, own revenue targets across our projects, and build the strategy that turns interest into closed, high-value investments.',
+    highlights: [
+      '5+ years in real estate sales with a proven closing record',
+      'Experience leading and coaching a sales team',
+      'Strong pipeline, negotiation, and reporting skills',
+    ],
+  },
+];
+
 const POSITION_OPTIONS = [
+  'Business Development Representative',
+  'Manager Sales',
   'Sales Executive',
   'Investment Consultant',
   'Site Engineer',
@@ -71,11 +104,11 @@ const POSITION_OPTIONS = [
 export default function CareerPage() {
   useSmoothScroll();
 
-  const [form, setForm]     = useState({ name: '', phone: '', email: '', position: '', message: '' });
+  const [form, setForm]     = useState({ name: '', country: DEFAULT_COUNTRY, phone: '', email: '', position: '', message: '', cv: null });
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    // Scroll position handled globally by <ScrollToTop> in App.jsx — SEO only here.
     document.title = 'Careers at Landmark Developers | Join Our Team';
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content',
@@ -89,6 +122,24 @@ export default function CareerPage() {
     if (errors[e.target.name]) setErrors((er) => ({ ...er, [e.target.name]: '' }));
   };
 
+  const handleCv = (e) => {
+    const file = e.target.files?.[0] || null;
+    // Web3Forms caps attachments at ~5 MB; reject early with a clear message.
+    if (file && file.size > 5 * 1024 * 1024) {
+      setErrors((er) => ({ ...er, cv: 'File is too large — max 5 MB.' }));
+      setForm((f) => ({ ...f, cv: null }));
+      e.target.value = '';
+      return;
+    }
+    setErrors((er) => ({ ...er, cv: '' }));
+    setForm((f) => ({ ...f, cv: file }));
+  };
+
+  const applyFor = (title) => {
+    setForm((f) => ({ ...f, position: title }));
+    document.getElementById('career-apply')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const errs = {};
@@ -97,15 +148,18 @@ export default function CareerPage() {
     else if (form.phone.replace(/\D/g, '').length < 10) errs.phone = 'Enter a valid phone number';
     if (Object.keys(errs).length) { setErrors(errs); return; }
     // Deliver through BOTH channels: WhatsApp opens instantly + email to inbox.
+    // The CV (if attached) rides the email channel only — WhatsApp deep-links
+    // can't carry a file, so the copy asks candidates to attach it there too.
     deliverLead({
       subject: 'Career Application',
       from_name: 'Landmark Developers Website',
       source: 'Careers page',
       name: form.name.trim(),
-      phone: form.phone.trim(),
+      phone: `${dialOf(form.country)} ${form.phone.trim()}`.trim(),
       email: (form.email || '').trim(),
       interest: form.position || 'Open position',
       message: (form.message || '').trim(),
+      ...(form.cv ? { cv: form.cv } : {}),
     });
   };
 
@@ -213,28 +267,65 @@ export default function CareerPage() {
                 <span className="gold-word">openings.</span>
               </h2>
             </Reveal>
-
             <Reveal delay={0.1}>
-              <div className="career-openings-card">
-                <div className="career-openings-icon">
-                  <svg viewBox="0 0 24 24">
-                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-                  </svg>
-                </div>
-                <h3>No current openings listed</h3>
-                <p>
-                  We are not actively hiring at the moment, but we welcome talented people to
-                  submit their profile for future opportunities. Our team is always growing as
-                  new projects launch.
-                </p>
-              </div>
+              <p className="career-openings-lead">
+                We’re growing our Sales &amp; Marketing team. If you thrive on building
+                relationships and closing high-value real-estate investments, we’d love to
+                hear from you.
+              </p>
             </Reveal>
+
+            <RevealGroup className="career-jobs" stagger={0.08}>
+              {JOB_OPENINGS.map((job) => (
+                <RevealItem key={job.title} className="career-job">
+                  <div className="career-job-head">
+                    <span className="career-job-dept">{job.department}</span>
+                    <h3 className="career-job-title">{job.title}</h3>
+                    <div className="career-job-meta">
+                      <span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <circle cx="12" cy="12" r="10" />
+                          <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                        {job.type}
+                      </span>
+                      <span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                          <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        {job.location}
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="career-job-blurb">{job.blurb}</p>
+
+                  <ul className="career-job-list">
+                    {job.highlights.map((h) => (
+                      <li key={h}>{h}</li>
+                    ))}
+                  </ul>
+
+                  <button
+                    type="button"
+                    className="career-job-apply"
+                    onClick={() => applyFor(job.title)}
+                  >
+                    Apply for this role
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </button>
+                </RevealItem>
+              ))}
+            </RevealGroup>
           </div>
         </section>
 
         {/* ── Application Form ── */}
-        <section className="ip-section">
+        <section className="ip-section" id="career-apply">
           <div className="container">
             <div className="career-form-layout">
               {/* Copy */}
@@ -285,14 +376,14 @@ export default function CareerPage() {
                     </div>
                     <div className="ip-field">
                       <label htmlFor="cr-phone">Phone Number *</label>
-                      <input
+                      <PhoneField
                         id="cr-phone"
-                        name="phone"
-                        type="tel"
-                        placeholder="+92 3XX XXXXXXX"
-                        value={form.phone}
-                        onChange={handleChange}
-                        style={errors.phone ? { borderColor: '#e05c5c' } : {}}
+                        country={form.country}
+                        phone={form.phone}
+                        onCountry={(e) => setForm((f) => ({ ...f, country: e.target.value }))}
+                        onPhone={handleChange}
+                        ariaInvalid={!!errors.phone}
+                        errorStyle={errors.phone ? { borderColor: '#e05c5c' } : undefined}
                       />
                       {errors.phone && <span style={{ fontSize: '0.75rem', color: '#e05c5c', marginTop: '4px', display: 'block' }}>{errors.phone}</span>}
                     </div>
@@ -335,6 +426,32 @@ export default function CareerPage() {
                       onChange={handleChange}
                       style={{ minHeight: '140px' }}
                     />
+                  </div>
+
+                  <div className="ip-field">
+                    <label htmlFor="cr-cv">Attach Your CV <span style={{ opacity: 0.5 }}>(optional · PDF or Word, max 5 MB)</span></label>
+                    <label htmlFor="cr-cv" className={`cv-dropzone${form.cv ? ' has-file' : ''}`}>
+                      <input
+                        id="cr-cv"
+                        name="cv"
+                        type="file"
+                        accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        onChange={handleCv}
+                        className="cv-input"
+                      />
+                      <svg viewBox="0 0 24 24" aria-hidden="true" className="cv-icon">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                      </svg>
+                      <span className="cv-text">
+                        {form.cv ? form.cv.name : 'Click to upload your CV'}
+                      </span>
+                      {form.cv && (
+                        <span className="cv-size">{(form.cv.size / 1024).toFixed(0)} KB</span>
+                      )}
+                    </label>
+                    {errors.cv && <span style={{ fontSize: '0.75rem', color: '#e05c5c', marginTop: '4px', display: 'block' }}>{errors.cv}</span>}
                   </div>
 
                   <button type="submit" className="ip-submit">

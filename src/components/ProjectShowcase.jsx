@@ -6,6 +6,7 @@ const SECTIONS = [
     background: '/images/grand-15-render.jpg',
     leftLabel: 'Bahria Downtown Lahore',
     title: 'Grand 15',
+    subtitle: 'The flagship icon rising over Bahria Downtown.',
     rightLabel: 'Flagship Launch',
   },
   {
@@ -13,6 +14,7 @@ const SECTIONS = [
     background: '/images/grand-14-render.jpg',
     leftLabel: 'Main Boulevard, BTL',
     title: 'Grand 14',
+    subtitle: 'Signature residences on the Main Boulevard.',
     rightLabel: 'Now Selling',
   },
   {
@@ -20,6 +22,7 @@ const SECTIONS = [
     background: '/images/grand-x-render.jpg',
     leftLabel: 'Theme Park, BTL',
     title: 'Grand X',
+    subtitle: 'Landmark living beside the Theme Park.',
     rightLabel: 'New Investment',
   },
   {
@@ -27,6 +30,7 @@ const SECTIONS = [
     background: '/images/grand 11.jpg',
     leftLabel: 'Midway Commercial, BTL',
     title: 'Grand 11',
+    subtitle: 'A prime commercial address at Midway.',
     rightLabel: 'Now Selling',
   },
   {
@@ -34,6 +38,7 @@ const SECTIONS = [
     background: '/images/grand-12-render.jpg',
     leftLabel: 'Phase 8, Islamabad',
     title: 'Grand 12',
+    subtitle: 'Elevated apartments in the heart of Islamabad.',
     rightLabel: 'Now Selling',
   },
 ];
