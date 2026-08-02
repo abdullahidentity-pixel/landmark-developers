@@ -150,7 +150,15 @@ export default function ProjHero({ project }) {
           loading="eager"
           decoding="async"
           onError={(e) => { e.currentTarget.src = project.localHero; }}
-          onLoad={() => ScrollTrigger.refresh()}
+          onLoad={() => {
+            // Refreshing recalculates pinned triggers, but it also restores the
+            // scroll offset ScrollTrigger had recorded — which on a freshly
+            // opened page can yank the viewport away from the hero. If we were
+            // sitting at the top, put it straight back.
+            const atTop = window.scrollY === 0;
+            ScrollTrigger.refresh();
+            if (atTop) window.scrollTo(0, 0);
+          }}
         />
         <div className="pj-hero-overlay" />
         <div className="pj-hero-vignette" />

@@ -35,11 +35,83 @@ function headerOffset() {
   return el ? el.offsetHeight : 84;
 }
 
+// The mobile menu locks scrolling by pinning <body> to `position: fixed` with a
+// negative `top` offset. If a navigation happens while that lock is applied,
+// clearing only `overflow` leaves the body pinned — and the browser then lands
+// the new page at the old offset. Release every property the lock sets.
+function releaseBodyScrollLock() {
+  const s = document.body.style;
+  s.position = '';
+  s.top = '';
+  s.left = '';
+  s.right = '';
+  s.width = '';
+  s.overflow = '';
+}
+
+// Force the viewport to the very top through every channel that can hold a
+// scroll position: the window, both scrolling elements (Safari vs. everyone
+// else), and Lenis's internal target (desktop smooth scrolling).
 function scrollToTopNow() {
   window.scrollTo(0, 0);
+  if (document.scrollingElement) document.scrollingElement.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
   if (typeof window.__lenis?.scrollTo === 'function') {
     window.__lenis.scrollTo(0, { immediate: true, force: true });
   }
+}
+
+// Deliberate user input that should end an automated scroll early.
+const USER_SCROLL_EVENTS = ['wheel', 'touchstart', 'pointerdown', 'keydown'];
+
+// Breathing room between the navbar and an anchored section's top edge.
+const ANCHOR_GAP = 12;
+
+/**
+ * Pin the page at the top until its layout stops moving.
+ *
+ * A single scroll-to-top isn't enough on content-heavy pages (project pages
+ * especially). After we reset, several things still fire asynchronously and can
+ * yank the viewport back down:
+ *   • the hero <img> finishing decode triggers `ScrollTrigger.refresh()`, which
+ *     recalculates pinned sections and restores its own recorded scroll offset;
+ *   • lazy images, web fonts and the 3D scene change document height;
+ *   • the browser's own scroll-anchoring nudges position as content grows.
+ *
+ * So instead of resetting once, we re-assert the top on every frame for a short
+ * settle window — and bail out the instant the user genuinely tries to scroll,
+ * so we never fight a real gesture. Returns a cleanup function.
+ */
+function holdAtTop(durationMs = 1000) {
+  let raf = 0;
+  let cancelled = false;
+  const start = performance.now();
+
+  const release = () => {
+    if (cancelled) return;
+    cancelled = true;
+    cancelAnimationFrame(raf);
+    for (const evt of USER_SCROLL_EVENTS) {
+      window.removeEventListener(evt, release);
+    }
+  };
+
+  // Any deliberate user input ends the hold immediately.
+  for (const evt of USER_SCROLL_EVENTS) {
+    window.addEventListener(evt, release, { passive: true, once: true });
+  }
+
+  const tick = (now) => {
+    if (cancelled) return;
+    if (window.scrollY !== 0) scrollToTopNow();
+    if (now - start < durationMs) raf = requestAnimationFrame(tick);
+    else release();
+  };
+
+  scrollToTopNow();
+  raf = requestAnimationFrame(tick);
+  return release;
 }
 
 function ScrollToTop() {
@@ -48,8 +120,15 @@ function ScrollToTop() {
   // Before paint: for a normal (hash-less) navigation, snap to the top so the new
   // page never flashes mid-scroll. Hash navigations are handled in the effect
   // below, after the target section has had a chance to mount.
+  // Stop the browser from restoring a remembered scroll offset on top of ours.
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+
   useLayoutEffect(() => {
-    document.body.style.overflow = '';   // clear any mobile-menu overflow lock
+    releaseBodyScrollLock();             // clear any mobile-menu scroll lock
     if (!hash) scrollToTopNow();
   }, [pathname, hash]);
 
@@ -58,29 +137,67 @@ function ScrollToTop() {
       // Anchor navigation. Pages carry lazy content + entrance animations, so the
       // target may not exist on the first frame — poll a few frames until it does.
       const id = decodeURIComponent(hash.slice(1));
-      let raf;
+      let raf = 0;
+      let timer = 0;
       let tries = 0;
-      const seek = () => {
-        const el = document.getElementById(id);
-        if (el) {
-          if (typeof window.__lenis?.scrollTo === 'function') {
-            window.__lenis.scrollTo(el, { offset: -headerOffset() });
-          } else {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        } else if (tries++ < 30) {
-          raf = requestAnimationFrame(seek);
+      let cancelled = false;
+
+      const cancel = () => {
+        if (cancelled) return;
+        cancelled = true;
+        cancelAnimationFrame(raf);
+        clearTimeout(timer);
+        for (const evt of USER_SCROLL_EVENTS) window.removeEventListener(evt, cancel);
+      };
+      for (const evt of USER_SCROLL_EVENTS) {
+        window.addEventListener(evt, cancel, { passive: true, once: true });
+      }
+
+      // Where the section's top edge should sit: clear of the fixed navbar.
+      const targetTop = () => headerOffset() + ANCHOR_GAP;
+
+      const goTo = (el, smooth) => {
+        const y = Math.max(0, window.scrollY + el.getBoundingClientRect().top - targetTop());
+        if (typeof window.__lenis?.scrollTo === 'function') {
+          window.__lenis.scrollTo(y, smooth ? {} : { immediate: true, force: true });
+        } else {
+          window.scrollTo({ top: y, behavior: smooth ? 'smooth' : 'auto' });
         }
       };
+
+      const seek = () => {
+        if (cancelled) return;
+        const el = document.getElementById(id);
+        if (!el) {
+          if (tries++ < 60) raf = requestAnimationFrame(seek);
+          return;
+        }
+        goTo(el, true);
+
+        // Media and animated sections above the target keep resolving after the
+        // scroll starts, which shifts the target out from under us — leaving the
+        // section buried behind the navbar or scrolled past. Re-measure a few
+        // times and correct any drift.
+        let passes = 0;
+        const correct = () => {
+          if (cancelled) return;
+          const node = document.getElementById(id);
+          if (node && Math.abs(node.getBoundingClientRect().top - targetTop()) > 24) {
+            goTo(node, false);
+          }
+          if (passes++ < 4) timer = setTimeout(correct, 260);
+        };
+        timer = setTimeout(correct, 700);
+      };
+
       raf = requestAnimationFrame(seek);
-      return () => cancelAnimationFrame(raf);
+      return cancel;
     }
 
-    // No hash: the freshly-mounted page creates its Lenis instance in a passive
-    // effect, so reset once more on the next frame to catch that instance too.
-    scrollToTopNow();
-    const raf = requestAnimationFrame(scrollToTopNow);
-    return () => cancelAnimationFrame(raf);
+    // No hash: keep the page pinned to the top while it settles, so async work
+    // (hero image decode → ScrollTrigger.refresh, lazy media, fonts, the 3D
+    // scene) can't drag the viewport down after we've landed.
+    return holdAtTop();
   }, [pathname, hash]);
 
   return null;
