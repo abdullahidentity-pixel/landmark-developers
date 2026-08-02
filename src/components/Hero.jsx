@@ -135,7 +135,10 @@ export default function Hero() {
 
         <h1 className="hero-title">
           <span className="hero-line">
-            <span>Invest in Landmark Living</span>
+            <span>Invest in</span>
+          </span>
+          <span className="hero-line">
+            <span>Landmark Living</span>
           </span>
           <span className="hero-line">
             <span className="gold-text">at Bahria Town Lahore</span>
