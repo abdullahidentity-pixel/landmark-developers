@@ -6,15 +6,25 @@ import { CONTACT, UNIT_OPTIONS } from '../../data/site.js';
 import { DEFAULT_COUNTRY, dialOf } from '../../data/countries.js';
 import PhoneField from '../PhoneField.jsx';
 import { deliverLead } from '../../lib/leadDelivery.js';
+import { MESSAGE_LABEL, MESSAGE_PLACEHOLDER, validateMessage } from '../../lib/leadFields.js';
 
 const EMPTY = { name: '', country: DEFAULT_COUNTRY, phone: '', unit: '', message: '' };
 
-function validate(values) {
+// This form is shared by every project page, but the "what information are you
+// looking for?" question is only asked (and only enforced) on Grand 15. Every
+// other project keeps the original optional Message field.
+const REQUIRE_MESSAGE_SLUGS = ['grand-15'];
+
+function validate(values, requireMessage) {
   const e = {};
   if (!values.name.trim()) e.name = 'Please enter your name';
   const digits = values.phone.replace(/\D/g, '');
   if (!values.phone.trim()) e.phone = 'Please enter your phone number';
   else if (digits.length < 10 || digits.length > 13) e.phone = 'Enter a valid phone number';
+  if (requireMessage) {
+    const msg = validateMessage(values.message);
+    if (msg) e.message = msg;
+  }
   return e;
 }
 
@@ -23,6 +33,8 @@ export default function ProjLeadForm({ project }) {
   const [errors, setErrors] = useState({});
   const [sent, setSent] = useState(false);
 
+  const requireMessage = REQUIRE_MESSAGE_SLUGS.includes(project.slug);
+
   const update = (k) => (ev) => {
     setValues((v) => ({ ...v, [k]: ev.target.value }));
     setErrors((er) => ({ ...er, [k]: undefined }));
@@ -30,7 +42,7 @@ export default function ProjLeadForm({ project }) {
 
   const onSubmit = (ev) => {
     ev.preventDefault();
-    const e = validate(values);
+    const e = validate(values, requireMessage);
     setErrors(e);
     if (Object.keys(e).length) {
       ev.currentTarget.querySelector(`[name="${Object.keys(e)[0]}"]`)?.focus();
@@ -128,11 +140,15 @@ export default function ProjLeadForm({ project }) {
             </select>
           </RevealItem>
 
-          <RevealItem className="field" y={24}>
-            <label htmlFor="pjf-message">Message</label>
+          <RevealItem className={`field ${errors.message ? 'has-error' : ''}`} y={24}>
+            <label htmlFor="pjf-message">
+              {requireMessage ? MESSAGE_LABEL : 'Message'}
+            </label>
             <textarea id="pjf-message" name="message" rows="3"
-              placeholder="Questions about pricing, floor plans, or availability…"
+              placeholder={requireMessage ? MESSAGE_PLACEHOLDER : 'Questions about pricing, floor plans, or availability…'}
+              aria-invalid={!!errors.message}
               value={values.message} onChange={update('message')} />
+            {errors.message && <span className="field-error">{errors.message}</span>}
           </RevealItem>
 
           <RevealItem y={20}>
