@@ -70,6 +70,28 @@ export async function emailLead(fields) {
   }
 }
 
+/**
+ * Fire ad-platform conversion events for a qualified lead. Safe to call even if
+ * a script is blocked/not yet loaded — each call is guarded so it never throws.
+ *   • Google Ads — records the conversion action defined by the label below.
+ *   • Meta Pixel — records a standard "Lead" event.
+ * Both base tags live in index.html (loaded on every page of this SPA).
+ */
+export function trackLeadConversion() {
+  try {
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('event', 'conversion', {
+        send_to: 'AW-18236939136/k9jECKyXw9YcEIC3hvhD',
+      });
+    }
+  } catch { /* analytics must never break a submit */ }
+  try {
+    if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+      window.fbq('track', 'Lead');
+    }
+  } catch { /* analytics must never break a submit */ }
+}
+
 /** Open WhatsApp with the lead details prefilled. Must run inside a click. */
 export function openWhatsAppLead(fields) {
   const lines = [`*New Lead — ${fields.subject || 'Enquiry'}*`];
@@ -94,6 +116,7 @@ export function openWhatsAppLead(fields) {
  */
 export async function deliverLead(fields, { whatsapp = true } = {}) {
   const emailPromise = emailLead(fields); // start email first — keepalive protects it
+  trackLeadConversion();                  // record the lead in Google Ads + Meta
   if (whatsapp) openWhatsAppLead(fields);
   return emailPromise;
 }
