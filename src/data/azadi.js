@@ -230,13 +230,23 @@ export const STORY = {
 /* ── Section 9 — Brochure previews ──────────────────────────────────────── */
 // Only real assets present in /public are listed. Nothing invented.
 
+// Each entry carries two files. `src` is the full-resolution original, used by
+// the lightbox where the visitor has actually asked to see detail. `thumb` is
+// the 800px WebP the grid uses.
+//
+// The grid was serving the originals: 1448×1086 JPEGs, 390–575 KB each, painted
+// into a 343px-wide box on a phone. That is roughly eighteen times more pixels
+// than the screen can show, and the cost is not the download — it is that the
+// browser has to decode all six at full size, on the main thread, exactly as
+// they scroll into view. The thumbnails are 62–106 KB and drop 2.3 MB from the
+// page.
 export const GALLERY = [
-  { src: '/images/grand-15-2.jpg', label: 'Grand 15 — Facade' },
-  { src: '/images/grand-15-1.jpg', label: 'Park & Fountain Outlook' },
-  { src: '/images/grand-15-3.jpg', label: 'Residence Interiors' },
-  { src: '/images/grand-15-4.jpg', label: 'Terrace Lifestyle' },
-  { src: '/images/grand-15-5.jpg', label: 'Amenity Floor' },
-  { src: '/images/grand-15-6.jpg', label: 'Commercial Frontage' },
+  { src: '/images/grand-15-2.jpg', thumb: '/images/grand-15-2-800.webp', label: 'Grand 15 — Facade' },
+  { src: '/images/grand-15-1.jpg', thumb: '/images/grand-15-1-800.webp', label: 'Park & Fountain Outlook' },
+  { src: '/images/grand-15-3.jpg', thumb: '/images/grand-15-3-800.webp', label: 'Residence Interiors' },
+  { src: '/images/grand-15-4.jpg', thumb: '/images/grand-15-4-800.webp', label: 'Terrace Lifestyle' },
+  { src: '/images/grand-15-5.jpg', thumb: '/images/grand-15-5-800.webp', label: 'Amenity Floor' },
+  { src: '/images/grand-15-6.jpg', thumb: '/images/grand-15-6-800.webp', label: 'Commercial Frontage' },
 ];
 
 /* ── Section 10 — Register interest form ───────────────────────────────── */

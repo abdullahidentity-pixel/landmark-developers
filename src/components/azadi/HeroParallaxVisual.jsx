@@ -29,13 +29,19 @@ export default function HeroParallaxVisual({ reduce = false }) {
         transition={{ duration: 1.4, ease: EASE, delay: 0.1 }}
       >
         {/* `fetchpriority` is lowercase deliberately: React 18 doesn't map the
-            camelCase form, so it warns and drops the attribute. */}
+            camelCase form, so it warns and drops the attribute.
+
+            WebP at 1000px wide, not the 1400px JPEG. This is the LCP element,
+            so its byte count sets the page's headline performance score — 138 KB
+            against 396 KB. The frame it renders into is never wider than about
+            452px, so the source pixels beyond 1000 were only ever costing
+            decode time on the main thread while the hero animated in. */}
         <img
           className="az-render"
-          src="/images/grand-15-azadi-hero.jpg"
+          src="/images/grand-15-azadi-hero.webp"
           alt="Grand 15 at Bahria Downtown Lahore dressed for Independence Day, with a Pakistan flag banner on the tower and flags along the boulevard"
-          width="1400"
-          height="1050"
+          width="1000"
+          height="750"
           fetchpriority="high"
           decoding="async"
         />

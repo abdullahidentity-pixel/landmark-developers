@@ -39,26 +39,67 @@
   transition: transform 0.35s var(--ease), background 0.35s var(--ease),
     color 0.35s var(--ease), box-shadow 0.35s var(--ease), border-color 0.35s var(--ease),
     opacity 0.35s var(--ease);
+}
+/* `will-change` is a hint to promote the element to its own compositor layer,
+   and it is only ever meant to be set just before the change happens. It used
+   to sit on `.btn` unconditionally, which meant every button on a page — 22 of
+   them on the campaign page alone — held a permanent GPU layer for a transform
+   that fires only on hover. Mobile GPUs have a hard time with layer counts like
+   that, and the symptom is exactly the stutter this page had. Promote on the
+   interactions that actually animate, and let the layer go afterwards. */
+.btn:hover,
+.btn:focus-visible,
+.btn:active {
   will-change: transform;
 }
 .btn svg { flex: none; }
 .btn:active { transform: scale(0.97); }
 button.btn { font-family: inherit; cursor: pointer; }
 
+/* The primary CTA "breathes" — a glow that swells and fades so the button reads
+   as live rather than painted on.
+
+   It used to do that by animating `box-shadow` directly, and that was the single
+   most expensive thing on the site. box-shadow is not a compositor property, so
+   every frame of a 3.6s infinite loop forced a full repaint of a large blurred
+   shadow — on every primary button, on every page, forever, whether or not the
+   button was on screen. With a dozen of them down a page the compositor never
+   got a quiet frame, and scrolling stuttered and felt like it was catching.
+
+   The workaround at the time was to switch the animation off below 600px, which
+   left phones without the effect and desktops still repainting. So instead the
+   glow now lives on a pseudo-element and only its `opacity` animates. Opacity is
+   handled entirely by the compositor: the shadow is painted once, then faded in
+   and out on the GPU. Same effect, zero repaints, and phones get it back. */
 .btn-primary {
+  position: relative;
   background: var(--gold-grad);
   color: #1c1305;
   box-shadow: 0 8px 30px -10px rgba(217, 184, 120, 0.55);
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  /* Purely a glow caster. It must never intercept a click meant for the button
+     and must never be announced — it has no content and no meaning. */
+  pointer-events: none;
+  box-shadow: 0 12px 40px -10px rgba(240, 212, 155, 0.72);
+  opacity: 0;
   animation: ctaBreathe 3.6s var(--ease) infinite;
 }
 .btn-primary:hover {
   box-shadow: 0 14px 44px -10px rgba(240, 212, 155, 0.7);
   transform: translateY(-2px);
-  animation-play-state: paused;
 }
+.btn-primary:hover::after { animation-play-state: paused; }
 @keyframes ctaBreathe {
-  0%, 100% { box-shadow: 0 8px 26px -12px rgba(217, 184, 120, 0.5); }
-  50% { box-shadow: 0 12px 40px -10px rgba(240, 212, 155, 0.72); }
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary::after { animation: none; }
 }
 
 .btn-glass {
@@ -192,15 +233,19 @@ button.btn { font-family: inherit; cursor: pointer; }
   border-radius: 50%;
   background: #7ee2a4;
   box-shadow: 0 0 8px rgba(126, 226, 164, 0.9);
-  /* The glow lives on the dot, not the whole pill. Pulsing the pill's own
-     box-shadow animates a large blurred surface every frame; a 6px dot is
-     cheap, and a single blinking point reads as "live" more clearly than a
-     breathing rectangle does. */
+  /* The glow lives on the dot, not the whole pill — a single blinking point
+     reads as "live" more clearly than a breathing rectangle does.
+
+     Only opacity animates. The dot's shadow is painted once and stays put; the
+     keyframes used to vary its blur radius too, which meant a repaint on every
+     frame of a loop that never ends, in the fixed header, on every page of the
+     site. Fading the whole dot varies the apparent glow just as much and is
+     handled on the GPU. */
   animation: az-nav-pulse 2.4s var(--ease) infinite;
 }
 @keyframes az-nav-pulse {
-  0%, 100% { opacity: 1;   box-shadow: 0 0 8px rgba(126, 226, 164, 0.9); }
-  50%      { opacity: 0.5; box-shadow: 0 0 3px rgba(126, 226, 164, 0.45); }
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
 }
 /* On the campaign page itself the pill is a label, not a destination. */
 .az-nav-pill.is-current {
@@ -1501,14 +1546,11 @@ body.kb-open .mobile-cta-bar {
      the animation on phones. */
   .hero-mesh { filter: none; }
   .hero-aurora { filter: none; animation: none; opacity: 0.7; }
-  /* CTA "breathing" glow animates box-shadow, which forces a full repaint of
-     each primary button every frame. There are ~12 primary buttons across the
-     page (lead form, project cards, final CTA), so on iOS every scroll frame
-     repaints a stack of large blurred shadows — the page feels heavy and
-     "won't go down", and the pulsing reads as a flicker/flashback near the
-     lead form and final CTA. Keep the static shadow, drop the animation on
-     phones. Desktop keeps the breathing glow. */
-  .btn-primary { animation: none; }
+  /* The CTA breathing glow used to be switched off here, because animating
+     box-shadow repainted every primary button on every frame and made iOS
+     scrolling feel like it was catching. That animation now runs on a
+     pseudo-element's opacity and is composited, so it costs phones nothing and
+     they keep the effect. See .btn-primary::after. */
   /* Lift fixed bars clear of the sticky CTA bar */
   main { padding-bottom: 0; }
   .footer { padding-bottom: calc(50px + 76px + env(safe-area-inset-bottom)); }

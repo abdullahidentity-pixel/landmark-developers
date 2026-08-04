@@ -387,6 +387,19 @@
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
+
+/* Nothing in the hero should keep animating once the hero has scrolled away.
+   These loops are composited and individually cheap, but there are twenty of
+   them and the page they sit on is fifteen thousand pixels tall — so for the
+   overwhelming majority of a visit they were animating pixels nobody could
+   see, each holding its own GPU layer. `paused` rather than `none`: the
+   particles resume mid-drift when the hero comes back instead of all twenty
+   restarting from the bottom edge in lockstep, which would read as a glitch.
+   The class is set by an IntersectionObserver in AzadiHero.jsx. */
+.az-hero.is-offscreen .az-particle,
+.az-hero.is-offscreen .az-rays {
+  animation-play-state: paused;
+}
 .az-particle.is-green {
   background: var(--az-green-text);
   box-shadow: 0 0 8px rgba(143, 216, 174, 0.6);
@@ -1371,6 +1384,13 @@
 .az-gal-item img {
   display: block;
   width: 100%;
+  /* `height: auto` is not optional here. The tag carries width/height attributes
+     so the browser can reserve the right box before the file lands, and those
+     attributes map to a presentational `height: 600px`. A definite width AND a
+     definite height means `aspect-ratio` has nothing left to decide, so it is
+     ignored — every tile rendered 271px wide by a full 600px tall. Releasing the
+     height hands control back to the ratio. */
+  height: auto;
   aspect-ratio: 4 / 3;
   object-fit: cover;
   transition: transform 0.7s var(--ease);

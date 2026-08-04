@@ -61,7 +61,19 @@ export default function AzadiGallery() {
                 onClick={() => setIndex(i)}
                 aria-label={`Open image: ${g.label}`}
               >
-                <img src={g.src} alt={g.label} loading="lazy" decoding="async" />
+                {/* The thumbnail, not the original — see GALLERY in data/azadi.js.
+                    `width`/`height` are the thumbnail's real pixel dimensions so
+                    the browser can reserve the box before the file arrives; six
+                    lazy images collapsing to nothing and then popping open as
+                    they load is its own kind of scroll jank. */}
+                <img
+                  src={g.thumb}
+                  alt={g.label}
+                  width="800"
+                  height="600"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <span className="az-gal-cap">{g.label}</span>
                 <span className="az-gal-zoom" aria-hidden="true">
                   <svg viewBox="0 0 24 24" width="17" height="17" fill="none"
