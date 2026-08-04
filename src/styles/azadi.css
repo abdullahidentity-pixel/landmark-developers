@@ -1439,11 +1439,61 @@
   display: block;
   width: 100%;
   height: auto;
+}
+.az-story-art-base {
   /* A free-standing object needs to cast its own shadow to sit on the ground
      instead of floating in front of it. drop-shadow follows the alpha silhouette,
      which box-shadow cannot do — box-shadow would trace the bounding box. */
   filter: drop-shadow(0 30px 46px rgba(0, 0, 0, 0.62))
     drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+}
+
+/* The rippling copy, laid exactly over the still one.
+   `inset: 0` alone would stretch it; the width/height reset keeps it at the
+   base image's own aspect so the two stay in register pixel for pixel — any
+   mismatch here shows up as a ghosted double edge along the flag. */
+.az-story-art-wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  filter: url(#az-flag-wave);
+  /* The monuments must never move, so the ripple is masked off over them.
+     The stop positions are measured, not guessed: classifying every opaque
+     pixel of the artwork as flag (near-white, or saturated green) or not, and
+     profiling that down the image in twentieths, gives non-flag content at
+     ~0% above y=30%, 0.59–0.92 through the middle, and back to ~0.08 below
+     y=78%. So the monuments occupy 30%–78%, and the two fabric tails — the
+     part that should actually wave — are what is left at the top and bottom.
+
+     Hence a vertical ramp rather than the ellipse this started as. The ellipse
+     was fitted by eye and left the 69–78% band partly displaced, which is the
+     bottom edge of Badshahi and Mazar-e-Quaid.
+
+     The 8% ramps matter: displacement pushes pixels across the mask edge, and
+     a hard cut would tear visibly there. */
+  --az-wave-mask: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 22%,
+    transparent 30%,
+    transparent 78%,
+    #000 86%,
+    #000 100%
+  );
+  mask-image: var(--az-wave-mask);
+  -webkit-mask-image: var(--az-wave-mask);
+}
+
+/* The filter definition carries no visual output of its own. It must stay in
+   the layout tree for the `url(#…)` reference to resolve — `display: none` on
+   an ancestor breaks the reference in Safari — so it is collapsed instead. */
+.az-story-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 
 .az-story-copy {
