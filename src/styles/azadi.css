@@ -256,6 +256,51 @@
   animation: az-rays-spin 160s linear infinite;
 }
 
+/* This layer was the single most expensive thing on the page, by a wide margin.
+   At 150vmax it measures 1786×1786 CSS pixels on a phone — on a typical Android
+   at 3× that is over 28 million device pixels — and it is not a flat fill: it is
+   a repeating conic gradient under a radial mask, rotating without end. The hero
+   it decorates is 2 megapixels. So the GPU was continuously re-compositing a
+   texture six times the size of the screen's content, which is exactly the
+   "slow on the hero and just after it" that Android showed.
+
+   Two changes, both scoped to touch devices so the desktop composition is
+   untouched:
+
+   The box shrinks to something proportional to the screen. Because a conic
+   gradient is angular, a smaller box does not change the rays' width or spacing
+   — only how far they extend before the mask has already faded them out.
+
+   The rotation stops. At 360° over 160 seconds this drifts 2.25° per second
+   against a pattern that repeats every 17°, so it is close to imperceptible
+   even when you look for it — and it was the reason the whole layer had to be
+   re-composited every single frame rather than drawn once and left alone.
+
+   The mask also tightens. On a narrow screen the point the rays converge on
+   falls inside the viewport, and a stationary fan converging on a visible point
+   reads as a hard starburst in a way a slowly turning one does not. Pulling the
+   fully-opaque core out to 18% and easing the fade to 52% keeps the light fan
+   without the pin-sharp centre, and the lower opacity lets the gold bloom sit
+   in front of it rather than fighting it. */
+@media (hover: none), (pointer: coarse), (max-width: 820px) {
+  .az-rays {
+    width: 130vh;
+    height: 130vh;
+    opacity: 0.13;
+    animation: none;
+    mask-image: radial-gradient(circle, transparent 0%, #000 18%, transparent 52%);
+    -webkit-mask-image: radial-gradient(circle, transparent 0%, #000 18%, transparent 52%);
+  }
+}
+
+/* Tiled gradients under a mask, across the full height of the hero, at stop
+   opacities of 0.055 — on a phone this is below the threshold where anyone
+   could tell it apart from the flat background, and it costs a 2-megapixel
+   masked raster to say nothing. */
+@media (hover: none), (pointer: coarse), (max-width: 820px) {
+  .az-bg-motif { display: none; }
+}
+
 .az-glow {
   position: absolute;
   border-radius: 50%;
@@ -274,6 +319,51 @@
   bottom: -16%;
   left: -10%;
   background: radial-gradient(circle, rgba(15, 90, 51, 0.34), transparent 70%);
+}
+
+/* A `blur()` this wide is one of the most expensive things a GPU can be asked
+   for — the radius is roughly half the element's own width, so the browser has
+   to expand the layer well past its box and run a multi-pass gaussian over it.
+   Every frame the hero animates, that is paid again.
+
+   But simply deleting the blur on phones was wrong, and the screenshot said so
+   immediately: these blooms are what keeps the colour temperature warm and what
+   softens the ray fan behind the headline. Without them the hero went flat and
+   the rays turned into a hard starburst.
+
+   The fix is to get the same softness for free. A gaussian blur and a gradient
+   falloff produce the same thing — a smooth ramp from colour to nothing — but a
+   gradient is computed once when the layer is painted, while a blur is a filter
+   pass over an expanded surface. So on phones the blur comes off and the
+   gradient grows to cover the spread it used to add: the box roughly doubles
+   (48vw + 2×90px of blur reach ≈ 96vw) and gains a mid stop so the falloff
+   curve matches rather than ending in a visible disc. Same bloom, no filter. */
+@media (hover: none), (pointer: coarse), (max-width: 820px) {
+  .az-glow { filter: none; }
+  .az-glow-gold {
+    width: 98vw;
+    height: 98vw;
+    top: -26%;
+    right: -30%;
+    background: radial-gradient(
+      circle,
+      rgba(217, 184, 120, 0.17),
+      rgba(217, 184, 120, 0.07) 38%,
+      transparent 72%
+    );
+  }
+  .az-glow-green {
+    width: 92vw;
+    height: 92vw;
+    bottom: -30%;
+    left: -32%;
+    background: radial-gradient(
+      circle,
+      rgba(15, 90, 51, 0.30),
+      rgba(15, 90, 51, 0.12) 38%,
+      transparent 72%
+    );
+  }
 }
 
 /* ── Patriotic background layers ──────────────────────────────────────────
@@ -563,6 +653,25 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.14),
     0 0 30px rgba(24, 128, 74, 0.32);
+}
+/* `backdrop-filter` is not priced by the size of the element that carries it —
+   it is priced by everything behind it, because the browser has to rasterise
+   that region and blur the result. The campaign badge is a small pill, but it
+   sits in front of the entire hero atmosphere stack, so on a phone it forced
+   all of those masked and blurred layers to be flattened into a texture just to
+   tint 200 pixels of it. It is translucent gold over a dark hero; the same look
+   comes from a slightly heavier gradient with no readback at all.
+
+   This block has to sit *after* the base rule, not before it. Both are single
+   class selectors, so they carry identical specificity and the later one wins —
+   an override placed above the declaration it overrides simply does nothing. */
+@media (hover: none), (pointer: coarse), (max-width: 820px) {
+  .az-campaign-badge {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background:
+      linear-gradient(180deg, rgba(90, 74, 44, 0.55), rgba(58, 48, 28, 0.42));
+  }
 }
 .az-campaign-pulse {
   position: relative;

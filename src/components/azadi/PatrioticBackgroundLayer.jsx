@@ -26,6 +26,20 @@
  *   dust    — drifting gold particles
  *   vignette— darkens the frame edges so the composition holds together
  */
+/* Each particle is its own compositing layer, animating for as long as the hero
+   is on screen. Eighteen is right on a wide desktop hero, where they are spread
+   thinly across ~1400px and read as drifting dust. On a 393px phone the same
+   eighteen are packed into a quarter of the width — they stop reading as dust
+   and start reading as a column of dots — and eighteen live layers is real work
+   for a mid-range Android GPU. Fewer particles is both cheaper and better
+   looking at that size. */
+const PARTICLE_COUNT =
+  typeof window !== 'undefined' &&
+  typeof window.matchMedia === 'function' &&
+  window.matchMedia('(hover: none), (pointer: coarse), (max-width: 820px)').matches
+    ? 7
+    : 18;
+
 export default function PatrioticBackgroundLayer({ reduce = false }) {
   return (
     <div className="az-hero-atmos" aria-hidden="true">
@@ -89,7 +103,7 @@ export default function PatrioticBackgroundLayer({ reduce = false }) {
 
       {!reduce && (
         <div className="az-particles">
-          {Array.from({ length: 18 }).map((_, i) => (
+          {Array.from({ length: PARTICLE_COUNT }).map((_, i) => (
             <span
               key={i}
               className={`az-particle ${i % 3 === 0 ? 'is-green' : ''}`}
