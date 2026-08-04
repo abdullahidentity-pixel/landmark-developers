@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import ProjectPage from './pages/ProjectPage.jsx';
@@ -230,6 +230,47 @@ function KeyboardAwareChrome() {
   return null;
 }
 
+/* ── Page views for a single-page app ─────────────────────────────────────────
+   The tags in index.html run once, when the document loads. On a multi-page
+   site that is one tag per page view; here it is one tag per *session*, so
+   every route the visitor moved through after landing was invisible — and the
+   ad campaigns could not tell a bounce from someone who read four pages.
+
+   The initial view is already reported by index.html (`fbq('track','PageView')`
+   and the gtag config call), so this fires only on subsequent navigations. The
+   ref holds the last path reported and starts out holding the landing path —
+   which both skips that first duplicate and makes the whole effect idempotent.
+   A boolean "have I run yet" flag would not: StrictMode runs every effect
+   twice in development while refs survive across the remount, so the landing
+   page got a phantom second view. Comparing paths means running twice for the
+   same path is simply a no-op. */
+function PageViewTracker() {
+  const { pathname, search } = useLocation();
+  const lastPath = useRef(window.location.pathname + window.location.search);
+
+  useEffect(() => {
+    const path = pathname + search;
+    if (path === lastPath.current) return;
+    lastPath.current = path;
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'page_view', {
+        page_path: path,
+        page_location: window.location.href,
+        page_title: document.title,
+      });
+    }
+    if (typeof window.fbq === 'function') window.fbq('track', 'PageView');
+    // GTM sees route changes through its own History Change trigger, but only
+    // if something pushes to the data layer — the trigger listens to the layer,
+    // not to the browser.
+    if (Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({ event: 'spa_page_view', page_path: path });
+    }
+  }, [pathname, search]);
+
+  return null;
+}
+
 function AppRoutes() {
   const { pathname } = useLocation();
   return (
@@ -266,6 +307,7 @@ export default function App() {
     <LeadModalProvider>
       <BrowserRouter>
         <ScrollToTop />
+        <PageViewTracker />
         <KeyboardAwareChrome />
         <LeadModal />
         <AppRoutes />
