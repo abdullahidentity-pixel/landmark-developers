@@ -56,13 +56,20 @@ export default function AzadiDealPage() {
 
       <main>
         <AzadiHero onRegister={toForm} />
+        {/* The patriotic tableau sits directly under the hero rather than eight
+            sections down. It is the campaign's emotional argument, and buried at
+            position eight it was only reaching visitors who had already read the
+            unit sizes and the payment plan — people who are by then being sold on
+            specifics, not on 14 August. Here it lands while the hero's claim is
+            still in mind, and it puts the page's second CTA one screen from the
+            top instead of eight. */}
+        <AzadiStory onClaim={toForm} />
         <AzadiOverview onRegister={toForm} />
         <AzadiUnits />
         <AzadiPaymentPlan onRegister={toForm} />
         <AzadiFloors />
         <AzadiAmenities />
         <AzadiFurnished />
-        <AzadiStory onClaim={toForm} />
         <AzadiGallery />
         <AzadiLeadForm />
 

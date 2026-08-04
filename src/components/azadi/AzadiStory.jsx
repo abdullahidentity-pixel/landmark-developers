@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { Reveal } from '../Reveal.jsx';
 import MagneticButton from '../MagneticButton.jsx';
-import AzadiCountdown from './AzadiCountdown.jsx';
 import { STORY } from '../../data/azadi.js';
 
 /**
@@ -81,11 +80,13 @@ export default function AzadiStory({ onClaim }) {
             <p className="az-story-body">{STORY.body}</p>
           </Reveal>
 
-          <Reveal delay={0.1} className="az-story-count">
-            <AzadiCountdown />
-          </Reveal>
+          {/* No countdown here. There is one at the foot of the hero, and now
+              that this section follows the hero directly the two sat barely a
+              screen apart — the same four ticking boxes twice in a row reads as
+              a rendering bug rather than as urgency. The hero keeps it, because
+              that one is above the fold and does its work at first paint. */}
 
-          <Reveal delay={0.16}>
+          <Reveal delay={0.1}>
             <MagneticButton
               as="button"
               type="button"
