@@ -260,6 +260,10 @@ function PageViewTracker() {
       });
     }
     if (typeof window.fbq === 'function') window.fbq('track', 'PageView');
+    // TikTok's queue object exists from the moment its snippet runs, well before
+    // the remote SDK arrives, and calls made in between are replayed once it
+    // loads — so this is safe on a fast navigation right after landing.
+    if (window.ttq && typeof window.ttq.page === 'function') window.ttq.page();
     // GTM sees route changes through its own History Change trigger, but only
     // if something pushes to the data layer — the trigger listens to the layer,
     // not to the browser.
