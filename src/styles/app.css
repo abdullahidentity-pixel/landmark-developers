@@ -154,6 +154,69 @@ button.btn { font-family: inherit; cursor: pointer; }
   border-color: rgba(217,184,120,0.3);
 }
 
+/* ── Azadi Deal campaign pill (primary nav + mobile drawer) ──
+   A dated offer sitting among permanent nav items, so it is a pill rather than
+   a text link. The colour is the flag's green, not the brand gold: gold is
+   already carrying "All Projects" and the header CTA, and a third gold element
+   in a 70px bar reads as clutter rather than emphasis. */
+.az-nav-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #bff0cd;
+  background: rgba(1, 65, 28, 0.55);
+  border: 1px solid rgba(120, 214, 154, 0.42);
+  /* Two shadows: an outer bloom that reads as the glow, and an inner top
+     highlight that keeps the pill from looking like a flat swatch. */
+  box-shadow: 0 0 0 rgba(45, 168, 90, 0), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: color 0.25s var(--ease), background 0.25s var(--ease),
+    border-color 0.25s var(--ease), box-shadow 0.25s var(--ease),
+    transform 0.25s var(--ease);
+}
+.az-nav-pill:hover {
+  color: #eafff1;
+  background: rgba(1, 88, 38, 0.72);
+  border-color: rgba(150, 232, 180, 0.7);
+  box-shadow: 0 0 22px rgba(45, 168, 90, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+.az-nav-pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7ee2a4;
+  box-shadow: 0 0 8px rgba(126, 226, 164, 0.9);
+  /* The glow lives on the dot, not the whole pill. Pulsing the pill's own
+     box-shadow animates a large blurred surface every frame; a 6px dot is
+     cheap, and a single blinking point reads as "live" more clearly than a
+     breathing rectangle does. */
+  animation: az-nav-pulse 2.4s var(--ease) infinite;
+}
+@keyframes az-nav-pulse {
+  0%, 100% { opacity: 1;   box-shadow: 0 0 8px rgba(126, 226, 164, 0.9); }
+  50%      { opacity: 0.5; box-shadow: 0 0 3px rgba(126, 226, 164, 0.45); }
+}
+/* On the campaign page itself the pill is a label, not a destination. */
+.az-nav-pill.is-current {
+  color: #d8f7e3;
+  background: rgba(1, 50, 22, 0.5);
+  border-color: rgba(120, 214, 154, 0.28);
+}
+.az-nav-pill.is-current:hover { transform: none; box-shadow: none; }
+.az-nav-pill.is-current .az-nav-pill-dot { animation: none; opacity: 0.6; }
+
+@media (prefers-reduced-motion: reduce) {
+  .az-nav-pill-dot { animation: none; }
+  .az-nav-pill { transition: none; }
+  .az-nav-pill:hover { transform: none; }
+}
+
 .header-actions { display: flex; align-items: center; gap: 14px; }
 
 /* ── Project Switcher Dropdown (inside project page nav) ── */
@@ -357,6 +420,16 @@ button.btn { font-family: inherit; cursor: pointer; }
 }
 .mobile-menu.is-open .mobile-link { opacity: 1; transform: translateX(0); }
 .mobile-link:active { color: var(--gold); }
+/* In the drawer the other links are 30-44px display type, so the pill has to
+   grow to belong — but not to that size, because it must stay a pill. It also
+   has to stop stretching to the column's full width, hence align-self. */
+.az-nav-pill--mobile {
+  align-self: flex-start;
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: clamp(17px, 4.6vw, 22px);
+}
+.az-nav-pill--mobile .az-nav-pill-dot { width: 8px; height: 8px; }
 .mobile-menu-foot {
   display: flex;
   flex-direction: column;
@@ -2332,8 +2405,13 @@ body.kb-open .mobile-cta-bar {
   .section-sub { font-size: 0.9rem; }
   .eyebrow { font-size: 0.65rem; }
 
-  /* ── General spacing — exclude hero and location which manage their own sizing ── */
-  section:not(.hero):not(.location):not(.showcase):not(#fx-fixed-section) { padding: 56px 0; }
+  /* ── General spacing — exclude hero and location which manage their own sizing.
+     The Azadi campaign sections (.az-hero / .az-section / .az-legal) join that
+     exclusion list for the same reason: they set their own fluid vertical rhythm,
+     and the campaign hero needs explicit clearance under the fixed header. This
+     selector carries four :not() classes, so it out-specifies any single-class
+     page rule — opting out here is the only correct place to do it. ── */
+  section:not(.hero):not(.location):not(.showcase):not(#fx-fixed-section):not(.az-hero):not(.az-section):not(.az-legal) { padding: 56px 0; }
   .section-head { margin-bottom: 32px; }
 
   /* ── Hero: tighter top padding on mobile ── */

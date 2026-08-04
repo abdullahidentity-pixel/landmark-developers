@@ -76,6 +76,18 @@ const amenityIcons = {
       <path d="M4 9h16l-1 11H5L4 9zM4 9l1.5-4h13L20 9M9 13v3M15 13v3" />
     </svg>
   ),
+  shield: (p) => (
+    <svg {...base} {...p}>
+      <path d="M12 3l7 3v5.5c0 4.2-2.9 8.1-7 9.5-4.1-1.4-7-5.3-7-9.5V6l7-3z" />
+      <path d="M9.2 12.2l2 2 3.6-3.9" />
+    </svg>
+  ),
+  sauna: (p) => (
+    <svg {...base} {...p}>
+      <path d="M4 20h16M6 20v-6a6 6 0 0 1 12 0v6" />
+      <path d="M9.5 7.5c0-1.2 1-1.6 1-2.8 0-.8-.5-1.4-1-1.7M14 7.5c0-1.2 1-1.6 1-2.8 0-.8-.5-1.4-1-1.7" />
+    </svg>
+  ),
 };
 
 export function AmenityIcon({ name, ...p }) {

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from '../Logo.jsx';
 import MagneticButton from '../MagneticButton.jsx';
+import AzadiNavLink from '../AzadiNavLink.jsx';
 import { CONTACT } from '../../data/site.js';
 
 const NAV = [
@@ -73,6 +74,11 @@ export default function InnerHeader() {
               {l.label}
             </Link>
           ))}
+
+          {/* Present on every header so the campaign never vanishes from the
+              chrome mid-journey — a nav item that appears on some pages and not
+              others reads as a glitch. */}
+          <AzadiNavLink />
         </nav>
 
         <div className="header-actions">
@@ -111,6 +117,10 @@ export default function InnerHeader() {
               {l.label}
             </Link>
           ))}
+          <AzadiNavLink
+            className="az-nav-pill--mobile"
+            onClick={() => setOpen(false)}
+          />
         </nav>
         <div className="mobile-menu-foot">
           <a

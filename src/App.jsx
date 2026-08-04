@@ -9,6 +9,7 @@ import ContactPage from './pages/ContactPage.jsx';
 import CareerPage from './pages/CareerPage.jsx';
 import BlogsPage from './pages/BlogsPage.jsx';
 import BlogPostPage from './pages/BlogPostPage.jsx';
+import AzadiDealPage from './pages/AzadiDealPage.jsx';
 import { PROJECTS_DATA } from './data/projects.js';
 import { LeadModalProvider } from './context/LeadModalContext.jsx';
 import LeadModal from './components/LeadModal.jsx';
@@ -241,6 +242,7 @@ function AppRoutes() {
       <Route path="/career"      element={<CareerPage />} />
       <Route path="/blog"        element={<BlogsPage />} />
       <Route path="/blog/:slug"  element={<BlogPostPage key={pathname} />} />
+      <Route path="/azadi-deal"  element={<AzadiDealPage />} />
       {PROJECTS_DATA.map((project) => (
         <Route
           key={project.slug}

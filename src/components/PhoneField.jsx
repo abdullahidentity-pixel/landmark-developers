@@ -22,6 +22,7 @@ export default function PhoneField({
   name = 'phone',
   placeholder = '3XX XXXXXXX',
   ariaInvalid,
+  ariaDescribedBy,
   autoComplete = 'tel-national',
   errorStyle,
 }) {
@@ -48,6 +49,7 @@ export default function PhoneField({
         value={phone}
         onChange={onPhone}
         aria-invalid={ariaInvalid}
+        aria-describedby={ariaDescribedBy}
         autoComplete={autoComplete}
         style={errorStyle}
       />

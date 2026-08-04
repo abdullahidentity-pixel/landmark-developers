@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../Logo.jsx';
 import MagneticButton from '../MagneticButton.jsx';
 import ProjectsNavDropdown from '../ProjectsNavDropdown.jsx';
+import AzadiNavLink from '../AzadiNavLink.jsx';
 import { useLeadModal } from '../../context/LeadModalContext.jsx';
 import { PROJECTS_DATA } from '../../data/projects.js';
 import { CONTACT } from '../../data/site.js';
@@ -97,6 +98,12 @@ export default function ProjHeader({ project }) {
               <a key={l.href} href={l.href} className="nav-link">{l.label}</a>
             )
           )}
+
+          {/* This header serves Grand 15, which is the project the Azadi Deal is
+              actually on, so the campaign needs a way through from here — and
+              from every other project page, where it is the strongest offer the
+              site currently has. */}
+          <AzadiNavLink />
         </nav>
 
         <div className="header-actions">
@@ -140,6 +147,10 @@ export default function ProjHeader({ project }) {
               </a>
             )
           )}
+          <AzadiNavLink
+            className="az-nav-pill--mobile"
+            onClick={() => setOpen(false)}
+          />
           {/* Other projects quick-jump */}
           <span className="mobile-link-sep" style={{ transitionDelay: '0.42s' }}>
             Other Projects

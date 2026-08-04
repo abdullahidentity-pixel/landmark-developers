@@ -1,0 +1,1749 @@
+/* ============================================================
+   AZADI DEAL CAMPAIGN PAGE — /azadi-deal
+   Extends the Landmark design tokens from index.css + app.css.
+
+   Design intent: the page is a Landmark luxury real-estate page FIRST and an
+   Independence Day page second. Gold stays the primary accent throughout; the
+   national green appears only as a low-saturation atmospheric wash, on small
+   pills, and on the flag itself. Nothing is tinted green that carries price or
+   product information.
+   ============================================================ */
+
+.az-page {
+  /* Campaign-local tokens. Everything else comes from :root in index.css. */
+  --az-green: #0f5a33;
+  --az-green-soft: rgba(15, 90, 51, 0.30);
+  --az-green-line: rgba(102, 187, 140, 0.26);
+  --az-green-text: #8fd8ae;
+  --az-card: rgba(255, 255, 255, 0.035);
+  --az-card-hover: rgba(255, 255, 255, 0.062);
+  --az-radius: 22px;
+
+  background: var(--bg);
+  color: var(--fg);
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   Shared section furniture
+   ============================================================ */
+
+.az-section {
+  position: relative;
+  padding: clamp(64px, 8vw, 118px) 0;
+}
+.az-section + .az-section { border-top: 1px solid var(--line-soft); }
+
+.az-head {
+  max-width: 760px;
+  margin: 0 auto clamp(38px, 5vw, 64px);
+  text-align: center;
+}
+
+.az-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.az-eyebrow::before {
+  content: '';
+  width: 26px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-deep));
+}
+
+.az-title {
+  margin-top: 12px;
+  font-size: clamp(1.85rem, 4.2vw, 3.05rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  text-wrap: balance;
+}
+.az-title--left { text-align: left; }
+
+.az-sub {
+  margin-top: 15px;
+  font-size: clamp(15px, 1.5vw, 17px);
+  line-height: 1.62;
+  color: var(--muted);
+  max-width: 66ch;
+  margin-inline: auto;
+}
+.az-sub--left { margin-inline: 0; text-align: left; }
+
+.az-microcopy {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted-2);
+}
+
+/* Short caveat placed beside the figures and the form it qualifies, linking to
+   the single authoritative disclaimer at the foot of the page. Deliberately
+   quieter than .az-microcopy — it must be readable, not attention-seeking. */
+.az-legal-note {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--muted-2);
+  max-width: 62ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+.az-legal-note a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.az-legal-note a:hover { color: var(--gold-bright); }
+
+.az-section-cta {
+  margin-top: clamp(34px, 4vw, 52px);
+  display: flex;
+  justify-content: center;
+}
+.az-section-cta--multi {
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.az-section-cta .btn { max-width: 100%; }
+
+/* Small status pills */
+.az-pill {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.az-pill-gold {
+  color: #1a1206;
+  background: var(--gold-grad);
+}
+.az-pill-green {
+  color: var(--az-green-text);
+  background: var(--az-green-soft);
+  border: 1px solid var(--az-green-line);
+}
+
+.az-premium-note {
+  margin-top: 26px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(217, 184, 120, 0.05);
+}
+.az-premium-note p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* ============================================================
+   Countdown
+   ============================================================ */
+
+.az-count {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(8px, 1.6vw, 18px);
+}
+.az-count-cell {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 6px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(12, 10, 8, 0.72);
+}
+.az-count-num {
+  font-size: clamp(1.5rem, 3.4vw, 2.3rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--gold-bright);
+  font-variant-numeric: tabular-nums;
+}
+.az-count-lbl {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.az-count-sep {
+  position: absolute;
+  right: calc(clamp(8px, 1.6vw, 18px) / -2);
+  top: 50%;
+  width: 1px;
+  height: 22px;
+  transform: translate(50%, -50%);
+  background: var(--line);
+}
+.az-count--compact .az-count-cell { padding: 9px 4px 8px; }
+.az-count--compact .az-count-num { font-size: 1.15rem; }
+
+.az-count-expired {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 46ch;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.az-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(122px, 15vh, 172px) 0 clamp(64px, 8vw, 96px);
+  background:
+    radial-gradient(120% 80% at 78% 8%, rgba(217, 184, 120, 0.10), transparent 62%),
+    radial-gradient(90% 70% at 8% 92%, rgba(15, 90, 51, 0.16), transparent 65%),
+    var(--bg);
+}
+
+.az-hero-atmos {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Slow rotating light rays behind the composition. */
+@keyframes az-rays-spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.az-rays {
+  position: absolute;
+  top: 6%;
+  left: 72%;
+  width: 150vmax;
+  height: 150vmax;
+  transform: translate(-50%, -50%);
+  opacity: 0.20;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(217, 184, 120, 0.16) 0deg 5deg,
+    transparent 5deg 17deg
+  );
+  mask-image: radial-gradient(circle, #000 0%, transparent 58%);
+  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 58%);
+  animation: az-rays-spin 160s linear infinite;
+}
+
+.az-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+}
+.az-glow-gold {
+  width: 48vw;
+  height: 48vw;
+  top: -12%;
+  right: -8%;
+  background: radial-gradient(circle, rgba(217, 184, 120, 0.22), transparent 70%);
+}
+.az-glow-green {
+  width: 42vw;
+  height: 42vw;
+  bottom: -16%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(15, 90, 51, 0.34), transparent 70%);
+}
+
+/* ── Patriotic background layers ──────────────────────────────────────────
+   All drawn, none photographic — see PatrioticBackgroundLayer.jsx for why.
+   Each layer sits at a different depth and drifts at a different rate against
+   the shared --px/--py pointer signal, which is what creates the sense of a
+   scene with air in it rather than a stack of flat images.
+
+   Every one of these is far enough down in opacity that it registers as light
+   and shadow first and as a recognisable shape second. That is the whole trick:
+   the moment any of them becomes legible as "a map" or "a portrait", the hero
+   stops being cinematic and starts being a poster. */
+
+.az-bg-map,
+.az-bg-tribute,
+.az-bg-minar {
+  position: absolute;
+  pointer-events: none;
+}
+.az-bg-map svg,
+.az-bg-tribute svg,
+.az-bg-minar svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Deepest layer: a landmass in national green, blurred past recognition. */
+.az-bg-map {
+  top: 4%;
+  left: 44%;
+  width: clamp(360px, 46vw, 760px);
+  height: clamp(300px, 38vw, 620px);
+  color: rgba(28, 122, 72, 0.9);
+  opacity: 0.09;
+  filter: blur(2px);
+  transform: translate3d(calc(var(--px, 0) * -14px), calc(var(--py, 0) * -10px), 0);
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 45%, #000 20%, transparent 82%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 45%, #000 20%, transparent 82%);
+}
+
+/* The tribute. Sits low and left, heavily blurred, and is masked from the top
+   down so the cap and head dissolve rather than terminate — a hard silhouette
+   edge here would read as a cut-out. */
+.az-bg-tribute {
+  bottom: 0;
+  left: 2%;
+  width: clamp(260px, 30vw, 500px);
+  height: clamp(300px, 42vw, 640px);
+  color: rgba(212, 226, 216, 0.55);
+  opacity: 0.075;
+  filter: blur(3px);
+  transform: translate3d(calc(var(--px, 0) * -9px), calc(var(--py, 0) * -7px), 0);
+  mask-image: linear-gradient(to top, transparent 2%, #000 42%, rgba(0, 0, 0, 0.5) 78%, transparent 97%);
+  -webkit-mask-image: linear-gradient(to top, transparent 2%, #000 42%, rgba(0, 0, 0, 0.5) 78%, transparent 97%);
+}
+
+/* Vertical landmark, centre-right, rising behind the render. */
+.az-bg-minar {
+  bottom: 0;
+  left: 52%;
+  width: clamp(150px, 17vw, 280px);
+  height: clamp(300px, 44vw, 660px);
+  color: rgba(217, 184, 120, 0.75);
+  opacity: 0.12;
+  transform: translate3d(calc(var(--px, 0) * -18px), 0, 0);
+  mask-image: linear-gradient(to top, #000 6%, rgba(0, 0, 0, 0.45) 62%, transparent 96%);
+  -webkit-mask-image: linear-gradient(to top, #000 6%, rgba(0, 0, 0, 0.45) 62%, transparent 96%);
+}
+
+/* Tiled crescents as surface texture. Kept at the threshold of visibility —
+   it should register as grain, never as a repeating motif. */
+.az-bg-motif {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(circle at 30% 30%, rgba(217, 184, 120, 0.055) 0 8px, transparent 9px),
+    radial-gradient(circle at 34% 27%, rgba(6, 5, 4, 1) 0 7px, transparent 8px);
+  background-size: 190px 190px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000, transparent 78%);
+}
+
+/* Frame vignette — holds the composition together and stops the glows from
+   bleeding into the section edges. */
+.az-bg-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 92% 82% at 50% 42%, transparent 44%, rgba(6, 5, 4, 0.62) 100%),
+    linear-gradient(180deg, rgba(6, 5, 4, 0.42) 0%, transparent 22%, rgba(6, 5, 4, 0.5) 100%);
+}
+
+@keyframes az-float-up {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  12%  { opacity: 0.75; }
+  86%  { opacity: 0.22; }
+  100% { transform: translateY(-78vh) translateX(24px); opacity: 0; }
+}
+.az-particles { position: absolute; inset: 0; overflow: hidden; }
+.az-particle {
+  position: absolute;
+  bottom: -8px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--gold-bright);
+  box-shadow: 0 0 8px rgba(240, 212, 155, 0.75);
+  animation-name: az-float-up;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.az-particle.is-green {
+  background: var(--az-green-text);
+  box-shadow: 0 0 8px rgba(143, 216, 174, 0.6);
+}
+
+.az-hero-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  /* The render is square, so its height and width are the same number and the
+     column split has to satisfy both at once: narrow enough that the square's
+     height lands between the headline's top and the CTA's bottom, wide enough
+     on the copy side that "Azadi Deal!" never breaks across two lines. A 4:3
+     render needed the opposite split and could only satisfy one of those. */
+  grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.84fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+}
+
+/* ── Copy column ── */
+.az-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.az-kicker-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--az-green-text);
+  box-shadow: 0 0 0 4px rgba(143, 216, 174, 0.14);
+}
+
+.az-hero-title {
+  margin-top: 16px;
+  /* Sized so "Azadi Deal!" holds a single line at every width. It is two short
+     words and breaking them is the difference between a headline and a stack —
+     so the cap is set against the copy column's own width rather than pushed to
+     the largest size that merely fits at 1440. */
+  font-size: clamp(2.6rem, 6.4vw, 6rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+/* Metallic gold, in the sense of foil-stamped print rather than "gradient text".
+   The distinction is the range: this travels across four closely-related golds,
+   so it reads as a lit metal surface. A wide-range gradient would read as a
+   colour effect and would cost contrast on the one word the page hangs on — so
+   the darkest stop is still a legible gold, not a brown.
+
+   `color` is set first as the fallback: if background-clip:text is unsupported
+   the headline renders solid gold rather than transparent. */
+.az-title-word {
+  /* Belt and braces on the single line. The type scale above already fits the
+     narrowest column this ever renders in — at the clamp floor the phrase is
+     ~190px against a ~345px column — so this can never force a horizontal
+     scrollbar, and it removes any chance of a browser's own measurement
+     rounding tipping it onto a second line. */
+  white-space: nowrap;
+  color: var(--gold-bright);
+  background: linear-gradient(
+    96deg,
+    #e8cf9a 0%,
+    #f7e6bd 22%,
+    #d9b878 48%,
+    #f4e0b4 72%,
+    #cfa964 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* The green reflection. One stop, low alpha, low on the letterforms — it is
+     meant to be felt as a colour cast from the scene, not seen as green text. */
+  text-shadow: 0 1px 0 rgba(46, 150, 96, 0.10);
+}
+@supports not (background-clip: text) {
+  .az-title-word { -webkit-text-fill-color: currentColor; }
+}
+
+.az-hero-statement {
+  margin-top: 14px;
+  font-size: clamp(1.05rem, 2.3vw, 1.55rem);
+  font-weight: 600;
+  line-height: 1.28;
+  letter-spacing: -0.015em;
+  color: var(--fg);
+  max-width: 22ch;
+}
+.az-hero-sub {
+  margin-top: 14px;
+  font-size: clamp(14.5px, 1.5vw, 16.5px);
+  line-height: 1.62;
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+/* The validity line is pulled out of the pill list and given the CampaignBadge
+   treatment, so the row wraps the two together. */
+.az-badge-row {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.az-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.az-badge {
+  padding: 7px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--az-card);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--fg);
+  white-space: nowrap;
+}
+/* ── Campaign validity badge ──────────────────────────────────────────────
+   Deliberately not red. Deadline urgency in red reads as discount retail and
+   drags everything near it downmarket; the page's own gold on glass, with a
+   green pulse carrying the sense of a running clock, does the same job without
+   the cheapness. */
+.az-campaign-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 15px 8px 13px;
+  border-radius: 999px;
+  border: 1px solid rgba(217, 184, 120, 0.42);
+  background:
+    linear-gradient(180deg, rgba(217, 184, 120, 0.16), rgba(217, 184, 120, 0.07));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.10),
+    0 0 22px rgba(24, 128, 74, 0.20);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--gold-bright);
+  white-space: nowrap;
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.45s ease,
+    box-shadow 0.45s ease;
+}
+.az-campaign-badge:hover {
+  transform: translateY(-2px);
+  border-color: rgba(240, 212, 155, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 0 30px rgba(24, 128, 74, 0.32);
+}
+.az-campaign-pulse {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--az-green-text);
+  box-shadow: 0 0 0 3px rgba(143, 216, 174, 0.16);
+}
+.az-campaign-pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--az-green-text);
+  animation: az-campaign-pulse 2.6s ease-out infinite;
+}
+@keyframes az-campaign-pulse {
+  0%   { transform: scale(1);   opacity: 0.55; }
+  70%  { transform: scale(3.2); opacity: 0; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+
+.az-hero-cta {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.az-hero-count {
+  margin-top: 34px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line-soft);
+  max-width: 480px;
+}
+.az-count-lead {
+  margin-bottom: 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+/* ── Visual column ── */
+.az-hero-visual {
+  position: relative;
+  /* This box is the containing block for the float cards, which are `inset: 0`,
+     so its height has to track the render's exactly — otherwise the cards
+     anchor to empty space below the image. Two things force that: no
+     min-height (the old portrait render needed one, the 4:3 render sizes
+     itself), and an explicit align-self to stop the grid stretching this column
+     to match the taller copy column.
+
+     `start` rather than `center`: the render is meant to open level with the
+     headline and close level with the primary CTA, and centring it against a
+     copy column that runs on past the CTA into the countdown pushed it ~145px
+     too low. The offset is the eyebrow line above the headline — 13.5px of
+     11.5px type plus the headline's own 16px margin — both fixed sizes, so the
+     number does not drift with the viewport. */
+  align-self: start;
+  margin-top: 35px;
+}
+.az-render-wrap {
+  position: relative;
+  z-index: 2;
+  border-radius: 26px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.62);
+  /* Pointer parallax, written as --px/--py by AzadiHero.jsx. */
+  transform: translate3d(calc(var(--px, 0) * -16px), calc(var(--py, 0) * -14px), 0);
+  transition: transform 0.1s linear;
+}
+.az-render {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Square. The source is 4:3, so this crops ~12% off each side — and the two
+     things that must survive that crop are the Independence Day banner down the
+     tower's right face and the flag poles on the left of the boulevard. Both sit
+     inboard of the frame edges, so a centred crop keeps them; the object-position
+     stays at 50% rather than being nudged, because pulling either way would trade
+     one for the other. */
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+.az-render-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 5, 4, 0.12) 0%,
+    transparent 34%,
+    rgba(6, 5, 4, 0.55) 100%
+  );
+}
+
+.az-float-cards {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+.az-float-card {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  /* Sized against the render, not against the page. The square frame is ~450px
+     wide where the old 4:3 one was ~615, so a card at the previous 232px took
+     half the frame's width and stopped reading as an accent. */
+  max-width: 196px;
+  padding: 11px 14px;
+  border-radius: 15px;
+  border: 1px solid var(--line);
+  background: rgba(10, 8, 6, 0.82);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+}
+.az-float-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--gold-bright);
+  line-height: 1.25;
+}
+.az-float-meta {
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+/* Both cards are pushed to the frame's corners and overhang its edge, so they
+   read as floating in front of the render rather than pasted inside it — and,
+   more importantly, so the render itself stays uncovered. The Independence Day
+   banner runs down the tower's right face across the top half of the frame and
+   the flag poles stand along the left of the boulevard through the middle band;
+   the sky at top-left and the plaza at bottom-right are the only two regions
+   that carry nothing, so that is where the cards go. Card 2 in particular sits
+   low rather than at mid-height, where it used to cut across the building. */
+.az-float-card--1 { top: 5%; left: -11%; }
+.az-float-card--2 { bottom: 6%; right: -10%; }
+
+.az-hero-hairline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-deep), transparent);
+  opacity: 0.5;
+}
+
+/* ============================================================
+   OVERVIEW
+   ============================================================ */
+
+.az-ov-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+  gap: clamp(14px, 1.8vw, 22px);
+}
+.az-ov-card {
+  height: 100%;
+  padding: clamp(22px, 2.4vw, 30px);
+  border-radius: var(--az-radius);
+  border: 1px solid var(--line);
+  background: var(--az-card);
+  /* --rx/--ry come from useTilt(); --mx/--my drive the pointer highlight. */
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: background 0.35s var(--ease), border-color 0.35s var(--ease),
+              transform 0.18s var(--ease);
+}
+.az-ov-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+  background: radial-gradient(
+    340px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(217, 184, 120, 0.10),
+    transparent 62%
+  );
+  pointer-events: none;
+}
+.az-ov-card { position: relative; }
+.az-ov-card:hover {
+  background: var(--az-card-hover);
+  border-color: rgba(217, 184, 120, 0.32);
+}
+.az-ov-card:hover::before { opacity: 1; }
+.az-ov-card h3 {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+.az-ov-card p {
+  margin-top: 9px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* ============================================================
+   UNITS
+   ============================================================ */
+
+.az-rate-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(14px, 3vw, 34px);
+  padding: clamp(20px, 2.6vw, 30px);
+  margin-bottom: clamp(30px, 4vw, 46px);
+  border-radius: var(--az-radius);
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(120deg, rgba(217, 184, 120, 0.07), transparent 60%),
+    var(--az-card);
+}
+.az-rate-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+.az-rate-lbl {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.az-rate-block--hero .az-rate-lbl { color: var(--gold); }
+.az-rate-strike {
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+  font-weight: 600;
+  color: var(--muted-2);
+  text-decoration-color: rgba(217, 184, 120, 0.6);
+  text-decoration-thickness: 2px;
+}
+.az-rate-hero {
+  font-size: clamp(1.5rem, 3.6vw, 2.35rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--gold-bright);
+  line-height: 1;
+}
+.az-rate-hero em {
+  font-style: normal;
+  font-size: 0.44em;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0;
+}
+.az-rate-arrow {
+  width: 40px;
+  height: 1px;
+  position: relative;
+  background: linear-gradient(90deg, transparent, var(--gold-deep));
+  flex: none;
+}
+.az-rate-arrow::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid var(--gold);
+  border-right: 1px solid var(--gold);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+/* Tabs */
+.az-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: clamp(26px, 3vw, 38px);
+}
+.az-tab {
+  position: relative;
+  /* The framer `layoutId` pill is a z-index:-1 child. Without an explicit
+     stacking context here it would slide behind the section background instead
+     of behind the tab label. */
+  isolation: isolate;
+  padding: 11px 22px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.az-tab:hover { color: var(--fg); }
+.az-tab.is-active { color: #1a1206; border-color: transparent; }
+.az-tab-pill {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--gold-grad);
+  z-index: -1;
+}
+/* Reduced motion drops the framer layout pill, so the active tab needs its own
+   background or it would render as unstyled dark-on-dark text. */
+@media (prefers-reduced-motion: reduce) {
+  .az-tab.is-active { background: var(--gold-grad); }
+}
+
+.az-unit-head { text-align: center; margin-bottom: 22px; }
+.az-unit-head h3 {
+  font-size: clamp(1.3rem, 2.6vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.az-unit-head p { margin-top: 7px; font-size: 14.5px; color: var(--muted); }
+
+.az-price-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  max-width: 620px;
+  margin-inline: auto;
+}
+.az-price-grid--two {
+  grid-template-columns: repeat(auto-fit, minmax(292px, 1fr));
+  max-width: 900px;
+}
+
+.az-price-panel {
+  padding: clamp(22px, 2.6vw, 30px);
+  border-radius: var(--az-radius);
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(160deg, rgba(217, 184, 120, 0.055), transparent 52%),
+    var(--az-card);
+}
+.az-price-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.az-price-area { display: flex; align-items: baseline; gap: 6px; }
+.az-price-num {
+  font-size: clamp(1.7rem, 3.4vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  line-height: 1;
+}
+.az-price-unit { font-size: 13px; font-weight: 600; color: var(--muted); }
+.az-price-rate { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.az-rate-old {
+  font-size: 12.5px;
+  color: var(--muted-2);
+  text-decoration: line-through;
+  text-decoration-color: rgba(217, 184, 120, 0.55);
+}
+.az-rate-new { font-size: 14.5px; font-weight: 700; color: var(--gold-bright); }
+.az-rate-new em { font-style: normal; font-size: 11.5px; font-weight: 500; color: var(--muted); }
+
+.az-price-total {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  padding: 18px 0 16px;
+}
+.az-price-total-lbl {
+  width: 100%;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.az-price-total-val {
+  font-size: clamp(1.35rem, 2.8vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--fg);
+}
+.az-price-total-lac {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--gold);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(217, 184, 120, 0.12);
+}
+
+.az-price-rows { display: flex; flex-direction: column; gap: 1px; }
+.az-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 0;
+  border-top: 1px solid var(--line-soft);
+}
+.az-price-row dt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.az-price-row dd {
+  text-align: right;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+  /* The figure is the payload of the row — it must never wrap mid-amount.
+     The label wraps instead. */
+  white-space: nowrap;
+  flex: none;
+}
+.az-price-row dt { min-width: 0; }
+.az-price-row dd span {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--muted-2);
+}
+.az-price-row--hero dd { color: var(--gold-bright); font-size: 17px; }
+
+.az-price-actions { margin-top: 20px; display: flex; }
+.az-price-actions .btn { width: 100%; justify-content: center; }
+
+/* ============================================================
+   PAYMENT PLAN
+   ============================================================ */
+
+.az-payplan { background: linear-gradient(180deg, var(--bg-soft), var(--bg)); }
+
+.az-plan-badges {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin-bottom: clamp(28px, 3.4vw, 42px);
+}
+.az-plan-badge {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--az-card);
+}
+.az-plan-badge-lbl {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.az-plan-badge strong {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--fg);
+  letter-spacing: -0.01em;
+}
+.az-plan-badge strong em {
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.az-plan-badge s { font-size: 12.5px; color: var(--muted-2); }
+.az-plan-badge--rate {
+  border-color: rgba(217, 184, 120, 0.34);
+  background: rgba(217, 184, 120, 0.07);
+}
+.az-plan-badge--rate strong { color: var(--gold-bright); }
+
+.az-table-wrap {
+  border-radius: var(--az-radius);
+  border: 1px solid var(--line);
+  background: var(--az-card);
+  /* `auto`, not `hidden`: the radius still clips the corners, but if the table's
+     intrinsic width ever exceeds the container (large text settings, an added
+     column) the figures stay reachable by swipe rather than being cut off. */
+  overflow-x: auto;
+}
+.az-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.az-table thead th {
+  padding: 16px 18px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(217, 184, 120, 0.07);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.az-table tbody th,
+.az-table tbody td {
+  padding: 16px 18px;
+  text-align: left;
+  font-size: 14.5px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line-soft);
+}
+.az-table tbody th {
+  font-weight: 700;
+  color: var(--fg);
+  white-space: nowrap;
+}
+.az-table tbody tr:last-child th,
+.az-table tbody tr:last-child td { border-bottom: 0; }
+.az-table tbody tr:hover th,
+.az-table tbody tr:hover td { background: rgba(255, 255, 255, 0.022); }
+.az-td-hero { color: var(--gold-bright) !important; font-weight: 700; }
+
+/* ============================================================
+   FLOORS
+   ============================================================ */
+
+.az-floor-rail {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2.4vw, 28px);
+  padding-top: 34px;
+}
+/* The connecting line the cards hang from. */
+.az-floor-line {
+  position: absolute;
+  top: 6px;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-deep), transparent);
+}
+.az-floor-card {
+  position: relative;
+  padding: clamp(22px, 2.4vw, 30px);
+  border-radius: var(--az-radius);
+  border: 1px solid var(--line);
+  background: var(--az-card);
+  transition: background 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+.az-floor-card:hover {
+  background: var(--az-card-hover);
+  border-color: rgba(217, 184, 120, 0.3);
+}
+.az-floor-node {
+  position: absolute;
+  top: -29px;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: var(--gold);
+  box-shadow: 0 0 0 5px rgba(217, 184, 120, 0.14);
+}
+.az-floor-index {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--muted-2);
+}
+.az-floor-level {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.az-floor-title {
+  margin-top: 8px;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--fg);
+}
+.az-floor-body {
+  margin-top: 9px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* ============================================================
+   AMENITIES
+   ============================================================ */
+
+.az-amenities { position: relative; overflow: hidden; }
+.az-amen-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(70% 60% at 50% 0%, rgba(217, 184, 120, 0.07), transparent 70%);
+  pointer-events: none;
+}
+.az-amen-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
+  gap: 14px;
+}
+.az-amen-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 26px 14px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--az-card);
+  text-align: center;
+  transition: background 0.32s var(--ease), border-color 0.32s var(--ease),
+              transform 0.32s var(--ease);
+}
+.az-amen-card:hover {
+  background: var(--az-card-hover);
+  border-color: rgba(217, 184, 120, 0.32);
+  transform: translateY(-3px);
+}
+.az-amen-icon { color: var(--gold); display: flex; }
+.az-amen-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--fg);
+  line-height: 1.35;
+}
+
+/* ============================================================
+   FURNISHED PACKAGE
+   ============================================================ */
+
+.az-furnished { background: var(--bg-soft); }
+.az-furn-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(30px, 5vw, 64px);
+  align-items: center;
+}
+.az-furn-body {
+  margin-top: 16px;
+  font-size: 14.5px;
+  line-height: 1.68;
+  color: var(--muted);
+  max-width: 56ch;
+}
+.az-furn-cta { margin-top: 26px; }
+.az-furn-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+.az-furn-card {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 17px 18px;
+  border-radius: 15px;
+  border: 1px solid var(--line);
+  background: var(--az-card);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+  line-height: 1.35;
+}
+.az-furn-tick {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  color: var(--az-green-text);
+  background: var(--az-green-soft);
+  border: 1px solid var(--az-green-line);
+}
+
+/* ============================================================
+   STORY — the patriotic tableau
+   ============================================================ */
+
+.az-story {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: clamp(560px, 88vh, 860px);
+  display: flex;
+  align-items: center;
+}
+.az-story-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.az-story-sky {
+  position: absolute;
+  inset: -12% 0;
+  background:
+    radial-gradient(80% 60% at 50% 100%, rgba(15, 90, 51, 0.40), transparent 68%),
+    radial-gradient(60% 50% at 76% 12%, rgba(217, 184, 120, 0.16), transparent 70%),
+    linear-gradient(180deg, #070605 0%, #0a0d09 55%, #060504 100%);
+}
+.az-story-crescent {
+  position: absolute;
+  top: 12%;
+  left: 12%;
+  width: clamp(90px, 12vw, 170px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow: inset 16px -10px 0 -2px rgba(240, 212, 155, 0.22);
+  filter: blur(0.4px);
+}
+.az-story-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 34%, rgba(6, 5, 4, 0.86) 100%),
+    linear-gradient(180deg, rgba(6, 5, 4, 0.6), transparent 26%, rgba(6, 5, 4, 0.72));
+}
+.az-story-inner {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(70px, 9vw, 120px);
+  display: grid;
+  /* The artwork column is fixed-ish and the copy takes the rest. The ribbon is
+     tall and narrow, so giving it an equal half would either shrink the type or
+     blow the section's height past a screen. */
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 76px);
+}
+
+/* The ribbon is a cut-out with a real alpha channel now, so this is an object on
+   the section rather than a framed panel in it: no border, no radius, no
+   overflow clip. It also means the figure must NOT be a card — a border here
+   would draw a rectangle around empty transparent pixels. */
+.az-story-art {
+  position: relative;
+  margin: 0;
+  justify-self: center;
+  width: 100%;
+  max-width: 420px;
+}
+.az-story-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* A free-standing object needs to cast its own shadow to sit on the ground
+     instead of floating in front of it. drop-shadow follows the alpha silhouette,
+     which box-shadow cannot do — box-shadow would trace the bounding box. */
+  filter: drop-shadow(0 30px 46px rgba(0, 0, 0, 0.62))
+    drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+}
+
+.az-story-copy {
+  min-width: 0;
+}
+.az-story-title {
+  margin-top: 14px;
+  font-size: clamp(2.1rem, 5.4vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  color: var(--fg);
+  text-wrap: balance;
+}
+.az-story-body {
+  margin-top: 18px;
+  font-size: clamp(15px, 1.7vw, 18px);
+  line-height: 1.62;
+  color: var(--muted);
+  max-width: 52ch;
+}
+.az-story-count { margin-top: 34px; }
+.az-story-cta { margin-top: 34px; }
+
+/* ============================================================
+   GALLERY + LIGHTBOX
+   ============================================================ */
+
+.az-gal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+.az-gal-item {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--az-card);
+  cursor: zoom-in;
+  transition: border-color 0.35s var(--ease);
+}
+.az-gal-item:hover { border-color: rgba(217, 184, 120, 0.42); }
+.az-gal-item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease);
+}
+.az-gal-item:hover img { transform: scale(1.05); }
+.az-gal-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 30px 16px 14px;
+  text-align: left;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--fg);
+  background: linear-gradient(to top, rgba(6, 5, 4, 0.92), transparent);
+}
+.az-gal-zoom {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--gold-bright);
+  background: rgba(10, 8, 6, 0.72);
+  border: 1px solid var(--line);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.az-gal-item:hover .az-gal-zoom,
+.az-gal-item:focus-visible .az-gal-zoom { opacity: 1; transform: translateY(0); }
+
+.az-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(6px, 2vw, 26px);
+  padding: clamp(56px, 8vh, 96px) clamp(10px, 3vw, 40px);
+  background: rgba(4, 3, 2, 0.93);
+  backdrop-filter: blur(10px);
+}
+.az-lb-figure {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.az-lb-figure img {
+  max-width: 100%;
+  max-height: 74svh;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+}
+.az-lb-figure figcaption {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: center;
+}
+.az-lb-close,
+.az-lb-nav {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+.az-lb-close:hover,
+.az-lb-nav:hover { background: rgba(217, 184, 120, 0.18); color: var(--gold-bright); }
+.az-lb-close {
+  position: absolute;
+  top: clamp(14px, 3vh, 28px);
+  right: clamp(14px, 3vw, 30px);
+}
+
+/* ============================================================
+   LEAD FORM
+   ============================================================ */
+
+.az-lead { background: linear-gradient(180deg, var(--bg), var(--bg-soft)); }
+.az-lead-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 66px);
+  align-items: start;
+}
+.az-lead-contacts {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.az-lead-contact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--az-card);
+  color: var(--fg);
+  font-weight: 600;
+  font-size: 14.5px;
+  transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.az-lead-contact:hover {
+  background: var(--az-card-hover);
+  border-color: rgba(217, 184, 120, 0.4);
+}
+.az-lead-contact svg { color: var(--gold); flex: none; }
+.az-lead-contact span { display: flex; flex-direction: column; gap: 2px; }
+.az-lead-contact em {
+  font-style: normal;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.az-lead-office { margin-top: 20px; font-size: 14px; line-height: 1.55; color: var(--muted); }
+.az-lead-timing { margin-top: 6px; font-size: 14px; color: var(--muted); }
+.az-lead-timing span { color: var(--gold); }
+
+.az-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: clamp(24px, 3vw, 38px);
+  border-radius: 26px;
+  border: 1px solid var(--line);
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+}
+.az-form-success { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.az-form-submit { width: 100%; justify-content: center; }
+.az-field-opt { font-weight: 500; color: var(--muted-2); text-transform: none; }
+
+/* ============================================================
+   LEGAL
+   ============================================================ */
+
+.az-legal {
+  padding: clamp(34px, 4vw, 52px) 0;
+  border-top: 1px solid var(--line-soft);
+  background: var(--bg-soft);
+}
+.az-legal-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.az-legal p {
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.68;
+  color: var(--muted-2);
+  max-width: 92ch;
+}
+
+/* ============================================================
+   STICKY CTA BAR (mobile only — .mobile-cta-bar in app.css gates display)
+   ============================================================ */
+
+.az-cta-bar { z-index: 90; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* Tablet / small laptop — the hero's floating cards run out of gutter first. */
+@media (max-width: 1100px) {
+  .az-float-card { max-width: 196px; padding: 11px 13px; }
+  .az-float-card--1 { left: -2%; }
+  /* The sticky WhatsApp button is fixed to the viewport's bottom-right corner
+     and the hero is taller than the viewport here, so the bottom-right card is
+     the one that meets it. The card gives up its overhang rather than the button
+     moving — hiding or shrinking the button would cost a conversion path. */
+  .az-float-card--2 { bottom: 9%; right: -1%; }
+}
+
+@media (max-width: 980px) {
+  .az-hero { padding-top: clamp(104px, 13vh, 140px); }
+  .az-hero-inner { grid-template-columns: minmax(0, 1fr); }
+  .az-hero-copy { text-align: left; }
+  .az-hero-statement { max-width: 30ch; }
+  .az-hero-visual { min-height: 0; margin-top: 8px; }
+
+  /* The floating cards are dropped entirely below this width, not restacked.
+     Their whole purpose is depth — glass panels hovering over the render — and
+     absolute positioning at this width either overlaps the render or spills past
+     the gutter, so the fallback was a 2-up grid underneath. But every line in
+     them already appears in the badge row a few hundred pixels above: "Booking
+     from 10 Lac" and "Complete Furniture Package" restate the badges verbatim.
+     So the grid cost hero height to say nothing new, on the one viewport where
+     hero height matters most. Nothing is lost by removing it. */
+  .az-float-cards { display: none; }
+
+  /* The ribbon leads on a single column — it is the reason to stop scrolling
+     here, and putting it under the copy would mean the section opens on a wall
+     of text. Capped narrower than the desktop column because a 2:3 portrait at
+     full mobile width alone eats most of a screen. */
+  .az-story-inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(26px, 6vw, 40px);
+  }
+  .az-story-art { max-width: min(300px, 62vw); }
+  .az-story-body { max-width: none; }
+
+  /* Background layers are tuned for a wide two-column frame. On a single narrow
+     column the map and tribute would sit directly behind the headline and fight
+     it, so they pull back and the landmark carries the atmosphere alone. */
+  .az-bg-map { opacity: 0.06; left: 30%; width: 92vw; }
+  .az-bg-tribute { opacity: 0.05; left: -8%; }
+  .az-bg-minar { opacity: 0.09; left: 58%; }
+  .az-bg-motif { opacity: 0.34; background-size: 140px 140px; }
+
+  .az-furn-inner,
+  .az-lead-inner { grid-template-columns: minmax(0, 1fr); }
+
+  .az-floor-rail { grid-template-columns: minmax(0, 1fr); padding-top: 0; padding-left: 30px; }
+  /* Vertical timeline: the rail rotates to match how a floor stack actually
+     reads on a narrow screen. */
+  .az-floor-line {
+    top: 10px;
+    bottom: 10px;
+    left: 4px;
+    right: auto;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg, transparent, var(--gold-deep), transparent);
+  }
+  .az-floor-node { top: 28px; left: -30px; transform: none; }
+
+  /* Tablet band (721–980px): still a real table, but six columns of 18px side
+     padding push the intrinsic width past the container — the wrap's `overflow:
+     hidden` (which exists to clip the rounded corners) would then silently cut
+     the last column off. Trim the gutters so the table fits honestly instead. */
+  .az-table thead th,
+  .az-table tbody th,
+  .az-table tbody td { padding-left: 12px; padding-right: 12px; }
+}
+
+@media (max-width: 720px) {
+  .az-hero-title { font-size: clamp(2.9rem, 15vw, 4.4rem); }
+  .az-hero-cta { flex-direction: column; align-items: stretch; }
+  .az-hero-cta .btn { width: 100%; justify-content: center; }
+
+  .az-section-cta,
+  .az-section-cta--multi { flex-direction: column; align-items: stretch; }
+  .az-section-cta .btn { width: 100%; justify-content: center; }
+
+  .az-count { gap: 6px; }
+  .az-count-cell { padding: 11px 3px 9px; }
+  .az-count-sep { display: none; }
+
+  .az-rate-banner { flex-direction: column; gap: 16px; }
+  .az-rate-arrow {
+    width: 1px;
+    height: 26px;
+    background: linear-gradient(180deg, transparent, var(--gold-deep));
+  }
+  .az-rate-arrow::after {
+    right: 50%;
+    top: 100%;
+    transform: translate(50%, -50%) rotate(135deg);
+  }
+
+  .az-price-top { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .az-price-rate { align-items: flex-start; }
+
+  /* ── Payment table → stacked cards ──────────────────────────
+     One DOM, two presentations. The <table> stays semantically intact for
+     screen readers; visually each row becomes a card whose cells carry their
+     own heading from data-label. Beats a sideways-scrolling 6-column table. */
+  .az-table-wrap { border: 0; background: transparent; overflow: visible; }
+  .az-table,
+  .az-table tbody,
+  .az-table tr,
+  .az-table th,
+  .az-table td { display: block; width: 100%; }
+  .az-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .az-table tbody tr {
+    margin-bottom: 14px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: var(--az-card);
+    overflow: hidden;
+  }
+  .az-table tbody th {
+    padding: 15px 18px;
+    font-size: 15px;
+    background: rgba(217, 184, 120, 0.08);
+    border-bottom: 1px solid var(--line);
+  }
+  .az-table tbody td {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 12px 18px;
+    text-align: right;
+    font-weight: 600;
+    color: var(--fg);
+  }
+  .az-table tbody td::before {
+    content: attr(data-label);
+    flex: none;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--muted-2);
+    text-align: left;
+  }
+  /* Undo the desktop row-hover tint — in card form it would wash the whole card. */
+  .az-table tbody tr:hover th { background: rgba(217, 184, 120, 0.08); }
+  .az-table tbody tr:hover td { background: transparent; }
+  .az-table tbody tr:last-child td { border-bottom: 0; }
+
+  .az-furn-grid { grid-template-columns: minmax(0, 1fr); }
+  .az-amen-grid { grid-template-columns: repeat(auto-fit, minmax(136px, 1fr)); gap: 10px; }
+  .az-amen-card { padding: 20px 10px; }
+
+  .az-gal-grid { grid-template-columns: minmax(0, 1fr); }
+
+  /* Sticky CTA bar clearance so the last CTA is never trapped underneath it. */
+  .az-legal { padding-bottom: calc(78px + env(safe-area-inset-bottom, 0px)); }
+}
+
+@media (max-width: 420px) {
+  /* No .az-float-cards rule here — the cards are display:none from 980px down. */
+  .az-badge { font-size: 11.5px; padding: 6px 11px; }
+  .az-count-num { font-size: 1.35rem; }
+  .az-lb-close, .az-lb-nav { width: 40px; height: 40px; }
+  .az-lightbox { padding-inline: 6px; gap: 4px; }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   Every decorative loop stops. Nothing that carries meaning is hidden.
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .az-rays,
+  .az-particle { animation: none; }
+  .az-particles { display: none; }
+
+  .az-campaign-pulse::after { animation: none; }
+  .az-campaign-badge { transition: none; }
+  .az-campaign-badge:hover { transform: none; }
+
+  /* Every pointer-parallax layer resolves to its untransformed position. */
+  .az-render-wrap,
+  .az-bg-map,
+  .az-bg-tribute,
+  .az-bg-minar { transform: none; transition: none; }
+
+  .az-gal-item img,
+  .az-amen-card,
+  .az-ov-card { transition: none; }
+  .az-gal-item:hover img { transform: none; }
+  .az-amen-card:hover { transform: none; }
+}

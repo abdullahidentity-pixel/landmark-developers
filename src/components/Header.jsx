@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Logo from './Logo.jsx';
 import MagneticButton from './MagneticButton.jsx';
 import ProjectsNavDropdown from './ProjectsNavDropdown.jsx';
+import AzadiNavLink from './AzadiNavLink.jsx';
 import { useLeadModal } from '../context/LeadModalContext.jsx';
 import { CONTACT } from '../data/site.js';
 import '../styles/nav-dropdown.css';
@@ -103,6 +104,11 @@ export default function Header() {
               </a>
             )
           )}
+
+          {/* Last in the row on purpose: it is the only item here that expires,
+              so it sits at the end of the permanent items rather than being
+              threaded through them. */}
+          <AzadiNavLink />
         </nav>
 
         <div className="header-actions">
@@ -147,6 +153,10 @@ export default function Header() {
               </a>
             )
           )}
+          <AzadiNavLink
+            className="az-nav-pill--mobile"
+            onClick={() => setOpen(false)}
+          />
         </nav>
         <div className="mobile-menu-foot">
           <button className="btn btn-primary" onClick={() => { setOpen(false); openTour(); }}>
